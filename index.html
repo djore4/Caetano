@@ -10,13 +10,15 @@
             theme: {
                 extend: {
                     colors: {
-                        bmw: '#0066B1'
+                        bmw: '#0066B1',
+                        bmwLight: '#3385C6'
                     }
                 }
             }
         }
     </script>
     <style>
+        /* Estilos para os botões de filtro ativos */
         .filter-btn.active { background-color: #0066B1; color: white; border-color: #0066B1; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -24,20 +26,24 @@
 </head>
 <body class="min-h-screen bg-white font-sans text-slate-800">
 
-    <header class="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
+    <header class="bg-white border-b border-gray-100 sticky top-0 z-20 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16 sm:h-20">
                 
-                <div class="flex flex-col">
-                    <h1 class="text-xl sm:text-2xl font-bold text-bmw tracking-tight leading-none">
-                        Caetano <span class="text-gray-800 font-extrabold">Sales Force</span>
+                <div class="flex flex-col justify-center">
+                    <h1 class="text-xl sm:text-3xl font-light text-gray-500 tracking-tight leading-none">
+                        Caetano <span class="font-black text-transparent bg-clip-text bg-gradient-to-r from-bmw to-blue-400 tracking-tighter">Sales Force</span>
                     </h1>
+                    <div class="flex items-center mt-1">
+                        <span class="w-2 h-2 rounded-full bg-green-500 mr-1.5 animate-pulse hidden sm:block"></span>
+                        <p class="text-[9px] sm:text-[10px] text-gray-400 uppercase tracking-widest font-bold hidden sm:block">Preços em Tempo Real</p>
+                    </div>
                 </div>
 
                 <div class="flex items-center space-x-4 sm:space-x-8">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/600px-BMW.svg.png" alt="BMW" class="h-8 sm:h-10">
-                    <div class="h-8 w-[1px] bg-gray-200"></div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/MINI_logo.svg/600px-MINI_logo.svg.png" alt="MINI" class="h-5 sm:h-7">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/BMW_logo_%28gray%29.svg" alt="BMW" class="h-8 sm:h-10">
+                    <div class="h-6 sm:h-8 w-[1px] bg-gray-200"></div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/MINI_logo.svg/512px-MINI_logo.svg.png" alt="MINI" class="h-4 sm:h-6 opacity-80">
                 </div>
             </div>
         </div>
@@ -57,16 +63,28 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
         <div id="conteudo-parque">
-            <div class="space-y-6 mb-8 bg-gray-50 p-5 rounded-xl border border-gray-100 shadow-sm">
+            <div class="space-y-5 mb-8 bg-gray-50/50 p-4 rounded-xl border border-gray-100">
                 
                 <div>
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Modelo</label>
                     <div class="flex flex-wrap gap-2" id="filtro-modelo-container">
                         <button onclick="setFiltro('modelo', 'Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all shadow-sm">Todos</button>
+                        <button onclick="setFiltro('modelo', 'Série 1')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm hover:border-gray-300">Série 1</button>
+                        <button onclick="setFiltro('modelo', 'Série 2')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm hover:border-gray-300">Série 2</button>
+                        <button onclick="setFiltro('modelo', 'Série 3')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm hover:border-gray-300">Série 3</button>
+                        <button onclick="setFiltro('modelo', 'Série 4')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm hover:border-gray-300">Série 4</button>
+                        <button onclick="setFiltro('modelo', 'Série 5')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm hover:border-gray-300">Série 5</button>
+                        <button onclick="setFiltro('modelo', 'Série 7')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm hover:border-gray-300">Série 7</button>
+                        <button onclick="setFiltro('modelo', 'X1')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm hover:border-gray-300">X1</button>
+                        <button onclick="setFiltro('modelo', 'X2')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm hover:border-gray-300">X2</button>
+                        <button onclick="setFiltro('modelo', 'X3')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm hover:border-gray-300">X3</button>
+                        <button onclick="setFiltro('modelo', 'X7')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm hover:border-gray-300">X7</button>
+                        <button onclick="setFiltro('modelo', 'iX')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm hover:border-gray-300">iX</button>
+                        <button onclick="setFiltro('modelo', 'M')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm hover:border-gray-300">M</button>
                     </div>
                 </div>
 
-                <div class="flex flex-col sm:flex-row gap-6">
+                <div class="flex flex-col sm:flex-row gap-5">
                     <div class="flex-1">
                         <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tecnologia</label>
                         <div class="flex flex-wrap gap-2" id="filtro-tipologia-container">
@@ -77,7 +95,8 @@
                             <button onclick="setFiltro('tipologia', 'M')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">M</button>
                         </div>
                     </div>
-                    <div class="sm:border-l sm:border-gray-200 sm:pl-6">
+
+                    <div class="sm:border-l sm:border-gray-200 sm:pl-5">
                         <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Concessão</label>
                         <div class="flex flex-wrap gap-2" id="filtro-local-container">
                             <button onclick="setFiltro('local', 'Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all shadow-sm">Todos</button>
@@ -87,20 +106,21 @@
                     </div>
                 </div>
 
-                <div class="flex justify-between items-end border-t border-gray-200 pt-4">
-                    <div id="contador-resultados" class="text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-none">
-                        <span id="num-resultados" class="text-bmw font-black text-sm">0</span> viaturas encontradas
+                <div class="flex justify-between items-end border-t border-gray-200 pt-4 mt-2">
+                    <div id="contador-resultados" class="text-[11px] font-bold text-gray-400 uppercase tracking-widest">
+                        A mostrar <span id="num-resultados" class="text-bmw font-black text-sm">0</span> viaturas
                     </div>
+                    
                     <div class="flex bg-gray-200 p-0.5 rounded-md border border-gray-300">
                         <button onclick="mudarVista('tabela')" id="btn-vista-tabela" class="px-3 py-1.5 text-[10px] font-bold rounded bg-white shadow-sm text-bmw uppercase transition-all">Tabela</button>
-                        <button onclick="mudarVista('cartoes')" id="btn-vista-cartoes" class="px-3 py-1.5 text-[10px] font-bold rounded text-gray-500 uppercase transition-all">Cartões</button>
+                        <button onclick="mudarVista('cartoes')" id="btn-vista-cartoes" class="px-3 py-1.5 text-[10px] font-bold rounded text-gray-500 uppercase hover:text-gray-700 transition-all">Cartões</button>
                     </div>
                 </div>
             </div>
 
             <div id="loading" class="flex flex-col justify-center items-center h-48 space-y-3">
                 <div class="w-8 h-8 border-4 border-bmw border-t-transparent rounded-full animate-spin"></div>
-                <p class="text-bmw text-xs font-bold uppercase tracking-widest">A carregar inventário...</p>
+                <p class="text-bmw text-xs font-bold uppercase tracking-widest">A calcular preços...</p>
             </div>
 
             <div id="dados-viaturas" class="hidden">
@@ -108,13 +128,13 @@
                 <div id="vista-tabela" class="block bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
                     <div class="overflow-x-auto no-scrollbar">
                         <table class="min-w-full divide-y divide-gray-100">
-                            <thead class="bg-gray-50/50 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                            <thead class="bg-gray-50/50">
                                 <tr>
-                                    <th class="px-6 py-4 text-left">Viatura / Chassis</th>
-                                    <th class="px-6 py-4 text-center">Local</th>
-                                    <th class="px-6 py-4 text-left">Observações</th>
-                                    <th class="px-6 py-4 text-right">PVP Base</th>
-                                    <th class="px-6 py-4 text-right text-bmw">PVP Final (NET)</th>
+                                    <th class="px-6 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Viatura / Chassis</th>
+                                    <th class="px-6 py-4 text-center text-[10px] font-bold text-gray-400 uppercase tracking-widest">Local</th>
+                                    <th class="px-6 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest">Observações</th>
+                                    <th class="px-6 py-4 text-right text-[10px] font-bold text-gray-400 uppercase tracking-widest">PVP Base</th>
+                                    <th class="px-6 py-4 text-right text-[10px] font-bold text-bmw uppercase tracking-widest">PVP Final (NET)</th>
                                 </tr>
                             </thead>
                             <tbody id="tabela-corpo" class="divide-y divide-gray-100"></tbody>
@@ -122,7 +142,8 @@
                     </div>
                 </div>
                 <div id="sem-resultados" class="hidden text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-                    <p class="text-gray-400 font-medium">Nenhum veículo encontrado.</p>
+                    <p class="text-gray-400 font-medium">Nenhum veículo corresponde aos filtros aplicados.</p>
+                    <button onclick="limparTudo()" class="mt-4 text-bmw font-bold text-xs uppercase hover:underline">Limpar Filtros</button>
                 </div>
             </div>
         </div>
@@ -135,21 +156,50 @@
     </main>
 
     <script>
-        const inventario = [{"chassis": "CU94387", "modelo": "iX", "versao": "iX 45e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 97006.58, "pvp_final": 84698.53}, {"chassis": "CW43657", "modelo": "iX", "versao": "iX 45e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 101913.59, "pvp_final": 82990.0}, {"chassis": "8G08489", "modelo": "M", "versao": "M2", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "M", "pvp_bruto": 0.0, "pvp_final": 108788.0}, {"chassis": "9009639", "modelo": "M", "versao": "XM", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 172504.12, "pvp_final": 141325.25}, {"chassis": "FU98565", "modelo": "M", "versao": "M3", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "M", "pvp_bruto": 149943.46, "pvp_final": 123979.86}, {"chassis": "7U62408", "modelo": "S\u00e9rie 1", "versao": "116", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 45990.0}, {"chassis": "7T44029", "modelo": "S\u00e9rie 2", "versao": "220 GC", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 45900.0}, {"chassis": "7T42133", "modelo": "S\u00e9rie 2", "versao": "225e AT", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 46000.0}, {"chassis": "8F63727", "modelo": "S\u00e9rie 2", "versao": "218i Coup\u00e9", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 57856.43, "pvp_final": 49990.0}, {"chassis": "7R53573", "modelo": "S\u00e9rie 2", "versao": "230e AT", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 59541.5, "pvp_final": 56404.46}, {"chassis": "FV33517", "modelo": "S\u00e9rie 3", "versao": "330e Tou", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 70893.2, "pvp_final": 60275.83}, {"chassis": "8F69359", "modelo": "S\u00e9rie 3", "versao": "318d Ber", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 63000.0}, {"chassis": "8F86924", "modelo": "S\u00e9rie 3", "versao": "330e Ber", "local": "MPA", "estado_entrega": "Entrega fevereiro/26 - COM BSI", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 68475.0}, {"chassis": "FV71708", "modelo": "S\u00e9rie 3", "versao": "330e Tou", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 61499.0}, {"chassis": "FV05961", "modelo": "S\u00e9rie 4", "versao": "420d GC", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 63900.0}, {"chassis": "FV75974", "modelo": "S\u00e9rie 4", "versao": "i4 40", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 83626.06, "pvp_final": 66490.0}, {"chassis": "FV67904", "modelo": "S\u00e9rie 4", "versao": "i4 40", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 62499.0}, {"chassis": "FV70698", "modelo": "S\u00e9rie 4", "versao": "i4 35", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 56500.0}, {"chassis": "CS12383", "modelo": "S\u00e9rie 5", "versao": "520d Tou", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 84459.77, "pvp_final": 73227.89}, {"chassis": "CW28125", "modelo": "S\u00e9rie 5", "versao": "530e Ber", "local": "MPA", "estado_entrega": "Entrega fevereiro/26 - COM BSI", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 79317.17}, {"chassis": "CU47797", "modelo": "S\u00e9rie 5", "versao": "530e Tou", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 61490.0}, {"chassis": "FV66677", "modelo": "S\u00e9rie 4", "versao": "i4 40", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 78565.93, "pvp_final": 67990.0}, {"chassis": "CT50220", "modelo": "S\u00e9rie 5", "versao": "520d Tou", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 80869.78, "pvp_final": 70782.55}, {"chassis": "CW37048", "modelo": "S\u00e9rie 5", "versao": "530e Ber", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 83546.04, "pvp_final": 71990.0}, {"chassis": "CW21213", "modelo": "S\u00e9rie 5", "versao": "i5 40 Ber", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 91076.04, "pvp_final": 71990.0}, {"chassis": "CW19893", "modelo": "S\u00e9rie 5", "versao": "i5 40 Ber", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 66900.0}, {"chassis": "CX23776", "modelo": "S\u00e9rie 5", "versao": "i5 40 Tou", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 90208.16}, {"chassis": "5501715", "modelo": "X1", "versao": "iX1 20e", "local": "MPA", "estado_entrega": "Entrega fevereiro/26 - COM BSI", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 58633.0}, {"chassis": "5150915", "modelo": "X1", "versao": "X1 18i", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 49832.64, "pvp_final": 51200.07}, {"chassis": "CS69891", "modelo": "S\u00e9rie 7", "versao": "i7 50e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 150376.49, "pvp_final": 123509.68}, {"chassis": "5302073", "modelo": "X1", "versao": "iX1 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 63106.05, "pvp_final": 51990.0}, {"chassis": "5434151", "modelo": "X1", "versao": "X1 25e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 59900.0}, {"chassis": "5412737", "modelo": "X1", "versao": "X1 25e", "local": "MPA", "estado_entrega": "Entrega fevereiro/26 - COM BSI", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 53900.0}, {"chassis": "5340398", "modelo": "X2", "versao": "iX2 20e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 67505.36, "pvp_final": 54256.26}, {"chassis": "N324669", "modelo": "X3", "versao": "X3 30e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 61250.0}, {"chassis": "9208035", "modelo": "X7", "versao": "X7 40d", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 174779.0}, {"chassis": "5500847", "modelo": "X2", "versao": "iX2 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 63325.36, "pvp_final": 55990.0}, {"chassis": "N337377", "modelo": "X3", "versao": "X3 30e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 96462.93, "pvp_final": 82545.42}];
+        // Dados Reais
+        const inventario = [
+            {"chassis": "CU94387", "modelo": "iX", "versao": "iX 45e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 97006.58, "pvp_final": 84698.53},
+            {"chassis": "CW43657", "modelo": "iX", "versao": "iX 45e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 101913.59, "pvp_final": 82990.0},
+            {"chassis": "8G08489", "modelo": "M", "versao": "M2", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "M", "pvp_bruto": 0.0, "pvp_final": 108788.0},
+            {"chassis": "9009639", "modelo": "M", "versao": "XM", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "M", "pvp_bruto": 172504.12, "pvp_final": 141325.25},
+            {"chassis": "FU98565", "modelo": "M", "versao": "M3", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "M", "pvp_bruto": 149943.46, "pvp_final": 123979.86},
+            {"chassis": "7U62408", "modelo": "Série 1", "versao": "116", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 45990.0},
+            {"chassis": "7T44029", "modelo": "Série 2", "versao": "220 GC", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 45900.0},
+            {"chassis": "8F63727", "modelo": "Série 2", "versao": "218i Coupé", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 57856.43, "pvp_final": 49990.0},
+            {"chassis": "7R53573", "modelo": "Série 2", "versao": "230e AT", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 59541.5, "pvp_final": 56404.46},
+            {"chassis": "7T42133", "modelo": "Série 2", "versao": "225e AT", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 46000.0},
+            {"chassis": "FV33517", "modelo": "Série 3", "versao": "330e Tou", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 70893.2, "pvp_final": 60275.83},
+            {"chassis": "8F69359", "modelo": "Série 3", "versao": "318d Ber", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 63000.0},
+            {"chassis": "8F86924", "modelo": "Série 3", "versao": "330e Ber", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 68475.0},
+            {"chassis": "FV71708", "modelo": "Série 3", "versao": "330e Tou", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 61499.0},
+            {"chassis": "FV05961", "modelo": "Série 4", "versao": "420d GC", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 63900.0},
+            {"chassis": "FV75974", "modelo": "Série 4", "versao": "i4 40", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 83626.06, "pvp_final": 66490.0},
+            {"chassis": "FV67904", "modelo": "Série 4", "versao": "i4 40", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 62499.0},
+            {"chassis": "FV70698", "modelo": "Série 4", "versao": "i4 35", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 56500.0},
+            {"chassis": "CS12383", "modelo": "Série 5", "versao": "520d Tou", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 84459.77, "pvp_final": 73227.89},
+            {"chassis": "CW28125", "modelo": "Série 5", "versao": "530e Ber", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 79317.17},
+            {"chassis": "CU47797", "modelo": "Série 5", "versao": "530e Tou", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 61490.0},
+            {"chassis": "FV66677", "modelo": "Série 4", "versao": "i4 40", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 78565.93, "pvp_final": 67990.0},
+            {"chassis": "CT50220", "modelo": "Série 5", "versao": "520d Tou", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 80869.78, "pvp_final": 70782.55},
+            {"chassis": "CW37048", "modelo": "Série 5", "versao": "530e Ber", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 83546.04, "pvp_final": 71990.0},
+            {"chassis": "CW21213", "modelo": "Série 5", "versao": "i5 40 Ber", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 91076.04, "pvp_final": 71990.0},
+            {"chassis": "CW19893", "modelo": "Série 5", "versao": "i5 40 Ber", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 66900.0},
+            {"chassis": "CX23776", "modelo": "Série 5", "versao": "i5 40 Tou", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 90208.16},
+            {"chassis": "5501715", "modelo": "X1", "versao": "iX1 20e", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 58633.0},
+            {"chassis": "5150915", "modelo": "X1", "versao": "X1 18i", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 49832.64, "pvp_final": 51200.07},
+            {"chassis": "CS69891", "modelo": "Série 7", "versao": "i7 50e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 150376.49, "pvp_final": 123509.68},
+            {"chassis": "5302073", "modelo": "X1", "versao": "iX1 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 63106.05, "pvp_final": 51990.0},
+            {"chassis": "5434151", "modelo": "X1", "versao": "X1 25e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 59900.0},
+            {"chassis": "5412737", "modelo": "X1", "versao": "X1 25e", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 53900.0},
+            {"chassis": "5340398", "modelo": "X2", "versao": "iX2 20e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 67505.36, "pvp_final": 54256.26},
+            {"chassis": "N324669", "modelo": "X3", "versao": "X3 30e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 61250.0},
+            {"chassis": "9208035", "modelo": "X7", "versao": "X7 40d", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 174779.0},
+            {"chassis": "5500847", "modelo": "X2", "versao": "iX2 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 63325.36, "pvp_final": 55990.0},
+            {"chassis": "N337377", "modelo": "X3", "versao": "X3 30e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 96462.93, "pvp_final": 82545.42}
+        ];
 
         let filtros = { modelo: 'Todos', local: 'Todos', tipologia: 'Todas' };
-
-        function initModeloFiltros() {
-            const container = document.getElementById('filtro-modelo-container');
-            const modelos = [...new Set(inventario.map(c => c.modelo))].sort();
-            modelos.forEach(m => {
-                const btn = document.createElement('button');
-                btn.innerText = m;
-                btn.onclick = () => setFiltro('modelo', m);
-                btn.className = "filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm";
-                container.appendChild(btn);
-            });
-        }
+        let vistaAtiva = 'tabela';
 
         function setFiltro(tipo, valor) {
             filtros[tipo] = valor;
@@ -166,15 +216,22 @@
             aplicarFiltros();
         }
 
+        function limparTudo() {
+            setFiltro('modelo', 'Todos');
+            setFiltro('local', 'Todos');
+            setFiltro('tipologia', 'Todas');
+        }
+
         function aplicarFiltros() {
-            const res = inventario.filter(c => {
+            const resultados = inventario.filter(c => {
                 const mMod = filtros.modelo === 'Todos' || c.modelo === filtros.modelo;
                 const mLocal = filtros.local === 'Todos' || c.local === filtros.local;
                 const mTipo = filtros.tipologia === 'Todas' || c.tipologia === filtros.tipologia;
                 return mMod && mLocal && mTipo;
             });
-            document.getElementById('num-resultados').innerText = res.length;
-            renderizar(res);
+            
+            document.getElementById('num-resultados').innerText = resultados.length;
+            renderizar(resultados);
         }
 
         function renderizar(dados) {
@@ -189,25 +246,70 @@
             corpo.innerHTML = dados.map(c => `
                 <tr class="hover:bg-blue-50/40 transition-all border-b border-gray-50">
                     <td class="px-6 py-4">
-                        <div class="font-bold text-gray-900 leading-tight">${c.modelo} ${c.versao}</div>
-                        <div class="text-[10px] font-mono text-gray-400 uppercase tracking-tighter mt-1">${c.chassis}</div>
+                        <div class="font-bold text-gray-900">${c.modelo} ${c.versao}</div>
+                        <div class="text-[10px] font-mono text-gray-400 uppercase tracking-tighter mt-0.5">${c.chassis}</div>
                     </td>
                     <td class="px-6 py-4 text-center">
                         <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold border border-gray-200">${c.local}</span>
                     </td>
-                    <td class="px-6 py-4 text-xs text-gray-500">${c.estado_entrega}</td>
-                    <td class="px-6 py-4 text-right text-xs text-gray-400 italic">${c.pvp_bruto ? c.pvp_bruto.toLocaleString('pt-PT')+'€' : 'N/A'}</td>
-                    <td class="px-6 py-4 text-right font-black text-bmw text-base">${c.pvp_final.toLocaleString('pt-PT')}€</td>
+                    <td class="px-6 py-4 text-xs text-gray-500 font-medium">${c.estado_entrega}</td>
+                    <td class="px-6 py-4 text-right text-xs text-gray-400 italic">${c.pvp_bruto ? c.pvp_bruto.toLocaleString('pt-PT')+' €' : 'N/A'}</td>
+                    <td class="px-6 py-4 text-right font-black text-bmw text-base">${c.pvp_final.toLocaleString('pt-PT')} €</td>
                 </tr>
             `).join('');
 
-            cartoes.innerHTML = dados.map(c => {
-                const isImediata = c.estado_entrega.toLowerCase().includes('imediata');
-                const dotColor = isImediata ? 'bg-green-500' : 'bg-gray-300';
-                return `
+            cartoes.innerHTML = dados.map(c => `
                 <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-1 h-full bg-bmw"></div>
                     <div class="flex justify-between items-start mb-4">
                         <div>
                             <div class="text-lg font-black text-gray-900 leading-none">${c.modelo} ${c.versao}</div>
-                            
+                            <div class="text-[10px] font-mono text-gray-400 mt-1 uppercase tracking-widest">${c.chassis}</div>
+                        </div>
+                        <span class="bg-gray-100 border border-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-tighter">${c.local}</span>
+                    </div>
+                    <div class="text-xs text-gray-500 mb-6 font-medium flex items-center">
+                        <span class="w-1.5 h-1.5 rounded-full bg-bmwLight mr-2"></span> ${c.estado_entrega}
+                    </div>
+                    <div class="flex justify-between items-end pt-4 border-t border-gray-100">
+                        <div class="text-[10px] text-gray-400 font-bold uppercase tracking-wider">PVP Base<br><span class="text-xs text-gray-400 italic font-medium mt-0.5 inline-block">${c.pvp_bruto ? c.pvp_bruto.toLocaleString('pt-PT')+' €' : 'N/A'}</span></div>
+                        <div class="text-right text-[10px] text-bmw font-bold uppercase tracking-wider">PVP Final (NET)<br><span class="text-xl font-black mt-0.5 inline-block">${c.pvp_final.toLocaleString('pt-PT')} €</span></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function mudarVista(v) {
+            vistaAtiva = v;
+            document.getElementById('vista-tabela').style.display = v === 'tabela' ? 'block' : 'none';
+            document.getElementById('vista-cartoes').style.display = v === 'cartoes' ? 'block' : 'none';
+            
+            const btnT = document.getElementById('btn-vista-tabela');
+            const btnC = document.getElementById('btn-vista-cartoes');
+            
+            if(v === 'tabela') {
+                btnT.className = "px-3 py-1.5 text-[10px] font-bold rounded bg-white shadow-sm text-bmw uppercase transition-all";
+                btnC.className = "px-3 py-1.5 text-[10px] font-bold rounded text-gray-500 uppercase hover:text-gray-700 transition-all";
+            } else {
+                btnC.className = "px-3 py-1.5 text-[10px] font-bold rounded bg-white shadow-sm text-bmw uppercase transition-all";
+                btnT.className = "px-3 py-1.5 text-[10px] font-bold rounded text-gray-500 uppercase hover:text-gray-700 transition-all";
+            }
+        }
+
+        function mudarTab(t) {
+            document.getElementById('conteudo-parque').style.display = t === 'parque' ? 'block' : 'none';
+            document.getElementById('conteudo-especificacoes').style.display = t === 'especificacoes' ? 'block' : 'none';
+            
+            document.getElementById('tab-parque').className = t === 'parque' ? 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-bmw text-bmw' : 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-gray-600';
+            document.getElementById('tab-especificacoes').className = t === 'especificacoes' ? 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-bmw text-bmw' : 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-gray-600';
+        }
+
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+                aplicarFiltros();
+            }, 600);
+        };
+    </script>
+</body>
+</html>
