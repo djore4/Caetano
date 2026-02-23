@@ -1,125 +1,148 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createClient } from '@supabase/supabase-js';
 
-// 1. MOCK DATA: Simulamos o que a Edge Function vai devolver no futuro.
-// Nota: O PVP Final aqui já simula o cálculo em tempo real feito no servidor.
-const viaturasMock = [
-  {
-    chassis: 'CW43657', marca: 'BMW', modelo: 'iX', versao: 'iX 45e',
-    local: 'Gaia', estado_entrega: 'Entrega Imediata',
-    calculos: { pvp_bruto: '101913.59', pvp_final: '77913.13', valor_net: '67471.54' }
-  },
-  {
-    chassis: '8G08489', marca: 'BMW', modelo: 'M2', versao: 'Coupé',
-    local: 'Maia', estado_entrega: 'Entrega fevereiro/26',
-    calculos: { pvp_bruto: '108788.00', pvp_final: '108788.00', valor_net: '88445.53' }
-  },
-  {
-    chassis: '9009639', marca: 'BMW', modelo: 'XM', versao: 'PHEV',
-    local: 'Porto', estado_entrega: 'Entrega Imediata',
-    calculos: { pvp_bruto: '172504.12', pvp_final: '113970.75', valor_net: '101626.02' }
-  },
-  {
-    chassis: 'AB12345', marca: 'MINI', modelo: 'Cooper', versao: 'SE BEV',
-    local: 'Aveiro', estado_entrega: 'Em trânsito',
-    calculos: { pvp_bruto: '39500.00', pvp_final: '35000.00', valor_net: '28455.28' }
-  }
-];
+// (A mesma configuração do Supabase que já tínhamos)
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-export default function DashboardViaturas() {
-  // 2. ESTADOS PARA OS FILTROS
-  const [filtroLocal, setFiltroLocal] = useState('Todos');
-  const [filtroMarca, setFiltroMarca] = useState('Todas');
-  const [pesquisaChassis, setPesquisaChassis] = useState('');
+export default function PlataformaBMW() {
+  // Estado para controlar qual o separador ativo
+  const [tabAtiva, setTabAtiva] = useState('parque');
+  
+  // Estados da nossa tabela (mantidos inalterados)
+  const [viaturas, setViaturas] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // 3. LÓGICA DE FILTRAGEM
-  const viaturasFiltradas = viaturasMock.filter(carro => {
-    const matchLocal = filtroLocal === 'Todos' || carro.local === filtroLocal;
-    const matchMarca = filtroMarca === 'Todas' || carro.marca === filtroMarca;
-    const matchChassis = carro.chassis.toLowerCase().includes(pesquisaChassis.toLowerCase());
-    return matchLocal && matchMarca && matchChassis;
-  });
+  useEffect(() => {
+    if (tabAtiva === 'parque') {
+      carregarViaturas();
+    }
+  }, [tabAtiva]);
+
+  const carregarViaturas = async () => {
+    setLoading(true);
+    try {
+      // A nossa chamada intocável à Edge Function para preços em tempo real
+      const { data, error } = await supabase.functions.invoke('calcular-precos-viaturas');
+      if (error) throw error;
+      setViaturas(data);
+    } catch (error) {
+      console.error("Erro ao carregar viaturas:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      {/* CABEÇALHO */}
-      <div className="flex justify-between items-center mb-6 bg-white p-4 rounded-lg shadow-sm">
-        <h1 className="text-2xl font-bold text-blue-900">Parque Viaturas</h1>
-        <div className="text-sm text-gray-500">
-          Olá, Comercial
-        </div>
-      </div>
+    <div className="min-h-screen bg-white font-sans text-slate-800">
+      
+      {/* CABEÇALHO E NAVEGAÇÃO */}
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            
+            {/* Título da Plataforma */}
+            <div className="flex-shrink-0 flex items-center">
+              <h1 className="text-2xl font-bold text-[#0066B1]">
+                PARQUE <span className="text-gray-800">BMW</span>
+              </h1>
+            </div>
 
-      {/* BARRA DE FILTROS */}
-      <div className="bg-white p-4 rounded-lg shadow-sm mb-6 flex gap-4 items-end">
-        <div className="flex-1">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Pesquisar Chassis</label>
-          <input 
-            type="text" 
-            placeholder="Ex: CW43..." 
-            className="w-full border border-gray-300 rounded-md p-2 focus:ring-blue-500 focus:border-blue-500"
-            value={pesquisaChassis}
-            onChange={(e) => setPesquisaChassis(e.target.value)}
-          />
+            {/* Separadores (Tabs) */}
+            <nav className="flex space-x-8">
+              <button
+                onClick={() => setTabAtiva('parque')}
+                className={`px-3 py-4 text-sm font-medium border-b-2 transition-colors ${
+                  tabAtiva === 'parque'
+                    ? 'border-[#0066B1] text-[#0066B1]' // Azul BMW ativo
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                Parque
+              </button>
+              <button
+                onClick={() => setTabAtiva('especificacoes')}
+                className={`px-3 py-4 text-sm font-medium border-b-2 transition-colors ${
+                  tabAtiva === 'especificacoes'
+                    ? 'border-[#0066B1] text-[#0066B1]'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                }`}
+              >
+                Especificações
+              </button>
+            </nav>
+            
+            {/* Espaço para o Perfil do Utilizador (Logout, etc) */}
+            <div className="w-24"></div> 
+          </div>
         </div>
+      </header>
+
+      {/* ÁREA DE CONTEÚDO PRINCIPAL */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         
-        <div className="w-48">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Localização</label>
-          <select 
-            className="w-full border border-gray-300 rounded-md p-2"
-            value={filtroLocal}
-            onChange={(e) => setFiltroLocal(e.target.value)}
-          >
-            <option value="Todos">Todas as Concessões</option>
-            <option value="Porto">Porto</option>
-            <option value="Maia">Maia</option>
-            <option value="Gaia">Gaia</option>
-            <option value="Feira">Feira</option>
-            <option value="Aveiro">Aveiro</option>
-          </select>
-        </div>
+        {/* CONTEÚDO DA TAB: PARQUE */}
+        {tabAtiva === 'parque' && (
+          <div>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-semibold text-gray-800">Inventário e Preços</h2>
+              {/* Espaço para futuros filtros */}
+            </div>
 
-        <div className="w-48">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Marca</label>
-          <select 
-            className="w-full border border-gray-300 rounded-md p-2"
-            value={filtroMarca}
-            onChange={(e) => setFiltroMarca(e.target.value)}
-          >
-            <option value="Todas">BMW & MINI</option>
-            <option value="BMW">BMW</option>
-            <option value="MINI">MINI</option>
-          </select>
-        </div>
-      </div>
+            {loading ? (
+              <div className="flex justify-center items-center h-64">
+                <p className="text-[#0066B1] font-medium">A calcular preços em tempo real...</p>
+              </div>
+            ) : (
+              <div className="bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    {/* Cabeçalho da tabela mantido igual */}
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Viatura</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Local</th>
+                      <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Estado</th>
+                      <th className="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">PVP Base</th>
+                      <th className="px-6 py-3 text-right text-xs font-bold text-[#0066B1] uppercase tracking-wider">PVP Final (NET)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-100">
+                    {/* Linhas da tabela mantidas iguais */}
+                    {viaturas.map((carro) => (
+                      <tr key={carro.chassis} className="hover:bg-blue-50/50 transition-colors">
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-bold text-gray-900">{carro.modelo} {carro.versao}</div>
+                          <div className="text-xs text-gray-500">Chassis: {carro.chassis}</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{carro.local}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{carro.estado_entrega}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-500">
+                          {carro.calculos ? `${carro.calculos.pvp_bruto} €` : 'N/A'}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right font-bold text-[#0066B1] text-lg">
+                          {carro.calculos ? `${carro.calculos.pvp_final} €` : 'N/A'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
+        )}
 
-      {/* TABELA DE RESULTADOS */}
-      <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Viatura</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Local</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">PVP Final</th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Ação</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {viaturasFiltradas.length > 0 ? (
-              viaturasFiltradas.map((carro) => (
-                <tr key={carro.chassis} className="hover:bg-blue-50 transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-bold text-gray-900">{carro.marca} {carro.modelo} <span className="text-gray-500 font-normal">{carro.versao}</span></div>
-                    <div className="text-xs text-gray-500 mt-1">Chassis: {carro.chassis}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm">
-                    <span className="bg-gray-100 text-gray-700 px-2 py-1 rounded-md text-xs font-medium border border-gray-200">
-                      {carro.local}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
-                    {carro.estado_entrega}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right">
-                    <div className="text-lg font-bold text-blue-700">{Number(carro.calculos.pvp_final).toLocaleString('pt-PT')} €</div>
-                    <div className="text-xs text-gray-400">NET: {Number(carro.calculos.valor_net).
+        {/* CONTEÚDO DA TAB: ESPECIFICAÇÕES */}
+        {tabAtiva === 'especificacoes' && (
+          <div className="bg-gray-50 border border-gray-200 border-dashed rounded-lg h-96 flex items-center justify-center">
+            <div className="text-center">
+              <h3 className="text-lg font-medium text-gray-900">Módulo de Especificações</h3>
+              <p className="mt-1 text-sm text-gray-500">Área reservada para desenvolvimento futuro da dinâmica de especificações.</p>
+            </div>
+          </div>
+        )}
+
+      </main>
+    </div>
+  );
+}
