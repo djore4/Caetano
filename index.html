@@ -35,9 +35,9 @@
                 </div>
 
                 <div class="flex items-center space-x-4 sm:space-x-8">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/BMW_logo_%28gray%29.svg" alt="BMW" class="h-8 sm:h-10">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/BMW.svg/600px-BMW.svg.png" alt="BMW" class="h-8 sm:h-10">
                     <div class="h-8 w-[1px] bg-gray-200"></div>
-                    <img src="https://www.mini.pt/content/dam/MINI/common/master/logo/mini-logo-2021.png" alt="MINI" class="h-6 sm:h-8" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/MINI_logo.svg/300px-MINI_logo.svg.png'">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/MINI_logo.svg/600px-MINI_logo.svg.png" alt="MINI" class="h-5 sm:h-7">
                 </div>
             </div>
         </div>
@@ -63,18 +63,6 @@
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Modelo</label>
                     <div class="flex flex-wrap gap-2" id="filtro-modelo-container">
                         <button onclick="setFiltro('modelo', 'Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all shadow-sm">Todos</button>
-                        <button onclick="setFiltro('modelo', 'Série 1')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Série 1</button>
-                        <button onclick="setFiltro('modelo', 'Série 2')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Série 2</button>
-                        <button onclick="setFiltro('modelo', 'Série 3')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Série 3</button>
-                        <button onclick="setFiltro('modelo', 'Série 4')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Série 4</button>
-                        <button onclick="setFiltro('modelo', 'Série 5')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Série 5</button>
-                        <button onclick="setFiltro('modelo', 'Série 7')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Série 7</button>
-                        <button onclick="setFiltro('modelo', 'X1')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">X1</button>
-                        <button onclick="setFiltro('modelo', 'X2')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">X2</button>
-                        <button onclick="setFiltro('modelo', 'X3')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">X3</button>
-                        <button onclick="setFiltro('modelo', 'X7')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">X7</button>
-                        <button onclick="setFiltro('modelo', 'iX')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">iX</button>
-                        <button onclick="setFiltro('modelo', 'M')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">M</button>
                     </div>
                 </div>
 
@@ -112,7 +100,7 @@
 
             <div id="loading" class="flex flex-col justify-center items-center h-48 space-y-3">
                 <div class="w-8 h-8 border-4 border-bmw border-t-transparent rounded-full animate-spin"></div>
-                <p class="text-bmw text-xs font-bold uppercase tracking-widest">A calcular preços...</p>
+                <p class="text-bmw text-xs font-bold uppercase tracking-widest">A carregar inventário...</p>
             </div>
 
             <div id="dados-viaturas" class="hidden">
@@ -147,27 +135,21 @@
     </main>
 
     <script>
-        const inventario = [
-            {"chassis": "CU94387", "modelo": "iX", "versao": "iX 45e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 97006.58, "pvp_final": 84698.53},
-            {"chassis": "CW43657", "modelo": "iX", "versao": "iX 45e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 101913.59, "pvp_final": 82990.0},
-            {"chassis": "8G08489", "modelo": "M", "versao": "M2", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "M", "pvp_bruto": 0.0, "pvp_final": 108788.0},
-            {"chassis": "9009639", "modelo": "M", "versao": "XM", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "M", "pvp_bruto": 172504.12, "pvp_final": 141325.25},
-            {"chassis": "FU98565", "modelo": "M", "versao": "M3", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "M", "pvp_bruto": 149943.46, "pvp_final": 123979.86},
-            {"chassis": "7U62408", "modelo": "Série 1", "versao": "116", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 45990.0},
-            {"chassis": "7T44029", "modelo": "Série 2", "versao": "220 GC", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 45900.0},
-            {"chassis": "8F63727", "modelo": "Série 2", "versao": "218i Coupé", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 57856.43, "pvp_final": 49990.0},
-            {"chassis": "7R53573", "modelo": "Série 2", "versao": "230e AT", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 59541.5, "pvp_final": 56404.46},
-            {"chassis": "FV33517", "modelo": "Série 3", "versao": "330e Tou", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 70893.2, "pvp_final": 60275.83},
-            {"chassis": "8F86924", "modelo": "Série 3", "versao": "330e Ber", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 68475.0},
-            {"chassis": "FV75974", "modelo": "Série 4", "versao": "i4 40", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 83626.06, "pvp_final": 66490.0},
-            {"chassis": "CS12383", "modelo": "Série 5", "versao": "520d Tou", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 84459.77, "pvp_final": 73227.89},
-            {"chassis": "CW21213", "modelo": "Série 5", "versao": "i5 40 Ber", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 91076.04, "pvp_final": 71990.0},
-            {"chassis": "5302073", "modelo": "X1", "versao": "iX1 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 63106.05, "pvp_final": 51990.0},
-            {"chassis": "5340398", "modelo": "X2", "versao": "iX2 20e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 67505.36, "pvp_final": 54256.26},
-            {"chassis": "N337377", "modelo": "X3", "versao": "X3 30e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 96462.93, "pvp_final": 82545.42}
-        ];
+        const inventario = [{"chassis": "CU94387", "modelo": "iX", "versao": "iX 45e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 97006.58, "pvp_final": 84698.53}, {"chassis": "CW43657", "modelo": "iX", "versao": "iX 45e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 101913.59, "pvp_final": 82990.0}, {"chassis": "8G08489", "modelo": "M", "versao": "M2", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "M", "pvp_bruto": 0.0, "pvp_final": 108788.0}, {"chassis": "9009639", "modelo": "M", "versao": "XM", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 172504.12, "pvp_final": 141325.25}, {"chassis": "FU98565", "modelo": "M", "versao": "M3", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "M", "pvp_bruto": 149943.46, "pvp_final": 123979.86}, {"chassis": "7U62408", "modelo": "S\u00e9rie 1", "versao": "116", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 45990.0}, {"chassis": "7T44029", "modelo": "S\u00e9rie 2", "versao": "220 GC", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 45900.0}, {"chassis": "7T42133", "modelo": "S\u00e9rie 2", "versao": "225e AT", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 46000.0}, {"chassis": "8F63727", "modelo": "S\u00e9rie 2", "versao": "218i Coup\u00e9", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 57856.43, "pvp_final": 49990.0}, {"chassis": "7R53573", "modelo": "S\u00e9rie 2", "versao": "230e AT", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 59541.5, "pvp_final": 56404.46}, {"chassis": "FV33517", "modelo": "S\u00e9rie 3", "versao": "330e Tou", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 70893.2, "pvp_final": 60275.83}, {"chassis": "8F69359", "modelo": "S\u00e9rie 3", "versao": "318d Ber", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 63000.0}, {"chassis": "8F86924", "modelo": "S\u00e9rie 3", "versao": "330e Ber", "local": "MPA", "estado_entrega": "Entrega fevereiro/26 - COM BSI", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 68475.0}, {"chassis": "FV71708", "modelo": "S\u00e9rie 3", "versao": "330e Tou", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 61499.0}, {"chassis": "FV05961", "modelo": "S\u00e9rie 4", "versao": "420d GC", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 63900.0}, {"chassis": "FV75974", "modelo": "S\u00e9rie 4", "versao": "i4 40", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 83626.06, "pvp_final": 66490.0}, {"chassis": "FV67904", "modelo": "S\u00e9rie 4", "versao": "i4 40", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 62499.0}, {"chassis": "FV70698", "modelo": "S\u00e9rie 4", "versao": "i4 35", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 56500.0}, {"chassis": "CS12383", "modelo": "S\u00e9rie 5", "versao": "520d Tou", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 84459.77, "pvp_final": 73227.89}, {"chassis": "CW28125", "modelo": "S\u00e9rie 5", "versao": "530e Ber", "local": "MPA", "estado_entrega": "Entrega fevereiro/26 - COM BSI", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 79317.17}, {"chassis": "CU47797", "modelo": "S\u00e9rie 5", "versao": "530e Tou", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 61490.0}, {"chassis": "FV66677", "modelo": "S\u00e9rie 4", "versao": "i4 40", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 78565.93, "pvp_final": 67990.0}, {"chassis": "CT50220", "modelo": "S\u00e9rie 5", "versao": "520d Tou", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 80869.78, "pvp_final": 70782.55}, {"chassis": "CW37048", "modelo": "S\u00e9rie 5", "versao": "530e Ber", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 83546.04, "pvp_final": 71990.0}, {"chassis": "CW21213", "modelo": "S\u00e9rie 5", "versao": "i5 40 Ber", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 91076.04, "pvp_final": 71990.0}, {"chassis": "CW19893", "modelo": "S\u00e9rie 5", "versao": "i5 40 Ber", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 66900.0}, {"chassis": "CX23776", "modelo": "S\u00e9rie 5", "versao": "i5 40 Tou", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 90208.16}, {"chassis": "5501715", "modelo": "X1", "versao": "iX1 20e", "local": "MPA", "estado_entrega": "Entrega fevereiro/26 - COM BSI", "tipologia": "BEV", "pvp_bruto": 0.0, "pvp_final": 58633.0}, {"chassis": "5150915", "modelo": "X1", "versao": "X1 18i", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "pvp_bruto": 49832.64, "pvp_final": 51200.07}, {"chassis": "CS69891", "modelo": "S\u00e9rie 7", "versao": "i7 50e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 150376.49, "pvp_final": 123509.68}, {"chassis": "5302073", "modelo": "X1", "versao": "iX1 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 63106.05, "pvp_final": 51990.0}, {"chassis": "5434151", "modelo": "X1", "versao": "X1 25e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 59900.0}, {"chassis": "5412737", "modelo": "X1", "versao": "X1 25e", "local": "MPA", "estado_entrega": "Entrega fevereiro/26 - COM BSI", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 53900.0}, {"chassis": "5340398", "modelo": "X2", "versao": "iX2 20e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 67505.36, "pvp_final": 54256.26}, {"chassis": "N324669", "modelo": "X3", "versao": "X3 30e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 61250.0}, {"chassis": "9208035", "modelo": "X7", "versao": "X7 40d", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 174779.0}, {"chassis": "5500847", "modelo": "X2", "versao": "iX2 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 63325.36, "pvp_final": 55990.0}, {"chassis": "N337377", "modelo": "X3", "versao": "X3 30e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 96462.93, "pvp_final": 82545.42}];
 
         let filtros = { modelo: 'Todos', local: 'Todos', tipologia: 'Todas' };
+
+        function initModeloFiltros() {
+            const container = document.getElementById('filtro-modelo-container');
+            const modelos = [...new Set(inventario.map(c => c.modelo))].sort();
+            modelos.forEach(m => {
+                const btn = document.createElement('button');
+                btn.innerText = m;
+                btn.onclick = () => setFiltro('modelo', m);
+                btn.className = "filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm";
+                container.appendChild(btn);
+            });
+        }
 
         function setFiltro(tipo, valor) {
             filtros[tipo] = valor;
@@ -220,32 +202,12 @@
             `).join('');
 
             cartoes.innerHTML = dados.map(c => {
-                const dotColor = c.estado_entrega.toLowerCase().includes('imediata') ? 'bg-green-500' : 'bg-gray-300';
+                const isImediata = c.estado_entrega.toLowerCase().includes('imediata');
+                const dotColor = isImediata ? 'bg-green-500' : 'bg-gray-300';
                 return `
                 <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-1 h-full bg-bmw"></div>
                     <div class="flex justify-between items-start mb-4">
                         <div>
                             <div class="text-lg font-black text-gray-900 leading-none">${c.modelo} ${c.versao}</div>
-                            <div class="text-[10px] font-mono text-gray-400 mt-1 uppercase tracking-widest">${c.chassis}</div>
-                        </div>
-                        <span class="bg-gray-100 border border-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1 rounded uppercase">${c.local}</span>
-                    </div>
-                    <div class="text-xs text-gray-500 mb-6 font-medium flex items-center">
-                        <span class="w-2 h-2 rounded-full ${dotColor} mr-2"></span> ${c.estado_entrega}
-                    </div>
-                    <div class="flex justify-between items-end pt-4 border-t border-gray-100">
-                        <div class="text-[10px] text-gray-400 font-bold uppercase">PVP Base<br><span class="text-xs text-gray-400 italic font-medium mt-1 inline-block">${c.pvp_bruto ? c.pvp_bruto.toLocaleString('pt-PT')+'€' : 'N/A'}</span></div>
-                        <div class="text-right text-[10px] text-bmw font-bold uppercase">PVP Final (NET)<br><span class="text-xl font-black mt-1 inline-block">${c.pvp_final.toLocaleString('pt-PT')}€</span></div>
-                    </div>
-                </div>
-                `}).join('');
-        }
-
-        function mudarVista(v) {
-            document.getElementById('vista-tabela').style.display = v === 'tabela' ? 'block' : 'none';
-            document.getElementById('vista-cartoes').style.display = v === 'cartoes' ? 'block' : 'none';
-            const btnT = document.getElementById('btn-vista-tabela');
-            const btnC = document.getElementById('btn-vista-cartoes');
-            if(v === 'tabela') {
-                btnT.className = "px-3 py-1.5 text-[10px] font-bold rounded bg-white shadow-sm text-bmw uppercase transition-all
+                            
