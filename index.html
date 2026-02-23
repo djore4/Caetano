@@ -251,3 +251,137 @@
             {"chassis": "CS69891", "modelo": "Série 7", "versao": "i7 50e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 150376.49, "pvp_final": 123509.68},
             {"chassis": "5302073", "modelo": "X1", "versao": "iX1 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 63106.05, "pvp_final": 51990.0},
             {"chassis": "5434151", "modelo": "X1", "versao": "X1 25e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 59900.0},
+            {"chassis": "5412737", "modelo": "X1", "versao": "X1 25e", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 53900.0},
+            {"chassis": "5340398", "modelo": "X2", "versao": "iX2 20e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 67505.36, "pvp_final": 54256.26},
+            {"chassis": "N324669", "modelo": "X3", "versao": "X3 30e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 0.0, "pvp_final": 61250.0},
+            {"chassis": "9208035", "modelo": "X7", "versao": "X7 40d", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "ICE", "pvp_bruto": 0.0, "pvp_final": 174779.0},
+            {"chassis": "5500847", "modelo": "X2", "versao": "iX2 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "pvp_bruto": 63325.36, "pvp_final": 55990.0},
+            {"chassis": "N337377", "modelo": "X3", "versao": "X3 30e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "pvp_bruto": 96462.93, "pvp_final": 82545.42}
+        ];
+
+        let filtros = { modelo: 'Todos', local: 'Todos', tipologia: 'Todas' };
+
+        function initModeloFiltros() {
+            const container = document.getElementById('filtro-modelo-container');
+            const btnTodos = document.createElement('button');
+            btnTodos.innerText = 'Todos';
+            btnTodos.onclick = () => setFiltro('modelo', 'Todos');
+            btnTodos.className = "filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all shadow-sm";
+            container.appendChild(btnTodos);
+
+            const modelos = [...new Set(inventario.map(c => c.modelo))].sort();
+            modelos.forEach(m => {
+                const btn = document.createElement('button');
+                btn.innerText = m;
+                btn.onclick = () => setFiltro('modelo', m);
+                btn.className = "filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm";
+                container.appendChild(btn);
+            });
+        }
+
+        function setFiltro(tipo, valor) {
+            filtros[tipo] = valor;
+            const container = document.getElementById(`filtro-${tipo}-container`);
+            Array.from(container.children).forEach(btn => {
+                if(btn.innerText === valor) {
+                    btn.classList.add('active', 'text-white');
+                    btn.classList.remove('bg-white', 'text-gray-600');
+                } else {
+                    btn.classList.remove('active', 'text-white');
+                    btn.classList.add('bg-white', 'text-gray-600');
+                }
+            });
+            aplicarFiltros();
+        }
+
+        function aplicarFiltros() {
+            const res = inventario.filter(c => {
+                const mMod = filtros.modelo === 'Todos' || c.modelo === filtros.modelo;
+                const mLocal = filtros.local === 'Todos' || c.local === filtros.local;
+                const mTipo = filtros.tipologia === 'Todas' || c.tipologia === filtros.tipologia;
+                return mMod && mLocal && mTipo;
+            });
+            document.getElementById('num-resultados').innerText = res.length;
+            renderizar(res);
+        }
+
+        function renderizar(dados) {
+            const corpo = document.getElementById('tabela-corpo');
+            const cartoes = document.getElementById('vista-cartoes');
+            const info = document.getElementById('dados-viaturas');
+            const zero = document.getElementById('sem-resultados');
+            
+            if(dados.length === 0) { info.classList.add('hidden'); zero.classList.remove('hidden'); return; }
+            info.classList.remove('hidden'); zero.classList.add('hidden');
+
+            corpo.innerHTML = dados.map(c => `
+                <tr class="hover:bg-blue-50/40 transition-all border-b border-gray-50">
+                    <td class="px-6 py-4">
+                        <div class="font-bold text-gray-900 leading-tight">${c.modelo} ${c.versao}</div>
+                        <div class="text-[10px] font-mono text-gray-400 uppercase tracking-tighter mt-1">${c.chassis}</div>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold border border-gray-200">${c.local}</span>
+                    </td>
+                    <td class="px-6 py-4 text-xs text-gray-500">${c.estado_entrega}</td>
+                    <td class="px-6 py-4 text-right text-xs text-gray-400 italic">${c.pvp_bruto ? c.pvp_bruto.toLocaleString('pt-PT')+'€' : 'N/A'}</td>
+                    <td class="px-6 py-4 text-right font-black text-bmw text-base">${c.pvp_final.toLocaleString('pt-PT')}€</td>
+                </tr>
+            `).join('');
+
+            cartoes.innerHTML = dados.map(c => {
+                const isImediata = c.estado_entrega.toLowerCase().includes('imediata');
+                // Pintinha verde conforme o teu pedido expresso
+                const dotColor = isImediata ? 'bg-green-500' : 'bg-gray-300';
+                return `
+                <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1 h-full bg-bmw"></div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <div class="text-lg font-black text-gray-900 leading-none">${c.modelo} ${c.versao}</div>
+                            <div class="text-[10px] font-mono text-gray-400 mt-1 uppercase tracking-widest">${c.chassis}</div>
+                        </div>
+                        <span class="bg-gray-100 border border-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1 rounded uppercase">${c.local}</span>
+                    </div>
+                    <div class="text-xs text-gray-500 mb-6 font-medium flex items-center">
+                        <span class="w-2.5 h-2.5 rounded-full ${dotColor} mr-2 shadow-sm"></span> ${c.estado_entrega}
+                    </div>
+                    <div class="flex justify-between items-end pt-4 border-t border-gray-100">
+                        <div class="text-[10px] text-gray-400 font-bold uppercase">PVP Base<br><span class="text-xs text-gray-400 italic font-medium mt-1 inline-block">${c.pvp_bruto ? c.pvp_bruto.toLocaleString('pt-PT')+'€' : 'N/A'}</span></div>
+                        <div class="text-right text-[10px] text-bmw font-bold uppercase">PVP Final (NET)<br><span class="text-xl font-black mt-1 inline-block">${c.pvp_final.toLocaleString('pt-PT')}€</span></div>
+                    </div>
+                </div>
+                `}).join('');
+        }
+
+        function mudarVista(v) {
+            document.getElementById('vista-tabela').style.display = v === 'tabela' ? 'block' : 'none';
+            document.getElementById('vista-cartoes').style.display = v === 'cartoes' ? 'block' : 'none';
+            const btnT = document.getElementById('btn-vista-tabela');
+            const btnC = document.getElementById('btn-vista-cartoes');
+            if(v === 'tabela') {
+                btnT.className = "px-3 py-1.5 text-[10px] font-bold rounded bg-white shadow-sm text-bmw uppercase transition-all";
+                btnC.className = "px-3 py-1.5 text-[10px] font-bold rounded text-gray-500 uppercase transition-all";
+            } else {
+                btnC.className = "px-3 py-1.5 text-[10px] font-bold rounded bg-white shadow-sm text-bmw uppercase transition-all";
+                btnT.className = "px-3 py-1.5 text-[10px] font-bold rounded text-gray-500 uppercase transition-all";
+            }
+        }
+
+        function mudarTab(t) {
+            document.getElementById('conteudo-parque').style.display = t === 'parque' ? 'block' : 'none';
+            document.getElementById('conteudo-especificacoes').style.display = t === 'especificacoes' ? 'block' : 'none';
+            document.getElementById('tab-parque').className = t === 'parque' ? 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-bmw text-bmw' : 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400';
+            document.getElementById('tab-especificacoes').className = t === 'especificacoes' ? 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-bmw text-bmw' : 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400';
+        }
+
+        window.onload = () => {
+            initModeloFiltros();
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+                aplicarFiltros();
+            }, 600);
+        };
+    </script>
+</body>
+</html>
