@@ -6,7 +6,6 @@
     <title>Plataforma Parque BMW</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        // Configurar a nossa cor Azul BMW no Tailwind
         tailwind.config = {
             theme: {
                 extend: {
@@ -23,13 +22,11 @@
     <header class="bg-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center pt-4 sm:pt-0 sm:h-16">
-                
                 <div class="flex-shrink-0 flex items-center mb-4 sm:mb-0">
                     <h1 class="text-2xl font-bold text-bmw">
                         PARQUE <span class="text-gray-800">BMW</span>
                     </h1>
                 </div>
-
                 <nav class="flex space-x-6 overflow-x-auto" id="nav-tabs">
                     <button onclick="mudarTab('parque')" id="tab-parque" class="px-1 pb-3 sm:py-4 text-sm font-medium border-b-2 whitespace-nowrap transition-colors border-bmw text-bmw">
                         Parque
@@ -45,8 +42,18 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         
         <div id="conteudo-parque" class="block">
-            <div class="flex justify-between items-center mb-6">
+            
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
                 <h2 class="text-xl font-semibold text-gray-800">Inventário e Preços</h2>
+                
+                <div class="flex bg-gray-100 p-1 rounded-lg border border-gray-200">
+                    <button onclick="mudarVista('tabela')" id="btn-vista-tabela" class="px-4 py-1.5 text-sm font-medium rounded-md bg-white shadow-sm text-bmw transition-all">
+                        Tabela
+                    </button>
+                    <button onclick="mudarVista('cartoes')" id="btn-vista-cartoes" class="px-4 py-1.5 text-sm font-medium rounded-md text-gray-500 hover:text-gray-700 transition-all">
+                        Cartões
+                    </button>
+                </div>
             </div>
 
             <div id="loading" class="flex justify-center items-center h-64">
@@ -55,23 +62,23 @@
 
             <div id="dados-viaturas" class="hidden">
                 
-                <div id="grid-mobile" class="block lg:hidden space-y-4">
-                    </div>
+                <div id="vista-cartoes" class="hidden space-y-4"></div>
 
-                <div class="hidden lg:block bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Viatura</th>
-                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Local</th>
-                                <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Estado</th>
-                                <th class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">PVP Base</th>
-                                <th class="px-6 py-3 text-right text-xs font-bold text-bmw uppercase tracking-wider">PVP Final (NET)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabela-desktop" class="bg-white divide-y divide-gray-100">
-                            </tbody>
-                    </table>
+                <div id="vista-tabela" class="block bg-white border border-gray-200 shadow-sm rounded-lg overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider whitespace-nowrap">Viatura</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider whitespace-nowrap">Local</th>
+                                    <th class="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider whitespace-nowrap">Estado</th>
+                                    <th class="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider whitespace-nowrap">PVP Base</th>
+                                    <th class="px-6 py-3 text-right text-xs font-bold text-bmw uppercase tracking-wider whitespace-nowrap">PVP Final (NET)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-desktop" class="bg-white divide-y divide-gray-100"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,13 +95,7 @@
     </main>
 
     <script>
-        // ATENÇÃO: Substitui estas variáveis pelas tuas chaves do Supabase
-        const SUPABASE_URL = 'COLA_AQUI_O_TEU_SUPABASE_URL';
-        const SUPABASE_ANON_KEY = 'COLA_AQUI_A_TUA_SUPABASE_ANON_KEY';
-
-        // Lógica para mudar de separadores (Tabs)
         function mudarTab(tab) {
-            // Controlar os botões
             document.getElementById('tab-parque').className = tab === 'parque' 
                 ? 'px-1 pb-3 sm:py-4 text-sm font-medium border-b-2 whitespace-nowrap transition-colors border-bmw text-bmw' 
                 : 'px-1 pb-3 sm:py-4 text-sm font-medium border-b-2 whitespace-nowrap transition-colors border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300';
@@ -103,55 +104,92 @@
                 ? 'px-1 pb-3 sm:py-4 text-sm font-medium border-b-2 whitespace-nowrap transition-colors border-bmw text-bmw' 
                 : 'px-1 pb-3 sm:py-4 text-sm font-medium border-b-2 whitespace-nowrap transition-colors border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300';
 
-            // Controlar o conteúdo visível
             document.getElementById('conteudo-parque').style.display = tab === 'parque' ? 'block' : 'none';
             document.getElementById('conteudo-especificacoes').style.display = tab === 'especificacoes' ? 'block' : 'none';
         }
 
-        // Função para ir buscar os dados à Edge Function do Supabase
-        async function carregarViaturas() {
-            const loadingDiv = document.getElementById('loading');
-            const dadosDiv = document.getElementById('dados-viaturas');
-            
-            try {
-                // Chamamos a Edge Function que tem o nosso motor de cálculo em tempo real
-                const response = await fetch(`${SUPABASE_URL}/functions/v1/calcular-precos-viaturas`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-                    }
-                });
-
-                if (!response.ok) throw new Error('Erro ao carregar dados');
+        function mudarVista(vista) {
+            document.getElementById('btn-vista-tabela').className = vista === 'tabela'
+                ? 'px-4 py-1.5 text-sm font-medium rounded-md bg-white shadow-sm text-bmw transition-all'
+                : 'px-4 py-1.5 text-sm font-medium rounded-md text-gray-500 hover:text-gray-700 transition-all';
                 
-                const viaturas = await response.json();
-                renderizarDados(viaturas);
-                
-                // Esconder o aviso de "A calcular..." e mostrar a tabela/cartões
-                loadingDiv.style.display = 'none';
-                dadosDiv.style.display = 'block';
+            document.getElementById('btn-vista-cartoes').className = vista === 'cartoes'
+                ? 'px-4 py-1.5 text-sm font-medium rounded-md bg-white shadow-sm text-bmw transition-all'
+                : 'px-4 py-1.5 text-sm font-medium rounded-md text-gray-500 hover:text-gray-700 transition-all';
 
-            } catch (error) {
-                console.error("Erro:", error);
-                loadingDiv.innerHTML = '<p class="text-red-600 font-medium">Erro ao comunicar com o servidor de preços.</p>';
-            }
+            document.getElementById('vista-tabela').style.display = vista === 'tabela' ? 'block' : 'none';
+            document.getElementById('vista-cartoes').style.display = vista === 'cartoes' ? 'block' : 'none';
         }
 
-        // Função para desenhar o HTML com os dados que vieram do servidor
+        // Inventário importado e calculado com a tua lógica
+        const inventarioBMW = [
+            {"chassis": "CU94387", "modelo": "iX", "versao": "iX 45e", "local": "MPA", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 97006.58, "pvp_final": 84698.53}},
+            {"chassis": "CW43657", "modelo": "iX", "versao": "iX 45e", "local": "VNG", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 101913.59, "pvp_final": 82990.0}},
+            {"chassis": "8G08489", "modelo": "M", "versao": "M2", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "calculos": {"pvp_bruto": 0.0, "pvp_final": 108788.0}},
+            {"chassis": "9009639", "modelo": "M", "versao": "XM", "local": "MPA", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 172504.12, "pvp_final": 141325.25}},
+            {"chassis": "FU98565", "modelo": "M", "versao": "M3", "local": "VNG", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 149943.46, "pvp_final": 123979.86}},
+            {"chassis": "7U62408", "modelo": "Série 1", "versao": "116", "local": "MPA", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 0.0, "pvp_final": 45990.0}},
+            {"chassis": "7T44029", "modelo": "Série 2", "versao": "220 GC", "local": "MPA", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 0.0, "pvp_final": 45900.0}},
+            {"chassis": "7T42133", "modelo": "Série 2", "versao": "225e AT", "local": "MPA", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 0.0, "pvp_final": 46000.0}},
+            {"chassis": "8F63727", "modelo": "Série 2", "versao": "218i Coupé", "local": "VNG", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 57856.43, "pvp_final": 49990.0}},
+            {"chassis": "7R53573", "modelo": "Série 2", "versao": "230e AT", "local": "VNG", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 59541.5, "pvp_final": 56404.46}},
+            {"chassis": "FV33517", "modelo": "Série 3", "versao": "330e Tou", "local": "VNG", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 70893.2, "pvp_final": 60275.83}},
+            {"chassis": "8F69359", "modelo": "Série 3", "versao": "318d Ber", "local": "MPA", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 0.0, "pvp_final": 63000.0}},
+            {"chassis": "8F86924", "modelo": "Série 3", "versao": "330e Ber", "local": "MPA", "estado_entrega": "Entrega fevereiro/26 - COM BSI", "calculos": {"pvp_bruto": 0.0, "pvp_final": 68475.0}},
+            {"chassis": "FV71708", "modelo": "Série 3", "versao": "330e Tou", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "calculos": {"pvp_bruto": 0.0, "pvp_final": 61499.0}},
+            {"chassis": "FV05961", "modelo": "Série 4", "versao": "420d GC", "local": "MPA", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 0.0, "pvp_final": 63900.0}},
+            {"chassis": "FV75974", "modelo": "Série 4", "versao": "i4 40", "local": "VNG", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 83626.06, "pvp_final": 66490.0}},
+            {"chassis": "FV67904", "modelo": "Série 4", "versao": "i4 40", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "calculos": {"pvp_bruto": 0.0, "pvp_final": 62499.0}},
+            {"chassis": "FV70698", "modelo": "Série 4", "versao": "i4 35", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "calculos": {"pvp_bruto": 0.0, "pvp_final": 56500.0}},
+            {"chassis": "CS12383", "modelo": "Série 5", "versao": "520d Tou", "local": "MPA", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 84459.77, "pvp_final": 73227.89}},
+            {"chassis": "CW28125", "modelo": "Série 5", "versao": "530e Ber", "local": "MPA", "estado_entrega": "Entrega fevereiro/26 - COM BSI", "calculos": {"pvp_bruto": 0.0, "pvp_final": 79317.17}},
+            {"chassis": "CU47797", "modelo": "Série 5", "versao": "530e Tou", "local": "MPA", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 0.0, "pvp_final": 61490.0}},
+            {"chassis": "FV66677", "modelo": "Série 4", "versao": "i4 40", "local": "VNG", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 78565.93, "pvp_final": 67990.0}},
+            {"chassis": "CT50220", "modelo": "Série 5", "versao": "520d Tou", "local": "VNG", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 80869.78, "pvp_final": 70782.55}},
+            {"chassis": "CW37048", "modelo": "Série 5", "versao": "530e Ber", "local": "VNG", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 83546.04, "pvp_final": 71990.0}},
+            {"chassis": "CW21213", "modelo": "Série 5", "versao": "i5 40 Ber", "local": "VNG", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 91076.04, "pvp_final": 71990.0}},
+            {"chassis": "CW19893", "modelo": "Série 5", "versao": "i5 40 Ber", "local": "MPA", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 0.0, "pvp_final": 66900.0}},
+            {"chassis": "CX23776", "modelo": "Série 5", "versao": "i5 40 Tou", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "calculos": {"pvp_bruto": 0.0, "pvp_final": 90208.16}},
+            {"chassis": "5501715", "modelo": "X1", "versao": "iX1 20e", "local": "MPA", "estado_entrega": "Entrega fevereiro/26 - COM BSI", "calculos": {"pvp_bruto": 0.0, "pvp_final": 58633.0}},
+            {"chassis": "5150915", "modelo": "X1", "versao": "X1 18i", "local": "MPA", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 49832.64, "pvp_final": 51200.07}},
+            {"chassis": "CS69891", "modelo": "Série 7", "versao": "i7 50e", "local": "VNG", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 150376.49, "pvp_final": 123509.68}},
+            {"chassis": "5302073", "modelo": "X1", "versao": "iX1 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 63106.05, "pvp_final": 51990.0}},
+            {"chassis": "5434151", "modelo": "X1", "versao": "X1 25e", "local": "MPA", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 0.0, "pvp_final": 59900.0}},
+            {"chassis": "5412737", "modelo": "X1", "versao": "X1 25e", "local": "MPA", "estado_entrega": "Entrega fevereiro/26 - COM BSI", "calculos": {"pvp_bruto": 0.0, "pvp_final": 53900.0}},
+            {"chassis": "5340398", "modelo": "X2", "versao": "iX2 20e", "local": "MPA", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 67505.36, "pvp_final": 54256.26}},
+            {"chassis": "N324669", "modelo": "X3", "versao": "X3 30e", "local": "MPA", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 0.0, "pvp_final": 61250.0}},
+            {"chassis": "9208035", "modelo": "X7", "versao": "X7 40d", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "calculos": {"pvp_bruto": 0.0, "pvp_final": 174779.0}},
+            {"chassis": "5500847", "modelo": "X2", "versao": "iX2 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 63325.36, "pvp_final": 55990.0}},
+            {"chassis": "N337377", "modelo": "X3", "versao": "X3 30e", "local": "VNG", "estado_entrega": "Entrega Imediata", "calculos": {"pvp_bruto": 96462.93, "pvp_final": 82545.42}}
+        ];
+
+        function carregarViaturas() {
+            // Simulamos o atraso de carregar da Base de Dados
+            setTimeout(() => {
+                renderizarDados(inventarioBMW);
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('dados-viaturas').style.display = 'block';
+            }, 600);
+        }
+
+        function formatarMoeda(valor) {
+            // Alguns PVP Brutos vêm a 0.0 no Excel original por falta de dados preenchidos nessa coluna
+            if(valor === 0) return 'N/A';
+            return new Intl.NumberFormat('pt-PT', { style: 'currency', currency: 'EUR' }).format(valor);
+        }
+
         function renderizarDados(viaturas) {
-            const gridMobile = document.getElementById('grid-mobile');
+            const vistaCartoes = document.getElementById('vista-cartoes');
             const tabelaDesktop = document.getElementById('tabela-desktop');
             
-            let htmlMobile = '';
-            let htmlDesktop = '';
+            let htmlCartoes = '';
+            let htmlTabela = '';
 
             viaturas.forEach(carro => {
-                const pvpBruto = carro.calculos ? `${carro.calculos.pvp_bruto} €` : 'N/A';
-                const pvpFinal = carro.calculos ? `${carro.calculos.pvp_final} €` : 'N/A';
+                const pvpBruto = formatarMoeda(carro.calculos.pvp_bruto);
+                const pvpFinal = formatarMoeda(carro.calculos.pvp_final);
 
-                // Desenhar Cartão Mobile
-                htmlMobile += `
+                htmlCartoes += `
                     <div class="bg-white border border-gray-200 rounded-lg shadow-sm p-4 hover:border-bmw transition-colors">
                         <div class="flex justify-between items-start mb-2">
                             <div>
@@ -174,8 +212,7 @@
                     </div>
                 `;
 
-                // Desenhar Linha da Tabela Desktop
-                htmlDesktop += `
+                htmlTabela += `
                     <tr class="hover:bg-blue-50/50 transition-colors">
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm font-bold text-gray-900">${carro.modelo} ${carro.versao}</div>
@@ -189,11 +226,10 @@
                 `;
             });
 
-            gridMobile.innerHTML = htmlMobile;
-            tabelaDesktop.innerHTML = htmlDesktop;
+            vistaCartoes.innerHTML = htmlCartoes;
+            tabelaDesktop.innerHTML = htmlTabela;
         }
 
-        // Iniciar o carregamento de viaturas assim que a página abre
         window.onload = carregarViaturas;
     </script>
 </body>
