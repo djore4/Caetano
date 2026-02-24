@@ -28,9 +28,9 @@
                     </h1>
                 </div>
                 <div class="flex items-center space-x-4 sm:space-x-8">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/BMW_logo_%28gray%29.svg" alt="BMW" class="h-8 sm:h-10">
-                    <div class="h-8 w-[1px] bg-gray-200"></div>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Mini_logo.svg" alt="MINI" class="h-5 sm:h-7">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/BMW_logo_%28gray%29.svg" alt="BMW" class="h-6 sm:h-10">
+                    <div class="h-6 sm:h-8 w-[1px] bg-gray-200"></div>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Mini_logo.svg" alt="MINI" class="h-4 sm:h-7">
                 </div>
             </div>
         </div>
@@ -40,7 +40,7 @@
                 <button onclick="mudarTab('parque')" id="tab-parque" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-bmw text-bmw whitespace-nowrap">Parque</button>
                 <button onclick="mudarTab('especificacoes')" id="tab-especificacoes" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-gray-600 whitespace-nowrap">Especificações</button>
                 
-                <div class="ml-auto flex space-x-4">
+                <div class="ml-auto flex space-x-2 sm:space-x-4">
                     <button onclick="mudarTab('admin-vn')" id="tab-admin-vn" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-orange-500 whitespace-nowrap">⚙️ Gestão VN</button>
                     <button onclick="mudarTab('admin-vu')" id="tab-admin-vu" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-orange-500 whitespace-nowrap">⚙️ Gestão VU</button>
                 </div>
@@ -51,7 +51,7 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-64">
         
         <div id="conteudo-parque">
-            <div class="space-y-6 mb-8 bg-gray-50 p-5 rounded-xl border border-gray-100 shadow-sm">
+            <div class="space-y-6 mb-8 bg-gray-50 p-4 sm:p-5 rounded-xl border border-gray-100 shadow-sm">
                 <div>
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Modelo</label>
                     <div class="flex flex-wrap gap-2" id="filtro-modelo-container"></div>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
 
-                <div class="flex justify-between items-end border-t border-gray-200 pt-4">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end border-t border-gray-200 pt-4 gap-4 sm:gap-0">
                     <div id="contador-resultados" class="text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-none">
                         <span id="num-resultados" class="text-bmw font-black text-sm">0</span> viaturas encontradas
                     </div>
@@ -91,16 +91,16 @@
 
             <div id="dados-viaturas" class="hidden">
                 <div id="vista-cartoes" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-                <div id="vista-tabela" class="block bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-                    <div class="overflow-x-auto no-scrollbar">
+                <div id="vista-tabela" class="block bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden w-full">
+                    <div class="overflow-x-auto no-scrollbar w-full">
                         <table class="min-w-full divide-y divide-gray-100">
                             <thead class="bg-gray-50/50 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                                 <tr>
-                                    <th class="px-6 py-4 text-left">Viatura / Chassis</th>
-                                    <th class="px-6 py-4 text-center">Local</th>
-                                    <th class="px-6 py-4 text-left">Observações</th>
-                                    <th class="px-6 py-4 text-right">PVP Base</th>
-                                    <th class="px-6 py-4 text-right text-bmw">PVP Final (NET)</th>
+                                    <th class="px-4 sm:px-6 py-4 text-left whitespace-nowrap">Viatura / Chassis</th>
+                                    <th class="px-4 sm:px-6 py-4 text-center whitespace-nowrap">Local</th>
+                                    <th class="px-4 sm:px-6 py-4 text-left whitespace-nowrap">Observações</th>
+                                    <th class="px-4 sm:px-6 py-4 text-right whitespace-nowrap">PVP Base</th>
+                                    <th class="px-4 sm:px-6 py-4 text-right text-bmw whitespace-nowrap">PVP Final (NET)</th>
                                 </tr>
                             </thead>
                             <tbody id="tabela-corpo" class="divide-y divide-gray-100"></tbody>
@@ -115,20 +115,20 @@
 
         <div id="conteudo-especificacoes" class="hidden">
             <div class="flex items-center justify-center h-96 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-                <p class="text-gray-400 font-bold uppercase tracking-widest italic">Módulo em Desenvolvimento</p>
+                <p class="text-gray-400 font-bold uppercase tracking-widest italic text-center px-4">Módulo em Desenvolvimento</p>
             </div>
         </div>
         
         <div id="conteudo-admin-vu" class="hidden">
             <div class="flex items-center justify-center h-96 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-                <p class="text-gray-400 font-bold uppercase tracking-widest italic">Módulo de Gestão VU em Desenvolvimento</p>
+                <p class="text-gray-400 font-bold uppercase tracking-widest italic text-center px-4">Módulo de Gestão VU em Desenvolvimento</p>
             </div>
         </div>
 
         <div id="conteudo-admin-vn" class="hidden">
             <div class="flex flex-col lg:flex-row gap-6">
                 
-                <div class="w-full lg:w-1/4 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[750px]">
+                <div class="w-full lg:w-1/4 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[450px] lg:h-[750px]">
                     <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
                         <h2 class="font-bold text-gray-700 text-sm uppercase tracking-widest">Inventário VN</h2>
                     </div>
@@ -159,7 +159,7 @@
                     </div>
 
                     <div class="p-2 border-b border-gray-100">
-                        <button onclick="prepararNovaViatura()" class="w-full bg-bmw hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow-sm transition-colors text-xs flex justify-center items-center gap-2">
+                        <button onclick="prepararNovaViatura()" class="w-full bg-bmw hover:bg-blue-700 text-white font-bold py-3 lg:py-2 px-4 rounded-md shadow-sm transition-colors text-xs flex justify-center items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
                             Nova Viatura
                         </button>
@@ -168,37 +168,37 @@
                 </div>
 
                 <div class="w-full lg:w-3/4 bg-white border border-gray-200 rounded-xl shadow-sm p-6" id="painel-edicao-vazio">
-                    <div class="flex items-center justify-center h-full"><p class="text-gray-400 font-medium">Selecione uma viatura ou adicione uma nova.</p></div>
+                    <div class="flex items-center justify-center h-full text-center"><p class="text-gray-400 font-medium">Selecione uma viatura<br>ou adicione uma nova.</p></div>
                 </div>
 
-                <div class="w-full lg:w-3/4 bg-white border border-gray-200 rounded-xl shadow-sm p-6 hidden flex-col h-[750px] overflow-y-auto no-scrollbar" id="painel-edicao-form">
+                <div class="w-full lg:w-3/4 bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6 hidden flex-col h-auto lg:h-[750px] lg:overflow-y-auto no-scrollbar scroll-mt-24" id="painel-edicao-form">
                     <div class="flex justify-between items-center mb-4 border-b border-gray-100 pb-2">
-                        <h2 class="text-xl font-black text-gray-800" id="titulo-form-admin">A Editar Viatura</h2>
+                        <h2 class="text-lg sm:text-xl font-black text-gray-800" id="titulo-form-admin">A Editar Viatura</h2>
                     </div>
 
-                    <form id="form-precos" onsubmit="guardarViatura(event)" class="space-y-8">
+                    <form id="form-precos" onsubmit="guardarViatura(event)" class="space-y-6 sm:space-y-8">
                         <input type="hidden" id="modo-edicao" value="editar">
                         
-                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
-                            <h3 class="text-xs font-bold text-bmw uppercase tracking-widest mb-4">1. Identificação da Viatura</h3>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-gray-50 p-3 sm:p-4 rounded-lg border border-gray-100">
+                            <h3 class="text-[11px] sm:text-xs font-bold text-bmw uppercase tracking-widest mb-4">1. Identificação da Viatura</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1">LOCAL</label>
-                                    <select id="adm-local" required class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none">
+                                    <select id="adm-local" required class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-xs outline-none bg-white">
                                         <option value="Porto">Porto</option><option value="Gaia">Gaia</option>
                                         <option value="Feira">Feira</option><option value="Aveiro">Aveiro</option>
                                         <option value="Maia">Maia</option><option value="Matosinhos">Matosinhos</option>
                                         <option value="MPA">MPA</option><option value="VNG">VNG</option>
                                     </select>
                                 </div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MODELO</label><input type="text" id="adm-modelo" required class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">VERSÃO</label><input type="text" id="adm-versao" required class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ENC</label><input type="text" id="adm-enc" class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">CHASSIS (ID Único)</label><input type="text" id="adm-chassis" required class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs font-mono outline-none uppercase placeholder-gray-300"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MATRÍCULA</label><input type="text" id="adm-mat" class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none uppercase"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">DATA MAT.</label><input type="date" id="adm-data" onchange="calcForm()" class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">IDADE (Auto)</label><input type="text" id="adm-idade" readonly class="w-full rounded px-2 py-1.5 text-xs campo-calc text-blue-600"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MODELO</label><input type="text" id="adm-modelo" required class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-xs outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">VERSÃO</label><input type="text" id="adm-versao" required class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-xs outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ENC</label><input type="text" id="adm-enc" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-xs outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">CHASSIS (ID Único)</label><input type="text" id="adm-chassis" required class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-xs font-mono outline-none uppercase placeholder-gray-300"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MATRÍCULA</label><input type="text" id="adm-mat" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-xs outline-none uppercase"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">DATA MAT.</label><input type="date" id="adm-data" onchange="calcForm()" class="w-full border border-gray-300 bg-white rounded px-2 py-2 sm:py-1.5 text-xs outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">IDADE (Auto)</label><input type="text" id="adm-idade" readonly class="w-full rounded px-2 py-2 sm:py-1.5 text-xs campo-calc text-blue-600"></div>
                                 
-                                <div class="col-span-4 mt-2">
+                                <div class="col-span-1 sm:col-span-2 lg:col-span-4 mt-1 sm:mt-2">
                                     <label class="block text-[10px] font-bold text-gray-500 mb-2">TECNOLOGIA (Multi-seleção)</label>
                                     <div class="flex flex-wrap gap-2" id="adm-tec-container">
                                         <button type="button" onclick="toggleTecAdmin('ICE')" class="tec-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200">ICE</button>
@@ -214,60 +214,60 @@
                         </div>
 
                         <div>
-                            <h3 class="text-xs font-bold text-bmw uppercase tracking-widest mb-4 border-b border-gray-100 pb-2">2. Formação de Preço (€)</h3>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">PREÇO BASE</label><input type="number" step="0.01" id="adm-pvb" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">OPCIONAIS</label><input type="number" step="0.01" id="adm-opc" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">BSI/MSI</label><input type="number" step="0.01" id="adm-bsi" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ECOVALOR</label><input type="number" step="0.01" id="adm-eco" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">LEG / TRANSP.</label><input type="number" step="0.01" id="adm-leg" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ISV</label><input type="number" step="0.01" id="adm-isv" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
+                            <h3 class="text-[11px] sm:text-xs font-bold text-bmw uppercase tracking-widest mb-4 border-b border-gray-100 pb-2">2. Formação de Preço (€)</h3>
+                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">PREÇO BASE</label><input type="number" step="0.01" id="adm-pvb" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-sm outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">OPCIONAIS</label><input type="number" step="0.01" id="adm-opc" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-sm outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">BSI/MSI</label><input type="number" step="0.01" id="adm-bsi" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-sm outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ECOVALOR</label><input type="number" step="0.01" id="adm-eco" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-sm outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">LEG / TRANSP.</label><input type="number" step="0.01" id="adm-leg" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-sm outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ISV</label><input type="number" step="0.01" id="adm-isv" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-sm outline-none"></div>
                                 
-                                <div class="col-span-2 grid grid-cols-3 gap-2 p-2 bg-blue-50/50 rounded border border-blue-100 mt-4 md:mt-0">
-                                    <div><label class="block text-[9px] font-bold text-blue-800 mb-1">PENET. OPC</label><input type="text" id="adm-penopc" readonly class="w-full rounded px-2 py-1 text-xs campo-calc text-center"></div>
-                                    <div><label class="block text-[9px] font-bold text-blue-800 mb-1">PVP (+IVA)</label><input type="text" id="adm-pvp" readonly class="w-full rounded px-2 py-1 text-xs campo-calc text-center"></div>
-                                    <div><label class="block text-[9px] font-bold text-blue-800 mb-1">IVA (23%)</label><input type="text" id="adm-iva" readonly class="w-full rounded px-2 py-1 text-xs campo-calc text-center"></div>
+                                <div class="col-span-2 grid grid-cols-1 sm:grid-cols-3 gap-2 p-2 bg-blue-50/50 rounded border border-blue-100">
+                                    <div><label class="block text-[9px] font-bold text-blue-800 mb-1">PENET. OPC</label><input type="text" id="adm-penopc" readonly class="w-full rounded px-2 py-2 sm:py-1 text-xs campo-calc text-center"></div>
+                                    <div><label class="block text-[9px] font-bold text-blue-800 mb-1">PVP (+IVA)</label><input type="text" id="adm-pvp" readonly class="w-full rounded px-2 py-2 sm:py-1 text-xs campo-calc text-center"></div>
+                                    <div><label class="block text-[9px] font-bold text-blue-800 mb-1">IVA (23%)</label><input type="text" id="adm-iva" readonly class="w-full rounded px-2 py-2 sm:py-1 text-xs campo-calc text-center"></div>
                                 </div>
                             </div>
                         </div>
 
                         <div>
-                            <h3 class="text-xs font-bold text-bmw uppercase tracking-widest mb-4 border-b border-gray-100 pb-2">3. Margens e Campanhas (%)</h3>
-                            <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MARGEM FIXA</label><input type="number" step="0.001" id="adm-mfixa" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MARGEM VAR.</label><input type="number" step="0.001" id="adm-mvar" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">PAC</label><input type="number" step="0.001" id="adm-pac" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">APOIO DEMO</label><input type="number" step="0.001" id="adm-demo" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">APOIO SUP.</label><input type="number" step="0.001" id="adm-sup" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
+                            <h3 class="text-[11px] sm:text-xs font-bold text-bmw uppercase tracking-widest mb-4 border-b border-gray-100 pb-2">3. Margens e Campanhas (%)</h3>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MARGEM FIXA</label><input type="number" step="0.001" id="adm-mfixa" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-sm outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MARGEM VAR.</label><input type="number" step="0.001" id="adm-mvar" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-sm outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">PAC</label><input type="number" step="0.001" id="adm-pac" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-sm outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">APOIO DEMO</label><input type="number" step="0.001" id="adm-demo" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-sm outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">APOIO SUP.</label><input type="number" step="0.001" id="adm-sup" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-sm outline-none"></div>
                             </div>
-                            <div class="flex gap-4 mt-3">
-                                <div class="w-1/4"><label class="block text-[9px] font-bold text-orange-600 mb-1">DESCONTO %</label><input type="text" id="adm-descperc" readonly class="w-full rounded px-2 py-1 text-xs campo-calc"></div>
-                                <div class="w-1/4"><label class="block text-[9px] font-bold text-orange-600 mb-1">DESCONTO €</label><input type="text" id="adm-desceur" readonly class="w-full rounded px-2 py-1 text-xs campo-calc"></div>
-                                <div class="w-2/4"><label class="block text-[9px] font-bold text-red-600 mb-1">PREÇO MÍNIMO (Auto)</label><input type="text" id="adm-precomin" readonly class="w-full rounded px-2 py-1 text-sm campo-calc text-red-700"></div>
-                            </div>
-                        </div>
-
-                        <div class="bg-blue-50/30 p-4 rounded-lg border border-blue-100">
-                            <h3 class="text-xs font-bold text-bmw uppercase tracking-widest mb-4">4. Fecho e Margem Final</h3>
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 items-end">
-                                <div><label class="block text-[10px] font-bold text-gray-700 mb-1">DEPRECIAÇÕES (€)</label><input type="number" step="0.01" id="adm-dep" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-bmw mb-1">PVP DESC (A Inserir)</label><input type="number" step="0.01" id="adm-pvpdesc" oninput="calcForm()" class="w-full border-2 border-bmw rounded px-2 py-2 text-base font-bold text-bmw outline-none shadow-sm"></div>
-                                <div><label class="block text-[10px] font-bold text-green-600 mb-1">MG (Margem Auto)</label><input type="text" id="adm-mg" readonly class="w-full border border-green-200 bg-green-50 rounded px-2 py-2 text-base font-bold text-green-700 outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">S/ IVA (Auto)</label><input type="text" id="adm-siva" readonly class="w-full rounded px-2 py-1.5 text-sm campo-calc"></div>
-                            </div>
-                            <div class="mt-4 grid grid-cols-2 gap-4">
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">FOTOS (URL)</label><input type="text" id="adm-fotos" class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">OBSERVAÇÕES (Ex: Entrega Imediata)</label><input type="text" id="adm-obs" required class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
+                            <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-3">
+                                <div class="w-full sm:w-1/4"><label class="block text-[9px] font-bold text-orange-600 mb-1">DESCONTO %</label><input type="text" id="adm-descperc" readonly class="w-full rounded px-2 py-2 sm:py-1 text-xs campo-calc"></div>
+                                <div class="w-full sm:w-1/4"><label class="block text-[9px] font-bold text-orange-600 mb-1">DESCONTO €</label><input type="text" id="adm-desceur" readonly class="w-full rounded px-2 py-2 sm:py-1 text-xs campo-calc"></div>
+                                <div class="w-full sm:w-2/4"><label class="block text-[9px] font-bold text-red-600 mb-1">PREÇO MÍNIMO (Auto)</label><input type="text" id="adm-precomin" readonly class="w-full rounded px-2 py-2 sm:py-1 text-sm campo-calc text-red-700"></div>
                             </div>
                         </div>
 
-                        <div class="pt-4 border-t border-gray-100 flex justify-between items-center">
-                            <button type="button" id="btn-arquivar" onclick="arquivarViatura()" class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold py-2 px-4 rounded-lg shadow-sm transition-colors focus:outline-none text-sm hidden">
+                        <div class="bg-blue-50/30 p-3 sm:p-4 rounded-lg border border-blue-100">
+                            <h3 class="text-[11px] sm:text-xs font-bold text-bmw uppercase tracking-widest mb-4">4. Fecho e Margem Final</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+                                <div><label class="block text-[10px] font-bold text-gray-700 mb-1">DEPRECIAÇÕES (€)</label><input type="number" step="0.01" id="adm-dep" oninput="calcForm()" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-sm outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-bmw mb-1">PVP DESC (A Inserir)</label><input type="number" step="0.01" id="adm-pvpdesc" oninput="calcForm()" class="w-full border-2 border-bmw rounded px-2 py-3 sm:py-2 text-base font-bold text-bmw outline-none shadow-sm"></div>
+                                <div><label class="block text-[10px] font-bold text-green-600 mb-1">MG (Margem Auto)</label><input type="text" id="adm-mg" readonly class="w-full border border-green-200 bg-green-50 rounded px-2 py-3 sm:py-2 text-base font-bold text-green-700 outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">S/ IVA (Auto)</label><input type="text" id="adm-siva" readonly class="w-full rounded px-2 py-2 sm:py-1.5 text-sm campo-calc"></div>
+                            </div>
+                            <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">FOTOS (URL)</label><input type="text" id="adm-fotos" class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-xs outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">OBSERVAÇÕES (Ex: Entrega Imediata)</label><input type="text" id="adm-obs" required class="w-full border border-gray-300 rounded px-2 py-2 sm:py-1.5 text-xs outline-none"></div>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
+                            <button type="button" id="btn-arquivar" onclick="arquivarViatura()" class="w-full sm:w-auto bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold py-3 sm:py-2 px-4 rounded-lg shadow-sm transition-colors focus:outline-none text-sm hidden">
                                 🔒 Arquivar / Vendido
                             </button>
-                            <div class="ml-auto flex gap-4">
-                                <button type="button" onclick="cancelarEdicao()" class="text-gray-500 hover:text-gray-700 text-sm font-bold">Cancelar</button>
-                                <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-8 rounded-lg shadow-sm transition-colors focus:outline-none">
+                            <div class="w-full sm:w-auto ml-auto flex flex-col sm:flex-row gap-3 sm:gap-4">
+                                <button type="button" onclick="cancelarEdicao()" class="text-gray-500 hover:text-gray-700 text-sm font-bold py-2 order-last sm:order-first">Cancelar</button>
+                                <button type="submit" class="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 sm:py-2 px-8 rounded-lg shadow-sm transition-colors focus:outline-none">
                                     Guardar Viatura
                                 </button>
                             </div>
@@ -279,7 +279,6 @@
     </main>
 
     <script>
-        // Formatação PT-PT
         const formatEur = (val) => val.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
         const formatPerc = (val) => (val * 100).toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
 
@@ -364,7 +363,6 @@
             });
         }
 
-        // Filtros exclusivos do Painel Admin em formato de botões
         let filtrosAdmin = { modelo: 'Todos', local: 'Todos', tipologia: 'Todas' };
 
         function initModeloFiltrosAdmin() {
@@ -384,6 +382,12 @@
                 else { btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600'); }
             });
             renderizarListaAdmin();
+        }
+
+        function scrollToForm() {
+            if(window.innerWidth < 1024) {
+                document.getElementById('painel-edicao-form').scrollIntoView({behavior: "smooth", block: "start"});
+            }
         }
 
         function renderizarListaAdmin() {
@@ -422,6 +426,7 @@
             tecsAtuais = [];
             toggleTecAdmin(''); 
             calcForm();
+            scrollToForm();
         }
 
         function abrirEdicao(chassis) {
@@ -470,12 +475,14 @@
             document.getElementById('adm-fotos').value = c.inputs.fotos;
 
             calcForm();
+            scrollToForm();
         }
 
         function cancelarEdicao() {
             document.getElementById('painel-edicao-form').classList.add('hidden');
             document.getElementById('painel-edicao-form').classList.remove('flex');
             document.getElementById('painel-edicao-vazio').classList.remove('hidden');
+            if(window.innerWidth < 1024) window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function guardarViatura(e) {
@@ -584,11 +591,11 @@
             
             document.getElementById('tabela-corpo').innerHTML = dados.map(c => `
                 <tr class="hover:bg-blue-50/40 border-b border-gray-50">
-                    <td class="px-6 py-4"><div class="font-bold text-gray-900 leading-tight">${c.modelo} ${c.versao}</div><div class="text-[10px] font-mono text-gray-400 mt-1">${c.chassis}</div></td>
-                    <td class="px-6 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold">${c.local}</span></td>
-                    <td class="px-6 py-4 text-xs text-gray-500">${c.estado_entrega}</td>
-                    <td class="px-6 py-4 text-right text-xs text-gray-400 italic">${c.pvp_bruto ? formatEur(c.pvp_bruto) : 'N/A'}</td>
-                    <td class="px-6 py-4 text-right font-black text-bmw text-base">${formatEur(c.pvp_final)}</td>
+                    <td class="px-4 sm:px-6 py-4"><div class="font-bold text-gray-900 leading-tight whitespace-nowrap">${c.modelo} ${c.versao}</div><div class="text-[10px] font-mono text-gray-400 mt-1 whitespace-nowrap">${c.chassis}</div></td>
+                    <td class="px-4 sm:px-6 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold">${c.local}</span></td>
+                    <td class="px-4 sm:px-6 py-4 text-xs text-gray-500 whitespace-nowrap">${c.estado_entrega}</td>
+                    <td class="px-4 sm:px-6 py-4 text-right text-xs text-gray-400 italic whitespace-nowrap">${c.pvp_bruto ? formatEur(c.pvp_bruto) : 'N/A'}</td>
+                    <td class="px-4 sm:px-6 py-4 text-right font-black text-bmw text-base whitespace-nowrap">${formatEur(c.pvp_final)}</td>
                 </tr>
             `).join('');
 
