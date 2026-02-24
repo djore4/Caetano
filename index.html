@@ -35,10 +35,14 @@
         </div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav class="flex space-x-8">
-                <button onclick="mudarTab('parque')" id="tab-parque" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-bmw text-bmw">Parque</button>
-                <button onclick="mudarTab('especificacoes')" id="tab-especificacoes" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-gray-600">Especificações</button>
-                <button onclick="mudarTab('admin')" id="tab-admin" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-orange-500 ml-auto">⚙️ Gestão de Preços</button>
+            <nav class="flex w-full space-x-2 sm:space-x-6 overflow-x-auto no-scrollbar">
+                <button onclick="mudarTab('parque')" id="tab-parque" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-bmw text-bmw whitespace-nowrap">Parque</button>
+                <button onclick="mudarTab('especificacoes')" id="tab-especificacoes" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-gray-600 whitespace-nowrap">Especificações</button>
+                
+                <div class="ml-auto flex space-x-4">
+                    <button onclick="mudarTab('admin-vn')" id="tab-admin-vn" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-orange-500 whitespace-nowrap">⚙️ Gestão VN</button>
+                    <button onclick="mudarTab('admin-vu')" id="tab-admin-vu" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-orange-500 whitespace-nowrap">⚙️ Gestão VU</button>
+                </div>
             </nav>
         </div>
     </header>
@@ -113,14 +117,56 @@
                 <p class="text-gray-400 font-bold uppercase tracking-widest italic">Módulo em Desenvolvimento</p>
             </div>
         </div>
+        
+        <div id="conteudo-admin-vu" class="hidden">
+            <div class="flex items-center justify-center h-96 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                <p class="text-gray-400 font-bold uppercase tracking-widest italic">Módulo de Gestão VU em Desenvolvimento</p>
+            </div>
+        </div>
 
-        <div id="conteudo-admin" class="hidden">
+        <div id="conteudo-admin-vn" class="hidden">
             <div class="flex flex-col lg:flex-row gap-6">
                 
                 <div class="w-full lg:w-1/4 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[750px]">
                     <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
-                        <h2 class="font-bold text-gray-700 text-sm uppercase tracking-widest">Inventário</h2>
+                        <h2 class="font-bold text-gray-700 text-sm uppercase tracking-widest">Inventário VN</h2>
                     </div>
+                    
+                    <div class="p-3 border-b border-gray-100 bg-white space-y-3">
+                        <div>
+                            <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">Modelo</label>
+                            <select id="filtro-adm-modelo" onchange="setFiltroAdmin('modelo', this.value)" class="w-full border border-gray-200 rounded px-2 py-1 text-xs outline-none text-gray-600 bg-gray-50"></select>
+                        </div>
+                        <div class="flex gap-2">
+                            <div class="w-1/2">
+                                <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tecnologia</label>
+                                <select id="filtro-adm-tec" onchange="setFiltroAdmin('tipologia', this.value)" class="w-full border border-gray-200 rounded px-2 py-1 text-xs outline-none text-gray-600 bg-gray-50">
+                                    <option value="Todas">Todas</option>
+                                    <option value="BEV">BEV</option>
+                                    <option value="PHEV">PHEV</option>
+                                    <option value="ICE">ICE</option>
+                                    <option value="M">M</option>
+                                    <option value="QoR">QoR</option>
+                                    <option value="MPA">MPA</option>
+                                </select>
+                            </div>
+                            <div class="w-1/2">
+                                <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">Concessão</label>
+                                <select id="filtro-adm-local" onchange="setFiltroAdmin('local', this.value)" class="w-full border border-gray-200 rounded px-2 py-1 text-xs outline-none text-gray-600 bg-gray-50">
+                                    <option value="Todos">Todos</option>
+                                    <option value="MPA">MPA</option>
+                                    <option value="VNG">VNG</option>
+                                    <option value="Porto">Porto</option>
+                                    <option value="Gaia">Gaia</option>
+                                    <option value="Feira">Feira</option>
+                                    <option value="Aveiro">Aveiro</option>
+                                    <option value="Maia">Maia</option>
+                                    <option value="Matosinhos">Matosinhos</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="p-2 border-b border-gray-100">
                         <button onclick="prepararNovaViatura()" class="w-full bg-bmw hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow-sm transition-colors text-xs flex justify-center items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
@@ -171,7 +217,8 @@
                                         <button type="button" onclick="toggleTecAdmin('MPA')" class="tec-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200">MPA</button>
                                         <button type="button" onclick="toggleTecAdmin('M')" class="tec-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200">M</button>
                                     </div>
-                                    <input type="hidden" id="adm-tec-val"> </div>
+                                    <input type="hidden" id="adm-tec-val"> 
+                                </div>
                             </div>
                         </div>
 
@@ -241,19 +288,21 @@
     </main>
 
     <script>
-        // --- DADOS BASE (Note-se o array na tipologia e a flag 'arquivado') ---
+        // Formatação PT-PT
+        const formatEur = (val) => val.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
+        const formatPerc = (val) => (val * 100).toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
+
         let inventario = [
             {
                 "chassis": "CU94387", "modelo": "iX", "versao": "iX 45e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": ["BEV"], arquivado: false,
                 "inputs": { enc: "8636269", mat: "BS-83-ZH", data_mat: "2024-04-30", pvb: 70725.15, opc: 7121.94, bsi: -534.15, eco: 4.20, leg: 1550, isv: 0, mFixa: 0.08, mVar: 0.06, pac: 0.15, demo: 0, sup: 0, dep: 6227.76, pvp_desc: 84698.53, obs: "Entrega Imediata", fotos: "" }
             },
             {
-                "chassis": "9009639", "modelo": "M", "versao": "XM", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": ["PHEV", "M"], arquivado: false, // Exemplo de Multi-Tecnologia
+                "chassis": "9009639", "modelo": "M", "versao": "XM", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": ["PHEV", "M"], arquivado: false,
                 "inputs": { enc: "4768562", mat: "BT-41-VB", data_mat: "2024-05-30", pvb: 122710.44, opc: 13333.32, bsi: 0, eco: 4.20, leg: 1550, isv: 2649.29, mFixa: 0.10, mVar: 0.06, pac: 0.05, demo: 0.1398, sup: 0, dep: 8162.62, pvp_desc: 141325.25, obs: "Entrega Imediata", fotos: "" }
             }
         ];
 
-        // --- CÁLCULOS EM TEMPO REAL (Intactos) ---
         function calcForm() {
             const pvb = Number(document.getElementById('adm-pvb').value) || 0;
             const opc = Number(document.getElementById('adm-opc').value) || 0;
@@ -278,22 +327,22 @@
                 document.getElementById('adm-idade').value = meses >= 0 ? meses + ' meses' : '0 meses';
             } else { document.getElementById('adm-idade').value = '-'; }
 
-            document.getElementById('adm-penopc').value = pvb > 0 ? ((opc / pvb) * 100).toFixed(1) + '%' : '0%';
+            document.getElementById('adm-penopc').value = pvb > 0 ? formatPerc(opc / pvb) : '0,00 %';
             const baseTributavel = pvb + opc + bsi + eco + leg + isv;
             const pvp = baseTributavel * 1.23;
-            document.getElementById('adm-pvp').value = pvp.toFixed(2) + ' €';
-            document.getElementById('adm-iva').value = (baseTributavel * 0.23).toFixed(2) + ' €';
+            document.getElementById('adm-pvp').value = formatEur(pvp);
+            document.getElementById('adm-iva').value = formatEur(baseTributavel * 0.23);
 
             const descPerc = mFixa + mVar + pac + demo + sup;
-            document.getElementById('adm-descperc').value = (descPerc * 100).toFixed(2) + ' %';
+            document.getElementById('adm-descperc').value = formatPerc(descPerc);
             const descEur = (pvb + opc) * descPerc;
-            document.getElementById('adm-desceur').value = descEur.toFixed(2) + ' €';
+            document.getElementById('adm-desceur').value = formatEur(descEur);
 
             const precoMin = pvp - descEur;
-            document.getElementById('adm-precomin').value = precoMin.toFixed(2) + ' €';
+            document.getElementById('adm-precomin').value = formatEur(precoMin);
             const mg = pvpDesc - precoMin + dep;
-            document.getElementById('adm-mg').value = mg.toFixed(2) + ' €';
-            document.getElementById('adm-siva').value = (pvpDesc / 1.23).toFixed(2) + ' €';
+            document.getElementById('adm-mg').value = formatEur(mg);
+            document.getElementById('adm-siva').value = formatEur(pvpDesc / 1.23);
         }
 
         function carregarPrecosEmDireto() {
@@ -308,15 +357,13 @@
             });
         }
 
-        // --- LÓGICA DE ADMINISTRAÇÃO ---
-        let tecsAtuais = []; // Guarda as tecnologias selecionadas no form
+        let tecsAtuais = []; 
 
         function toggleTecAdmin(tec) {
             const index = tecsAtuais.indexOf(tec);
-            if(index > -1) { tecsAtuais.splice(index, 1); } // Remove se já existir
-            else { tecsAtuais.push(tec); } // Adiciona se não existir
+            if(index > -1) { tecsAtuais.splice(index, 1); } 
+            else { tecsAtuais.push(tec); } 
             
-            // Atualiza botões visuais
             Array.from(document.getElementById('adm-tec-container').children).forEach(btn => {
                 if(tecsAtuais.includes(btn.innerText)) {
                     btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600');
@@ -326,10 +373,34 @@
             });
         }
 
+        // Filtros exclusivos do Painel Admin
+        let filtrosAdmin = { modelo: 'Todos', local: 'Todos', tipologia: 'Todas' };
+
+        function initModeloFiltrosAdmin() {
+            const select = document.getElementById('filtro-adm-modelo');
+            select.innerHTML = '<option value="Todos">Todos</option>';
+            const modelosAtivos = [...new Set(inventario.filter(c => !c.arquivado).map(c => c.modelo))].sort();
+            modelosAtivos.forEach(m => {
+                select.innerHTML += `<option value="${m}">${m}</option>`;
+            });
+        }
+
+        function setFiltroAdmin(tipo, valor) {
+            filtrosAdmin[tipo] = valor;
+            renderizarListaAdmin();
+        }
+
         function renderizarListaAdmin() {
             const lista = document.getElementById('lista-admin-viaturas');
-            // Só renderiza carros que não estão arquivados
-            lista.innerHTML = inventario.filter(c => !c.arquivado).map(c => `
+            const dadosFiltrados = inventario.filter(c => {
+                if(c.arquivado) return false;
+                const mMod = filtrosAdmin.modelo === 'Todos' || c.modelo === filtrosAdmin.modelo;
+                const mLocal = filtrosAdmin.local === 'Todos' || c.local === filtrosAdmin.local;
+                const mTipo = filtrosAdmin.tipologia === 'Todas' || c.tipologia.includes(filtrosAdmin.tipologia);
+                return mMod && mLocal && mTipo;
+            });
+
+            lista.innerHTML = dadosFiltrados.map(c => `
                 <button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-3 rounded-lg border border-gray-100 hover:border-bmw hover:bg-blue-50 transition-colors bg-white shadow-sm flex justify-between items-center">
                     <div><div class="font-bold text-sm text-gray-800">${c.modelo} ${c.versao}</div><div class="text-[10px] text-gray-400 font-mono">${c.chassis}</div></div>
                 </button>
@@ -345,17 +416,15 @@
             document.getElementById('modo-edicao').value = 'novo';
             document.getElementById('form-precos').reset();
             
-            // Desbloqueia o Chassis para criação
             const chassInput = document.getElementById('adm-chassis');
             chassInput.readOnly = false;
             chassInput.classList.remove('bg-gray-100', 'text-gray-500');
             chassInput.classList.add('bg-white');
             
-            // Esconde botão arquivar na criação
             document.getElementById('btn-arquivar').classList.add('hidden');
 
             tecsAtuais = [];
-            toggleTecAdmin(''); // Reseta UI das tecnologias
+            toggleTecAdmin(''); 
             calcForm();
         }
 
@@ -368,13 +437,11 @@
             document.getElementById('titulo-form-admin').innerText = `A Editar: ${c.modelo} ${c.versao}`;
             document.getElementById('modo-edicao').value = 'editar';
 
-            // Bloqueia o Chassis (Primary Key não muda)
             const chassInput = document.getElementById('adm-chassis');
             chassInput.readOnly = true;
             chassInput.classList.add('bg-gray-100', 'text-gray-500');
             chassInput.classList.remove('bg-white');
 
-            // Mostra botão de arquivar
             document.getElementById('btn-arquivar').classList.remove('hidden');
 
             document.getElementById('adm-local').value = c.local;
@@ -385,9 +452,8 @@
             document.getElementById('adm-mat').value = c.inputs.mat;
             document.getElementById('adm-data').value = c.inputs.data_mat;
             
-            // Restaura tecnologias selecionadas
             tecsAtuais = [...c.tipologia];
-            toggleTecAdmin(''); // Força refresh visual dos botões
+            toggleTecAdmin(''); 
             
             document.getElementById('adm-pvb').value = c.inputs.pvb;
             document.getElementById('adm-opc').value = c.inputs.opc;
@@ -419,7 +485,7 @@
         function guardarViatura(e) {
             e.preventDefault();
             const modo = document.getElementById('modo-edicao').value;
-            const chassis = document.getElementById('adm-chassis').value.toUpperCase(); // Força maiúsculas
+            const chassis = document.getElementById('adm-chassis').value.toUpperCase(); 
             
             if(tecsAtuais.length === 0) {
                 alert("Por favor, selecione pelo menos uma Tecnologia (ex: ICE, BEV).");
@@ -428,7 +494,6 @@
 
             let c;
             if (modo === 'novo') {
-                // Verifica se já existe
                 if(inventario.some(x => x.chassis === chassis)) {
                     alert("Já existe uma viatura com este Chassis no sistema."); return;
                 }
@@ -441,7 +506,7 @@
             c.local = document.getElementById('adm-local').value;
             c.modelo = document.getElementById('adm-modelo').value;
             c.versao = document.getElementById('adm-versao').value;
-            c.tipologia = [...tecsAtuais]; // Guarda o Array de selecionados
+            c.tipologia = [...tecsAtuais]; 
             
             c.inputs = {
                 enc: document.getElementById('adm-enc').value,
@@ -466,6 +531,7 @@
 
             carregarPrecosEmDireto();
             aplicarFiltros(); 
+            initModeloFiltrosAdmin(); // Atualiza dropdowns admin caso haja modelo novo
             renderizarListaAdmin();
             cancelarEdicao();
             alert(modo === 'novo' ? 'Nova viatura adicionada com sucesso!' : 'Parâmetros atualizados!');
@@ -475,7 +541,7 @@
             if(confirm("Tem a certeza que quer marcar esta viatura como VENDIDA? Ela deixará de aparecer nas listagens.")) {
                 const chassis = document.getElementById('adm-chassis').value;
                 let c = inventario.find(x => x.chassis === chassis);
-                c.arquivado = true; // "Soft Delete"
+                c.arquivado = true; 
                 
                 carregarPrecosEmDireto();
                 aplicarFiltros(); 
@@ -484,7 +550,6 @@
             }
         }
 
-        // --- FUNÇÕES DA VIEW PARQUE (Atualizadas para Multi-Tecnologia e Carros Ativos) ---
         let filtros = { modelo: 'Todos', local: 'Todos', tipologia: 'Todas' };
         
         function initModeloFiltros() {
@@ -507,10 +572,9 @@
 
         function aplicarFiltros() {
             const res = inventario.filter(c => {
-                if(c.arquivado) return false; // Ignora os vendidos
+                if(c.arquivado) return false; 
                 const mMod = filtros.modelo === 'Todos' || c.modelo === filtros.modelo;
                 const mLocal = filtros.local === 'Todos' || c.local === filtros.local;
-                // Nova Lógica: Verifica se a tipologia escolhida no filtro ESTÁ DENTRO do array de tecnologias do carro
                 const mTipo = filtros.tipologia === 'Todas' || c.tipologia.includes(filtros.tipologia);
                 return mMod && mLocal && mTipo;
             });
@@ -527,8 +591,8 @@
                     <td class="px-6 py-4"><div class="font-bold text-gray-900 leading-tight">${c.modelo} ${c.versao}</div><div class="text-[10px] font-mono text-gray-400 mt-1">${c.chassis}</div></td>
                     <td class="px-6 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold">${c.local}</span></td>
                     <td class="px-6 py-4 text-xs text-gray-500">${c.estado_entrega}</td>
-                    <td class="px-6 py-4 text-right text-xs text-gray-400 italic">${c.pvp_bruto ? c.pvp_bruto.toLocaleString('pt-PT', {minimumFractionDigits: 2})+'€' : 'N/A'}</td>
-                    <td class="px-6 py-4 text-right font-black text-bmw text-base">${c.pvp_final.toLocaleString('pt-PT', {minimumFractionDigits: 2})}€</td>
+                    <td class="px-6 py-4 text-right text-xs text-gray-400 italic">${c.pvp_bruto ? formatEur(c.pvp_bruto) : 'N/A'}</td>
+                    <td class="px-6 py-4 text-right font-black text-bmw text-base">${formatEur(c.pvp_final)}</td>
                 </tr>
             `).join('');
 
@@ -541,8 +605,8 @@
                     </div>
                     <div class="text-xs text-gray-500 mb-6 font-medium flex items-center"><span class="w-2.5 h-2.5 rounded-full ${c.estado_entrega.toLowerCase().includes('imediata') ? 'bg-green-500' : 'bg-gray-300'} mr-2"></span> ${c.estado_entrega}</div>
                     <div class="flex justify-between items-end pt-4 border-t border-gray-100">
-                        <div class="text-[10px] text-gray-400 font-bold">PVP Base<br><span class="text-xs italic mt-1 inline-block">${c.pvp_bruto ? c.pvp_bruto.toLocaleString('pt-PT', {minimumFractionDigits: 2})+'€' : 'N/A'}</span></div>
-                        <div class="text-right text-[10px] text-bmw font-bold">PVP FINAL (NET)<br><span class="text-xl font-black mt-1 inline-block">${c.pvp_final.toLocaleString('pt-PT', {minimumFractionDigits: 2})}€</span></div>
+                        <div class="text-[10px] text-gray-400 font-bold">PVP Base<br><span class="text-xs italic mt-1 inline-block">${c.pvp_bruto ? formatEur(c.pvp_bruto) : 'N/A'}</span></div>
+                        <div class="text-right text-[10px] text-bmw font-bold">PVP FINAL (NET)<br><span class="text-xl font-black mt-1 inline-block">${formatEur(c.pvp_final)}</span></div>
                     </div>
                 </div>
             `).join('');
@@ -556,17 +620,25 @@
         }
 
         function mudarTab(t) {
-            ['parque', 'especificacoes', 'admin'].forEach(x => document.getElementById(`conteudo-${x}`).style.display = t === x ? 'block' : 'none');
-            const a = 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-bmw text-bmw';
-            const i = 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-gray-600';
+            ['parque', 'especificacoes', 'admin-vn', 'admin-vu'].forEach(x => {
+                const el = document.getElementById(`conteudo-${x}`);
+                if(el) el.style.display = t === x ? 'block' : 'none';
+            });
+            const a = 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-bmw text-bmw whitespace-nowrap';
+            const i = 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-gray-600 whitespace-nowrap';
+            const aAdmin = 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-orange-500 text-orange-500 whitespace-nowrap';
+            const iAdmin = 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-orange-500 whitespace-nowrap';
+            
             document.getElementById('tab-parque').className = t === 'parque' ? a : i;
             document.getElementById('tab-especificacoes').className = t === 'especificacoes' ? a : i;
-            document.getElementById('tab-admin').className = t === 'admin' ? 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-orange-500 text-orange-500 ml-auto' : 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-orange-500 ml-auto';
+            document.getElementById('tab-admin-vn').className = t === 'admin-vn' ? aAdmin : iAdmin;
+            document.getElementById('tab-admin-vu').className = t === 'admin-vu' ? aAdmin : iAdmin;
         }
 
         window.onload = () => {
             carregarPrecosEmDireto();
             initModeloFiltros();
+            initModeloFiltrosAdmin();
             renderizarListaAdmin();
             aplicarFiltros();
         };
