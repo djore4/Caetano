@@ -41,6 +41,7 @@
                 <button onclick="mudarTab('especificacoes')" id="tab-especificacoes" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-gray-600 whitespace-nowrap">Especificações</button>
                 
                 <div class="ml-auto flex space-x-2 sm:space-x-4">
+                    <button onclick="mudarTab('historico')" id="tab-historico" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-blue-500 whitespace-nowrap">📋 Histórico</button>
                     <button onclick="mudarTab('admin-vn')" id="tab-admin-vn" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-orange-500 whitespace-nowrap">⚙️ Gestão VN</button>
                     <button onclick="mudarTab('admin-vu')" id="tab-admin-vu" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-orange-500 whitespace-nowrap">⚙️ Gestão VU</button>
                 </div>
@@ -96,7 +97,7 @@
                         <table class="min-w-full divide-y divide-gray-100">
                             <thead class="bg-gray-50/50 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                                 <tr>
-                                    <th class="px-4 sm:px-6 py-4 text-left whitespace-nowrap">Viatura / Chassis</th>
+                                    <th class="px-4 sm:px-6 py-4 text-left whitespace-nowrap">Viatura / Matrícula</th>
                                     <th class="px-4 sm:px-6 py-4 text-center whitespace-nowrap">Local</th>
                                     <th class="px-4 sm:px-6 py-4 text-left whitespace-nowrap">Observações</th>
                                     <th class="px-4 sm:px-6 py-4 text-right whitespace-nowrap">PVP Base</th>
@@ -122,6 +123,36 @@
         <div id="conteudo-admin-vu" class="hidden">
             <div class="flex items-center justify-center h-96 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
                 <p class="text-gray-400 font-bold uppercase tracking-widest italic text-center px-4">Módulo de Gestão VU em Desenvolvimento</p>
+            </div>
+        </div>
+
+        <div id="conteudo-historico" class="hidden">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6 h-auto lg:h-[750px] flex flex-col">
+                <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
+                    <div>
+                        <h2 class="text-xl font-black text-gray-800">Feed de Alterações</h2>
+                        <p class="text-[10px] text-gray-400 uppercase tracking-widest mt-1">Registo de toda a atividade na plataforma</p>
+                    </div>
+                    <button onclick="descarregarHistorico()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 font-bold py-2 px-4 rounded-lg shadow-sm transition-colors text-xs flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        <span class="hidden sm:inline">Descarregar CSV</span>
+                    </button>
+                </div>
+                
+                <div class="overflow-x-auto overflow-y-auto no-scrollbar flex-1">
+                    <table class="min-w-full divide-y divide-gray-100">
+                        <thead class="bg-gray-50/50 text-[10px] font-bold text-gray-400 uppercase tracking-widest sticky top-0">
+                            <tr>
+                                <th class="px-4 py-3 text-left">Data/Hora</th>
+                                <th class="px-4 py-3 text-left">Ação</th>
+                                <th class="px-4 py-3 text-left">Viatura</th>
+                                <th class="px-4 py-3 text-left w-1/2">Detalhes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="feed-corpo" class="divide-y divide-gray-100 text-xs text-gray-700">
+                            </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -279,9 +310,58 @@
     </main>
 
     <script>
+        // Formatação PT-PT
         const formatEur = (val) => val.toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
         const formatPerc = (val) => (val * 100).toLocaleString('pt-PT', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' %';
 
+        // --- HISTÓRICO / LOGS ---
+        let historicoLog = [
+            { data: new Date().toLocaleString('pt-PT'), acao: 'Sistema', viatura: 'Geral', detalhes: 'Início da sessão de gestão' }
+        ];
+
+        function registarLog(acao, viatura, detalhes) {
+            const dataHora = new Date().toLocaleString('pt-PT');
+            historicoLog.unshift({ data: dataHora, acao, viatura, detalhes }); // unshift mete no topo da lista
+            renderizarFeed();
+        }
+
+        function renderizarFeed() {
+            const corpo = document.getElementById('feed-corpo');
+            if(!corpo) return;
+            corpo.innerHTML = historicoLog.map(log => {
+                let corAcao = 'text-gray-600';
+                if(log.acao === 'Criação') corAcao = 'text-green-600 font-bold';
+                if(log.acao === 'Edição') corAcao = 'text-orange-500 font-bold';
+                if(log.acao === 'Arquivo') corAcao = 'text-red-600 font-bold';
+                
+                return `
+                <tr class="hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 whitespace-nowrap text-[11px] font-mono text-gray-500">${log.data}</td>
+                    <td class="px-4 py-3 whitespace-nowrap <span class='${corAcao}'>${log.acao}</span></td>
+                    <td class="px-4 py-3 whitespace-nowrap font-bold">${log.viatura}</td>
+                    <td class="px-4 py-3 text-gray-500">${log.detalhes}</td>
+                </tr>
+                `;
+            }).join('');
+        }
+
+        function descarregarHistorico() {
+            let csvContent = "\uFEFFData/Hora;Ação;Viatura;Detalhes\n"; // \uFEFF força o Excel a ler em UTF-8 (acentos pt-pt)
+            historicoLog.forEach(row => {
+                csvContent += `"${row.data}";"${row.acao}";"${row.viatura}";"${row.detalhes}"\n`;
+            });
+
+            const encodedUri = "data:text/csv;charset=utf-8," + encodeURIComponent(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "historico_alteracoes_parque.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+
+        // --- DADOS ---
         let inventario = [
             {
                 "chassis": "CU94387", "modelo": "iX", "versao": "iX 45e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": ["BEV"], arquivado: false,
@@ -400,11 +480,18 @@
                 return mMod && mLocal && mTipo;
             });
 
-            lista.innerHTML = dadosFiltrados.map(c => `
+            lista.innerHTML = dadosFiltrados.map(c => {
+                // SE TIVER MATRICULA MOSTRA A MATRICULA. SE NÃO, MOSTRA CHASSIS.
+                const identificadorPrimario = c.inputs.mat ? c.inputs.mat : c.chassis;
+                return `
                 <button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-3 rounded-lg border border-gray-100 hover:border-bmw hover:bg-blue-50 transition-colors bg-white shadow-sm flex justify-between items-center">
-                    <div><div class="font-bold text-sm text-gray-800">${c.modelo} ${c.versao}</div><div class="text-[10px] text-gray-400 font-mono">${c.chassis}</div></div>
+                    <div>
+                        <div class="font-bold text-sm text-gray-800">${c.modelo} ${c.versao}</div>
+                        <div class="text-[10px] text-gray-500 font-mono font-bold tracking-widest mt-1">${identificadorPrimario}</div>
+                    </div>
                 </button>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function prepararNovaViatura() {
@@ -489,6 +576,7 @@
             e.preventDefault();
             const modo = document.getElementById('modo-edicao').value;
             const chassis = document.getElementById('adm-chassis').value.toUpperCase(); 
+            const mat = document.getElementById('adm-mat').value.toUpperCase(); 
             
             if(tecsAtuais.length === 0) {
                 alert("Por favor, selecione pelo menos uma Tecnologia (ex: ICE, BEV).");
@@ -502,8 +590,10 @@
                 }
                 c = { chassis: chassis, arquivado: false, inputs: {} };
                 inventario.push(c);
+                registarLog('Criação', mat || chassis, `Viatura ${document.getElementById('adm-modelo').value} adicionada ao parque.`);
             } else {
                 c = inventario.find(x => x.chassis === chassis);
+                registarLog('Edição', c.inputs.mat || c.chassis, `Parâmetros de preço atualizados para a viatura.`);
             }
 
             c.local = document.getElementById('adm-local').value;
@@ -513,7 +603,7 @@
             
             c.inputs = {
                 enc: document.getElementById('adm-enc').value,
-                mat: document.getElementById('adm-mat').value.toUpperCase(),
+                mat: mat,
                 data_mat: document.getElementById('adm-data').value,
                 pvb: Number(document.getElementById('adm-pvb').value),
                 opc: Number(document.getElementById('adm-opc').value),
@@ -546,6 +636,8 @@
                 let c = inventario.find(x => x.chassis === chassis);
                 c.arquivado = true; 
                 
+                registarLog('Arquivo', c.inputs.mat || c.chassis, 'Viatura marcada como vendida e arquivada.');
+
                 carregarPrecosEmDireto();
                 aplicarFiltros(); 
                 renderizarListaAdmin();
@@ -589,21 +681,26 @@
             document.getElementById('dados-viaturas').classList.toggle('hidden', dados.length === 0);
             document.getElementById('sem-resultados').classList.toggle('hidden', dados.length > 0);
             
-            document.getElementById('tabela-corpo').innerHTML = dados.map(c => `
+            document.getElementById('tabela-corpo').innerHTML = dados.map(c => {
+                const matDisplay = c.inputs.mat ? c.inputs.mat : c.chassis;
+                return `
                 <tr class="hover:bg-blue-50/40 border-b border-gray-50">
-                    <td class="px-4 sm:px-6 py-4"><div class="font-bold text-gray-900 leading-tight whitespace-nowrap">${c.modelo} ${c.versao}</div><div class="text-[10px] font-mono text-gray-400 mt-1 whitespace-nowrap">${c.chassis}</div></td>
+                    <td class="px-4 sm:px-6 py-4"><div class="font-bold text-gray-900 leading-tight whitespace-nowrap">${c.modelo} ${c.versao}</div><div class="text-[10px] font-mono text-gray-400 font-bold mt-1 whitespace-nowrap">${matDisplay}</div></td>
                     <td class="px-4 sm:px-6 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold">${c.local}</span></td>
                     <td class="px-4 sm:px-6 py-4 text-xs text-gray-500 whitespace-nowrap">${c.estado_entrega}</td>
                     <td class="px-4 sm:px-6 py-4 text-right text-xs text-gray-400 italic whitespace-nowrap">${c.pvp_bruto ? formatEur(c.pvp_bruto) : 'N/A'}</td>
                     <td class="px-4 sm:px-6 py-4 text-right font-black text-bmw text-base whitespace-nowrap">${formatEur(c.pvp_final)}</td>
                 </tr>
-            `).join('');
+                `;
+            }).join('');
 
-            document.getElementById('vista-cartoes').innerHTML = dados.map(c => `
+            document.getElementById('vista-cartoes').innerHTML = dados.map(c => {
+                const matDisplay = c.inputs.mat ? c.inputs.mat : c.chassis;
+                return `
                 <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-1 h-full bg-bmw"></div>
                     <div class="flex justify-between items-start mb-4">
-                        <div><div class="text-lg font-black leading-none">${c.modelo} ${c.versao}</div><div class="text-[10px] font-mono text-gray-400 mt-1">${c.chassis}</div></div>
+                        <div><div class="text-lg font-black leading-none">${c.modelo} ${c.versao}</div><div class="text-[10px] font-mono font-bold text-gray-400 mt-1">${matDisplay}</div></div>
                         <span class="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-1 rounded">${c.local}</span>
                     </div>
                     <div class="text-xs text-gray-500 mb-6 font-medium flex items-center"><span class="w-2.5 h-2.5 rounded-full ${c.estado_entrega.toLowerCase().includes('imediata') ? 'bg-green-500' : 'bg-gray-300'} mr-2"></span> ${c.estado_entrega}</div>
@@ -612,7 +709,8 @@
                         <div class="text-right text-[10px] text-bmw font-bold">PVP FINAL (NET)<br><span class="text-xl font-black mt-1 inline-block">${formatEur(c.pvp_final)}</span></div>
                     </div>
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function mudarVista(v) {
@@ -623,17 +721,20 @@
         }
 
         function mudarTab(t) {
-            ['parque', 'especificacoes', 'admin-vn', 'admin-vu'].forEach(x => {
+            ['parque', 'especificacoes', 'historico', 'admin-vn', 'admin-vu'].forEach(x => {
                 const el = document.getElementById(`conteudo-${x}`);
                 if(el) el.style.display = t === x ? 'block' : 'none';
             });
             const a = 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-bmw text-bmw whitespace-nowrap';
             const i = 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-gray-600 whitespace-nowrap';
+            const aHist = 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-blue-500 text-blue-500 whitespace-nowrap';
+            const iHist = 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-blue-500 whitespace-nowrap';
             const aAdmin = 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-orange-500 text-orange-500 whitespace-nowrap';
             const iAdmin = 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-orange-500 whitespace-nowrap';
             
             document.getElementById('tab-parque').className = t === 'parque' ? a : i;
             document.getElementById('tab-especificacoes').className = t === 'especificacoes' ? a : i;
+            document.getElementById('tab-historico').className = t === 'historico' ? aHist : iHist;
             document.getElementById('tab-admin-vn').className = t === 'admin-vn' ? aAdmin : iAdmin;
             document.getElementById('tab-admin-vu').className = t === 'admin-vu' ? aAdmin : iAdmin;
         }
@@ -643,6 +744,7 @@
             initModeloFiltros();
             initModeloFiltrosAdmin();
             renderizarListaAdmin();
+            renderizarFeed();
             aplicarFiltros();
         };
     </script>
