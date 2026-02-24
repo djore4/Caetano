@@ -10,9 +10,9 @@
     </script>
     <style>
         .filter-btn.active { background-color: #0066B1; color: white; border-color: #0066B1; }
+        .tec-btn.active { background-color: #0066B1; color: white; border-color: #0066B1; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        /* Estilos para os campos calculados automaticamente */
         .campo-calc { background-color: #f8fafc; font-weight: bold; color: #0f172a; border-color: #e2e8f0; }
     </style>
 </head>
@@ -118,44 +118,60 @@
             <div class="flex flex-col lg:flex-row gap-6">
                 
                 <div class="w-full lg:w-1/4 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[750px]">
-                    <div class="p-4 border-b border-gray-100 bg-gray-50">
+                    <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
                         <h2 class="font-bold text-gray-700 text-sm uppercase tracking-widest">Inventário</h2>
+                    </div>
+                    <div class="p-2 border-b border-gray-100">
+                        <button onclick="prepararNovaViatura()" class="w-full bg-bmw hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow-sm transition-colors text-xs flex justify-center items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                            Nova Viatura
+                        </button>
                     </div>
                     <div class="overflow-y-auto p-2 space-y-2 flex-1 no-scrollbar" id="lista-admin-viaturas"></div>
                 </div>
 
                 <div class="w-full lg:w-3/4 bg-white border border-gray-200 rounded-xl shadow-sm p-6" id="painel-edicao-vazio">
-                    <div class="flex items-center justify-center h-full"><p class="text-gray-400 font-medium">Selecione uma viatura para gerir os preços.</p></div>
+                    <div class="flex items-center justify-center h-full"><p class="text-gray-400 font-medium">Selecione uma viatura ou adicione uma nova.</p></div>
                 </div>
 
                 <div class="w-full lg:w-3/4 bg-white border border-gray-200 rounded-xl shadow-sm p-6 hidden flex-col h-[750px] overflow-y-auto no-scrollbar" id="painel-edicao-form">
-                    <form id="form-precos" onsubmit="guardarPrecos(event)" class="space-y-8">
+                    <div class="flex justify-between items-center mb-4 border-b border-gray-100 pb-2">
+                        <h2 class="text-xl font-black text-gray-800" id="titulo-form-admin">A Editar Viatura</h2>
+                    </div>
+
+                    <form id="form-precos" onsubmit="guardarViatura(event)" class="space-y-8">
+                        <input type="hidden" id="modo-edicao" value="editar">
                         
                         <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
                             <h3 class="text-xs font-bold text-bmw uppercase tracking-widest mb-4">1. Identificação da Viatura</h3>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1">LOCAL</label>
-                                    <select id="adm-local" class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none">
+                                    <select id="adm-local" required class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none">
                                         <option value="Porto">Porto</option><option value="Gaia">Gaia</option>
                                         <option value="Feira">Feira</option><option value="Aveiro">Aveiro</option>
                                         <option value="Maia">Maia</option><option value="Matosinhos">Matosinhos</option>
                                         <option value="MPA">MPA</option><option value="VNG">VNG</option>
                                     </select>
                                 </div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MODELO</label><input type="text" id="adm-modelo" class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">VERSÃO</label><input type="text" id="adm-versao" class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MODELO</label><input type="text" id="adm-modelo" required class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">VERSÃO</label><input type="text" id="adm-versao" required class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ENC</label><input type="text" id="adm-enc" class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">CHASSIS</label><input type="text" id="adm-chassis" readonly class="w-full border border-gray-200 bg-gray-100 rounded px-2 py-1.5 text-xs font-mono text-gray-500 outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">CHASSIS (ID Único)</label><input type="text" id="adm-chassis" required class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs font-mono outline-none uppercase placeholder-gray-300"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MATRÍCULA</label><input type="text" id="adm-mat" class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none uppercase"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1">DATA MAT.</label><input type="date" id="adm-data" onchange="calcForm()" class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1">IDADE (Auto)</label><input type="text" id="adm-idade" readonly class="w-full rounded px-2 py-1.5 text-xs campo-calc text-blue-600"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">TECNOLOGIA</label>
-                                    <select id="adm-tec" class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none">
-                                        <option value="ICE">ICE</option><option value="xEV">xEV</option>
-                                        <option value="BEV">BEV</option><option value="QoR">QoR</option>
-                                        <option value="MPA">MPA</option><option value="M">M</option>
-                                    </select>
-                                </div>
+                                
+                                <div class="col-span-4 mt-2">
+                                    <label class="block text-[10px] font-bold text-gray-500 mb-2">TECNOLOGIA (Multi-seleção)</label>
+                                    <div class="flex flex-wrap gap-2" id="adm-tec-container">
+                                        <button type="button" onclick="toggleTecAdmin('ICE')" class="tec-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200">ICE</button>
+                                        <button type="button" onclick="toggleTecAdmin('xEV')" class="tec-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200">xEV</button>
+                                        <button type="button" onclick="toggleTecAdmin('BEV')" class="tec-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200">BEV</button>
+                                        <button type="button" onclick="toggleTecAdmin('QoR')" class="tec-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200">QoR</button>
+                                        <button type="button" onclick="toggleTecAdmin('MPA')" class="tec-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200">MPA</button>
+                                        <button type="button" onclick="toggleTecAdmin('M')" class="tec-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200">M</button>
+                                    </div>
+                                    <input type="hidden" id="adm-tec-val"> </div>
                             </div>
                         </div>
 
@@ -203,14 +219,20 @@
                             </div>
                             <div class="mt-4 grid grid-cols-2 gap-4">
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1">FOTOS (URL)</label><input type="text" id="adm-fotos" class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">OBSERVAÇÕES</label><input type="text" id="adm-obs" class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">OBSERVAÇÕES (Ex: Entrega Imediata)</label><input type="text" id="adm-obs" required class="w-full border border-gray-300 rounded px-2 py-1.5 text-xs outline-none"></div>
                             </div>
                         </div>
 
-                        <div class="pt-2 border-t border-gray-100 flex justify-end">
-                            <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow-sm transition-colors focus:outline-none">
-                                Guardar Preço na Base de Dados
+                        <div class="pt-4 border-t border-gray-100 flex justify-between items-center">
+                            <button type="button" id="btn-arquivar" onclick="arquivarViatura()" class="bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold py-2 px-4 rounded-lg shadow-sm transition-colors focus:outline-none text-sm hidden">
+                                🔒 Arquivar / Vendido
                             </button>
+                            <div class="ml-auto flex gap-4">
+                                <button type="button" onclick="cancelarEdicao()" class="text-gray-500 hover:text-gray-700 text-sm font-bold">Cancelar</button>
+                                <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-8 rounded-lg shadow-sm transition-colors focus:outline-none">
+                                    Guardar Viatura
+                                </button>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -219,27 +241,19 @@
     </main>
 
     <script>
-        // --- DADOS COM AS NOVAS RUBRICAS ---
+        // --- DADOS BASE (Note-se o array na tipologia e a flag 'arquivado') ---
         let inventario = [
             {
-                "chassis": "CU94387", "modelo": "iX", "versao": "iX 45e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV",
-                "inputs": { 
-                    enc: "8636269", mat: "BS-83-ZH", data_mat: "2024-04-30", pvb: 70725.15, opc: 7121.94, bsi: -534.15, eco: 4.20, leg: 1550, isv: 0, 
-                    mFixa: 0.08, mVar: 0.06, pac: 0.15, demo: 0, sup: 0, 
-                    dep: 6227.76, pvp_desc: 84698.53, obs: "Entrega Imediata", fotos: ""
-                }
+                "chassis": "CU94387", "modelo": "iX", "versao": "iX 45e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": ["BEV"], arquivado: false,
+                "inputs": { enc: "8636269", mat: "BS-83-ZH", data_mat: "2024-04-30", pvb: 70725.15, opc: 7121.94, bsi: -534.15, eco: 4.20, leg: 1550, isv: 0, mFixa: 0.08, mVar: 0.06, pac: 0.15, demo: 0, sup: 0, dep: 6227.76, pvp_desc: 84698.53, obs: "Entrega Imediata", fotos: "" }
             },
             {
-                "chassis": "CW43657", "modelo": "iX", "versao": "iX 45e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV",
-                "inputs": { 
-                    enc: "8272517", mat: "BZ-66-NU", data_mat: "2024-10-23", pvb: 70725.15, opc: 10577.23, bsi: 0, eco: 4.20, leg: 1550, isv: 0, 
-                    mFixa: 0.08, mVar: 0.06, pac: 0.10, demo: 0, sup: 0, 
-                    dep: 0, pvp_desc: 82990.00, obs: "Campanha Fim de Ano", fotos: ""
-                }
+                "chassis": "9009639", "modelo": "M", "versao": "XM", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": ["PHEV", "M"], arquivado: false, // Exemplo de Multi-Tecnologia
+                "inputs": { enc: "4768562", mat: "BT-41-VB", data_mat: "2024-05-30", pvb: 122710.44, opc: 13333.32, bsi: 0, eco: 4.20, leg: 1550, isv: 2649.29, mFixa: 0.10, mVar: 0.06, pac: 0.05, demo: 0.1398, sup: 0, dep: 8162.62, pvp_desc: 141325.25, obs: "Entrega Imediata", fotos: "" }
             }
         ];
 
-        // --- CÁLCULOS (Fiéis à Sheet1 do teu Excel) ---
+        // --- CÁLCULOS EM TEMPO REAL (Intactos) ---
         function calcForm() {
             const pvb = Number(document.getElementById('adm-pvb').value) || 0;
             const opc = Number(document.getElementById('adm-opc').value) || 0;
@@ -258,27 +272,23 @@
             const pvpDesc = Number(document.getElementById('adm-pvpdesc').value) || 0;
             const dataStr = document.getElementById('adm-data').value;
 
-            // Idade Automática
             if (dataStr) {
                 const dMat = new Date(dataStr), hoje = new Date();
                 const meses = (hoje.getFullYear() - dMat.getFullYear()) * 12 + (hoje.getMonth() - dMat.getMonth());
                 document.getElementById('adm-idade').value = meses >= 0 ? meses + ' meses' : '0 meses';
             } else { document.getElementById('adm-idade').value = '-'; }
 
-            // Preço Base e Impostos
             document.getElementById('adm-penopc').value = pvb > 0 ? ((opc / pvb) * 100).toFixed(1) + '%' : '0%';
             const baseTributavel = pvb + opc + bsi + eco + leg + isv;
             const pvp = baseTributavel * 1.23;
             document.getElementById('adm-pvp').value = pvp.toFixed(2) + ' €';
             document.getElementById('adm-iva').value = (baseTributavel * 0.23).toFixed(2) + ' €';
 
-            // Margens
             const descPerc = mFixa + mVar + pac + demo + sup;
             document.getElementById('adm-descperc').value = (descPerc * 100).toFixed(2) + ' %';
             const descEur = (pvb + opc) * descPerc;
             document.getElementById('adm-desceur').value = descEur.toFixed(2) + ' €';
 
-            // Fecho e Margem (MG)
             const precoMin = pvp - descEur;
             document.getElementById('adm-precomin').value = precoMin.toFixed(2) + ' €';
             const mg = pvpDesc - precoMin + dep;
@@ -286,26 +296,67 @@
             document.getElementById('adm-siva').value = (pvpDesc / 1.23).toFixed(2) + ' €';
         }
 
-        // --- INTEGRAÇÃO COM A INTERFACE ---
         function carregarPrecosEmDireto() {
             inventario.forEach(carro => {
                 const inps = carro.inputs;
                 if(inps) {
                     const baseTrib = inps.pvb + inps.opc + inps.bsi + inps.eco + inps.leg + inps.isv;
                     carro.pvp_bruto = baseTrib * 1.23;
-                    carro.pvp_final = inps.pvp_desc; // O comercial vê o valor exato que tu inseriste
+                    carro.pvp_final = inps.pvp_desc;
                     carro.estado_entrega = inps.obs || carro.estado_entrega;
+                }
+            });
+        }
+
+        // --- LÓGICA DE ADMINISTRAÇÃO ---
+        let tecsAtuais = []; // Guarda as tecnologias selecionadas no form
+
+        function toggleTecAdmin(tec) {
+            const index = tecsAtuais.indexOf(tec);
+            if(index > -1) { tecsAtuais.splice(index, 1); } // Remove se já existir
+            else { tecsAtuais.push(tec); } // Adiciona se não existir
+            
+            // Atualiza botões visuais
+            Array.from(document.getElementById('adm-tec-container').children).forEach(btn => {
+                if(tecsAtuais.includes(btn.innerText)) {
+                    btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600');
+                } else {
+                    btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600');
                 }
             });
         }
 
         function renderizarListaAdmin() {
             const lista = document.getElementById('lista-admin-viaturas');
-            lista.innerHTML = inventario.map(c => `
+            // Só renderiza carros que não estão arquivados
+            lista.innerHTML = inventario.filter(c => !c.arquivado).map(c => `
                 <button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-3 rounded-lg border border-gray-100 hover:border-bmw hover:bg-blue-50 transition-colors bg-white shadow-sm flex justify-between items-center">
                     <div><div class="font-bold text-sm text-gray-800">${c.modelo} ${c.versao}</div><div class="text-[10px] text-gray-400 font-mono">${c.chassis}</div></div>
                 </button>
             `).join('');
+        }
+
+        function prepararNovaViatura() {
+            document.getElementById('painel-edicao-vazio').classList.add('hidden');
+            document.getElementById('painel-edicao-form').classList.remove('hidden');
+            document.getElementById('painel-edicao-form').classList.add('flex');
+            
+            document.getElementById('titulo-form-admin').innerText = 'Adicionar Nova Viatura';
+            document.getElementById('modo-edicao').value = 'novo';
+            document.getElementById('form-precos').reset();
+            
+            // Desbloqueia o Chassis para criação
+            const chassInput = document.getElementById('adm-chassis');
+            chassInput.readOnly = false;
+            chassInput.classList.remove('bg-gray-100', 'text-gray-500');
+            chassInput.classList.add('bg-white');
+            
+            // Esconde botão arquivar na criação
+            document.getElementById('btn-arquivar').classList.add('hidden');
+
+            tecsAtuais = [];
+            toggleTecAdmin(''); // Reseta UI das tecnologias
+            calcForm();
         }
 
         function abrirEdicao(chassis) {
@@ -314,6 +365,18 @@
             document.getElementById('painel-edicao-form').classList.remove('hidden');
             document.getElementById('painel-edicao-form').classList.add('flex');
 
+            document.getElementById('titulo-form-admin').innerText = `A Editar: ${c.modelo} ${c.versao}`;
+            document.getElementById('modo-edicao').value = 'editar';
+
+            // Bloqueia o Chassis (Primary Key não muda)
+            const chassInput = document.getElementById('adm-chassis');
+            chassInput.readOnly = true;
+            chassInput.classList.add('bg-gray-100', 'text-gray-500');
+            chassInput.classList.remove('bg-white');
+
+            // Mostra botão de arquivar
+            document.getElementById('btn-arquivar').classList.remove('hidden');
+
             document.getElementById('adm-local').value = c.local;
             document.getElementById('adm-modelo').value = c.modelo;
             document.getElementById('adm-versao').value = c.versao;
@@ -321,7 +384,10 @@
             document.getElementById('adm-chassis').value = c.chassis;
             document.getElementById('adm-mat').value = c.inputs.mat;
             document.getElementById('adm-data').value = c.inputs.data_mat;
-            document.getElementById('adm-tec').value = c.tipologia;
+            
+            // Restaura tecnologias selecionadas
+            tecsAtuais = [...c.tipologia];
+            toggleTecAdmin(''); // Força refresh visual dos botões
             
             document.getElementById('adm-pvb').value = c.inputs.pvb;
             document.getElementById('adm-opc').value = c.inputs.opc;
@@ -341,22 +407,45 @@
             document.getElementById('adm-obs').value = c.inputs.obs;
             document.getElementById('adm-fotos').value = c.inputs.fotos;
 
-            calcForm(); // Dispara a matemática instantânea
+            calcForm();
         }
 
-        function guardarPrecos(e) {
+        function cancelarEdicao() {
+            document.getElementById('painel-edicao-form').classList.add('hidden');
+            document.getElementById('painel-edicao-form').classList.remove('flex');
+            document.getElementById('painel-edicao-vazio').classList.remove('hidden');
+        }
+
+        function guardarViatura(e) {
             e.preventDefault();
-            const chassis = document.getElementById('adm-chassis').value;
-            let c = inventario.find(x => x.chassis === chassis);
+            const modo = document.getElementById('modo-edicao').value;
+            const chassis = document.getElementById('adm-chassis').value.toUpperCase(); // Força maiúsculas
+            
+            if(tecsAtuais.length === 0) {
+                alert("Por favor, selecione pelo menos uma Tecnologia (ex: ICE, BEV).");
+                return;
+            }
+
+            let c;
+            if (modo === 'novo') {
+                // Verifica se já existe
+                if(inventario.some(x => x.chassis === chassis)) {
+                    alert("Já existe uma viatura com este Chassis no sistema."); return;
+                }
+                c = { chassis: chassis, arquivado: false, inputs: {} };
+                inventario.push(c);
+            } else {
+                c = inventario.find(x => x.chassis === chassis);
+            }
 
             c.local = document.getElementById('adm-local').value;
             c.modelo = document.getElementById('adm-modelo').value;
             c.versao = document.getElementById('adm-versao').value;
-            c.tipologia = document.getElementById('adm-tec').value;
+            c.tipologia = [...tecsAtuais]; // Guarda o Array de selecionados
             
             c.inputs = {
                 enc: document.getElementById('adm-enc').value,
-                mat: document.getElementById('adm-mat').value,
+                mat: document.getElementById('adm-mat').value.toUpperCase(),
                 data_mat: document.getElementById('adm-data').value,
                 pvb: Number(document.getElementById('adm-pvb').value),
                 opc: Number(document.getElementById('adm-opc').value),
@@ -377,18 +466,36 @@
 
             carregarPrecosEmDireto();
             aplicarFiltros(); 
-            alert('Parâmetros gravados! Margem e Preços atualizados em toda a plataforma.');
+            renderizarListaAdmin();
+            cancelarEdicao();
+            alert(modo === 'novo' ? 'Nova viatura adicionada com sucesso!' : 'Parâmetros atualizados!');
         }
 
-        // Funções da View Parque (Intactas)
+        function arquivarViatura() {
+            if(confirm("Tem a certeza que quer marcar esta viatura como VENDIDA? Ela deixará de aparecer nas listagens.")) {
+                const chassis = document.getElementById('adm-chassis').value;
+                let c = inventario.find(x => x.chassis === chassis);
+                c.arquivado = true; // "Soft Delete"
+                
+                carregarPrecosEmDireto();
+                aplicarFiltros(); 
+                renderizarListaAdmin();
+                cancelarEdicao();
+            }
+        }
+
+        // --- FUNÇÕES DA VIEW PARQUE (Atualizadas para Multi-Tecnologia e Carros Ativos) ---
         let filtros = { modelo: 'Todos', local: 'Todos', tipologia: 'Todas' };
+        
         function initModeloFiltros() {
             const container = document.getElementById('filtro-modelo-container');
             container.innerHTML = '<button onclick="setFiltro(\'modelo\', \'Todos\')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all shadow-sm">Todos</button>';
-            [...new Set(inventario.map(c => c.modelo))].sort().forEach(m => {
+            const modelosAtivos = [...new Set(inventario.filter(c => !c.arquivado).map(c => c.modelo))].sort();
+            modelosAtivos.forEach(m => {
                 container.innerHTML += `<button onclick="setFiltro('modelo', '${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">${m}</button>`;
             });
         }
+
         function setFiltro(tipo, valor) {
             filtros[tipo] = valor;
             Array.from(document.getElementById(`filtro-${tipo}-container`).children).forEach(btn => {
@@ -397,11 +504,20 @@
             });
             aplicarFiltros();
         }
+
         function aplicarFiltros() {
-            const res = inventario.filter(c => (filtros.modelo === 'Todos' || c.modelo === filtros.modelo) && (filtros.local === 'Todos' || c.local === filtros.local) && (filtros.tipologia === 'Todas' || c.tipologia === filtros.tipologia));
+            const res = inventario.filter(c => {
+                if(c.arquivado) return false; // Ignora os vendidos
+                const mMod = filtros.modelo === 'Todos' || c.modelo === filtros.modelo;
+                const mLocal = filtros.local === 'Todos' || c.local === filtros.local;
+                // Nova Lógica: Verifica se a tipologia escolhida no filtro ESTÁ DENTRO do array de tecnologias do carro
+                const mTipo = filtros.tipologia === 'Todas' || c.tipologia.includes(filtros.tipologia);
+                return mMod && mLocal && mTipo;
+            });
             document.getElementById('num-resultados').innerText = res.length;
             renderizar(res);
         }
+
         function renderizar(dados) {
             document.getElementById('dados-viaturas').classList.toggle('hidden', dados.length === 0);
             document.getElementById('sem-resultados').classList.toggle('hidden', dados.length > 0);
@@ -431,12 +547,14 @@
                 </div>
             `).join('');
         }
+
         function mudarVista(v) {
             document.getElementById('vista-tabela').style.display = v === 'tabela' ? 'block' : 'none';
             document.getElementById('vista-cartoes').style.display = v === 'cartoes' ? 'block' : 'none';
             document.getElementById('btn-vista-tabela').className = v === 'tabela' ? "px-3 py-1.5 text-[10px] font-bold rounded bg-white shadow-sm text-bmw uppercase transition-all" : "px-3 py-1.5 text-[10px] font-bold rounded text-gray-500 uppercase transition-all";
             document.getElementById('btn-vista-cartoes').className = v === 'cartoes' ? "px-3 py-1.5 text-[10px] font-bold rounded bg-white shadow-sm text-bmw uppercase transition-all" : "px-3 py-1.5 text-[10px] font-bold rounded text-gray-500 uppercase transition-all";
         }
+
         function mudarTab(t) {
             ['parque', 'especificacoes', 'admin'].forEach(x => document.getElementById(`conteudo-${x}`).style.display = t === x ? 'block' : 'none');
             const a = 'px-1 py-3 text-sm font-bold border-b-2 transition-colors border-bmw text-bmw';
