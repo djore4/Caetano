@@ -37,14 +37,14 @@
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav class="flex w-full space-x-2 sm:space-x-6 overflow-x-auto no-scrollbar">
-                <button onclick="mudarTab('parque')" id="tab-parque" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-bmw text-bmw whitespace-nowrap">Parque</button>
-                <button onclick="mudarTab('especificacoes')" id="tab-especificacoes" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-gray-600 whitespace-nowrap">Especificações</button>
+                <button onclick="mudarTab('parque')" id="tab-parque" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap">Parque</button>
+                <button onclick="mudarTab('especificacoes')" id="tab-especificacoes" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap">Especificações</button>
                 
                 <div class="ml-auto flex space-x-2 sm:space-x-4">
-                    <button onclick="mudarTab('utilizadores')" id="tab-utilizadores" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-blue-600 whitespace-nowrap">👥 Utilizadores</button>
-                    <button onclick="mudarTab('historico')" id="tab-historico" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-blue-500 whitespace-nowrap">📋 Histórico</button>
-                    <button onclick="mudarTab('admin-vn')" id="tab-admin-vn" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-orange-500 whitespace-nowrap">⚙️ Gestão VN</button>
-                    <button onclick="mudarTab('admin-vu')" id="tab-admin-vu" class="px-1 py-3 text-sm font-bold border-b-2 transition-colors border-transparent text-gray-400 hover:text-orange-500 whitespace-nowrap">⚙️ Gestão VU</button>
+                    <button onclick="mudarTab('utilizadores')" id="tab-utilizadores" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap">👥 Utilizadores</button>
+                    <button onclick="mudarTab('historico')" id="tab-historico" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap">📋 Histórico</button>
+                    <button onclick="mudarTab('admin-vn')" id="tab-admin-vn" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap">⚙️ Gestão VN</button>
+                    <button onclick="mudarTab('admin-vu')" id="tab-admin-vu" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap">⚙️ Gestão VU</button>
                 </div>
             </nav>
         </div>
@@ -52,13 +52,12 @@
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-64">
         
-        <div id="conteudo-parque">
+        <div id="conteudo-parque" class="tab-content">
             <div class="space-y-6 mb-8 bg-gray-50 p-4 sm:p-5 rounded-xl border border-gray-100 shadow-sm">
                 <div>
                     <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Modelo</label>
                     <div class="flex flex-wrap gap-2" id="filtro-modelo-container"></div>
                 </div>
-
                 <div class="flex flex-col sm:flex-row gap-6">
                     <div class="flex-1">
                         <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tecnologia</label>
@@ -79,9 +78,8 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end border-t border-gray-200 pt-4 gap-4 sm:gap-0">
-                    <div id="contador-resultados" class="text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+                <div class="flex justify-between items-end border-t border-gray-200 pt-4">
+                    <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-none">
                         <span id="num-resultados" class="text-bmw font-black text-sm">0</span> viaturas encontradas
                     </div>
                     <div class="flex bg-gray-200 p-0.5 rounded-md border border-gray-300">
@@ -90,7 +88,6 @@
                     </div>
                 </div>
             </div>
-
             <div id="dados-viaturas" class="hidden">
                 <div id="vista-cartoes" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
                 <div id="vista-tabela" class="block bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden w-full">
@@ -115,19 +112,13 @@
             </div>
         </div>
 
-        <div id="conteudo-especificacoes" class="hidden">
+        <div id="conteudo-especificacoes" class="tab-content hidden">
             <div class="flex items-center justify-center h-96 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
                 <p class="text-gray-400 font-bold uppercase tracking-widest italic text-center px-4">Módulo em Desenvolvimento</p>
             </div>
         </div>
         
-        <div id="conteudo-admin-vu" class="hidden">
-            <div class="flex items-center justify-center h-96 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-                <p class="text-gray-400 font-bold uppercase tracking-widest italic text-center px-4">Módulo de Gestão VU em Desenvolvimento</p>
-            </div>
-        </div>
-
-        <div id="conteudo-utilizadores" class="hidden">
+        <div id="conteudo-utilizadores" class="tab-content hidden">
             <div class="flex flex-col lg:flex-row gap-6">
                 <div class="w-full lg:w-1/3 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[450px] lg:h-[750px]">
                     <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
@@ -141,19 +132,15 @@
                     </div>
                     <div class="overflow-y-auto p-2 space-y-2 flex-1 no-scrollbar" id="lista-utilizadores"></div>
                 </div>
-
                 <div class="w-full lg:w-2/3 bg-white border border-gray-200 rounded-xl shadow-sm p-6" id="painel-user-vazio">
                     <div class="flex items-center justify-center h-full text-center"><p class="text-gray-400 font-medium">Selecione um utilizador<br>ou adicione um novo.</p></div>
                 </div>
-
                 <div class="w-full lg:w-2/3 bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6 hidden flex-col h-auto lg:h-[750px] lg:overflow-y-auto no-scrollbar scroll-mt-24" id="painel-user-form">
                     <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-2">
                         <h2 class="text-lg sm:text-xl font-black text-gray-800" id="titulo-form-user">Perfil do Utilizador</h2>
                     </div>
-
                     <form id="form-user" onsubmit="guardarUtilizador(event)" class="space-y-8">
                         <input type="hidden" id="user-id" value="">
-                        
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-1">NOME COMPLETO</label><input type="text" id="user-nome" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none"></div>
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-1">EMAIL PROFISSIONAL (Login)</label><input type="email" id="user-email" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none"></div>
@@ -168,7 +155,6 @@
                                 </select>
                             </div>
                         </div>
-
                         <div class="bg-gray-50 p-4 rounded-lg border border-gray-100 space-y-6">
                             <div>
                                 <label class="block text-[10px] font-bold text-gray-500 mb-2">PERFIL DE ACESSO (Escolha Única)</label>
@@ -178,7 +164,6 @@
                                     <button type="button" onclick="toggleUserPerfil('Administrador')" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">Administrador</button>
                                 </div>
                             </div>
-
                             <div>
                                 <label class="block text-[10px] font-bold text-gray-500 mb-2">NEGÓCIO (Multi-seleção)</label>
                                 <div class="flex flex-wrap gap-2" id="user-negocio-container">
@@ -186,7 +171,6 @@
                                     <button type="button" onclick="toggleUserNegocio('VU')" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">Veículos Usados (VU)</button>
                                 </div>
                             </div>
-
                             <div>
                                 <label class="block text-[10px] font-bold text-gray-500 mb-2">MARCA (Multi-seleção)</label>
                                 <div class="flex flex-wrap gap-2" id="user-marca-container">
@@ -195,16 +179,11 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="pt-4 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
-                            <button type="button" id="btn-remover-user" onclick="removerUtilizador()" class="w-full sm:w-auto bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold py-3 sm:py-2 px-4 rounded-lg shadow-sm transition-colors focus:outline-none text-sm hidden">
-                                🔒 Suspender Acesso
-                            </button>
+                            <button type="button" id="btn-remover-user" onclick="removerUtilizador()" class="w-full sm:w-auto bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold py-3 sm:py-2 px-4 rounded-lg shadow-sm transition-colors focus:outline-none text-sm hidden">🔒 Suspender Acesso</button>
                             <div class="w-full sm:w-auto ml-auto flex flex-col sm:flex-row gap-3 sm:gap-4">
                                 <button type="button" onclick="cancelarEdicaoUser()" class="text-gray-500 hover:text-gray-700 text-sm font-bold py-2 order-last sm:order-first">Cancelar</button>
-                                <button type="submit" class="w-full sm:w-auto bg-bmw hover:bg-blue-700 text-white font-bold py-3 sm:py-2 px-8 rounded-lg shadow-sm transition-colors focus:outline-none">
-                                    Guardar Perfil
-                                </button>
+                                <button type="submit" class="w-full sm:w-auto bg-bmw hover:bg-blue-700 text-white font-bold py-3 sm:py-2 px-8 rounded-lg shadow-sm transition-colors focus:outline-none">Guardar Perfil</button>
                             </div>
                         </div>
                     </form>
@@ -212,7 +191,7 @@
             </div>
         </div>
 
-        <div id="conteudo-historico" class="hidden">
+        <div id="conteudo-historico" class="tab-content hidden">
             <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6 h-auto lg:h-[750px] flex flex-col">
                 <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
                     <div>
@@ -224,22 +203,28 @@
                         <span class="hidden sm:inline">Descarregar CSV</span>
                     </button>
                 </div>
-                
                 <div class="overflow-x-auto overflow-y-auto no-scrollbar flex-1">
                     <table class="min-w-full divide-y divide-gray-100">
                         <thead class="bg-gray-50/50 text-[10px] font-bold text-gray-400 uppercase tracking-widest sticky top-0">
                             <tr>
                                 <th class="px-4 py-3 text-left">Data/Hora</th>
                                 <th class="px-4 py-3 text-left">Ação</th>
-                                <th class="px-4 py-3 text-left">Viatura / Entidade</th>
+                                <th class="px-4 py-3 text-left">Entidade</th>
                                 <th class="px-4 py-3 text-left w-1/2">Detalhes</th>
                             </tr>
                         </thead>
-                        <tbody id="feed-corpo" class="divide-y divide-gray-100 text-xs text-gray-700">
-                            </tbody>
+                        <tbody id="feed-corpo" class="divide-y divide-gray-100 text-xs text-gray-700"></tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-       
+        <div id="conteudo-admin-vn" class="tab-content hidden">
+            <div class="flex flex-col lg:flex-row gap-6">
+                <div class="w-full lg:w-1/4 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[450px] lg:h-[750px]">
+                    <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+                        <h2 class="font-bold text-gray-700 text-sm uppercase tracking-widest">Inventário VN</h2>
+                    </div>
+                    <div class="p-3 border-b border-gray-100 bg-white space-y-4 text-[10px]">
+                        <div><label class="block font-bold text-gray-400 uppercase mb-1.5">Modelo</label><div class="flex flex-wrap gap-1" id="filtro-adm-modelo-container"></div></div>
+                        <div><label class="bloc
