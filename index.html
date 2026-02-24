@@ -10,6 +10,7 @@
     </script>
     <style>
         .filter-btn.active { background-color: #0066B1; color: white; border-color: #0066B1; }
+        .filter-adm-btn.active { background-color: #0066B1; color: white; border-color: #0066B1; }
         .tec-btn.active { background-color: #0066B1; color: white; border-color: #0066B1; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -47,7 +48,7 @@
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-64">
         
         <div id="conteudo-parque">
             <div class="space-y-6 mb-8 bg-gray-50 p-5 rounded-xl border border-gray-100 shadow-sm">
@@ -132,37 +133,27 @@
                         <h2 class="font-bold text-gray-700 text-sm uppercase tracking-widest">Inventário VN</h2>
                     </div>
                     
-                    <div class="p-3 border-b border-gray-100 bg-white space-y-3">
+                    <div class="p-3 border-b border-gray-100 bg-white space-y-4">
                         <div>
-                            <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">Modelo</label>
-                            <select id="filtro-adm-modelo" onchange="setFiltroAdmin('modelo', this.value)" class="w-full border border-gray-200 rounded px-2 py-1 text-xs outline-none text-gray-600 bg-gray-50"></select>
+                            <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Modelo</label>
+                            <div class="flex flex-wrap gap-1" id="filtro-adm-modelo-container"></div>
                         </div>
-                        <div class="flex gap-2">
-                            <div class="w-1/2">
-                                <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">Tecnologia</label>
-                                <select id="filtro-adm-tec" onchange="setFiltroAdmin('tipologia', this.value)" class="w-full border border-gray-200 rounded px-2 py-1 text-xs outline-none text-gray-600 bg-gray-50">
-                                    <option value="Todas">Todas</option>
-                                    <option value="BEV">BEV</option>
-                                    <option value="PHEV">PHEV</option>
-                                    <option value="ICE">ICE</option>
-                                    <option value="M">M</option>
-                                    <option value="QoR">QoR</option>
-                                    <option value="MPA">MPA</option>
-                                </select>
+                        <div>
+                            <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Tecnologia</label>
+                            <div class="flex flex-wrap gap-1" id="filtro-adm-tipologia-container">
+                                <button onclick="setFiltroAdmin('tipologia', 'Todas')" class="filter-adm-btn active border px-2 py-1 rounded text-[10px] font-bold transition-all shadow-sm">Todas</button>
+                                <button onclick="setFiltroAdmin('tipologia', 'BEV')" class="filter-adm-btn border px-2 py-1 rounded text-[10px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">BEV</button>
+                                <button onclick="setFiltroAdmin('tipologia', 'PHEV')" class="filter-adm-btn border px-2 py-1 rounded text-[10px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">PHEV</button>
+                                <button onclick="setFiltroAdmin('tipologia', 'ICE')" class="filter-adm-btn border px-2 py-1 rounded text-[10px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">ICE</button>
+                                <button onclick="setFiltroAdmin('tipologia', 'M')" class="filter-adm-btn border px-2 py-1 rounded text-[10px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">M</button>
                             </div>
-                            <div class="w-1/2">
-                                <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1">Concessão</label>
-                                <select id="filtro-adm-local" onchange="setFiltroAdmin('local', this.value)" class="w-full border border-gray-200 rounded px-2 py-1 text-xs outline-none text-gray-600 bg-gray-50">
-                                    <option value="Todos">Todos</option>
-                                    <option value="MPA">MPA</option>
-                                    <option value="VNG">VNG</option>
-                                    <option value="Porto">Porto</option>
-                                    <option value="Gaia">Gaia</option>
-                                    <option value="Feira">Feira</option>
-                                    <option value="Aveiro">Aveiro</option>
-                                    <option value="Maia">Maia</option>
-                                    <option value="Matosinhos">Matosinhos</option>
-                                </select>
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-bold text-gray-400 uppercase tracking-widest mb-1.5">Concessão</label>
+                            <div class="flex flex-wrap gap-1" id="filtro-adm-local-container">
+                                <button onclick="setFiltroAdmin('local', 'Todos')" class="filter-adm-btn active border px-2 py-1 rounded text-[10px] font-bold transition-all shadow-sm">Todos</button>
+                                <button onclick="setFiltroAdmin('local', 'MPA')" class="filter-adm-btn border px-2 py-1 rounded text-[10px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">MPA</button>
+                                <button onclick="setFiltroAdmin('local', 'VNG')" class="filter-adm-btn border px-2 py-1 rounded text-[10px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">VNG</button>
                             </div>
                         </div>
                     </div>
@@ -373,20 +364,25 @@
             });
         }
 
-        // Filtros exclusivos do Painel Admin
+        // Filtros exclusivos do Painel Admin em formato de botões
         let filtrosAdmin = { modelo: 'Todos', local: 'Todos', tipologia: 'Todas' };
 
         function initModeloFiltrosAdmin() {
-            const select = document.getElementById('filtro-adm-modelo');
-            select.innerHTML = '<option value="Todos">Todos</option>';
+            const container = document.getElementById('filtro-adm-modelo-container');
+            if(!container) return;
+            container.innerHTML = '<button onclick="setFiltroAdmin(\'modelo\', \'Todos\')" class="filter-adm-btn active border px-2 py-1 rounded text-[10px] font-bold transition-all shadow-sm">Todos</button>';
             const modelosAtivos = [...new Set(inventario.filter(c => !c.arquivado).map(c => c.modelo))].sort();
             modelosAtivos.forEach(m => {
-                select.innerHTML += `<option value="${m}">${m}</option>`;
+                container.innerHTML += `<button onclick="setFiltroAdmin('modelo', '${m}')" class="filter-adm-btn border px-2 py-1 rounded text-[10px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">${m}</button>`;
             });
         }
 
         function setFiltroAdmin(tipo, valor) {
             filtrosAdmin[tipo] = valor;
+            Array.from(document.getElementById(`filtro-adm-${tipo}-container`).children).forEach(btn => {
+                if(btn.innerText === valor) { btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600'); } 
+                else { btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600'); }
+            });
             renderizarListaAdmin();
         }
 
@@ -531,7 +527,7 @@
 
             carregarPrecosEmDireto();
             aplicarFiltros(); 
-            initModeloFiltrosAdmin(); // Atualiza dropdowns admin caso haja modelo novo
+            initModeloFiltrosAdmin(); 
             renderizarListaAdmin();
             cancelarEdicao();
             alert(modo === 'novo' ? 'Nova viatura adicionada com sucesso!' : 'Parâmetros atualizados!');
