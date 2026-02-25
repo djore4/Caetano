@@ -132,30 +132,43 @@
                     </div>
                     <div class="overflow-y-auto p-2 space-y-2 flex-1 no-scrollbar" id="lista-utilizadores"></div>
                 </div>
+
                 <div class="w-full lg:w-2/3 bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex" id="painel-user-vazio">
                     <div class="flex w-full items-center justify-center h-full text-center"><p class="text-gray-400 font-medium">Selecione um utilizador<br>ou adicione um novo.</p></div>
                 </div>
+
                 <div class="w-full lg:w-2/3 bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6 hidden flex-col h-auto lg:h-[750px] lg:overflow-y-auto no-scrollbar scroll-mt-24" id="painel-user-form">
                     <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-2">
                         <h2 class="text-lg sm:text-xl font-black text-gray-800" id="titulo-form-user">Perfil do Utilizador</h2>
                     </div>
-                    <form id="form-user" onsubmit="guardarUtilizador(event)" class="space-y-8">
+                    
+                    <div class="bg-blue-50 border border-blue-100 p-3 rounded-lg flex items-start gap-3 mb-6" id="info-password">
+                        <svg class="w-5 h-5 text-bmw mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <p class="text-xs text-blue-900 font-medium"><strong>Acessos & Passwords:</strong> Ao criar um novo utilizador, a plataforma enviará automaticamente um email com um convite seguro. O utilizador definirá a sua própria password ao aceder pela primeira vez.</p>
+                    </div>
+
+                    <form id="form-user" onsubmit="guardarUtilizador(event)" class="space-y-6">
                         <input type="hidden" id="user-id" value="">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-1">NOME COMPLETO</label><input type="text" id="user-nome" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none"></div>
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-1">EMAIL PROFISSIONAL (Login)</label><input type="email" id="user-email" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none"></div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-gray-500 mb-1">CONCESSÃO BASE</label>
-                                <select id="user-local" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none bg-white">
-                                    <option value="Todas">Todas (Acesso Global)</option>
-                                    <option value="Porto">Porto</option><option value="Gaia">Gaia</option>
-                                    <option value="Feira">Feira</option><option value="Aveiro">Aveiro</option>
-                                    <option value="Maia">Maia</option><option value="Matosinhos">Matosinhos</option>
-                                    <option value="MPA">MPA</option><option value="VNG">VNG</option>
-                                </select>
-                            </div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-1">NOME COMPLETO</label><input type="text" id="user-nome" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-bmw focus:ring-1 focus:ring-bmw"></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-1">EMAIL PROFISSIONAL</label><input type="email" id="user-email" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:border-bmw focus:ring-1 focus:ring-bmw"></div>
                         </div>
+
                         <div class="bg-gray-50 p-4 rounded-lg border border-gray-100 space-y-6">
+                            
+                            <div>
+                                <label class="block text-[10px] font-bold text-gray-500 mb-2">CONCESSÃO BASE (Multi-seleção)</label>
+                                <div class="flex flex-wrap gap-2" id="user-local-container">
+                                    <button type="button" onclick="toggleUserLocal('Todas')" id="btn-local-Todas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">Todas</button>
+                                    <button type="button" onclick="toggleUserLocal('MPA')" id="btn-local-MPA" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">MPA</button>
+                                    <button type="button" onclick="toggleUserLocal('VNG')" id="btn-local-VNG" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">VNG</button>
+                                    <button type="button" onclick="toggleUserLocal('Porto')" id="btn-local-Porto" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">Porto</button>
+                                    <button type="button" onclick="toggleUserLocal('Gaia')" id="btn-local-Gaia" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">Gaia</button>
+                                    <button type="button" onclick="toggleUserLocal('Feira')" id="btn-local-Feira" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">Feira</button>
+                                    <button type="button" onclick="toggleUserLocal('Aveiro')" id="btn-local-Aveiro" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">Aveiro</button>
+                                </div>
+                            </div>
+
                             <div>
                                 <label class="block text-[10px] font-bold text-gray-500 mb-2">PERFIL DE ACESSO (Escolha Única)</label>
                                 <div class="flex flex-wrap gap-2" id="user-perfil-container">
@@ -180,10 +193,11 @@
                             </div>
                         </div>
                         <div class="pt-4 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
-                            <button type="button" class="w-full sm:w-auto bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold py-3 sm:py-2 px-4 rounded-lg shadow-sm transition-colors focus:outline-none text-sm hidden">🔒 Suspender Acesso</button>
+                            <button type="button" id="btn-remover-user" onclick="removerUtilizador()" class="w-full sm:w-auto bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold py-3 sm:py-2 px-4 rounded-lg shadow-sm transition-colors focus:outline-none text-sm hidden">🔒 Revogar Acesso</button>
+                            
                             <div class="w-full sm:w-auto ml-auto flex flex-col sm:flex-row gap-3 sm:gap-4">
                                 <button type="button" onclick="cancelarEdicaoUser()" class="text-gray-500 hover:text-gray-700 text-sm font-bold py-2 order-last sm:order-first">Cancelar</button>
-                                <button type="submit" class="w-full sm:w-auto bg-bmw hover:bg-blue-700 text-white font-bold py-3 sm:py-2 px-8 rounded-lg shadow-sm transition-colors focus:outline-none">Guardar Perfil</button>
+                                <button type="submit" id="btn-guardar-user" class="w-full sm:w-auto bg-bmw hover:bg-blue-700 text-white font-bold py-3 sm:py-2 px-8 rounded-lg shadow-sm transition-colors focus:outline-none">Guardar Perfil</button>
                             </div>
                         </div>
                     </form>
@@ -264,11 +278,11 @@
         ];
 
         let utilizadoresDb = [
-            { id: 1, nome: "João Silva", email: "joao.silva@caetano.pt", local: "MPA", perfil: "Gestor", negocio: ["VN"], marca: ["BMW", "MINI"] },
-            { id: 2, nome: "Ana Gomes", email: "ana.gomes@caetano.pt", local: "VNG", perfil: "Vendedor", negocio: ["VN", "VU"], marca: ["BMW"] }
+            { id: 1, nome: "João Silva", email: "joao.silva@caetano.pt", local: ["MPA"], perfil: "Gestor", negocio: ["VN"], marca: ["BMW", "MINI"] },
+            { id: 2, nome: "Ana Gomes", email: "ana.gomes@caetano.pt", local: ["VNG", "MPA"], perfil: "Vendedor", negocio: ["VN", "VU"], marca: ["BMW"] }
         ];
 
-        // --- 2. CÁLCULO DE PREÇOS EM TEMPO REAL ---
+        // --- 2. CÁLCULO DE PREÇOS (Motor Matemático intocável) ---
         const taxa_iva = 0.23;
         function calcularPrecosTempoReal(carro) {
             const inps = carro.inputs;
@@ -289,12 +303,11 @@
             });
         }
 
-        // --- 3. LÓGICA DE NAVEGAÇÃO DOS SEPARADORES ---
+        // --- 3. TABS ---
         function mudarTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(conteudo => { conteudo.classList.remove('active'); });
-            document.querySelectorAll('.nav-tab').forEach(botao => {
-                botao.classList.remove('border-bmw', 'text-bmw');
-                botao.classList.add('border-transparent', 'text-gray-400');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(b => {
+                b.classList.remove('border-bmw', 'text-bmw'); b.classList.add('border-transparent', 'text-gray-400');
             });
             document.getElementById('conteudo-' + tabName).classList.add('active');
             document.getElementById('tab-' + tabName).classList.remove('border-transparent', 'text-gray-400');
@@ -303,59 +316,42 @@
 
         // --- 4. FILTROS E PARQUE ---
         let filtros = { modelo: 'Todos', local: 'Todos', tipologia: 'Todas' };
-
         function initModeloFiltros() {
             const container = document.getElementById('filtro-modelo-container');
             container.innerHTML = `<button onclick="setFiltro('modelo', 'Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all shadow-sm">Todos</button>`;
-            const modelos = [...new Set(inventario.map(c => c.modelo))].sort();
-            modelos.forEach(m => {
+            [...new Set(inventario.map(c => c.modelo))].sort().forEach(m => {
                 container.innerHTML += `<button onclick="setFiltro('modelo', '${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">${m}</button>`;
             });
         }
-
         function setFiltro(tipo, valor) {
             filtros[tipo] = valor;
-            const container = document.getElementById(`filtro-${tipo}-container`);
-            Array.from(container.children).forEach(btn => {
+            Array.from(document.getElementById(`filtro-${tipo}-container`).children).forEach(btn => {
                 if(btn.innerText === valor || (valor === 'Todas' && btn.innerText === 'Todas') || (valor === 'Todos' && btn.innerText === 'Todos')) {
                     btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600');
-                } else {
-                    btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600');
-                }
+                } else { btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600'); }
             });
             aplicarFiltros();
         }
-
         function aplicarFiltros() {
-            const res = inventario.filter(c => {
-                return (filtros.modelo === 'Todos' || c.modelo === filtros.modelo) &&
-                       (filtros.local === 'Todos' || c.local === filtros.local) &&
-                       (filtros.tipologia === 'Todas' || c.tipologia === filtros.tipologia);
-            });
+            const res = inventario.filter(c => (filtros.modelo === 'Todos' || c.modelo === filtros.modelo) && (filtros.local === 'Todos' || c.local === filtros.local) && (filtros.tipologia === 'Todas' || c.tipologia === filtros.tipologia));
             document.getElementById('num-resultados').innerText = res.length;
             renderizar(res);
         }
-
         function renderizar(dados) {
-            const corpo = document.getElementById('tabela-corpo');
-            const cartoes = document.getElementById('vista-cartoes');
-            const info = document.getElementById('dados-viaturas');
-            const zero = document.getElementById('sem-resultados');
-            
+            const info = document.getElementById('dados-viaturas'); const zero = document.getElementById('sem-resultados');
             if(dados.length === 0) { info.classList.add('hidden'); zero.classList.remove('hidden'); return; }
             info.classList.remove('hidden'); zero.classList.add('hidden');
 
-            corpo.innerHTML = dados.map(c => `
+            document.getElementById('tabela-corpo').innerHTML = dados.map(c => `
                 <tr class="hover:bg-blue-50/40 transition-all border-b border-gray-50">
                     <td class="px-6 py-4"><div class="font-bold text-gray-900 leading-tight">${c.modelo} ${c.versao}</div><div class="text-[10px] font-mono text-gray-400 uppercase tracking-tighter mt-1">${c.chassis}</div></td>
                     <td class="px-6 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold border border-gray-200">${c.local}</span></td>
                     <td class="px-6 py-4 text-xs text-gray-500">${c.estado_entrega}</td>
                     <td class="px-6 py-4 text-right text-xs text-gray-400 italic">${c.pvp_bruto.toLocaleString('pt-PT', {minimumFractionDigits: 2})}€</td>
                     <td class="px-6 py-4 text-right font-black text-bmw text-base">${c.pvp_final.toLocaleString('pt-PT', {minimumFractionDigits: 2})}€</td>
-                </tr>
-            `).join('');
+                </tr>`).join('');
 
-            cartoes.innerHTML = dados.map(c => `
+            document.getElementById('vista-cartoes').innerHTML = dados.map(c => `
                 <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-1 h-full bg-bmw"></div>
                     <div class="flex justify-between items-start mb-4">
@@ -366,164 +362,164 @@
                         <div class="text-[10px] text-gray-400 font-bold uppercase">PVP Base<br><span class="text-xs text-gray-400 italic font-medium mt-1 inline-block">${c.pvp_bruto.toLocaleString('pt-PT', {minimumFractionDigits: 2})}€</span></div>
                         <div class="text-right text-[10px] text-bmw font-bold uppercase">PVP Final (NET)<br><span class="text-xl font-black mt-1 inline-block">${c.pvp_final.toLocaleString('pt-PT', {minimumFractionDigits: 2})}€</span></div>
                     </div>
-                </div>
-            `).join('');
+                </div>`).join('');
         }
-
         function mudarVista(v) {
             document.getElementById('vista-tabela').style.display = v === 'tabela' ? 'block' : 'none';
             document.getElementById('vista-cartoes').style.display = v === 'cartoes' ? 'block' : 'none';
         }
 
-        // --- 5. LÓGICA DO BACKOFFICE (ADMIN VN) ---
+        // --- 5. ADMIN VN ---
         function renderizarListaAdmin() {
             document.getElementById('lista-admin-viaturas').innerHTML = inventario.map(c => `
                 <button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-3 rounded-lg border border-gray-100 hover:border-bmw hover:bg-blue-50 transition-colors bg-white shadow-sm mb-2">
-                    <div class="font-bold text-sm text-gray-800">${c.modelo} ${c.versao}</div>
-                    <div class="text-[10px] text-gray-400 font-mono">${c.chassis}</div>
-                </button>
-            `).join('');
+                    <div class="font-bold text-sm text-gray-800">${c.modelo} ${c.versao}</div><div class="text-[10px] text-gray-400 font-mono">${c.chassis}</div>
+                </button>`).join('');
         }
-
         function abrirEdicao(chassis) {
             const carro = inventario.find(c => c.chassis === chassis);
             document.getElementById('form-precos').classList.remove('opacity-50', 'pointer-events-none');
             document.getElementById('admin-titulo-carro').innerText = `${carro.modelo} ${carro.versao}`;
             document.getElementById('admin-chassis').innerText = `Chassis: ${carro.chassis} | PVP Final Atual: ${carro.pvp_final.toLocaleString('pt-PT', {minimumFractionDigits: 2})} €`;
-
-            document.getElementById('edit-chassis').value = carro.chassis;
-            document.getElementById('edit-pvb').value = carro.inputs.pvb;
-            document.getElementById('edit-opc').value = carro.inputs.opc;
-            document.getElementById('edit-isv').value = carro.inputs.isv;
-            document.getElementById('edit-mgb').value = carro.inputs.mgb;
-            document.getElementById('edit-esf').value = carro.inputs.esf;
-            document.getElementById('edit-pac').value = carro.inputs.pac;
-            document.getElementById('edit-dem').value = carro.inputs.dem;
-            document.getElementById('edit-sup').value = carro.inputs.sup;
+            ['chassis','pvb','opc','isv','mgb','esf','pac','dem','sup'].forEach(k => {
+                document.getElementById('edit-'+k).value = k === 'chassis' ? carro[k] : carro.inputs[k];
+            });
         }
-
         function guardarPrecos(e) {
             e.preventDefault();
             const chassis = document.getElementById('edit-chassis').value;
             let carro = inventario.find(c => c.chassis === chassis);
-
-            carro.inputs.pvb = Number(document.getElementById('edit-pvb').value);
-            carro.inputs.opc = Number(document.getElementById('edit-opc').value);
-            carro.inputs.isv = Number(document.getElementById('edit-isv').value);
-            carro.inputs.mgb = Number(document.getElementById('edit-mgb').value);
-            carro.inputs.esf = Number(document.getElementById('edit-esf').value);
-            carro.inputs.pac = Number(document.getElementById('edit-pac').value);
-            carro.inputs.dem = Number(document.getElementById('edit-dem').value);
-            carro.inputs.sup = Number(document.getElementById('edit-sup').value);
-
-            carregarPrecosEmDireto();
-            aplicarFiltros(); 
-            abrirEdicao(chassis);
+            ['pvb','opc','isv','mgb','esf','pac','dem','sup'].forEach(k => carro.inputs[k] = Number(document.getElementById('edit-'+k).value));
+            carregarPrecosEmDireto(); aplicarFiltros(); abrirEdicao(chassis);
             alert('Preços atualizados em tempo real na listagem!');
         }
 
-        // --- 6. LÓGICA DE UTILIZADORES ---
-        let userPerfilAtual = "";
-        let userNegocioAtual = [];
-        let userMarcaAtual = [];
+        // --- 6. UTILIZADORES (AGORA 100% COMPLETO E FUNCIONAL) ---
+        let userPerfilAtual = ""; let userNegocioAtual = []; let userMarcaAtual = []; let userLocalAtual = [];
 
         function renderizarListaUtilizadores() {
             document.getElementById('lista-utilizadores').innerHTML = utilizadoresDb.map(u => `
-                <button class="w-full text-left p-3 rounded-lg border border-gray-100 hover:border-bmw hover:bg-blue-50 transition-colors bg-white shadow-sm mb-2">
+                <button onclick="editarUtilizador(${u.id})" class="w-full text-left p-3 rounded-lg border border-gray-100 hover:border-bmw hover:bg-blue-50 transition-colors bg-white shadow-sm mb-2 focus:outline-none">
                     <div class="font-bold text-sm text-gray-800">${u.nome}</div>
-                    <div class="text-[10px] text-gray-400">${u.perfil} | ${u.local}</div>
+                    <div class="text-[10px] text-gray-400 mt-0.5">${u.perfil} | ${u.local.join(', ')}</div>
                 </button>
             `).join('');
         }
 
         function prepararNovoUtilizador() {
             document.getElementById('painel-user-vazio').classList.add('hidden');
-            document.getElementById('painel-user-form').classList.remove('hidden');
-            document.getElementById('painel-user-form').classList.add('flex');
+            document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex');
             document.getElementById('form-user').reset();
             
-            // Limpa seleções visuais
-            userPerfilAtual = ""; userNegocioAtual = []; userMarcaAtual = [];
+            document.getElementById('titulo-form-user').innerText = "Novo Utilizador";
+            document.getElementById('user-id').value = "";
+            document.getElementById('btn-remover-user').classList.add('hidden');
+            document.getElementById('btn-guardar-user').innerText = "Gerar Convite de Acesso";
+            
+            userPerfilAtual = ""; userNegocioAtual = []; userMarcaAtual = []; userLocalAtual = [];
+            atualizarBotoesUtilizador();
+        }
+
+        function editarUtilizador(id) {
+            const u = utilizadoresDb.find(user => user.id === id);
+            if(!u) return;
+
+            document.getElementById('painel-user-vazio').classList.add('hidden');
+            document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex');
+            
+            document.getElementById('titulo-form-user').innerText = "Editar Utilizador";
+            document.getElementById('user-id').value = u.id;
+            document.getElementById('user-nome').value = u.nome;
+            document.getElementById('user-email').value = u.email;
+            
+            userPerfilAtual = u.perfil;
+            userNegocioAtual = [...u.negocio];
+            userMarcaAtual = [...u.marca];
+            userLocalAtual = [...u.local];
+
+            document.getElementById('btn-remover-user').classList.remove('hidden');
+            document.getElementById('btn-guardar-user').innerText = "Atualizar Perfil";
+            
             atualizarBotoesUtilizador();
         }
 
         function cancelarEdicaoUser() {
-            document.getElementById('painel-user-form').classList.add('hidden');
-            document.getElementById('painel-user-form').classList.remove('flex');
+            document.getElementById('painel-user-form').classList.add('hidden'); document.getElementById('painel-user-form').classList.remove('flex');
             document.getElementById('painel-user-vazio').classList.remove('hidden');
         }
 
-        function toggleUserPerfil(perfil) {
-            userPerfilAtual = perfil;
-            atualizarBotoesUtilizador();
+        // --- Lógica de Toggle dos Botões de Array ---
+        function toggleArray(array, valor) {
+            if(valor === 'Todas') return array.includes('Todas') ? [] : ['Todas'];
+            let novoArr = array.filter(i => i !== 'Todas');
+            return novoArr.includes(valor) ? novoArr.filter(i => i !== valor) : [...novoArr, valor];
         }
 
-        function toggleUserNegocio(negocio) {
-            if(userNegocioAtual.includes(negocio)) {
-                userNegocioAtual = userNegocioAtual.filter(n => n !== negocio);
-            } else {
-                userNegocioAtual.push(negocio);
-            }
-            atualizarBotoesUtilizador();
-        }
-
-        function toggleUserMarca(marca) {
-            if(userMarcaAtual.includes(marca)) {
-                userMarcaAtual = userMarcaAtual.filter(m => m !== marca);
-            } else {
-                userMarcaAtual.push(marca);
-            }
-            atualizarBotoesUtilizador();
-        }
+        function toggleUserLocal(local) { userLocalAtual = toggleArray(userLocalAtual, local); atualizarBotoesUtilizador(); }
+        function toggleUserPerfil(perfil) { userPerfilAtual = perfil; atualizarBotoesUtilizador(); }
+        function toggleUserNegocio(negocio) { userNegocioAtual = toggleArray(userNegocioAtual, negocio); atualizarBotoesUtilizador(); }
+        function toggleUserMarca(marca) { userMarcaAtual = toggleArray(userMarcaAtual, marca); atualizarBotoesUtilizador(); }
 
         function atualizarBotoesUtilizador() {
-            // Perfil
-            ['Vendedor', 'Gestor', 'Administrador'].forEach(p => {
-                let btn = document.getElementById('btn-perfil-' + p);
-                if(p === userPerfilAtual) { btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600'); } 
-                else { btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600'); }
-            });
-            // Negocio
-            ['VN', 'VU'].forEach(n => {
-                let btn = document.getElementById('btn-negocio-' + n);
-                if(userNegocioAtual.includes(n)) { btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600'); } 
-                else { btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600'); }
-            });
-            // Marca
-            ['BMW', 'MINI'].forEach(m => {
-                let btn = document.getElementById('btn-marca-' + m);
-                if(userMarcaAtual.includes(m)) { btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600'); } 
-                else { btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600'); }
-            });
+            const syncBtns = (list, stateVar, prefix) => {
+                list.forEach(v => {
+                    let btn = document.getElementById(prefix + v);
+                    if(!btn) return;
+                    let isActive = (typeof stateVar === 'string') ? (stateVar === v) : stateVar.includes(v);
+                    if(isActive) { btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600'); } 
+                    else { btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600'); }
+                });
+            };
+
+            syncBtns(['Todas', 'MPA', 'VNG', 'Porto', 'Gaia', 'Feira', 'Aveiro'], userLocalAtual, 'btn-local-');
+            syncBtns(['Vendedor', 'Gestor', 'Administrador'], userPerfilAtual, 'btn-perfil-');
+            syncBtns(['VN', 'VU'], userNegocioAtual, 'btn-negocio-');
+            syncBtns(['BMW', 'MINI'], userMarcaAtual, 'btn-marca-');
         }
 
         function guardarUtilizador(e) {
             e.preventDefault();
-            if(!userPerfilAtual) { alert("Por favor, selecione um Perfil de Acesso."); return; }
+            if(!userPerfilAtual || userLocalAtual.length === 0 || userNegocioAtual.length === 0 || userMarcaAtual.length === 0) { 
+                alert("Por favor, preencha todos os blocos de permissões (Concessão, Perfil, Negócio e Marca)."); return; 
+            }
             
-            const novoUser = {
-                id: Date.now(),
+            const id = document.getElementById('user-id').value;
+            const userObj = {
+                id: id ? parseInt(id) : Date.now(),
                 nome: document.getElementById('user-nome').value,
                 email: document.getElementById('user-email').value,
-                local: document.getElementById('user-local').value,
+                local: userLocalAtual,
                 perfil: userPerfilAtual,
                 negocio: userNegocioAtual,
                 marca: userMarcaAtual
             };
+
+            if(id) {
+                const index = utilizadoresDb.findIndex(u => u.id === parseInt(id));
+                utilizadoresDb[index] = userObj;
+            } else {
+                utilizadoresDb.push(userObj);
+            }
             
-            utilizadoresDb.push(novoUser);
             renderizarListaUtilizadores();
             cancelarEdicaoUser();
-            alert('Utilizador guardado com sucesso!');
+            alert(id ? 'Perfil atualizado!' : 'Convite de acesso enviado para ' + userObj.email);
+        }
+
+        function removerUtilizador() {
+            const id = parseInt(document.getElementById('user-id').value);
+            if(confirm("Atenção: Tem a certeza que deseja revogar o acesso deste utilizador de forma imediata e permanente?")) {
+                utilizadoresDb = utilizadoresDb.filter(u => u.id !== id);
+                renderizarListaUtilizadores();
+                cancelarEdicaoUser();
+                alert("Acesso revogado com sucesso.");
+            }
         }
 
         // --- INIT ---
         window.onload = () => {
-            carregarPrecosEmDireto(); 
-            initModeloFiltros();
-            renderizarListaAdmin();
-            renderizarListaUtilizadores();
-            aplicarFiltros();
+            carregarPrecosEmDireto(); initModeloFiltros();
+            renderizarListaAdmin(); renderizarListaUtilizadores(); aplicarFiltros();
         };
     </script>
 </body>
