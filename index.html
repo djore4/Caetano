@@ -37,14 +37,14 @@
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav class="flex w-full space-x-2 sm:space-x-6 overflow-x-auto no-scrollbar">
-                <button onclick="mudarTab('parque')" id="tab-parque" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap">Parque</button>
-                <button onclick="mudarTab('especificacoes')" id="tab-especificacoes" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap">Especificações</button>
+                <button onclick="mudarTab('parque')" id="tab-parque" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-bmw text-bmw">Parque</button>
+                <button onclick="mudarTab('especificacoes')" id="tab-especificacoes" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400">Especificações</button>
                 
                 <div class="ml-auto flex space-x-2 sm:space-x-4">
-                    <button onclick="mudarTab('utilizadores')" id="tab-utilizadores" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap">👥 Utilizadores</button>
-                    <button onclick="mudarTab('historico')" id="tab-historico" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap">📋 Histórico</button>
-                    <button onclick="mudarTab('admin-vn')" id="tab-admin-vn" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap">⚙️ Gestão VN</button>
-                    <button onclick="mudarTab('admin-vu')" id="tab-admin-vu" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap">⚙️ Gestão VU</button>
+                    <button onclick="mudarTab('utilizadores')" id="tab-utilizadores" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400">👥 Utilizadores</button>
+                    <button onclick="mudarTab('historico')" id="tab-historico" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400">📋 Histórico</button>
+                    <button onclick="mudarTab('admin-vn')" id="tab-admin-vn" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400">⚙️ Gestão VN</button>
+                    <button onclick="mudarTab('admin-vu')" id="tab-admin-vu" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400">⚙️ Gestão VU</button>
                 </div>
             </nav>
         </div>
@@ -52,12 +52,8 @@
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-64">
         
-        <div id="conteudo-parque" class="tab-content">
+        <div id="conteudo-parque" class="tab-content block">
             <div class="space-y-6 mb-8 bg-gray-50 p-4 sm:p-5 rounded-xl border border-gray-100 shadow-sm">
-                <div>
-                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Modelo</label>
-                    <div class="flex flex-wrap gap-2" id="filtro-modelo-container"></div>
-                </div>
                 <div class="flex flex-col sm:flex-row gap-6">
                     <div class="flex-1">
                         <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tecnologia</label>
@@ -69,162 +65,94 @@
                             <button onclick="setFiltro('tipologia', 'M')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">M</button>
                         </div>
                     </div>
-                    <div class="sm:border-l sm:border-gray-200 sm:pl-6">
-                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Concessão</label>
-                        <div class="flex flex-wrap gap-2" id="filtro-local-container">
-                            <button onclick="setFiltro('local', 'Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all shadow-sm">Todos</button>
-                            <button onclick="setFiltro('local', 'MPA')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">MPA</button>
-                            <button onclick="setFiltro('local', 'VNG')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">VNG</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex justify-between items-end border-t border-gray-200 pt-4">
-                    <div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest leading-none">
-                        <span id="num-resultados" class="text-bmw font-black text-sm">0</span> viaturas encontradas
-                    </div>
-                    <div class="flex bg-gray-200 p-0.5 rounded-md border border-gray-300">
-                        <button onclick="mudarVista('tabela')" id="btn-vista-tabela" class="px-3 py-1.5 text-[10px] font-bold rounded bg-white shadow-sm text-bmw uppercase transition-all">Tabela</button>
-                        <button onclick="mudarVista('cartoes')" id="btn-vista-cartoes" class="px-3 py-1.5 text-[10px] font-bold rounded text-gray-500 uppercase transition-all">Cartões</button>
-                    </div>
                 </div>
             </div>
-            <div id="dados-viaturas" class="hidden">
-                <div id="vista-cartoes" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            
+            <div id="dados-viaturas">
                 <div id="vista-tabela" class="block bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden w-full">
-                    <div class="overflow-x-auto no-scrollbar w-full">
-                        <table class="min-w-full divide-y divide-gray-100">
-                            <thead class="bg-gray-50/50 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                                <tr>
-                                    <th class="px-4 sm:px-6 py-4 text-left whitespace-nowrap">Viatura / Matrícula</th>
-                                    <th class="px-4 sm:px-6 py-4 text-center whitespace-nowrap">Local</th>
-                                    <th class="px-4 sm:px-6 py-4 text-left whitespace-nowrap">Observações</th>
-                                    <th class="px-4 sm:px-6 py-4 text-right whitespace-nowrap">PVP Base</th>
-                                    <th class="px-4 sm:px-6 py-4 text-right text-bmw whitespace-nowrap">PVP Final (NET)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabela-corpo" class="divide-y divide-gray-100"></tbody>
-                        </table>
+                    <div class="overflow-x-auto no-scrollbar w-full p-6 text-center text-gray-500">
+                        <p>O conteúdo das viaturas aparecerá aqui (em desenvolvimento).</p>
                     </div>
-                </div>
-                <div id="sem-resultados" class="hidden text-center py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-                    <p class="text-gray-400 font-medium">Nenhum veículo encontrado.</p>
                 </div>
             </div>
         </div>
 
         <div id="conteudo-especificacoes" class="tab-content hidden">
             <div class="flex items-center justify-center h-96 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
-                <p class="text-gray-400 font-bold uppercase tracking-widest italic text-center px-4">Módulo em Desenvolvimento</p>
+                <p class="text-gray-400 font-bold uppercase tracking-widest italic text-center px-4">Módulo Especificações em Desenvolvimento</p>
             </div>
         </div>
         
         <div id="conteudo-utilizadores" class="tab-content hidden">
-            <div class="flex flex-col lg:flex-row gap-6">
-                <div class="w-full lg:w-1/3 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[450px] lg:h-[750px]">
-                    <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
-                        <h2 class="font-bold text-gray-700 text-sm uppercase tracking-widest">Equipa</h2>
-                    </div>
-                    <div class="p-2 border-b border-gray-100">
-                        <button onclick="prepararNovoUtilizador()" class="w-full bg-bmw hover:bg-blue-700 text-white font-bold py-3 lg:py-2 px-4 rounded-md shadow-sm transition-colors text-xs flex justify-center items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
-                            Adicionar Utilizador
-                        </button>
-                    </div>
-                    <div class="overflow-y-auto p-2 space-y-2 flex-1 no-scrollbar" id="lista-utilizadores"></div>
-                </div>
-                <div class="w-full lg:w-2/3 bg-white border border-gray-200 rounded-xl shadow-sm p-6" id="painel-user-vazio">
-                    <div class="flex items-center justify-center h-full text-center"><p class="text-gray-400 font-medium">Selecione um utilizador<br>ou adicione um novo.</p></div>
-                </div>
-                <div class="w-full lg:w-2/3 bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6 hidden flex-col h-auto lg:h-[750px] lg:overflow-y-auto no-scrollbar scroll-mt-24" id="painel-user-form">
-                    <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-2">
-                        <h2 class="text-lg sm:text-xl font-black text-gray-800" id="titulo-form-user">Perfil do Utilizador</h2>
-                    </div>
-                    <form id="form-user" onsubmit="guardarUtilizador(event)" class="space-y-8">
-                        <input type="hidden" id="user-id" value="">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-1">NOME COMPLETO</label><input type="text" id="user-nome" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none"></div>
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-1">EMAIL PROFISSIONAL (Login)</label><input type="email" id="user-email" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none"></div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-gray-500 mb-1">CONCESSÃO BASE</label>
-                                <select id="user-local" required class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none bg-white">
-                                    <option value="Todas">Todas (Acesso Global)</option>
-                                    <option value="Porto">Porto</option><option value="Gaia">Gaia</option>
-                                    <option value="Feira">Feira</option><option value="Aveiro">Aveiro</option>
-                                    <option value="Maia">Maia</option><option value="Matosinhos">Matosinhos</option>
-                                    <option value="MPA">MPA</option><option value="VNG">VNG</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-100 space-y-6">
-                            <div>
-                                <label class="block text-[10px] font-bold text-gray-500 mb-2">PERFIL DE ACESSO (Escolha Única)</label>
-                                <div class="flex flex-wrap gap-2" id="user-perfil-container">
-                                    <button type="button" onclick="toggleUserPerfil('Vendedor')" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">Vendedor</button>
-                                    <button type="button" onclick="toggleUserPerfil('Gestor')" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">Gestor</button>
-                                    <button type="button" onclick="toggleUserPerfil('Administrador')" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">Administrador</button>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-gray-500 mb-2">NEGÓCIO (Multi-seleção)</label>
-                                <div class="flex flex-wrap gap-2" id="user-negocio-container">
-                                    <button type="button" onclick="toggleUserNegocio('VN')" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">Veículos Novos (VN)</button>
-                                    <button type="button" onclick="toggleUserNegocio('VU')" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">Veículos Usados (VU)</button>
-                                </div>
-                            </div>
-                            <div>
-                                <label class="block text-[10px] font-bold text-gray-500 mb-2">MARCA (Multi-seleção)</label>
-                                <div class="flex flex-wrap gap-2" id="user-marca-container">
-                                    <button type="button" onclick="toggleUserMarca('BMW')" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">BMW</button>
-                                    <button type="button" onclick="toggleUserMarca('MINI')" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200">MINI</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="pt-4 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
-                            <button type="button" id="btn-remover-user" onclick="removerUtilizador()" class="w-full sm:w-auto bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold py-3 sm:py-2 px-4 rounded-lg shadow-sm transition-colors focus:outline-none text-sm hidden">🔒 Suspender Acesso</button>
-                            <div class="w-full sm:w-auto ml-auto flex flex-col sm:flex-row gap-3 sm:gap-4">
-                                <button type="button" onclick="cancelarEdicaoUser()" class="text-gray-500 hover:text-gray-700 text-sm font-bold py-2 order-last sm:order-first">Cancelar</button>
-                                <button type="submit" class="w-full sm:w-auto bg-bmw hover:bg-blue-700 text-white font-bold py-3 sm:py-2 px-8 rounded-lg shadow-sm transition-colors focus:outline-none">Guardar Perfil</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+             <div class="flex items-center justify-center h-96 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                <p class="text-gray-400 font-bold uppercase tracking-widest italic text-center px-4">Módulo Utilizadores em Desenvolvimento</p>
             </div>
         </div>
 
         <div id="conteudo-historico" class="tab-content hidden">
-            <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-4 sm:p-6 h-auto lg:h-[750px] flex flex-col">
-                <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
-                    <div>
-                        <h2 class="text-xl font-black text-gray-800">Feed de Alterações</h2>
-                        <p class="text-[10px] text-gray-400 uppercase tracking-widest mt-1">Registo de toda a atividade na plataforma</p>
-                    </div>
-                    <button onclick="descarregarHistorico()" class="bg-gray-100 hover:bg-gray-200 text-gray-700 border border-gray-300 font-bold py-2 px-4 rounded-lg shadow-sm transition-colors text-xs flex items-center gap-2">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        <span class="hidden sm:inline">Descarregar CSV</span>
-                    </button>
-                </div>
-                <div class="overflow-x-auto overflow-y-auto no-scrollbar flex-1">
-                    <table class="min-w-full divide-y divide-gray-100">
-                        <thead class="bg-gray-50/50 text-[10px] font-bold text-gray-400 uppercase tracking-widest sticky top-0">
-                            <tr>
-                                <th class="px-4 py-3 text-left">Data/Hora</th>
-                                <th class="px-4 py-3 text-left">Ação</th>
-                                <th class="px-4 py-3 text-left">Entidade</th>
-                                <th class="px-4 py-3 text-left w-1/2">Detalhes</th>
-                            </tr>
-                        </thead>
-                        <tbody id="feed-corpo" class="divide-y divide-gray-100 text-xs text-gray-700"></tbody>
-                    </table>
-                </div>
+             <div class="flex items-center justify-center h-96 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                <p class="text-gray-400 font-bold uppercase tracking-widest italic text-center px-4">Módulo Histórico em Desenvolvimento</p>
             </div>
         </div>
 
         <div id="conteudo-admin-vn" class="tab-content hidden">
-            <div class="flex flex-col lg:flex-row gap-6">
-                <div class="w-full lg:w-1/4 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[450px] lg:h-[750px]">
-                    <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
-                        <h2 class="font-bold text-gray-700 text-sm uppercase tracking-widest">Inventário VN</h2>
-                    </div>
-                    <div class="p-3 border-b border-gray-100 bg-white space-y-4 text-[10px]">
-                        <div><label class="block font-bold text-gray-400 uppercase mb-1.5">Modelo</label><div class="flex flex-wrap gap-1" id="filtro-adm-modelo-container"></div></div>
-                        <div><label class="bloc
+             <div class="flex items-center justify-center h-96 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                <p class="text-gray-400 font-bold uppercase tracking-widest italic text-center px-4">Módulo Gestão VN em Desenvolvimento</p>
+            </div>
+        </div>
+
+        <div id="conteudo-admin-vu" class="tab-content hidden">
+             <div class="flex items-center justify-center h-96 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                <p class="text-gray-400 font-bold uppercase tracking-widest italic text-center px-4">Módulo Gestão VU em Desenvolvimento</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Função para mudar de separador
+        function mudarTab(tabName) {
+            // 1. Esconder todos os conteúdos primeiro
+            const conteudos = document.querySelectorAll('.tab-content');
+            conteudos.forEach(conteudo => {
+                conteudo.classList.add('hidden');
+                conteudo.classList.remove('block');
+            });
+
+            // 2. Desmarcar todos os botões do menu
+            const botoes = document.querySelectorAll('.nav-tab');
+            botoes.forEach(botao => {
+                botao.classList.remove('border-bmw', 'text-bmw');
+                botao.classList.add('border-transparent', 'text-gray-400');
+            });
+
+            // 3. Mostrar o conteúdo selecionado
+            const conteudoAtivo = document.getElementById('conteudo-' + tabName);
+            if (conteudoAtivo) {
+                conteudoAtivo.classList.remove('hidden');
+                conteudoAtivo.classList.add('block');
+            }
+
+            // 4. Marcar o botão clicado como ativo (azul)
+            const botaoAtivo = document.getElementById('tab-' + tabName);
+            if (botaoAtivo) {
+                botaoAtivo.classList.remove('border-transparent', 'text-gray-400');
+                botaoAtivo.classList.add('border-bmw', 'text-bmw');
+            }
+        }
+
+        // Lógica dos filtros de Tecnologia (Demo do botão visual)
+        function setFiltro(tipo, valor) {
+            const container = document.getElementById(`filtro-${tipo}-container`);
+            Array.from(container.children).forEach(btn => {
+                if(btn.innerText === valor) {
+                    btn.classList.add('active', 'text-white');
+                    btn.classList.remove('bg-white', 'text-gray-600');
+                } else {
+                    btn.classList.remove('active', 'text-white');
+                    btn.classList.add('bg-white', 'text-gray-600');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
