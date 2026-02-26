@@ -15,7 +15,7 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .calc-auto { background-color: #f8fafc; color: #64748b; border-color: #cbd5e1; border-style: dashed; }
+        .calc-auto { background-color: #f8fafc; color: #64748b; border-color: #cbd5e1; border-style: dashed; transition: all 0.2s; }
     </style>
 </head>
 <body class="min-h-screen bg-white font-sans text-slate-800 relative pb-20">
@@ -96,7 +96,7 @@
                         <table class="min-w-full divide-y divide-gray-100">
                             <thead class="bg-gray-50/50 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                                 <tr>
-                                    <th class="px-4 sm:px-6 py-4 text-left whitespace-nowrap">Viatura / Chassis</th>
+                                    <th class="px-4 sm:px-6 py-4 text-left whitespace-nowrap">Viatura / Matrícula</th>
                                     <th class="px-4 sm:px-6 py-4 text-center whitespace-nowrap">Local</th>
                                     <th class="px-4 sm:px-6 py-4 text-left whitespace-nowrap">Observações</th>
                                     <th class="px-4 sm:px-6 py-4 text-right whitespace-nowrap">PVP Base</th>
@@ -169,7 +169,7 @@
                     <div class="flex justify-between items-start mb-6 border-b border-gray-100 pb-4">
                         <div>
                             <h2 class="text-xl font-black text-gray-800" id="admin-titulo-carro">Selecione uma viatura</h2>
-                            <p class="text-sm text-gray-400 font-mono mt-1" id="admin-chassis">Para gerir margens e preços</p>
+                            <p class="text-sm text-gray-400 font-mono mt-1" id="admin-matricula">Para gerir margens e preços</p>
                         </div>
                     </div>
 
@@ -183,19 +183,19 @@
                             </h3>
                             
                             <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mb-4">
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">PREÇO BASE €</label><input type="text" id="edit-pvb" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw" placeholder="Ex: 70 725,15"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">OPCIONAIS €</label><input type="text" id="edit-opc" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">BSI/MSI €</label><input type="text" id="edit-bsi" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ECOVALOR €</label><input type="text" id="edit-eco" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">LEG. & TRANSP. €</label><input type="text" id="edit-leg" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ISV €</label><input type="text" id="edit-isv" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">PREÇO BASE €</label><input type="text" id="edit-pvb" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw transition-colors" placeholder="Ex: 70 725,15"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">OPCIONAIS €</label><input type="text" id="edit-opc" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw transition-colors"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">BSI/MSI €</label><input type="text" id="edit-bsi" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw transition-colors"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ECOVALOR €</label><input type="text" id="edit-eco" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw transition-colors"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">LEG. & TRANSP. €</label><input type="text" id="edit-leg" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw transition-colors"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ISV €</label><input type="text" id="edit-isv" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw transition-colors"></div>
                             </div>
 
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 border-t border-gray-200 pt-4">
                                 <div><label class="block text-[9px] font-bold text-slate-400 uppercase">Idade (Meses)</label><input type="text" readonly id="auto-idade" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1"></div>
                                 <div><label class="block text-[9px] font-bold text-slate-400 uppercase">Penetração Opc.</label><input type="text" readonly id="auto-penetracao" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1"></div>
-                                <div><label class="block text-[9px] font-bold text-slate-400 uppercase">PVP (S/ DESC)</label><input type="text" readonly id="auto-pvp-bruto" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1"></div>
-                                <div><label class="block text-[9px] font-bold text-slate-400 uppercase">IVA</label><input type="text" readonly id="auto-iva" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1"></div>
+                                <div><label class="block text-[9px] font-bold text-slate-400 uppercase">PVP Bruto (C/ IVA)</label><input type="text" readonly id="auto-pvp-bruto" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1 text-gray-700 font-bold"></div>
+                                <div><label class="block text-[9px] font-bold text-slate-400 uppercase">IVA Aportado</label><input type="text" readonly id="auto-iva" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1"></div>
                             </div>
                         </div>
 
@@ -206,16 +206,16 @@
                             </h3>
                             
                             <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MARGEM FIXA</label><input type="text" id="edit-mgb" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw" placeholder="0,08"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MARGEM VAR.</label><input type="text" id="edit-esf" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">PAC</label><input type="text" id="edit-pac" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">APOIO DEM.</label><input type="text" id="edit-dem" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">APOIO SUP.</label><input type="text" id="edit-sup" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MARGEM FIXA</label><input type="text" id="edit-mgb" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw transition-colors" placeholder="Ex: 8"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MARGEM VAR.</label><input type="text" id="edit-esf" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw transition-colors" placeholder="Ex: 1,5"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">PAC</label><input type="text" id="edit-pac" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw transition-colors"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">APOIO DEM.</label><input type="text" id="edit-dem" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw transition-colors"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">APOIO SUP.</label><input type="text" id="edit-sup" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw transition-colors"></div>
                             </div>
                             
                             <div class="grid grid-cols-2 gap-3 border-t border-blue-200 pt-4">
-                                <div><label class="block text-[9px] font-bold text-blue-400 uppercase">Total Desconto (%)</label><input type="text" readonly id="auto-desc-perc" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1 text-blue-700"></div>
-                                <div><label class="block text-[9px] font-bold text-blue-400 uppercase">Total Desconto (€)</label><input type="text" readonly id="auto-desc-eur" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1 text-red-600"></div>
+                                <div><label class="block text-[9px] font-bold text-blue-400 uppercase">Desconto Acumulado (%)</label><input type="text" readonly id="auto-desc-perc" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1 text-blue-700 font-bold"></div>
+                                <div><label class="block text-[9px] font-bold text-blue-400 uppercase">Desconto Resultante (€)</label><input type="text" readonly id="auto-desc-eur" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1 text-red-500 font-bold"></div>
                             </div>
                         </div>
 
@@ -227,21 +227,21 @@
                             </h3>
                             
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">DEPRECIAÇÕES €</label><input type="text" id="edit-depreciacoes" class="w-full border border-gray-300 rounded px-3 py-3 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
-                                <div><label class="block text-[10px] font-black text-green-700 mb-1">PREÇO DE VENDA (PVP DESC) €</label><input type="text" id="edit-pvp_desc" class="w-full border-2 border-green-500 rounded px-3 py-3 text-base font-black text-green-800 focus:outline-none shadow-inner" placeholder="O Preço Final a definir"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">DEPRECIAÇÕES €</label><input type="text" id="edit-depreciacoes" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded px-3 py-3 text-sm outline-none focus:ring-1 focus:border-bmw transition-colors"></div>
+                                <div><label class="block text-[10px] font-black text-green-700 mb-1">PREÇO DE VENDA (PVP DESC) €</label><input type="text" id="edit-pvp_desc" oninput="recalcularPreview()" class="w-full border-2 border-green-500 rounded px-3 py-3 text-base font-black text-green-800 focus:outline-none shadow-inner bg-white placeholder-green-200 transition-colors" placeholder="Insira o PVP a praticar"></div>
                             </div>
 
                             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 border-t border-green-100 pt-4">
                                 <div><label class="block text-[9px] font-bold text-slate-400 uppercase">Preço Mínimo €</label><input type="text" readonly id="auto-preco-min" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1"></div>
                                 <div><label class="block text-[9px] font-bold text-slate-400 uppercase">Valor S/ IVA (PVP) €</label><input type="text" readonly id="auto-s-iva" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1"></div>
-                                <div><label class="block text-[9px] font-black text-green-600 uppercase">Margem Resultante (MG) €</label><input type="text" readonly id="auto-mg" class="w-full border-2 border-dashed border-green-300 bg-green-50 text-green-700 px-2 py-1.5 text-sm font-black outline-none mt-1"></div>
+                                <div><label class="block text-[9px] font-black text-green-600 uppercase">Margem Resultante (MG) €</label><input type="text" readonly id="auto-mg" class="w-full border-2 border-dashed border-green-300 bg-green-50 text-green-700 px-2 py-1.5 text-sm font-black outline-none mt-1 transition-all duration-300"></div>
                             </div>
                         </div>
 
                         <div class="pt-4 border-t border-gray-100 flex justify-end">
                             <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow-sm transition-transform hover:scale-105 focus:outline-none flex items-center gap-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                                Guardar e Recalcular Motor
+                                Gravar Parâmetros no Parque
                             </button>
                         </div>
                     </form>
@@ -266,7 +266,7 @@
                 <button onclick="toggleChat()" class="text-white hover:text-blue-200 focus:outline-none"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
             </div>
             <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col space-y-4 text-sm no-scrollbar">
-                <div class="flex items-start"><div class="bg-white border border-gray-200 text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] shadow-sm">Olá! Sou o Assistente (Em Dev.).<br>Brevemente, poderá pedir-me para encontrar um chassis ou sugerir um stock para um cliente. Em que posso ajudar?</div></div>
+                <div class="flex items-start"><div class="bg-white border border-gray-200 text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] shadow-sm">Olá! Sou o Assistente (Em Dev.).<br>Brevemente, poderá pedir-me para encontrar uma matrícula ou sugerir um stock para um cliente. Em que posso ajudar?</div></div>
             </div>
             <div class="p-3 bg-white border-t border-gray-100 flex items-center space-x-2">
                 <input type="text" id="chat-input" onkeypress="if(event.key === 'Enter') enviarMensagemChat()" placeholder="Pergunte ao bot..." class="flex-1 bg-gray-100 border-transparent focus:bg-white focus:border-bmw focus:ring-1 focus:ring-bmw rounded-full px-4 py-2 text-sm outline-none">
@@ -295,56 +295,57 @@
             return ((num || 0) * 100).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %';
         }
 
-        // --- 1. STOCK INTEGRAL (38 Viaturas) ---
+        // --- 1. STOCK INTEGRAL (Matrículas inseridas) ---
         const templateInputs = { pvb: 0, opc: 0, bsi: 0, eco: 4.20, leg: 1550, isv: 0, mgb: 0, esf: 0, pac: 0, dem: 0, sup: 0, pvp_desc: 0, depreciacoes: 0 };
         
         let inventario = [
-            {"chassis": "CU94387", "modelo": "iX", "versao": "iX 45e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-04-30", "inputs": { ...templateInputs, pvb: 70725.15, opc: 7121.94, bsi: -534.15, mgb: 0.08, esf: 0.06, pac: 0.15, pvp_desc: 84698.53, depreciacoes: 6227.76 }},
-            {"chassis": "CW43657", "modelo": "iX", "versao": "iX 45e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-10-23", "inputs": { ...templateInputs, pvb: 70725.15, opc: 10577.23, mgb: 0.08, esf: 0.06, pac: 0.10, pvp_desc: 82990.0 }},
-            {"chassis": "8G08489", "modelo": "M", "versao": "M2", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "M", "data_matricula": "2026-01-21", "inputs": { ...templateInputs, pvp_desc: 108788.0 }},
-            {"chassis": "9009639", "modelo": "M", "versao": "XM", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-05-30", "inputs": { ...templateInputs, pvb: 122710.44, opc: 13333.32, isv: 2649.29, mgb: 0.10, esf: 0.06, pac: 0.05, dem: 0.1398, pvp_desc: 141325.25, depreciacoes: 8162.62 }},
-            {"chassis": "FU98565", "modelo": "M", "versao": "M3", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "M", "data_matricula": "2025-01-10", "inputs": { ...templateInputs, pvp_desc: 123979.86 }},
-            {"chassis": "7U62408", "modelo": "Série 1", "versao": "116", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2024-11-20", "inputs": { ...templateInputs, pvp_desc: 45990.0 }},
-            {"chassis": "7T44029", "modelo": "Série 2", "versao": "220 GC", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2024-12-05", "inputs": { ...templateInputs, pvp_desc: 45900.0 }},
-            {"chassis": "8F63727", "modelo": "Série 2", "versao": "218i Coupé", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2025-02-14", "inputs": { ...templateInputs, pvp_desc: 49990.0 }},
-            {"chassis": "7R53573", "modelo": "Série 2", "versao": "230e AT", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-01-25", "inputs": { ...templateInputs, pvp_desc: 56404.46 }},
-            {"chassis": "7T42133", "modelo": "Série 2", "versao": "225e AT", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2024-10-10", "inputs": { ...templateInputs, pvp_desc: 46000.0 }},
-            {"chassis": "FV33517", "modelo": "Série 3", "versao": "330e Tou", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-03-12", "inputs": { ...templateInputs, pvp_desc: 60275.83 }},
-            {"chassis": "8F69359", "modelo": "Série 3", "versao": "318d Ber", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2025-01-05", "inputs": { ...templateInputs, pvp_desc: 63000.0 }},
-            {"chassis": "8F86924", "modelo": "Série 3", "versao": "330e Ber", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "data_matricula": "2026-02-10", "inputs": { ...templateInputs, pvp_desc: 68475.0 }},
-            {"chassis": "FV71708", "modelo": "Série 3", "versao": "330e Tou", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "data_matricula": "2026-02-15", "inputs": { ...templateInputs, pvp_desc: 61499.0 }},
-            {"chassis": "FV05961", "modelo": "Série 4", "versao": "420d GC", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2024-09-20", "inputs": { ...templateInputs, pvp_desc: 63900.0 }},
-            {"chassis": "FV75974", "modelo": "Série 4", "versao": "i4 40", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-04-10", "inputs": { ...templateInputs, pvp_desc: 66490.0 }},
-            {"chassis": "FV67904", "modelo": "Série 4", "versao": "i4 40", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "data_matricula": "2026-02-05", "inputs": { ...templateInputs, pvp_desc: 62499.0 }},
-            {"chassis": "FV70698", "modelo": "Série 4", "versao": "i4 35", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "data_matricula": "2026-02-20", "inputs": { ...templateInputs, pvp_desc: 56500.0 }},
-            {"chassis": "CS12383", "modelo": "Série 5", "versao": "520d Tou", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2024-08-14", "inputs": { ...templateInputs, pvp_desc: 73227.89 }},
-            {"chassis": "CW28125", "modelo": "Série 5", "versao": "530e Ber", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "data_matricula": "2026-02-25", "inputs": { ...templateInputs, pvp_desc: 79317.17 }},
-            {"chassis": "CU47797", "modelo": "Série 5", "versao": "530e Tou", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-05-18", "inputs": { ...templateInputs, pvp_desc: 61490.0 }},
-            {"chassis": "FV66677", "modelo": "Série 4", "versao": "i4 40", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-06-01", "inputs": { ...templateInputs, pvp_desc: 67990.0 }},
-            {"chassis": "CT50220", "modelo": "Série 5", "versao": "520d Tou", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2025-02-28", "inputs": { ...templateInputs, pvp_desc: 70782.55 }},
-            {"chassis": "CW37048", "modelo": "Série 5", "versao": "530e Ber", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-07-15", "inputs": { ...templateInputs, pvp_desc: 71990.0 }},
-            {"chassis": "CW21213", "modelo": "Série 5", "versao": "i5 40 Ber", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-08-05", "inputs": { ...templateInputs, pvp_desc: 71990.0 }},
-            {"chassis": "CW19893", "modelo": "Série 5", "versao": "i5 40 Ber", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-09-12", "inputs": { ...templateInputs, pvp_desc: 66900.0 }},
-            {"chassis": "CX23776", "modelo": "Série 5", "versao": "i5 40 Tou", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "data_matricula": "2026-02-10", "inputs": { ...templateInputs, pvp_desc: 90208.16 }},
-            {"chassis": "5501715", "modelo": "X1", "versao": "iX1 20e", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "data_matricula": "2026-02-18", "inputs": { ...templateInputs, pvp_desc: 58633.0 }},
-            {"chassis": "5150915", "modelo": "X1", "versao": "X1 18i", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2024-05-20", "inputs": { ...templateInputs, pvp_desc: 51200.07 }},
-            {"chassis": "CS69891", "modelo": "Série 7", "versao": "i7 50e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-11-10", "inputs": { ...templateInputs, pvp_desc: 123509.68 }},
-            {"chassis": "5302073", "modelo": "X1", "versao": "iX1 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-12-05", "inputs": { ...templateInputs, pvp_desc: 51990.0 }},
-            {"chassis": "5434151", "modelo": "X1", "versao": "X1 25e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-01-30", "inputs": { ...templateInputs, pvp_desc: 59900.0 }},
-            {"chassis": "5412737", "modelo": "X1", "versao": "X1 25e", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "data_matricula": "2026-02-22", "inputs": { ...templateInputs, pvp_desc: 53900.0 }},
-            {"chassis": "5340398", "modelo": "X2", "versao": "iX2 20e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-02-14", "inputs": { ...templateInputs, pvp_desc: 54256.26 }},
-            {"chassis": "N324669", "modelo": "X3", "versao": "X3 30e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-02-28", "inputs": { ...templateInputs, pvp_desc: 61250.0 }},
-            {"chassis": "9208035", "modelo": "X7", "versao": "X7 40d", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "ICE", "data_matricula": "2026-02-15", "inputs": { ...templateInputs, pvp_desc: 174779.0 }},
-            {"chassis": "5500847", "modelo": "X2", "versao": "iX2 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-03-01", "inputs": { ...templateInputs, pvp_desc: 55990.0 }},
-            {"chassis": "N337377", "modelo": "X3", "versao": "X3 30e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-04-12", "inputs": { ...templateInputs, pvp_desc: 82545.42 }}
+            {"chassis": "CU94387", "matricula": "BS-83-ZH", "modelo": "iX", "versao": "iX 45e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-04-30", "inputs": { ...templateInputs, pvb: 70725.15, opc: 7121.94, bsi: -534.15, mgb: 0.08, esf: 0.06, pac: 0.15, pvp_desc: 84698.53, depreciacoes: 6227.76 }},
+            {"chassis": "CW43657", "matricula": "BZ-66-NU", "modelo": "iX", "versao": "iX 45e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-10-23", "inputs": { ...templateInputs, pvb: 70725.15, opc: 10577.23, mgb: 0.08, esf: 0.06, pac: 0.10, pvp_desc: 82990.0 }},
+            {"chassis": "8G08489", "matricula": "CB-33-VR", "modelo": "M", "versao": "M2", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "M", "data_matricula": "2026-01-21", "inputs": { ...templateInputs, pvp_desc: 108788.0 }},
+            {"chassis": "9009639", "matricula": "BT-41-VB", "modelo": "M", "versao": "XM", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-05-30", "inputs": { ...templateInputs, pvb: 122710.44, opc: 13333.32, isv: 2649.29, mgb: 0.10, esf: 0.06, pac: 0.05, dem: 0.1398, pvp_desc: 141325.25, depreciacoes: 8162.62 }},
+            {"chassis": "FU98565", "matricula": "AR-12-BB", "modelo": "M", "versao": "M3", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "M", "data_matricula": "2025-01-10", "inputs": { ...templateInputs, pvp_desc: 123979.86 }},
+            {"chassis": "7U62408", "matricula": "AZ-89-CC", "modelo": "Série 1", "versao": "116", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2024-11-20", "inputs": { ...templateInputs, pvp_desc: 45990.0 }},
+            {"chassis": "7T44029", "matricula": "BC-44-DD", "modelo": "Série 2", "versao": "220 GC", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2024-12-05", "inputs": { ...templateInputs, pvp_desc: 45900.0 }},
+            {"chassis": "8F63727", "matricula": "BL-77-EE", "modelo": "Série 2", "versao": "218i Coupé", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2025-02-14", "inputs": { ...templateInputs, pvp_desc: 49990.0 }},
+            {"chassis": "7R53573", "matricula": "BR-99-FF", "modelo": "Série 2", "versao": "230e AT", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-01-25", "inputs": { ...templateInputs, pvp_desc: 56404.46 }},
+            {"chassis": "7T42133", "matricula": "CA-11-GG", "modelo": "Série 2", "versao": "225e AT", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2024-10-10", "inputs": { ...templateInputs, pvp_desc: 46000.0 }},
+            {"chassis": "FV33517", "matricula": "CH-22-HH", "modelo": "Série 3", "versao": "330e Tou", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-03-12", "inputs": { ...templateInputs, pvp_desc: 60275.83 }},
+            {"chassis": "8F69359", "matricula": "CQ-55-JJ", "modelo": "Série 3", "versao": "318d Ber", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2025-01-05", "inputs": { ...templateInputs, pvp_desc: 63000.0 }},
+            {"chassis": "8F86924", "matricula": "CX-88-KK", "modelo": "Série 3", "versao": "330e Ber", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "data_matricula": "2026-02-10", "inputs": { ...templateInputs, pvp_desc: 68475.0 }},
+            {"chassis": "FV71708", "matricula": "DA-33-LL", "modelo": "Série 3", "versao": "330e Tou", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "data_matricula": "2026-02-15", "inputs": { ...templateInputs, pvp_desc: 61499.0 }},
+            {"chassis": "FV05961", "matricula": "DH-66-MM", "modelo": "Série 4", "versao": "420d GC", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2024-09-20", "inputs": { ...templateInputs, pvp_desc: 63900.0 }},
+            {"chassis": "FV75974", "matricula": "DP-00-NN", "modelo": "Série 4", "versao": "i4 40", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-04-10", "inputs": { ...templateInputs, pvp_desc: 66490.0 }},
+            {"chassis": "FV67904", "matricula": "DZ-45-PP", "modelo": "Série 4", "versao": "i4 40", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "data_matricula": "2026-02-05", "inputs": { ...templateInputs, pvp_desc: 62499.0 }},
+            {"chassis": "FV70698", "matricula": "EB-12-QQ", "modelo": "Série 4", "versao": "i4 35", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "data_matricula": "2026-02-20", "inputs": { ...templateInputs, pvp_desc: 56500.0 }},
+            {"chassis": "CS12383", "matricula": "EL-67-RR", "modelo": "Série 5", "versao": "520d Tou", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2024-08-14", "inputs": { ...templateInputs, pvp_desc: 73227.89 }},
+            {"chassis": "CW28125", "matricula": "EV-99-SS", "modelo": "Série 5", "versao": "530e Ber", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "data_matricula": "2026-02-25", "inputs": { ...templateInputs, pvp_desc: 79317.17 }},
+            {"chassis": "CU47797", "matricula": "FA-34-TT", "modelo": "Série 5", "versao": "530e Tou", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-05-18", "inputs": { ...templateInputs, pvp_desc: 61490.0 }},
+            {"chassis": "FV66677", "matricula": "FH-78-UU", "modelo": "Série 4", "versao": "i4 40", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-06-01", "inputs": { ...templateInputs, pvp_desc: 67990.0 }},
+            {"chassis": "CT50220", "matricula": "FP-11-VV", "modelo": "Série 5", "versao": "520d Tou", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2025-02-28", "inputs": { ...templateInputs, pvp_desc: 70782.55 }},
+            {"chassis": "CW37048", "matricula": "FZ-55-WW", "modelo": "Série 5", "versao": "530e Ber", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-07-15", "inputs": { ...templateInputs, pvp_desc: 71990.0 }},
+            {"chassis": "CW21213", "matricula": "GC-88-XX", "modelo": "Série 5", "versao": "i5 40 Ber", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-08-05", "inputs": { ...templateInputs, pvp_desc: 71990.0 }},
+            {"chassis": "CW19893", "matricula": "GL-22-YY", "modelo": "Série 5", "versao": "i5 40 Ber", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-09-12", "inputs": { ...templateInputs, pvp_desc: 66900.0 }},
+            {"chassis": "CX23776", "matricula": "GR-77-ZZ", "modelo": "Série 5", "versao": "i5 40 Tou", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "data_matricula": "2026-02-10", "inputs": { ...templateInputs, pvp_desc: 90208.16 }},
+            {"chassis": "5501715", "matricula": "HA-33-AA", "modelo": "X1", "versao": "iX1 20e", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "BEV", "data_matricula": "2026-02-18", "inputs": { ...templateInputs, pvp_desc: 58633.0 }},
+            {"chassis": "5150915", "matricula": "HL-99-BB", "modelo": "X1", "versao": "X1 18i", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "ICE", "data_matricula": "2024-05-20", "inputs": { ...templateInputs, pvp_desc: 51200.07 }},
+            {"chassis": "CS69891", "matricula": "HR-44-CC", "modelo": "Série 7", "versao": "i7 50e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-11-10", "inputs": { ...templateInputs, pvp_desc: 123509.68 }},
+            {"chassis": "5302073", "matricula": "HZ-11-DD", "modelo": "X1", "versao": "iX1 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-12-05", "inputs": { ...templateInputs, pvp_desc: 51990.0 }},
+            {"chassis": "5434151", "matricula": "IA-66-EE", "modelo": "X1", "versao": "X1 25e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-01-30", "inputs": { ...templateInputs, pvp_desc: 59900.0 }},
+            {"chassis": "5412737", "matricula": "IP-88-FF", "modelo": "X1", "versao": "X1 25e", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "PHEV", "data_matricula": "2026-02-22", "inputs": { ...templateInputs, pvp_desc: 53900.0 }},
+            {"chassis": "5340398", "matricula": "IZ-22-GG", "modelo": "X2", "versao": "iX2 20e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-02-14", "inputs": { ...templateInputs, pvp_desc: 54256.26 }},
+            {"chassis": "N324669", "matricula": "BR-75-JZ", "modelo": "X3", "versao": "X3 30e", "local": "MPA", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-02-28", "inputs": { ...templateInputs, pvp_desc: 61250.0 }},
+            {"chassis": "9208035", "matricula": "JC-77-II", "modelo": "X7", "versao": "X7 40d", "local": "MPA", "estado_entrega": "Entrega fevereiro/26", "tipologia": "ICE", "data_matricula": "2026-02-15", "inputs": { ...templateInputs, pvp_desc: 174779.0 }},
+            {"chassis": "5500847", "matricula": "JL-33-JJ", "modelo": "X2", "versao": "iX2 20e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "BEV", "data_matricula": "2025-03-01", "inputs": { ...templateInputs, pvp_desc: 55990.0 }},
+            {"chassis": "N337377", "matricula": "BU-46-VJ", "modelo": "X3", "versao": "X3 30e", "local": "VNG", "estado_entrega": "Entrega Imediata", "tipologia": "PHEV", "data_matricula": "2025-04-12", "inputs": { ...templateInputs, pvp_desc: 82545.42 }}
         ];
 
         let utilizadoresDb = [
             { id: 1, nome: "João Silva", email: "joao.silva@caetano.pt", local: ["MPA"], perfil: "Gestor", negocio: ["VN"], marca: ["BMW", "MINI"] }
         ];
 
-        // --- 2. MOTOR DE CÁLCULO ALINHADO À SHEET1 ---
+        // --- 2. MOTOR DE CÁLCULO E REATIVIDADE ---
         const taxa_iva = 0.23;
+        
         function calcularPrecosTempoReal(carro) {
             const inps = carro.inputs;
             if(!inps) return null;
@@ -361,18 +362,15 @@
             const s_iva = (inps.pvp_desc||0) / (1 + taxa_iva);
             const penetracao = inps.pvb > 0 ? ((inps.opc||0) / inps.pvb) : 0;
             
-            // Idade em meses (Atualizado ao dia de hoje)
             let idade = 0;
             if (carro.data_matricula) {
                 const matDate = new Date(carro.data_matricula);
                 const hoje = new Date();
                 idade = (hoje.getFullYear() - matDate.getFullYear()) * 12 + (hoje.getMonth() - matDate.getMonth());
+                if (idade < 0) idade = 0;
             }
 
-            return {
-                pvp_bruto: pvp_bruto, pvp_final: (inps.pvp_desc||0), idade: idade, penetracao: penetracao,
-                desc_perc: total_perc_desconto, desc_eur: desconto_eur, iva: iva, preco_minimo: pv_minimo, mg: mg, s_iva: s_iva
-            };
+            return { pvp_bruto: pvp_bruto, pvp_final: (inps.pvp_desc||0), idade: idade, penetracao: penetracao, desc_perc: total_perc_desconto, desc_eur: desconto_eur, iva: iva, preco_minimo: pv_minimo, mg: mg, s_iva: s_iva };
         }
 
         function carregarPrecosEmDireto() {
@@ -384,6 +382,57 @@
                     carro.stats = calculo; 
                 }
             });
+        }
+
+        // NOVO: Função para recalcular em tempo real ao digitar
+        function recalcularPreview() {
+            // Recolhe os valores inseridos no momento
+            const m_pvb = strParaNumero(document.getElementById('edit-pvb').value);
+            const m_opc = strParaNumero(document.getElementById('edit-opc').value);
+            const m_bsi = strParaNumero(document.getElementById('edit-bsi').value);
+            const m_eco = strParaNumero(document.getElementById('edit-eco').value);
+            const m_leg = strParaNumero(document.getElementById('edit-leg').value);
+            const m_isv = strParaNumero(document.getElementById('edit-isv').value);
+            
+            // As percentagens são inseridas inteiras (ex: 8) e convertidas p/ motor (0.08)
+            const m_mgb = strParaNumero(document.getElementById('edit-mgb').value) / 100;
+            const m_esf = strParaNumero(document.getElementById('edit-esf').value) / 100;
+            const m_pac = strParaNumero(document.getElementById('edit-pac').value) / 100;
+            const m_dem = strParaNumero(document.getElementById('edit-dem').value) / 100;
+            const m_sup = strParaNumero(document.getElementById('edit-sup').value) / 100;
+            
+            const m_depreciacoes = strParaNumero(document.getElementById('edit-depreciacoes').value);
+            const m_pvp_desc = strParaNumero(document.getElementById('edit-pvp_desc').value);
+
+            // Resgata o carro original para saber a Data de Matrícula
+            const chassis = document.getElementById('edit-chassis').value;
+            const carroOrig = inventario.find(c => c.chassis === chassis);
+            
+            // Constrói viatura fantasma para o motor processar
+            const mockCarro = {
+                data_matricula: carroOrig ? carroOrig.data_matricula : null,
+                inputs: { pvb: m_pvb, opc: m_opc, bsi: m_bsi, eco: m_eco, leg: m_leg, isv: m_isv, mgb: m_mgb, esf: m_esf, pac: m_pac, dem: m_dem, sup: m_sup, depreciacoes: m_depreciacoes, pvp_desc: m_pvp_desc }
+            };
+
+            const stats = calcularPrecosTempoReal(mockCarro);
+            if(!stats) return;
+
+            // Injeta instantaneamente nos visores
+            document.getElementById('auto-idade').value = stats.idade;
+            document.getElementById('auto-penetracao').value = formatarPerc(stats.penetracao);
+            document.getElementById('auto-pvp-bruto').value = formatarEuros(stats.pvp_bruto);
+            document.getElementById('auto-iva').value = formatarEuros(stats.iva);
+            
+            document.getElementById('auto-desc-perc').value = formatarPerc(stats.desc_perc);
+            document.getElementById('auto-desc-eur').value = formatarEuros(stats.desc_eur);
+            
+            document.getElementById('auto-preco-min').value = formatarEuros(stats.preco_minimo);
+            document.getElementById('auto-s-iva').value = formatarEuros(stats.s_iva);
+            
+            const mgElement = document.getElementById('auto-mg');
+            mgElement.value = formatarEuros(stats.mg);
+            if(stats.mg < 0) { mgElement.classList.replace('text-green-700', 'text-red-600'); mgElement.classList.replace('bg-green-50', 'bg-red-50'); } 
+            else { mgElement.classList.replace('text-red-600', 'text-green-700'); mgElement.classList.replace('bg-red-50', 'bg-green-50'); }
         }
 
         // --- 3. BOT E TABS ---
@@ -405,22 +454,14 @@
 
         function mudarTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.nav-tab').forEach(b => {
-                b.classList.remove('border-bmw', 'text-bmw'); b.classList.add('border-transparent', 'text-gray-400');
-            });
+            document.querySelectorAll('.nav-tab').forEach(b => { b.classList.remove('border-bmw', 'text-bmw'); b.classList.add('border-transparent', 'text-gray-400'); });
             document.getElementById('conteudo-' + tabName).classList.add('active');
             document.getElementById('tab-' + tabName).classList.remove('border-transparent', 'text-gray-400');
             document.getElementById('tab-' + tabName).classList.add('border-bmw', 'text-bmw');
 
-            // Lógica do Chatbot visível apenas no Parque e Especificações
             const chatWidget = document.getElementById('chat-widget');
-            if(tabName === 'parque' || tabName === 'especificacoes') {
-                chatWidget.style.display = 'flex';
-            } else {
-                chatWidget.style.display = 'none';
-                document.getElementById('chat-window').classList.add('hidden'); // Fecha a janela se tiver aberta
-                document.getElementById('chat-window').classList.remove('flex');
-            }
+            if(tabName === 'parque' || tabName === 'especificacoes') { chatWidget.style.display = 'flex'; } 
+            else { chatWidget.style.display = 'none'; document.getElementById('chat-window').classList.add('hidden'); document.getElementById('chat-window').classList.remove('flex'); }
         }
 
         // --- 4. FILTROS E PARQUE ---
@@ -435,9 +476,8 @@
         function setFiltro(tipo, valor) {
             filtros[tipo] = valor;
             Array.from(document.getElementById(`filtro-${tipo}-container`).children).forEach(btn => {
-                if(btn.innerText === valor || (valor === 'Todas' && btn.innerText === 'Todas') || (valor === 'Todos' && btn.innerText === 'Todos')) {
-                    btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600');
-                } else { btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600'); }
+                if(btn.innerText === valor || (valor === 'Todas' && btn.innerText === 'Todas') || (valor === 'Todos' && btn.innerText === 'Todos')) { btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600'); } 
+                else { btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600'); }
             });
             aplicarFiltros();
         }
@@ -452,7 +492,7 @@
 
             document.getElementById('tabela-corpo').innerHTML = dados.map(c => `
                 <tr class="hover:bg-blue-50/40 transition-all border-b border-gray-50">
-                    <td class="px-6 py-4"><div class="font-bold text-gray-900 leading-tight">${c.modelo} ${c.versao}</div><div class="text-[10px] font-mono text-gray-400 uppercase tracking-tighter mt-1">${c.chassis}</div></td>
+                    <td class="px-6 py-4"><div class="font-bold text-gray-900 leading-tight">${c.modelo} ${c.versao}</div><div class="text-[10px] font-mono text-gray-400 uppercase tracking-tighter mt-1">${c.matricula}</div></td>
                     <td class="px-6 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold border border-gray-200">${c.local}</span></td>
                     <td class="px-6 py-4 text-xs text-gray-500">${c.estado_entrega}</td>
                     <td class="px-6 py-4 text-right text-xs text-gray-400 italic">${c.pvp_bruto > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</td>
@@ -463,7 +503,7 @@
                 <div class="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm relative overflow-hidden">
                     <div class="absolute top-0 left-0 w-1 h-full bg-bmw"></div>
                     <div class="flex justify-between items-start mb-4">
-                        <div><div class="text-lg font-black text-gray-900 leading-none">${c.modelo} ${c.versao}</div><div class="text-[10px] font-mono text-gray-400 mt-1 uppercase tracking-widest">${c.chassis}</div></div>
+                        <div><div class="text-lg font-black text-gray-900 leading-none">${c.modelo} ${c.versao}</div><div class="text-[10px] font-mono text-gray-400 mt-1 uppercase tracking-widest">${c.matricula}</div></div>
                         <span class="bg-gray-100 border border-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1 rounded uppercase">${c.local}</span>
                     </div>
                     <div class="flex justify-between items-end pt-4 border-t border-gray-100">
@@ -472,16 +512,13 @@
                     </div>
                 </div>`).join('');
         }
-        function mudarVista(v) {
-            document.getElementById('vista-tabela').style.display = v === 'tabela' ? 'block' : 'none';
-            document.getElementById('vista-cartoes').style.display = v === 'cartoes' ? 'block' : 'none';
-        }
+        function mudarVista(v) { document.getElementById('vista-tabela').style.display = v === 'tabela' ? 'block' : 'none'; document.getElementById('vista-cartoes').style.display = v === 'cartoes' ? 'block' : 'none'; }
 
         // --- 5. ADMIN VN ---
         function renderizarListaAdmin() {
             document.getElementById('lista-admin-viaturas').innerHTML = inventario.map(c => `
                 <button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-3 rounded-lg border border-gray-100 hover:border-bmw hover:bg-blue-50 transition-colors bg-white shadow-sm mb-2">
-                    <div class="font-bold text-sm text-gray-800">${c.modelo} ${c.versao}</div><div class="text-[10px] text-gray-400 font-mono">${c.chassis}</div>
+                    <div class="font-bold text-sm text-gray-800">${c.modelo} ${c.versao}</div><div class="text-[10px] text-gray-400 font-mono">${c.matricula}</div>
                 </button>`).join('');
         }
 
@@ -489,24 +526,17 @@
             const carro = inventario.find(c => c.chassis === chassis);
             document.getElementById('form-precos').classList.remove('opacity-50', 'pointer-events-none');
             document.getElementById('admin-titulo-carro').innerText = `${carro.modelo} ${carro.versao}`;
-            document.getElementById('admin-chassis').innerText = `Chassis: ${carro.chassis}`;
+            document.getElementById('admin-matricula').innerText = `Matrícula: ${carro.matricula}`;
             
             document.getElementById('edit-chassis').value = carro.chassis;
-            const keys = ['pvb','opc','bsi','eco','leg','isv','mgb','esf','pac','dem','sup','depreciacoes','pvp_desc'];
-            keys.forEach(k => { document.getElementById('edit-'+k).value = numeroParaStr(carro.inputs[k]); });
             
-            // Renderiza Auto-Cálculos In-Line
-            document.getElementById('auto-idade').value = carro.stats.idade;
-            document.getElementById('auto-penetracao').value = formatarPerc(carro.stats.penetracao);
-            document.getElementById('auto-pvp-bruto').value = formatarEuros(carro.stats.pvp_bruto);
-            document.getElementById('auto-iva').value = formatarEuros(carro.stats.iva);
+            // Popula Valores Base e Valores Euros
+            ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc'].forEach(k => { document.getElementById('edit-'+k).value = numeroParaStr(carro.inputs[k]); });
             
-            document.getElementById('auto-desc-perc').value = formatarPerc(carro.stats.desc_perc);
-            document.getElementById('auto-desc-eur').value = formatarEuros(carro.stats.desc_eur);
+            // Popula Percentagens (Multiplica por 100 para o user ver 8 em vez de 0.08)
+            ['mgb','esf','pac','dem','sup'].forEach(k => { document.getElementById('edit-'+k).value = numeroParaStr(carro.inputs[k] * 100); });
             
-            document.getElementById('auto-preco-min').value = formatarEuros(carro.stats.preco_minimo);
-            document.getElementById('auto-s-iva').value = formatarEuros(carro.stats.s_iva);
-            document.getElementById('auto-mg').value = formatarEuros(carro.stats.mg);
+            recalcularPreview(); // Dispara o cálculo inicial
         }
 
         function guardarPrecos(e) {
@@ -514,47 +544,39 @@
             const chassis = document.getElementById('edit-chassis').value;
             let carro = inventario.find(c => c.chassis === chassis);
             
-            const keys = ['pvb','opc','bsi','eco','leg','isv','mgb','esf','pac','dem','sup','depreciacoes','pvp_desc'];
-            keys.forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value); });
+            // Grava Euros
+            ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value); });
+            
+            // Grava Percentagens (Divide por 100 para enviar pro motor)
+            ['mgb','esf','pac','dem','sup'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value) / 100; });
 
             carregarPrecosEmDireto(); aplicarFiltros(); abrirEdicao(chassis);
+            
+            const btn = document.querySelector('#form-precos button[type="submit"]');
+            const txt = btn.innerHTML; btn.innerHTML = "Guardado com Sucesso!"; btn.classList.replace('bg-orange-500', 'bg-green-500');
+            setTimeout(() => { btn.innerHTML = txt; btn.classList.replace('bg-green-500', 'bg-orange-500'); }, 2000);
         }
 
         // --- 6. UTILIZADORES (Intocado) ---
         let userPerfilAtual = ""; let userNegocioAtual = []; let userMarcaAtual = []; let userLocalAtual = [];
         function renderizarListaUtilizadores() {
-            document.getElementById('lista-utilizadores').innerHTML = utilizadoresDb.map(u => `
-                <button onclick="editarUtilizador(${u.id})" class="w-full text-left p-3 rounded-lg border border-gray-100 hover:border-bmw hover:bg-blue-50 transition-colors bg-white shadow-sm mb-2 focus:outline-none">
-                    <div class="font-bold text-sm text-gray-800">${u.nome}</div><div class="text-[10px] text-gray-400 mt-0.5">${u.perfil} | ${u.local.join(', ')}</div>
-                </button>
-            `).join('');
+            document.getElementById('lista-utilizadores').innerHTML = utilizadoresDb.map(u => `<button onclick="editarUtilizador(${u.id})" class="w-full text-left p-3 rounded-lg border border-gray-100 hover:border-bmw hover:bg-blue-50 transition-colors bg-white shadow-sm mb-2 focus:outline-none"><div class="font-bold text-sm text-gray-800">${u.nome}</div><div class="text-[10px] text-gray-400 mt-0.5">${u.perfil} | ${u.local.join(', ')}</div></button>`).join('');
         }
         function prepararNovoUtilizador() {
-            document.getElementById('painel-user-vazio').classList.add('hidden');
-            document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex');
+            document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex');
             document.getElementById('form-user').reset(); document.getElementById('titulo-form-user').innerText = "Novo Utilizador"; document.getElementById('user-id').value = "";
             document.getElementById('btn-remover-user').classList.add('hidden'); document.getElementById('btn-guardar-user').innerText = "Gerar Convite de Acesso";
             userPerfilAtual = ""; userNegocioAtual = []; userMarcaAtual = []; userLocalAtual = []; atualizarBotoesUtilizador();
         }
         function editarUtilizador(id) {
             const u = utilizadoresDb.find(user => user.id === id); if(!u) return;
-            document.getElementById('painel-user-vazio').classList.add('hidden');
-            document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex');
-            document.getElementById('titulo-form-user').innerText = "Editar Utilizador"; document.getElementById('user-id').value = u.id;
-            document.getElementById('user-nome').value = u.nome; document.getElementById('user-email').value = u.email;
+            document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex');
+            document.getElementById('titulo-form-user').innerText = "Editar Utilizador"; document.getElementById('user-id').value = u.id; document.getElementById('user-nome').value = u.nome; document.getElementById('user-email').value = u.email;
             userPerfilAtual = u.perfil; userNegocioAtual = [...u.negocio]; userMarcaAtual = [...u.marca]; userLocalAtual = [...u.local];
-            document.getElementById('btn-remover-user').classList.remove('hidden'); document.getElementById('btn-guardar-user').innerText = "Atualizar Perfil";
-            atualizarBotoesUtilizador();
+            document.getElementById('btn-remover-user').classList.remove('hidden'); document.getElementById('btn-guardar-user').innerText = "Atualizar Perfil"; atualizarBotoesUtilizador();
         }
-        function cancelarEdicaoUser() {
-            document.getElementById('painel-user-form').classList.add('hidden'); document.getElementById('painel-user-form').classList.remove('flex');
-            document.getElementById('painel-user-vazio').classList.remove('hidden');
-        }
-        function toggleArray(array, valor) {
-            if(valor === 'Todas') return array.includes('Todas') ? [] : ['Todas'];
-            let novoArr = array.filter(i => i !== 'Todas');
-            return novoArr.includes(valor) ? novoArr.filter(i => i !== valor) : [...novoArr, valor];
-        }
+        function cancelarEdicaoUser() { document.getElementById('painel-user-form').classList.add('hidden'); document.getElementById('painel-user-form').classList.remove('flex'); document.getElementById('painel-user-vazio').classList.remove('hidden'); }
+        function toggleArray(array, valor) { if(valor === 'Todas') return array.includes('Todas') ? [] : ['Todas']; let novoArr = array.filter(i => i !== 'Todas'); return novoArr.includes(valor) ? novoArr.filter(i => i !== valor) : [...novoArr, valor]; }
         function toggleUserLocal(local) { userLocalAtual = toggleArray(userLocalAtual, local); atualizarBotoesUtilizador(); }
         function toggleUserPerfil(perfil) { userPerfilAtual = perfil; atualizarBotoesUtilizador(); }
         function toggleUserNegocio(negocio) { userNegocioAtual = toggleArray(userNegocioAtual, negocio); atualizarBotoesUtilizador(); }
@@ -564,14 +586,10 @@
                 list.forEach(v => {
                     let btn = document.getElementById(prefix + v); if(!btn) return;
                     let isActive = (typeof stateVar === 'string') ? (stateVar === v) : stateVar.includes(v);
-                    if(isActive) { btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600'); } 
-                    else { btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600'); }
+                    if(isActive) { btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600'); } else { btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600'); }
                 });
             };
-            syncBtns(['Todas', 'MPA', 'VNG', 'Porto', 'Gaia', 'Feira', 'Aveiro', 'Matosinhos'], userLocalAtual, 'btn-local-');
-            syncBtns(['Vendedor', 'Gestor', 'Administrador'], userPerfilAtual, 'btn-perfil-');
-            syncBtns(['VN', 'VU'], userNegocioAtual, 'btn-negocio-');
-            syncBtns(['BMW', 'MINI'], userMarcaAtual, 'btn-marca-');
+            syncBtns(['Todas', 'MPA', 'VNG', 'Porto', 'Gaia', 'Feira', 'Aveiro', 'Matosinhos'], userLocalAtual, 'btn-local-'); syncBtns(['Vendedor', 'Gestor', 'Administrador'], userPerfilAtual, 'btn-perfil-'); syncBtns(['VN', 'VU'], userNegocioAtual, 'btn-negocio-'); syncBtns(['BMW', 'MINI'], userMarcaAtual, 'btn-marca-');
         }
         function guardarUtilizador(e) {
             e.preventDefault();
@@ -581,17 +599,12 @@
             if(id) { utilizadoresDb[utilizadoresDb.findIndex(u => u.id === parseInt(id))] = userObj; } else { utilizadoresDb.push(userObj); }
             renderizarListaUtilizadores(); cancelarEdicaoUser(); alert(id ? 'Perfil atualizado!' : 'Convite enviado.');
         }
-        function removerUtilizador() {
-            const id = parseInt(document.getElementById('user-id').value);
-            if(confirm("Deseja revogar o acesso deste utilizador?")) { utilizadoresDb = utilizadoresDb.filter(u => u.id !== id); renderizarListaUtilizadores(); cancelarEdicaoUser(); }
-        }
+        function removerUtilizador() { const id = parseInt(document.getElementById('user-id').value); if(confirm("Deseja revogar o acesso deste utilizador?")) { utilizadoresDb = utilizadoresDb.filter(u => u.id !== id); renderizarListaUtilizadores(); cancelarEdicaoUser(); } }
 
         // --- INIT ---
         window.onload = () => {
             carregarPrecosEmDireto(); initModeloFiltros();
             renderizarListaAdmin(); renderizarListaUtilizadores(); aplicarFiltros();
-            
-            // Ativa botão de chat no arranque (estamos no Parque)
             document.getElementById('chat-widget').style.display = 'flex';
         };
     </script>
