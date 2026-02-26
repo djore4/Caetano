@@ -15,9 +15,10 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+        .calc-auto { background-color: #f8fafc; color: #64748b; border-color: #cbd5e1; border-style: dashed; }
     </style>
 </head>
-<body class="min-h-screen bg-white font-sans text-slate-800 relative">
+<body class="min-h-screen bg-white font-sans text-slate-800 relative pb-20">
 
     <header class="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -30,7 +31,7 @@
                 <div class="flex items-center space-x-4 sm:space-x-8">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/BMW_logo_%28gray%29.svg" alt="BMW" class="h-6 sm:h-10">
                     <div class="h-6 sm:h-8 w-[1px] bg-gray-200"></div>
-                    <img src="mini-cooper-logo-png_seeklogo-267544.png" alt="MINI" class="h-4 sm:h-7">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Mini_logo.svg" alt="MINI" class="h-4 sm:h-7">
                 </div>
             </div>
         </div>
@@ -50,7 +51,7 @@
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-64">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
         <div id="conteudo-parque" class="tab-content active">
             <div class="space-y-6 mb-8 bg-gray-50 p-4 sm:p-5 rounded-xl border border-gray-100 shadow-sm">
@@ -156,15 +157,15 @@
         </div>
 
         <div id="conteudo-admin-vn" class="tab-content">
-            <div class="flex flex-col lg:flex-row gap-6">
-                <div class="w-full lg:w-1/3 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[850px]">
+            <div class="flex flex-col xl:flex-row gap-6">
+                <div class="w-full xl:w-1/3 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[600px] xl:h-[800px]">
                     <div class="p-4 border-b border-gray-100 bg-gray-50">
                         <h2 class="font-bold text-gray-700 text-sm uppercase tracking-widest">Inventário VN</h2>
                     </div>
-                    <div class="overflow-y-auto p-2 space-y-2 flex-1" id="lista-admin-viaturas"></div>
+                    <div class="overflow-y-auto p-2 space-y-2 flex-1 no-scrollbar" id="lista-admin-viaturas"></div>
                 </div>
 
-                <div class="w-full lg:w-2/3 bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex flex-col" id="painel-edicao-form">
+                <div class="w-full xl:w-2/3 bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex flex-col" id="painel-edicao-form">
                     <div class="flex justify-between items-start mb-6 border-b border-gray-100 pb-4">
                         <div>
                             <h2 class="text-xl font-black text-gray-800" id="admin-titulo-carro">Selecione uma viatura</h2>
@@ -175,94 +176,72 @@
                     <form id="form-precos" onsubmit="guardarPrecos(event)" class="space-y-6 flex-1 opacity-50 pointer-events-none">
                         <input type="hidden" id="edit-chassis">
                         
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <div class="space-y-6">
-                                <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
-                                    <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">1. Valores Base (€)</h3>
-                                    <div class="grid grid-cols-2 gap-4">
-                                        <div><label class="block text-[10px] font-medium text-gray-700 mb-1">Preço Base</label><input type="text" id="edit-pvb" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-bmw outline-none" placeholder="Ex: 70725,15"></div>
-                                        <div><label class="block text-[10px] font-medium text-gray-700 mb-1">Opcionais</label><input type="text" id="edit-opc" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-bmw outline-none"></div>
-                                        <div><label class="block text-[10px] font-medium text-gray-700 mb-1">BSI/MSI</label><input type="text" id="edit-bsi" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-bmw outline-none"></div>
-                                        <div><label class="block text-[10px] font-medium text-gray-700 mb-1">Ecovalor</label><input type="text" id="edit-eco" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-bmw outline-none"></div>
-                                        <div><label class="block text-[10px] font-medium text-gray-700 mb-1">Legalização e Transporte</label><input type="text" id="edit-leg" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-bmw outline-none"></div>
-                                        <div><label class="block text-[10px] font-medium text-gray-700 mb-1">ISV</label><input type="text" id="edit-isv" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-bmw outline-none"></div>
-                                    </div>
-                                </div>
-
-                                <div class="bg-blue-50/50 p-4 rounded-lg border border-blue-100">
-                                    <h3 class="text-xs font-bold text-bmw uppercase tracking-widest mb-3">2. Descontos (%)</h3>
-                                    <div class="grid grid-cols-2 gap-3">
-                                        <div><label class="block text-[10px] font-medium text-gray-700 mb-1">Margem Fixa (%)</label><input type="text" id="edit-mgb" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none" placeholder="0,08"></div>
-                                        <div><label class="block text-[10px] font-medium text-gray-700 mb-1">Margem Variável (%)</label><input type="text" id="edit-esf" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
-                                        <div><label class="block text-[10px] font-medium text-gray-700 mb-1">PAC (%)</label><input type="text" id="edit-pac" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
-                                        <div><label class="block text-[10px] font-medium text-gray-700 mb-1">Apoio Demonstração (%)</label><input type="text" id="edit-dem" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
-                                        <div><label class="block text-[10px] font-medium text-gray-700 mb-1">Apoio Suplementar (%)</label><input type="text" id="edit-sup" class="w-full border border-gray-300 rounded px-2 py-1.5 text-sm outline-none"></div>
-                                    </div>
-                                    <p class="text-[10px] text-gray-400 mt-2 italic">Ex: 8% = 0,08</p>
-                                </div>
-
-                                <div class="bg-gray-50 p-4 rounded-lg border border-gray-100">
-                                    <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">3. Preço Venda</h3>
-                                    <div class="grid grid-cols-2 gap-4 items-end">
-                                        <div><label class="block text-[10px] font-medium text-gray-700 mb-1">Depreciações €</label><input type="text" id="edit-depreciacoes" class="w-full border border-gray-300 rounded px-3 py-2 text-sm focus:ring-bmw outline-none"></div>
-                                        <div><label class="block text-[10px] font-bold text-bmw mb-1">PVP DESC (A Inserir) €</label><input type="text" id="edit-pvp_desc" class="w-full border-2 border-bmw rounded px-3 py-2 text-sm font-bold focus:outline-none bg-blue-50/30"></div>
-                                    </div>
-                                </div>
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                            <h3 class="text-xs font-bold text-bmw uppercase tracking-widest mb-4 flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                1. Valores de Base Tributável
+                            </h3>
+                            
+                            <div class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mb-4">
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">PREÇO BASE €</label><input type="text" id="edit-pvb" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw" placeholder="Ex: 70 725,15"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">OPCIONAIS €</label><input type="text" id="edit-opc" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">BSI/MSI €</label><input type="text" id="edit-bsi" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ECOVALOR €</label><input type="text" id="edit-eco" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">LEG. & TRANSP. €</label><input type="text" id="edit-leg" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ISV €</label><input type="text" id="edit-isv" class="w-full border border-gray-300 rounded px-3 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
                             </div>
 
-                            <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 text-white shadow-inner flex flex-col">
-                                <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
-                                    <svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                    Indicadores Automáticos
-                                </h3>
-                                
-                                <div class="space-y-4 flex-1">
-                                    <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-                                        <span class="text-xs text-slate-300">Idade (Meses)</span>
-                                        <span class="font-bold text-sm" id="disp-idade">--</span>
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-                                        <span class="text-xs text-slate-300">Penetração Opcionais</span>
-                                        <span class="font-bold text-sm" id="disp-penetracao">--</span>
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-                                        <span class="text-xs text-slate-300">PVP (Bruto)</span>
-                                        <span class="font-bold text-sm" id="disp-pvp">--</span>
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-                                        <span class="text-xs text-slate-300">Desconto (%)</span>
-                                        <span class="font-bold text-sm" id="disp-desc-perc">--</span>
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-                                        <span class="text-xs text-slate-300">Desconto (€)</span>
-                                        <span class="font-bold text-red-400 text-sm" id="disp-desc-eur">--</span>
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-                                        <span class="text-xs text-slate-300">Preço Mínimo</span>
-                                        <span class="font-bold text-sm" id="disp-preco-minimo">--</span>
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-                                        <span class="text-xs text-slate-300">IVA (S/ Base Tributável)</span>
-                                        <span class="font-bold text-sm" id="disp-iva">--</span>
-                                    </div>
-                                    <div class="flex justify-between items-center border-b border-slate-700 pb-2">
-                                        <span class="text-xs text-slate-300">s/ IVA (PVP DESC)</span>
-                                        <span class="font-bold text-sm" id="disp-s-iva">--</span>
-                                    </div>
-                                </div>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 border-t border-gray-200 pt-4">
+                                <div><label class="block text-[9px] font-bold text-slate-400 uppercase">Idade (Meses)</label><input type="text" readonly id="auto-idade" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1"></div>
+                                <div><label class="block text-[9px] font-bold text-slate-400 uppercase">Penetração Opc.</label><input type="text" readonly id="auto-penetracao" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1"></div>
+                                <div><label class="block text-[9px] font-bold text-slate-400 uppercase">PVP (S/ DESC)</label><input type="text" readonly id="auto-pvp-bruto" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1"></div>
+                                <div><label class="block text-[9px] font-bold text-slate-400 uppercase">IVA</label><input type="text" readonly id="auto-iva" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1"></div>
+                            </div>
+                        </div>
 
-                                <div class="mt-4 pt-4 border-t border-slate-600">
-                                    <div class="flex justify-between items-end">
-                                        <span class="text-xs text-slate-300 uppercase font-bold">Margem (MG)</span>
-                                        <span class="text-2xl font-black text-green-400" id="disp-mg">-- €</span>
-                                    </div>
-                                </div>
+                        <div class="bg-blue-50/40 p-4 rounded-xl border border-blue-100">
+                            <h3 class="text-xs font-bold text-bmw uppercase tracking-widest mb-4 flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                2. Campanhas & Descontos (%)
+                            </h3>
+                            
+                            <div class="grid grid-cols-2 md:grid-cols-5 gap-3 mb-4">
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MARGEM FIXA</label><input type="text" id="edit-mgb" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw" placeholder="0,08"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">MARGEM VAR.</label><input type="text" id="edit-esf" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">PAC</label><input type="text" id="edit-pac" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">APOIO DEM.</label><input type="text" id="edit-dem" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">APOIO SUP.</label><input type="text" id="edit-sup" class="w-full border border-gray-300 rounded px-2 py-2 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-3 border-t border-blue-200 pt-4">
+                                <div><label class="block text-[9px] font-bold text-blue-400 uppercase">Total Desconto (%)</label><input type="text" readonly id="auto-desc-perc" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1 text-blue-700"></div>
+                                <div><label class="block text-[9px] font-bold text-blue-400 uppercase">Total Desconto (€)</label><input type="text" readonly id="auto-desc-eur" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1 text-red-600"></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-green-50/30 p-4 rounded-xl border border-green-100 shadow-sm relative overflow-hidden">
+                            <div class="absolute left-0 top-0 w-1 h-full bg-green-500"></div>
+                            <h3 class="text-xs font-bold text-green-700 uppercase tracking-widest mb-4 flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                3. Apuramento de Preço & Margem
+                            </h3>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1">DEPRECIAÇÕES €</label><input type="text" id="edit-depreciacoes" class="w-full border border-gray-300 rounded px-3 py-3 text-sm outline-none focus:ring-1 focus:border-bmw focus:ring-bmw"></div>
+                                <div><label class="block text-[10px] font-black text-green-700 mb-1">PREÇO DE VENDA (PVP DESC) €</label><input type="text" id="edit-pvp_desc" class="w-full border-2 border-green-500 rounded px-3 py-3 text-base font-black text-green-800 focus:outline-none shadow-inner" placeholder="O Preço Final a definir"></div>
+                            </div>
+
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 border-t border-green-100 pt-4">
+                                <div><label class="block text-[9px] font-bold text-slate-400 uppercase">Preço Mínimo €</label><input type="text" readonly id="auto-preco-min" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1"></div>
+                                <div><label class="block text-[9px] font-bold text-slate-400 uppercase">Valor S/ IVA (PVP) €</label><input type="text" readonly id="auto-s-iva" class="w-full border px-2 py-1.5 text-xs outline-none calc-auto font-mono mt-1"></div>
+                                <div><label class="block text-[9px] font-black text-green-600 uppercase">Margem Resultante (MG) €</label><input type="text" readonly id="auto-mg" class="w-full border-2 border-dashed border-green-300 bg-green-50 text-green-700 px-2 py-1.5 text-sm font-black outline-none mt-1"></div>
                             </div>
                         </div>
 
                         <div class="pt-4 border-t border-gray-100 flex justify-end">
-                            <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow-sm transition-colors focus:outline-none">
-                                Guardar e Recalcular Margem
+                            <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow-sm transition-transform hover:scale-105 focus:outline-none flex items-center gap-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                                Guardar e Recalcular Motor
                             </button>
                         </div>
                     </form>
@@ -277,6 +256,26 @@
         </div>
     </main>
 
+    <div id="chat-widget" class="fixed bottom-6 right-6 z-50 flex-col items-end hidden">
+        <div id="chat-window" class="hidden w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 mb-4 overflow-hidden flex-col transition-all duration-300" style="height: 400px; max-height: 70vh;">
+            <div class="bg-bmw p-4 flex justify-between items-center text-white">
+                <div class="flex items-center space-x-2">
+                    <div class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse"></div>
+                    <div><h3 class="font-bold text-sm leading-none">Assistente Parque</h3><span class="text-[10px] text-blue-200">Módulo em dev.</span></div>
+                </div>
+                <button onclick="toggleChat()" class="text-white hover:text-blue-200 focus:outline-none"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            </div>
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col space-y-4 text-sm no-scrollbar">
+                <div class="flex items-start"><div class="bg-white border border-gray-200 text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] shadow-sm">Olá! Sou o Assistente (Em Dev.).<br>Brevemente, poderá pedir-me para encontrar um chassis ou sugerir um stock para um cliente. Em que posso ajudar?</div></div>
+            </div>
+            <div class="p-3 bg-white border-t border-gray-100 flex items-center space-x-2">
+                <input type="text" id="chat-input" onkeypress="if(event.key === 'Enter') enviarMensagemChat()" placeholder="Pergunte ao bot..." class="flex-1 bg-gray-100 border-transparent focus:bg-white focus:border-bmw focus:ring-1 focus:ring-bmw rounded-full px-4 py-2 text-sm outline-none">
+                <button onclick="enviarMensagemChat()" class="bg-bmw text-white p-2 rounded-full hover:bg-blue-700 focus:outline-none"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
+            </div>
+        </div>
+        <button onclick="toggleChat()" class="bg-bmw text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center hover:bg-blue-700 transition-transform hover:scale-105 focus:outline-none mt-auto self-end"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg></button>
+    </div>
+
     <script>
         // --- FUNÇÕES AUXILIARES: NOTAÇÃO PT-PT ---
         function strParaNumero(str) {
@@ -287,7 +286,7 @@
         }
         function numeroParaStr(num) {
             if (num === null || num === undefined) return "0";
-            return num.toString().replace('.', ',');
+            return num.toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2});
         }
         function formatarEuros(num) {
             return (num || 0).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €';
@@ -296,7 +295,7 @@
             return ((num || 0) * 100).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %';
         }
 
-        // --- 1. STOCK INTEGRAL (Com Data de Matrícula para Idade) ---
+        // --- 1. STOCK INTEGRAL (38 Viaturas) ---
         const templateInputs = { pvb: 0, opc: 0, bsi: 0, eco: 4.20, leg: 1550, isv: 0, mgb: 0, esf: 0, pac: 0, dem: 0, sup: 0, pvp_desc: 0, depreciacoes: 0 };
         
         let inventario = [
@@ -344,28 +343,25 @@
             { id: 1, nome: "João Silva", email: "joao.silva@caetano.pt", local: ["MPA"], perfil: "Gestor", negocio: ["VN"], marca: ["BMW", "MINI"] }
         ];
 
-        // --- 2. NOVO MOTOR DE CÁLCULO (Completamente alinhado com a Sheet 1) ---
+        // --- 2. MOTOR DE CÁLCULO ALINHADO À SHEET1 ---
         const taxa_iva = 0.23;
         function calcularPrecosTempoReal(carro) {
             const inps = carro.inputs;
             if(!inps) return null;
             
-            // Cálculos da Sheet1
             const base_tributavel = (inps.pvb||0) + (inps.opc||0) + (inps.bsi||0) + (inps.eco||0) + (inps.leg||0) + (inps.isv||0);
             const pvp_bruto = base_tributavel * (1 + taxa_iva);
             const iva = base_tributavel * taxa_iva;
             
             const total_perc_desconto = (inps.mgb||0) + (inps.esf||0) + (inps.pac||0) + (inps.dem||0) + (inps.sup||0);
-            // Desconto com IVA para abater no PVP
             const desconto_eur = (((inps.pvb||0) + (inps.opc||0)) * total_perc_desconto) * (1 + taxa_iva);
             
             const pv_minimo = pvp_bruto - desconto_eur;
             const mg = (inps.pvp_desc||0) - pv_minimo + (inps.depreciacoes||0);
             const s_iva = (inps.pvp_desc||0) / (1 + taxa_iva);
-            
             const penetracao = inps.pvb > 0 ? ((inps.opc||0) / inps.pvb) : 0;
             
-            // Idade em meses
+            // Idade em meses (Atualizado ao dia de hoje)
             let idade = 0;
             if (carro.data_matricula) {
                 const matDate = new Date(carro.data_matricula);
@@ -374,16 +370,8 @@
             }
 
             return {
-                pvp_bruto: pvp_bruto,
-                pvp_final: (inps.pvp_desc||0),
-                idade: idade,
-                penetracao: penetracao,
-                desc_perc: total_perc_desconto,
-                desc_eur: desconto_eur,
-                iva: iva,
-                preco_minimo: pv_minimo,
-                mg: mg,
-                s_iva: s_iva
+                pvp_bruto: pvp_bruto, pvp_final: (inps.pvp_desc||0), idade: idade, penetracao: penetracao,
+                desc_perc: total_perc_desconto, desc_eur: desconto_eur, iva: iva, preco_minimo: pv_minimo, mg: mg, s_iva: s_iva
             };
         }
 
@@ -393,12 +381,28 @@
                 if(calculo) {
                     carro.pvp_bruto = calculo.pvp_bruto;
                     carro.pvp_final = calculo.pvp_final;
-                    carro.stats = calculo; // Guarda as estatisticas para o painel Admin
+                    carro.stats = calculo; 
                 }
             });
         }
 
-        // --- 3. TABS E LÓGICA DE NAVEGAÇÃO ---
+        // --- 3. BOT E TABS ---
+        function toggleChat() {
+            const w = document.getElementById('chat-window');
+            if (w.classList.contains('hidden')) { w.classList.remove('hidden'); w.classList.add('flex'); document.getElementById('chat-input').focus(); } 
+            else { w.classList.add('hidden'); w.classList.remove('flex'); }
+        }
+        function enviarMensagemChat() {
+            const inp = document.getElementById('chat-input'); const txt = inp.value.trim(); if (!txt) return;
+            const msgs = document.getElementById('chat-messages');
+            msgs.innerHTML += `<div class="flex items-start justify-end"><div class="bg-bmw text-white p-3 rounded-2xl rounded-tr-none max-w-[85%] shadow-sm">${txt}</div></div>`;
+            inp.value = ''; msgs.scrollTop = msgs.scrollHeight;
+            setTimeout(() => {
+                msgs.innerHTML += `<div class="flex items-start"><div class="bg-white border border-gray-200 text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] shadow-sm">O módulo de IA está em desenvolvimento. Guardei o seu pedido!</div></div>`;
+                msgs.scrollTop = msgs.scrollHeight;
+            }, 800);
+        }
+
         function mudarTab(tabName) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(b => {
@@ -407,6 +411,16 @@
             document.getElementById('conteudo-' + tabName).classList.add('active');
             document.getElementById('tab-' + tabName).classList.remove('border-transparent', 'text-gray-400');
             document.getElementById('tab-' + tabName).classList.add('border-bmw', 'text-bmw');
+
+            // Lógica do Chatbot visível apenas no Parque e Especificações
+            const chatWidget = document.getElementById('chat-widget');
+            if(tabName === 'parque' || tabName === 'especificacoes') {
+                chatWidget.style.display = 'flex';
+            } else {
+                chatWidget.style.display = 'none';
+                document.getElementById('chat-window').classList.add('hidden'); // Fecha a janela se tiver aberta
+                document.getElementById('chat-window').classList.remove('flex');
+            }
         }
 
         // --- 4. FILTROS E PARQUE ---
@@ -429,8 +443,7 @@
         }
         function aplicarFiltros() {
             const res = inventario.filter(c => (filtros.modelo === 'Todos' || c.modelo === filtros.modelo) && (filtros.local === 'Todos' || c.local === filtros.local) && (filtros.tipologia === 'Todas' || c.tipologia === filtros.tipologia));
-            document.getElementById('num-resultados').innerText = res.length;
-            renderizar(res);
+            document.getElementById('num-resultados').innerText = res.length; renderizar(res);
         }
         function renderizar(dados) {
             const info = document.getElementById('dados-viaturas'); const zero = document.getElementById('sem-resultados');
@@ -482,16 +495,18 @@
             const keys = ['pvb','opc','bsi','eco','leg','isv','mgb','esf','pac','dem','sup','depreciacoes','pvp_desc'];
             keys.forEach(k => { document.getElementById('edit-'+k).value = numeroParaStr(carro.inputs[k]); });
             
-            // Renderiza Indicadores Automáticos
-            document.getElementById('disp-idade').innerText = carro.stats.idade;
-            document.getElementById('disp-penetracao').innerText = formatarPerc(carro.stats.penetracao);
-            document.getElementById('disp-pvp').innerText = formatarEuros(carro.stats.pvp_bruto);
-            document.getElementById('disp-desc-perc').innerText = formatarPerc(carro.stats.desc_perc);
-            document.getElementById('disp-desc-eur').innerText = formatarEuros(carro.stats.desc_eur);
-            document.getElementById('disp-preco-minimo').innerText = formatarEuros(carro.stats.preco_minimo);
-            document.getElementById('disp-iva').innerText = formatarEuros(carro.stats.iva);
-            document.getElementById('disp-s-iva').innerText = formatarEuros(carro.stats.s_iva);
-            document.getElementById('disp-mg').innerText = formatarEuros(carro.stats.mg);
+            // Renderiza Auto-Cálculos In-Line
+            document.getElementById('auto-idade').value = carro.stats.idade;
+            document.getElementById('auto-penetracao').value = formatarPerc(carro.stats.penetracao);
+            document.getElementById('auto-pvp-bruto').value = formatarEuros(carro.stats.pvp_bruto);
+            document.getElementById('auto-iva').value = formatarEuros(carro.stats.iva);
+            
+            document.getElementById('auto-desc-perc').value = formatarPerc(carro.stats.desc_perc);
+            document.getElementById('auto-desc-eur').value = formatarEuros(carro.stats.desc_eur);
+            
+            document.getElementById('auto-preco-min').value = formatarEuros(carro.stats.preco_minimo);
+            document.getElementById('auto-s-iva').value = formatarEuros(carro.stats.s_iva);
+            document.getElementById('auto-mg').value = formatarEuros(carro.stats.mg);
         }
 
         function guardarPrecos(e) {
@@ -502,23 +517,18 @@
             const keys = ['pvb','opc','bsi','eco','leg','isv','mgb','esf','pac','dem','sup','depreciacoes','pvp_desc'];
             keys.forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value); });
 
-            carregarPrecosEmDireto(); 
-            aplicarFiltros(); 
-            abrirEdicao(chassis); // Atualiza os painéis escuros automaticamente
+            carregarPrecosEmDireto(); aplicarFiltros(); abrirEdicao(chassis);
         }
 
-        // --- 6. UTILIZADORES (Intacto) ---
+        // --- 6. UTILIZADORES (Intocado) ---
         let userPerfilAtual = ""; let userNegocioAtual = []; let userMarcaAtual = []; let userLocalAtual = [];
-
         function renderizarListaUtilizadores() {
             document.getElementById('lista-utilizadores').innerHTML = utilizadoresDb.map(u => `
                 <button onclick="editarUtilizador(${u.id})" class="w-full text-left p-3 rounded-lg border border-gray-100 hover:border-bmw hover:bg-blue-50 transition-colors bg-white shadow-sm mb-2 focus:outline-none">
-                    <div class="font-bold text-sm text-gray-800">${u.nome}</div>
-                    <div class="text-[10px] text-gray-400 mt-0.5">${u.perfil} | ${u.local.join(', ')}</div>
+                    <div class="font-bold text-sm text-gray-800">${u.nome}</div><div class="text-[10px] text-gray-400 mt-0.5">${u.perfil} | ${u.local.join(', ')}</div>
                 </button>
             `).join('');
         }
-
         function prepararNovoUtilizador() {
             document.getElementById('painel-user-vazio').classList.add('hidden');
             document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex');
@@ -526,7 +536,6 @@
             document.getElementById('btn-remover-user').classList.add('hidden'); document.getElementById('btn-guardar-user').innerText = "Gerar Convite de Acesso";
             userPerfilAtual = ""; userNegocioAtual = []; userMarcaAtual = []; userLocalAtual = []; atualizarBotoesUtilizador();
         }
-
         function editarUtilizador(id) {
             const u = utilizadoresDb.find(user => user.id === id); if(!u) return;
             document.getElementById('painel-user-vazio').classList.add('hidden');
@@ -537,23 +546,19 @@
             document.getElementById('btn-remover-user').classList.remove('hidden'); document.getElementById('btn-guardar-user').innerText = "Atualizar Perfil";
             atualizarBotoesUtilizador();
         }
-
         function cancelarEdicaoUser() {
             document.getElementById('painel-user-form').classList.add('hidden'); document.getElementById('painel-user-form').classList.remove('flex');
             document.getElementById('painel-user-vazio').classList.remove('hidden');
         }
-
         function toggleArray(array, valor) {
             if(valor === 'Todas') return array.includes('Todas') ? [] : ['Todas'];
             let novoArr = array.filter(i => i !== 'Todas');
             return novoArr.includes(valor) ? novoArr.filter(i => i !== valor) : [...novoArr, valor];
         }
-
         function toggleUserLocal(local) { userLocalAtual = toggleArray(userLocalAtual, local); atualizarBotoesUtilizador(); }
         function toggleUserPerfil(perfil) { userPerfilAtual = perfil; atualizarBotoesUtilizador(); }
         function toggleUserNegocio(negocio) { userNegocioAtual = toggleArray(userNegocioAtual, negocio); atualizarBotoesUtilizador(); }
         function toggleUserMarca(marca) { userMarcaAtual = toggleArray(userMarcaAtual, marca); atualizarBotoesUtilizador(); }
-
         function atualizarBotoesUtilizador() {
             const syncBtns = (list, stateVar, prefix) => {
                 list.forEach(v => {
@@ -568,33 +573,26 @@
             syncBtns(['VN', 'VU'], userNegocioAtual, 'btn-negocio-');
             syncBtns(['BMW', 'MINI'], userMarcaAtual, 'btn-marca-');
         }
-
         function guardarUtilizador(e) {
             e.preventDefault();
-            if(!userPerfilAtual || userLocalAtual.length === 0 || userNegocioAtual.length === 0 || userMarcaAtual.length === 0) { 
-                alert("Por favor, preencha todos os blocos de permissões."); return; 
-            }
+            if(!userPerfilAtual || userLocalAtual.length === 0 || userNegocioAtual.length === 0 || userMarcaAtual.length === 0) { alert("Preencha todas as permissões."); return; }
             const id = document.getElementById('user-id').value;
-            const userObj = {
-                id: id ? parseInt(id) : Date.now(), nome: document.getElementById('user-nome').value, email: document.getElementById('user-email').value,
-                local: userLocalAtual, perfil: userPerfilAtual, negocio: userNegocioAtual, marca: userMarcaAtual
-            };
+            const userObj = { id: id ? parseInt(id) : Date.now(), nome: document.getElementById('user-nome').value, email: document.getElementById('user-email').value, local: userLocalAtual, perfil: userPerfilAtual, negocio: userNegocioAtual, marca: userMarcaAtual };
             if(id) { utilizadoresDb[utilizadoresDb.findIndex(u => u.id === parseInt(id))] = userObj; } else { utilizadoresDb.push(userObj); }
             renderizarListaUtilizadores(); cancelarEdicaoUser(); alert(id ? 'Perfil atualizado!' : 'Convite enviado.');
         }
-
         function removerUtilizador() {
             const id = parseInt(document.getElementById('user-id').value);
-            if(confirm("Deseja revogar o acesso deste utilizador?")) {
-                utilizadoresDb = utilizadoresDb.filter(u => u.id !== id);
-                renderizarListaUtilizadores(); cancelarEdicaoUser();
-            }
+            if(confirm("Deseja revogar o acesso deste utilizador?")) { utilizadoresDb = utilizadoresDb.filter(u => u.id !== id); renderizarListaUtilizadores(); cancelarEdicaoUser(); }
         }
 
         // --- INIT ---
         window.onload = () => {
             carregarPrecosEmDireto(); initModeloFiltros();
             renderizarListaAdmin(); renderizarListaUtilizadores(); aplicarFiltros();
+            
+            // Ativa botão de chat no arranque (estamos no Parque)
+            document.getElementById('chat-widget').style.display = 'flex';
         };
     </script>
 </body>
