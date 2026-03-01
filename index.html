@@ -50,7 +50,7 @@
             <div class="w-5 h-5 border-2 border-bmw border-t-transparent rounded-full animate-spin mr-3"></div><span class="text-sm font-bold uppercase tracking-widest">A sincronizar com a Base de Dados...</span>
         </div>
         
-        <div id="aviso-supabase" class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-4 rounded-lg mb-6 hidden shadow-sm flex-col">
+        <div id="aviso-supabase" class="bg-red-50 border border-red-200 text-red-800 px-4 py-4 rounded-lg mb-6 hidden shadow-sm flex-col">
             </div>
 
         <div id="conteudo-parque" class="tab-content active">
@@ -98,7 +98,7 @@
                         </div>
                         <div class="pt-4 flex justify-between items-center">
                             <button type="button" id="btn-remover-user" onclick="removerUtilizador()" class="bg-red-50 text-red-600 font-bold py-2.5 px-6 rounded-lg text-xs uppercase hidden">Revogar Acesso</button>
-                            <div class="ml-auto flex gap-3"><button type="button" onclick="cancelarEdicaoUser()" class="text-gray-500 font-bold py-2.5 uppercase text-xs">Cancelar</button><button type="submit" id="btn-guardar-user" class="bg-bmw text-white font-bold py-2.5 px-8 rounded-lg text-xs uppercase">Gravar</button></div>
+                            <div class="ml-auto flex gap-3"><button type="button" onclick="cancelarEdicaoUser()" class="text-gray-500 font-bold py-2.5 uppercase text-xs">Cancelar</button><button type="submit" id="btn-guardar-user" class="bg-bmw text-white font-bold py-2.5 px-8 rounded-lg text-xs uppercase">Gravar Base Dados</button></div>
                         </div>
                     </form>
                 </div>
@@ -135,7 +135,7 @@
                             </div>
                             <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2">TECNOLOGIA</label><div class="flex flex-wrap gap-2" id="edit-tipologia-container"><button type="button" onclick="toggleEditTipologia('ICE')" id="btn-edit-tip-ICE" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">ICE</button><button type="button" onclick="toggleEditTipologia('BEV')" id="btn-edit-tip-BEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">BEV</button><button type="button" onclick="toggleEditTipologia('PHEV')" id="btn-edit-tip-PHEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">PHEV</button><button type="button" onclick="toggleEditTipologia('M')" id="btn-edit-tip-M" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">M</button></div></div>
                             <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2">LOCALIZAÇÃO</label><div class="flex flex-wrap gap-2" id="edit-local-container"><button type="button" onclick="toggleEditLocal('MPA')" id="btn-edit-loc-MPA" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">MPA</button><button type="button" onclick="toggleEditLocal('VNG')" id="btn-edit-loc-VNG" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">VNG</button><button type="button" onclick="toggleEditLocal('Porto')" id="btn-edit-loc-Porto" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Porto</button></div></div>
-                            <div class="pt-4 border-t border-gray-200"><label class="block text-[10px] font-bold text-gray-500 mb-1">LINK FOTOS / GALERIA</label><input type="url" id="edit-link_fotos" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none text-blue-600 focus:border-bmw" placeholder="https://..."></div>
+                            <div class="pt-4 border-t border-gray-200"><label class="block text-[10px] font-bold text-gray-500 mb-1">LINK FOTOS / GALERIA (Visível no botão do Parque)</label><input type="url" id="edit-link_fotos" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none text-blue-600 focus:border-bmw" placeholder="https://..."></div>
                         </div>
 
                         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
@@ -217,13 +217,12 @@
     </div>
 
     <script>
-        // CONFIGURAÇÃO SUPABASE
         const supabaseUrl = 'https://yifxgiwmibjaornighvt.supabase.co'; 
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpZnhnaXdtaWJqYW9ybmlnaHZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NjMxNTgsImV4cCI6MjA4NzQzOTE1OH0.XXG4TypXvwhB8EFW63zfBXq4fn03dJ4g73ty9Tzco90';
-        
         let supabaseClient = null;
-        try { supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey); } 
-        catch(e) { console.error("Erro ao inicializar Supabase JS", e); }
+        
+        try { if(supabaseUrl && !supabaseUrl.includes('COLA_AQUI')) supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey); } 
+        catch(e) { console.error("Erro Supabase", e); }
 
         const templateInputs = { pvb: 0, opc: 0, bsi: 0, eco: 4.20, leg: 1550, isv: 0, mgb: 0, esf: 0, pac: 0, dem: 0, sup: 0, pvp_desc: 0, depreciacoes: 0 };
         const viaturasOriginais = [
@@ -273,44 +272,27 @@
         function mostrarAviso(msg) {
             const el = document.getElementById('aviso-supabase');
             el.innerHTML = `<div class="flex items-center gap-3"><span class="text-sm font-bold text-red-700">Erro na Base de Dados:</span><span class="text-sm text-red-600">${msg}</span></div>`;
-            el.classList.replace('bg-yellow-50', 'bg-red-50'); el.classList.replace('border-yellow-200', 'border-red-200');
             el.classList.remove('hidden'); el.classList.add('flex');
         }
 
         async function inicializarDados() {
-            if(!supabaseClient) {
-                mostrarAviso("Cliente Supabase não conectou. Verifica a internet ou chaves de API.");
-                executarArranqueLocal(); return;
-            }
+            if(!supabaseClient) { mostrarAviso("Sem ligação Supabase."); executarArranqueLocal(); return; }
 
             try {
-                // Tenta puxar viaturas
                 const { data: vData, error: vErr } = await supabaseClient.from('viaturas').select('*');
-                
-                if (vErr) {
-                    mostrarAviso(vErr.message); 
-                    executarArranqueLocal(); return;
-                }
-
-                if (vData && vData.length > 0) {
-                    inventario = vData;
-                } else {
-                    // Tabela existe mas está vazia. Vai inserir os 38 originais.
+                if (vErr) { mostrarAviso(vErr.message); executarArranqueLocal(); return; }
+                if (vData && vData.length > 0) { inventario = vData; } 
+                else {
                     const { error: insErr } = await supabaseClient.from('viaturas').insert(viaturasOriginais);
-                    if (insErr) { mostrarAviso("Falha ao inserir viaturas iniciais: " + insErr.message); }
+                    if (insErr) { mostrarAviso(insErr.message); }
                     inventario = [...viaturasOriginais];
                 }
-
-                // Tenta puxar utilizadores
-                const { data: uData, error: uErr } = await supabaseClient.from('utilizadores').select('*');
-                if (uErr) { mostrarAviso("Viaturas lidas, mas falhou utilizadores: " + uErr.message); }
-                if (uData && uData.length > 0) { utilizadoresDb = uData; }
-
+                const { data: uData } = await supabaseClient.from('utilizadores').select('*');
+                if (uData && uData.length > 0) utilizadoresDb = uData;
             } catch(e) {
                 mostrarAviso(e.message || "Erro desconhecido ao ligar ao Supabase.");
                 executarArranqueLocal(); return;
             }
-
             document.getElementById('loading-supabase').classList.add('hidden');
             executarArranqueLocal();
         }
@@ -395,20 +377,32 @@
             const c=inventario.find(x=>x.chassis===ch); document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none');
             document.getElementById('admin-titulo-carro').innerText=`${c.modelo} ${c.versao}`; document.getElementById('edit-original-chassis').value=c.chassis;
             document.getElementById('edit-chassis').value=c.chassis; document.getElementById('edit-matricula').value=c.matricula||''; document.getElementById('edit-modelo').value=c.modelo; document.getElementById('edit-versao').value=c.versao;
-            document.getElementById('edit-link_fotos').value=c.link_fotos||''; editTip=[...(c.tipologia||[])]; editLoc=[...(c.local||[])]; atualizarBotoesEdit();
+            document.getElementById('edit-link_fotos').value=c.link_fotos||''; document.getElementById('edit-estado_entrega').value=c.estado_entrega||''; document.getElementById('edit-encomenda').value=c.encomenda||''; document.getElementById('edit-data_matricula').value=c.data_matricula||'';
+            editTip=[...(c.tipologia||[])]; editLoc=[...(c.local||[])]; atualizarBotoesEdit();
             ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc'].forEach(k=>document.getElementById('edit-'+k).value=numeroParaStr(c.inputs[k]));
             ['mgb','esf','pac','dem','sup'].forEach(k=>document.getElementById('edit-'+k).value=numeroParaStrPerc(c.inputs[k]*100)); recalcularPreview();
         }
 
         async function guardarPrecos(e) {
             e.preventDefault(); const ori=document.getElementById('edit-original-chassis').value; const nc=document.getElementById('edit-chassis').value;
+            if(!nc) { alert("O Chassis é obrigatório."); return; }
+
             let c = inventario.find(x=>x.chassis===ori); if(!c) { c={inputs:{...templateInputs}}; inventario.unshift(c); }
-            c.chassis=nc; c.matricula=document.getElementById('edit-matricula').value; c.modelo=document.getElementById('edit-modelo').value; c.versao=document.getElementById('edit-versao').value; c.link_fotos=document.getElementById('edit-link_fotos').value; c.tipologia=[...editTip]; c.local=[...editLoc];
+            
+            c.chassis=nc; c.matricula=document.getElementById('edit-matricula').value; c.modelo=document.getElementById('edit-modelo').value; c.versao=document.getElementById('edit-versao').value; c.link_fotos=document.getElementById('edit-link_fotos').value; c.estado_entrega=document.getElementById('edit-estado_entrega').value; c.data_matricula=document.getElementById('edit-data_matricula').value; c.encomenda=document.getElementById('edit-encomenda').value; c.tipologia=[...editTip]; c.local=[...editLoc];
+            
             ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc'].forEach(k=>c.inputs[k]=strParaNumero(document.getElementById('edit-'+k).value));
             ['mgb','esf','pac','dem','sup'].forEach(k=>c.inputs[k]=strParaNumero(document.getElementById('edit-'+k).value)/100);
             
+            const statsAtuais = calcularPrecosTempoReal(c);
+            if(statsAtuais) c.stats = statsAtuais;
+
+            const payloadSupabase = {
+                chassis: c.chassis, matricula: c.matricula, modelo: c.modelo, versao: c.versao, estado_entrega: c.estado_entrega, data_matricula: c.data_matricula || null, encomenda: c.encomenda, tipologia: c.tipologia, local: c.local, link_fotos: c.link_fotos, inputs: c.inputs, stats: c.stats
+            };
+
             if(supabaseClient) {
-                const { error } = await supabaseClient.from('viaturas').upsert(c);
+                const { error } = await supabaseClient.from('viaturas').upsert(payloadSupabase);
                 if(error) { mostrarAviso("Falha ao gravar no Supabase: " + error.message); return; }
             }
             carregarPrecosEmDireto(); initModeloFiltros(); aplicarFiltros(); renderizarListaAdmin(); abrirEdicao(c.chassis);
