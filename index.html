@@ -49,9 +49,9 @@
         <div id="loading-supabase" class="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg mb-6 flex justify-center items-center shadow-sm">
             <div class="w-5 h-5 border-2 border-bmw border-t-transparent rounded-full animate-spin mr-3"></div><span class="text-sm font-bold uppercase tracking-widest">A sincronizar com a Base de Dados...</span>
         </div>
-        <div id="aviso-supabase" class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded-lg mb-6 hidden flex justify-between items-center shadow-sm">
-            <span class="text-sm">Aviso: A ligação à Base de Dados falhou ou está a trabalhar em Modo Local (Offline). A carregar viaturas originais.</span>
-        </div>
+        
+        <div id="aviso-supabase" class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-4 rounded-lg mb-6 hidden shadow-sm flex-col">
+            </div>
 
         <div id="conteudo-parque" class="tab-content active">
             <div class="space-y-6 mb-8 bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
@@ -98,7 +98,7 @@
                         </div>
                         <div class="pt-4 flex justify-between items-center">
                             <button type="button" id="btn-remover-user" onclick="removerUtilizador()" class="bg-red-50 text-red-600 font-bold py-2.5 px-6 rounded-lg text-xs uppercase hidden">Revogar Acesso</button>
-                            <div class="ml-auto flex gap-3"><button type="button" onclick="cancelarEdicaoUser()" class="text-gray-500 font-bold py-2.5 uppercase text-xs">Cancelar</button><button type="submit" id="btn-guardar-user" class="bg-bmw text-white font-bold py-2.5 px-8 rounded-lg text-xs uppercase">Gravar Base Dados</button></div>
+                            <div class="ml-auto flex gap-3"><button type="button" onclick="cancelarEdicaoUser()" class="text-gray-500 font-bold py-2.5 uppercase text-xs">Cancelar</button><button type="submit" id="btn-guardar-user" class="bg-bmw text-white font-bold py-2.5 px-8 rounded-lg text-xs uppercase">Gravar</button></div>
                         </div>
                     </form>
                 </div>
@@ -135,7 +135,7 @@
                             </div>
                             <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2">TECNOLOGIA</label><div class="flex flex-wrap gap-2" id="edit-tipologia-container"><button type="button" onclick="toggleEditTipologia('ICE')" id="btn-edit-tip-ICE" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">ICE</button><button type="button" onclick="toggleEditTipologia('BEV')" id="btn-edit-tip-BEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">BEV</button><button type="button" onclick="toggleEditTipologia('PHEV')" id="btn-edit-tip-PHEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">PHEV</button><button type="button" onclick="toggleEditTipologia('M')" id="btn-edit-tip-M" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">M</button></div></div>
                             <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2">LOCALIZAÇÃO</label><div class="flex flex-wrap gap-2" id="edit-local-container"><button type="button" onclick="toggleEditLocal('MPA')" id="btn-edit-loc-MPA" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">MPA</button><button type="button" onclick="toggleEditLocal('VNG')" id="btn-edit-loc-VNG" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">VNG</button><button type="button" onclick="toggleEditLocal('Porto')" id="btn-edit-loc-Porto" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Porto</button></div></div>
-                            <div class="pt-4 border-t border-gray-200"><label class="block text-[10px] font-bold text-gray-500 mb-1">LINK FOTOS / GALERIA (Visível no botão do Parque)</label><input type="url" id="edit-link_fotos" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none text-blue-600 focus:border-bmw" placeholder="https://..."></div>
+                            <div class="pt-4 border-t border-gray-200"><label class="block text-[10px] font-bold text-gray-500 mb-1">LINK FOTOS / GALERIA</label><input type="url" id="edit-link_fotos" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none text-blue-600 focus:border-bmw" placeholder="https://..."></div>
                         </div>
 
                         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
@@ -217,15 +217,15 @@
     </div>
 
     <script>
+        // CONFIGURAÇÃO SUPABASE
         const supabaseUrl = 'https://yifxgiwmibjaornighvt.supabase.co'; 
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpZnhnaXdtaWJqYW9ybmlnaHZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NjMxNTgsImV4cCI6MjA4NzQzOTE1OH0.XXG4TypXvwhB8EFW63zfBXq4fn03dJ4g73ty9Tzco90';
-        let supabaseClient = null;
         
-        try { if(supabaseUrl && !supabaseUrl.includes('COLA_AQUI')) supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey); } 
-        catch(e) { console.error("Supabase INIT error", e); }
+        let supabaseClient = null;
+        try { supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey); } 
+        catch(e) { console.error("Erro ao inicializar Supabase JS", e); }
 
         const templateInputs = { pvb: 0, opc: 0, bsi: 0, eco: 4.20, leg: 1550, isv: 0, mgb: 0, esf: 0, pac: 0, dem: 0, sup: 0, pvp_desc: 0, depreciacoes: 0 };
-        
         const viaturasOriginais = [
             {"chassis":"CU94387","matricula":"BS-83-ZH","modelo":"iX","versao":"iX 45e","local":["MPA"],"estado_entrega":"Imediata","tipologia":["BEV"],"data_matricula":"2025-04-30","encomenda":"8636269","link_fotos":"","inputs":{"pvb":70725.15,"opc":7121.94,"bsi":-534.15,"eco":4.2,"leg":1550,"isv":0,"mgb":0.08,"esf":0.06,"pac":0.15,"dem":0,"sup":0,"pvp_desc":84698.53,"depreciacoes":6227.76}},
             {"chassis":"CW43657","matricula":"BZ-66-NU","modelo":"iX","versao":"iX 45e","local":["VNG"],"estado_entrega":"Imediata","tipologia":["BEV"],"data_matricula":"2025-10-23","encomenda":"8272517","link_fotos":"","inputs":{"pvb":70725.15,"opc":10577.23,"bsi":0,"eco":4.2,"leg":1550,"isv":0,"mgb":0.08,"esf":0.06,"pac":0.1,"dem":0,"sup":0,"pvp_desc":82990,"depreciacoes":0}},
@@ -268,37 +268,63 @@
         ];
         
         let inventario = [...viaturasOriginais];
-        let utilizadoresDb = [{ id: 1, nome: "João Silva", email: "joao.silva@caetano.pt", local: ["MPA"], perfil: "Gestor", negocio: ["VN"], marca: ["BMW"] }];
+        let utilizadoresDb = [];
+
+        function mostrarAviso(msg) {
+            const el = document.getElementById('aviso-supabase');
+            el.innerHTML = `<div class="flex items-center gap-3"><span class="text-sm font-bold text-red-700">Erro na Base de Dados:</span><span class="text-sm text-red-600">${msg}</span></div>`;
+            el.classList.replace('bg-yellow-50', 'bg-red-50'); el.classList.replace('border-yellow-200', 'border-red-200');
+            el.classList.remove('hidden'); el.classList.add('flex');
+        }
+
+        async function inicializarDados() {
+            if(!supabaseClient) {
+                mostrarAviso("Cliente Supabase não conectou. Verifica a internet ou chaves de API.");
+                executarArranqueLocal(); return;
+            }
+
+            try {
+                // Tenta puxar viaturas
+                const { data: vData, error: vErr } = await supabaseClient.from('viaturas').select('*');
+                
+                if (vErr) {
+                    mostrarAviso(vErr.message); 
+                    executarArranqueLocal(); return;
+                }
+
+                if (vData && vData.length > 0) {
+                    inventario = vData;
+                } else {
+                    // Tabela existe mas está vazia. Vai inserir os 38 originais.
+                    const { error: insErr } = await supabaseClient.from('viaturas').insert(viaturasOriginais);
+                    if (insErr) { mostrarAviso("Falha ao inserir viaturas iniciais: " + insErr.message); }
+                    inventario = [...viaturasOriginais];
+                }
+
+                // Tenta puxar utilizadores
+                const { data: uData, error: uErr } = await supabaseClient.from('utilizadores').select('*');
+                if (uErr) { mostrarAviso("Viaturas lidas, mas falhou utilizadores: " + uErr.message); }
+                if (uData && uData.length > 0) { utilizadoresDb = uData; }
+
+            } catch(e) {
+                mostrarAviso(e.message || "Erro desconhecido ao ligar ao Supabase.");
+                executarArranqueLocal(); return;
+            }
+
+            document.getElementById('loading-supabase').classList.add('hidden');
+            executarArranqueLocal();
+        }
+
+        function executarArranqueLocal() {
+            document.getElementById('loading-supabase').classList.add('hidden');
+            carregarPrecosEmDireto(); initModeloFiltros(); renderizarListaAdmin(); renderizarListaUtilizadores(); aplicarFiltros();
+        }
 
         function strParaNumero(str) { let val = (str||"").toString().replace(/\s/g, '').replace(/\./g, '').replace(',', '.'); return parseFloat(val) || 0; }
         function numeroParaStr(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
         function numeroParaStrPerc(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 0, maximumFractionDigits: 2}); }
         function formatarEuros(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €'; }
         function formatarPerc(num) { return ((num||0)*100).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %'; }
-
-        async function inicializarDados() {
-            if(supabaseClient) {
-                try {
-                    const { data: vData, error: vErr } = await supabaseClient.from('viaturas').select('*');
-                    if(vErr) throw vErr;
-                    if(vData && vData.length > 0) { inventario = vData; } 
-                    else { 
-                        const { error: insErr } = await supabaseClient.from('viaturas').insert(viaturasOriginais);
-                        if(insErr) throw insErr;
-                        inventario = [...viaturasOriginais]; 
-                    }
-                    const { data: uData } = await supabaseClient.from('utilizadores').select('*');
-                    if(uData && uData.length > 0) utilizadoresDb = uData;
-                } catch(e) {
-                    console.warn("Erro Supabase. A usar base de dados local offline.", e);
-                    document.getElementById('aviso-supabase').classList.remove('hidden');
-                }
-            } else {
-                document.getElementById('aviso-supabase').classList.remove('hidden');
-            }
-            document.getElementById('loading-supabase').classList.add('hidden');
-            carregarPrecosEmDireto(); initModeloFiltros(); renderizarListaAdmin(); renderizarListaUtilizadores(); aplicarFiltros();
-        }
 
         const taxa_iva = 0.23;
         function calcularPrecosTempoReal(carro) {
@@ -383,16 +409,16 @@
             
             if(supabaseClient) {
                 const { error } = await supabaseClient.from('viaturas').upsert(c);
-                if(error) { alert("Erro ao gravar: " + error.message); return; }
+                if(error) { mostrarAviso("Falha ao gravar no Supabase: " + error.message); return; }
             }
             carregarPrecosEmDireto(); initModeloFiltros(); aplicarFiltros(); renderizarListaAdmin(); abrirEdicao(c.chassis);
-            const btn=document.getElementById('btn-gravar-db'); const txt=btn.innerHTML; btn.innerHTML="Guardado na Base de Dados!"; btn.classList.replace('bg-bmw','bg-green-500'); setTimeout(()=>btn.innerHTML=txt,2000); setTimeout(()=>btn.classList.replace('bg-green-500','bg-bmw'),2000);
+            const btn=document.getElementById('btn-gravar-db'); const txt=btn.innerHTML; btn.innerHTML="Guardado com Sucesso!"; btn.classList.replace('bg-bmw','bg-green-500'); setTimeout(()=>btn.innerHTML=txt,2000); setTimeout(()=>btn.classList.replace('bg-green-500','bg-bmw'),2000);
         }
 
         let uPerf="", uNeg=[], uMar=['BMW'], uLoc=[];
         function renderizarListaUtilizadores() { document.getElementById('lista-utilizadores').innerHTML = utilizadoresDb.map(u => `<button onclick="editarUtilizador(${u.id})" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white mb-2"><div class="font-black text-sm">${u.nome}</div><div class="text-[10px] text-gray-400 mt-1">${u.perfil}</div></button>`).join(''); }
         function prepararNovoUtilizador() { document.getElementById('painel-user-form').classList.replace('hidden','flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('form-user').reset(); document.getElementById('user-id').value=""; uPerf=""; uNeg=[]; uMar=['BMW']; uLoc=[]; atualizarBtnsU(); }
-        function editarUtilizador(id) { const u=utilizadoresDb.find(x=>x.id===id); document.getElementById('painel-user-form').classList.replace('hidden','flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('user-id').value=u.id; document.getElementById('user-nome').value=u.nome; document.getElementById('user-email').value=u.email; uPerf=u.perfil; uNeg=[...u.negocio]; uMar=[...u.marca]; uLoc=[...u.local]; atualizarBtnsU(); }
+        function editarUtilizador(id) { const u=utilizadoresDb.find(x=>x.id===id); document.getElementById('painel-user-form').classList.replace('hidden','flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('user-id').value=u.id; document.getElementById('user-nome').value=u.nome; document.getElementById('user-email').value=u.email; uPerf=u.perfil; uNeg=[...(u.negocio||[])]; uMar=[...(u.marca||[])]; uLoc=[...(u.local||[])]; atualizarBtnsU(); }
         function cancelarEdicaoUser() { document.getElementById('painel-user-form').classList.replace('flex','hidden'); document.getElementById('painel-user-vazio').classList.remove('hidden'); }
         function tArr(arr,v) { if(v==='Todas') return arr.includes('Todas')?[]:['Todas']; let n=arr.filter(x=>x!=='Todas'); return n.includes(v)?n.filter(x=>x!==v):[...n,v]; }
         function toggleUserLocal(v){ uLoc=tArr(uLoc,v); atualizarBtnsU(); } function toggleUserPerfil(v){ uPerf=v; atualizarBtnsU(); } function toggleUserNegocio(v){ uNeg=tArr(uNeg,v); atualizarBtnsU(); }
