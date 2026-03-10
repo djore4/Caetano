@@ -72,8 +72,8 @@
 
                 <div class="flex justify-between items-end border-t border-gray-200 pt-4"><div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest"><span id="num-resultados" class="text-bmw font-black text-sm">0</span> viaturas encontradas</div>
                     <div class="flex bg-gray-100 p-1 rounded-lg border border-gray-200 shadow-inner">
-                        <button onclick="mudarVista('tabela')" id="btn-vista-tabela" class="px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all bg-transparent border border-transparent hover:bg-gray-200 hover:text-gray-800">Tabela</button>
-                        <button onclick="mudarVista('cartoes')" id="btn-vista-cartoes" class="px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all">Cartões</button>
+                        <button onclick="mudarVista('tabela')" id="btn-vista-tabela" class="px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all">Tabela</button>
+                        <button onclick="mudarVista('cartoes')" id="btn-vista-cartoes" class="px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all bg-transparent border border-transparent hover:bg-gray-200 hover:text-gray-800">Cartões</button>
                     </div>
                 </div>
             </div>
@@ -160,7 +160,22 @@
         <div id="conteudo-admin-vn" class="tab-content">
             <div class="flex flex-col xl:flex-row gap-6">
                 <div class="w-full xl:w-1/3 bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col h-[700px]">
-                    <div class="p-5 border-b border-gray-100 bg-gray-50"><h2 class="font-black text-gray-800 text-lg uppercase tracking-widest">Inventário VN</h2></div>
+                    <div class="p-5 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+                        <h2 class="font-black text-gray-800 text-lg uppercase tracking-widest">Inventário VN</h2>
+                    </div>
+                    
+                    <div class="px-5 py-3 border-b border-gray-100 bg-white">
+                        <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1 block">Filtrar por Concessão</label>
+                        <select id="filtro-local-admin" onchange="renderizarListaAdmin()" class="w-full border border-gray-300 rounded-lg px-2 py-1.5 text-xs outline-none focus:border-bmw text-gray-700 font-medium">
+                            <option value="Todas">Todas as Concessões</option>
+                            <option value="Porto">Porto</option>
+                            <option value="Gaia">Gaia</option>
+                            <option value="Maia">Maia</option>
+                            <option value="Feira">Feira</option>
+                            <option value="Aveiro">Aveiro</option>
+                        </select>
+                    </div>
+
                     <div class="p-3 border-b border-gray-100"><button onclick="prepararNovaViatura()" class="w-full bg-bmw hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-xs uppercase transition-colors">Adicionar Viatura</button></div>
                     <div class="overflow-y-auto p-3 space-y-2 flex-1 no-scrollbar bg-slate-50" id="lista-admin-viaturas"></div>
                 </div>
@@ -193,7 +208,7 @@
                             </div>
                             <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">TECNOLOGIA</label><div class="flex flex-wrap gap-2" id="edit-tipologia-container"><button type="button" onclick="toggleEditTipologia('ICE')" id="btn-edit-tip-ICE" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">ICE</button><button type="button" onclick="toggleEditTipologia('BEV')" id="btn-edit-tip-BEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">BEV</button><button type="button" onclick="toggleEditTipologia('PHEV')" id="btn-edit-tip-PHEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">PHEV</button><button type="button" onclick="toggleEditTipologia('M')" id="btn-edit-tip-M" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">M</button></div></div>
                             <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">LOCALIZAÇÃO (Multi-seleção)</label><div class="flex flex-wrap gap-2" id="edit-local-container"><button type="button" onclick="toggleEditLocal('Porto')" id="btn-edit-loc-Porto" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Porto</button><button type="button" onclick="toggleEditLocal('Gaia')" id="btn-edit-loc-Gaia" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Gaia</button><button type="button" onclick="toggleEditLocal('Maia')" id="btn-edit-loc-Maia" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Maia</button><button type="button" onclick="toggleEditLocal('Feira')" id="btn-edit-loc-Feira" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Feira</button><button type="button" onclick="toggleEditLocal('Aveiro')" id="btn-edit-loc-Aveiro" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Aveiro</button></div></div>
-                            <div class="pt-4 border-t border-gray-200"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">LINK FOTOS / GALERIA (Visível no Parque)</label><input type="url" id="edit-link_fotos" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none text-blue-600 focus:border-bmw" placeholder="https://..."></div>
+                            <div class="pt-4 border-t border-gray-200"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">LINK FOTOS / GALERIA</label><input type="url" id="edit-link_fotos" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none text-blue-600 focus:border-bmw" placeholder="https://..."></div>
                         </div>
 
                         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
@@ -462,15 +477,7 @@
             if(!stats) return;
             
             document.getElementById('auto-idade').value = stats.idade;
-            document.getElementById('auto-penetracao').value = formatarPerc(stats.penetracao); 
-            document.getElementById('auto-pvp-bruto').value = formatarEuros(stats.pvp_bruto); 
-            document.getElementById('auto-iva').value = formatarEuros(stats.iva); 
-            document.getElementById('auto-desc-perc').value = formatarPerc(stats.desc_perc); 
-            document.getElementById('auto-desc-eur').value = formatarEuros(stats.desc_eur); 
-            document.getElementById('auto-preco-min').value = formatarEuros(stats.preco_minimo); 
-            document.getElementById('auto-s-iva').value = formatarEuros(stats.s_iva); 
-            document.getElementById('auto-mg-perc').value = formatarPerc(stats.mg_perc);
-            
+            document.getElementById('auto-penetracao').value = formatarPerc(stats.penetracao); document.getElementById('auto-pvp-bruto').value = formatarEuros(stats.pvp_bruto); document.getElementById('auto-iva').value = formatarEuros(stats.iva); document.getElementById('auto-desc-perc').value = formatarPerc(stats.desc_perc); document.getElementById('auto-desc-eur').value = formatarEuros(stats.desc_eur); document.getElementById('auto-preco-min').value = formatarEuros(stats.preco_minimo); document.getElementById('auto-s-iva').value = formatarEuros(stats.s_iva); document.getElementById('auto-mg-perc').value = formatarPerc(stats.mg_perc);
             const mgEl = document.getElementById('auto-mg'); mgEl.value = formatarEuros(stats.mg);
             mgEl.className = stats.mg < 0 ? "w-full text-xl font-black outline-none calc-auto text-red-600" : "w-full text-xl font-black outline-none calc-auto text-green-700";
         }
@@ -617,7 +624,12 @@
         function toggleEditTipologia(val){ if(editCarroTipologia.includes(val)) editCarroTipologia = editCarroTipologia.filter(x => x !== val); else editCarroTipologia.push(val); atualizarBotoesEditCarro(); }
         function toggleEditLocal(val){ if(editCarroLocal.includes(val)) editCarroLocal = editCarroLocal.filter(x => x !== val); else editCarroLocal.push(val); atualizarBotoesEditCarro(); }
 
-        function renderizarListaAdmin() { document.getElementById('lista-admin-viaturas').innerHTML = inventario.map(c=>`<button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white hover:border-bmw hover:shadow-md transition-all mb-2"><div class="font-black text-sm text-gray-800">${c.modelo} ${c.versao}</div><div class="text-[10px] text-gray-400 mt-1">${c.matricula||c.chassis}</div></button>`).join(''); }
+        function renderizarListaAdmin() { 
+            const sel = document.getElementById('filtro-local-admin');
+            const loc = sel ? sel.value : 'Todas';
+            const dados = inventario.filter(c => loc === 'Todas' || (c.local || []).includes(loc));
+            document.getElementById('lista-admin-viaturas').innerHTML = dados.map(c=>`<button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white hover:border-bmw hover:shadow-md transition-all mb-2"><div class="font-black text-sm text-gray-800">${c.modelo} ${c.versao}</div><div class="text-[10px] text-gray-400 mt-1">${c.matricula||c.chassis}</div></button>`).join(''); 
+        }
 
         function prepararNovaViatura() { 
             document.getElementById('form-precos').reset(); 
