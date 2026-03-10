@@ -146,7 +146,7 @@
                         <input type="hidden" id="user-id" value="">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">NOME COMPLETO</label><input type="text" id="user-nome" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw focus:ring-1"></div>
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">EMAIL PROFISSIONAL (Login)</label><input type="email" id="user-email" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw focus:ring-1"></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">EMAIL PROFISSIONAL</label><input type="email" id="user-email" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw focus:ring-1"></div>
                         </div>
                         <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-6">
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">CONCESSÃO BASE (Multi-seleção)</label><div class="flex flex-wrap gap-2" id="user-local-container"><button type="button" onclick="toggleUserLocal('Todas')" id="btn-local-Todas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Todas</button><button type="button" onclick="toggleUserLocal('Porto')" id="btn-local-Porto" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Porto</button><button type="button" onclick="toggleUserLocal('Gaia')" id="btn-local-Gaia" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Gaia</button><button type="button" onclick="toggleUserLocal('Maia')" id="btn-local-Maia" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Maia</button><button type="button" onclick="toggleUserLocal('Feira')" id="btn-local-Feira" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Feira</button><button type="button" onclick="toggleUserLocal('Aveiro')" id="btn-local-Aveiro" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Aveiro</button></div></div>
@@ -186,7 +186,7 @@
                         <h2 class="font-black text-gray-800 text-lg uppercase tracking-widest">Inventário VN</h2>
                     </div>
                     
-                    <div class="px-5 py-3 border-b border-gray-100 bg-white overflow-x-auto no-scrollbar">
+                    <div class="px-5 py-3 border-b border-gray-100 bg-white">
                         <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Filtrar Lista por Concessão</label>
                         <div class="flex flex-wrap gap-2" id="filtro-local-admin-container">
                             <button onclick="setFiltroLocalAdmin('Todas')" id="btn-filtro-admin-Todas" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-bmw text-white shadow-sm transition-colors">Todas</button>
@@ -230,7 +230,7 @@
                             </div>
                             <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">TECNOLOGIA</label><div class="flex flex-wrap gap-2" id="edit-tipologia-container"><button type="button" onclick="toggleEditTipologia('ICE')" id="btn-edit-tip-ICE" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">ICE</button><button type="button" onclick="toggleEditTipologia('BEV')" id="btn-edit-tip-BEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">BEV</button><button type="button" onclick="toggleEditTipologia('PHEV')" id="btn-edit-tip-PHEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">PHEV</button><button type="button" onclick="toggleEditTipologia('M')" id="btn-edit-tip-M" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">M</button></div></div>
                             <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">LOCALIZAÇÃO (Multi-seleção)</label><div class="flex flex-wrap gap-2" id="edit-local-container"><button type="button" onclick="toggleEditLocal('Porto')" id="btn-edit-loc-Porto" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Porto</button><button type="button" onclick="toggleEditLocal('Gaia')" id="btn-edit-loc-Gaia" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Gaia</button><button type="button" onclick="toggleEditLocal('Maia')" id="btn-edit-loc-Maia" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Maia</button><button type="button" onclick="toggleEditLocal('Feira')" id="btn-edit-loc-Feira" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Feira</button><button type="button" onclick="toggleEditLocal('Aveiro')" id="btn-edit-loc-Aveiro" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Aveiro</button></div></div>
-                            <div class="pt-4 border-t border-gray-200"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">LINK FOTOS / GALERIA</label><input type="url" id="edit-link_fotos" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none text-blue-600 focus:border-bmw" placeholder="https://..."></div>
+                            <div class="pt-4 border-t border-gray-200"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">LINK FOTOS / GALERIA (Visível no Parque)</label><input type="url" id="edit-link_fotos" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none text-blue-600 focus:border-bmw" placeholder="https://..."></div>
                         </div>
 
                         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
@@ -371,17 +371,14 @@
             }
 
             try {
-                const { data: vData } = await supabaseClient.from('viaturas').select('*');
-                if (vData) inventario = vData; 
+                const { data: vData, error: vErr } = await supabaseClient.from('viaturas').select('*');
+                if (vErr) { mostrarAviso(vErr.message); executarArranqueLocal(); return; }
+                
+                if (vData) { inventario = vData; } 
 
                 const { data: uData } = await supabaseClient.from('utilizadores').select('*');
-                if (uData && uData.length > 0) { 
-                    utilizadoresDb = uData; 
-                } else {
-                    // INJEÇÃO LOCAL SE BD VAZIA
-                    const adminAuto = { id: 999, nome: 'Administrador Principal', email: 'admin@caetano.pt', perfil: 'Administrador', local: ['Todas'], negocio: ['VN', 'VU'], marca: ['BMW', 'MINI'] };
-                    utilizadoresDb = [adminAuto];
-                }
+                if (uData) { utilizadoresDb = uData; }
+                
             } catch(e) {
                 mostrarAviso("Erro na comunicação com a Base de Dados.");
             }
@@ -515,10 +512,13 @@
 
         function calcularPrecosTempoReal(carro) {
             const inps = carro.inputs; if(!inps) return null;
+            
             const base_tributavel = (inps.pvb||0) + (inps.opc||0) + (inps.bsi||0) + (inps.eco||0) + (inps.leg||0) + (inps.isv||0);
             const pvp_bruto = base_tributavel * (1+taxa_iva);
+            
             const desc_perc = ((inps.mgb||0) + (inps.esf||0) + (inps.pac||0) + (inps.dem||0) + (inps.sup||0));
             const desconto_eur = ((inps.pvb||0) + (inps.opc||0)) * desc_perc;
+            
             const preco_minimo = pvp_bruto - (desconto_eur * (1+taxa_iva));
             const mg = (inps.pvp_desc||0) - preco_minimo + (inps.depreciacoes||0);
             
@@ -529,18 +529,37 @@
                 if (idade_calc < 0) idade_calc = 0;
             }
             
-            return { pvp_bruto, pvp_final: (inps.pvp_desc||0), mg, idade: idade_calc, penetracao:((inps.pvb>0)?((inps.opc||0)/inps.pvb):0), desc_perc, desc_eur: desconto_eur, iva:(pvp_bruto/(1+taxa_iva)*taxa_iva), preco_minimo, mg_perc:((inps.pvb+inps.opc)>0?(mg/(inps.pvb+inps.opc)):0), s_iva:(inps.pvp_desc||0)/(1+taxa_iva) };
+            return { 
+                pvp_bruto, 
+                pvp_final: (inps.pvp_desc||0), 
+                mg, 
+                idade: idade_calc, 
+                penetracao:((inps.pvb>0)?((inps.opc||0)/inps.pvb):0), 
+                desc_perc, 
+                desc_eur: desconto_eur, 
+                iva:(pvp_bruto/(1+taxa_iva)*taxa_iva), 
+                preco_minimo, 
+                mg_perc:((inps.pvb+inps.opc)>0?(mg/(inps.pvb+inps.opc)):0), 
+                s_iva:(inps.pvp_desc||0)/(1+taxa_iva) 
+            };
         }
 
         function carregarPrecosEmDireto() { inventario.forEach(c => { const s = calcularPrecosTempoReal(c); if(s){ c.pvp_bruto = s.pvp_bruto; c.pvp_final = s.pvp_final; c.stats = s; } }); }
 
         function recalcularPreview() {
-            const m = { pvb: strParaNumero(document.getElementById('edit-pvb').value), opc: strParaNumero(document.getElementById('edit-opc').value), bsi: strParaNumero(document.getElementById('edit-bsi').value), eco: strParaNumero(document.getElementById('edit-eco').value), leg: strParaNumero(document.getElementById('edit-leg').value), isv: strParaNumero(document.getElementById('edit-isv').value), mgb: strParaNumero(document.getElementById('edit-mgb').value)/100, esf: strParaNumero(document.getElementById('edit-esf').value)/100, pac: strParaNumero(document.getElementById('edit-pac').value)/100, dem: strParaNumero(document.getElementById('edit-dem').value)/100, sup: strParaNumero(document.getElementById('edit-sup').value)/100, depreciacoes: strParaNumero(document.getElementById('edit-depreciacoes').value), pvp_desc: strParaNumero(document.getElementById('edit-pvp_desc').value) };
+            const m = {
+                pvb: strParaNumero(document.getElementById('edit-pvb').value), opc: strParaNumero(document.getElementById('edit-opc').value), bsi: strParaNumero(document.getElementById('edit-bsi').value), eco: strParaNumero(document.getElementById('edit-eco').value), leg: strParaNumero(document.getElementById('edit-leg').value), isv: strParaNumero(document.getElementById('edit-isv').value),
+                mgb: strParaNumero(document.getElementById('edit-mgb').value)/100, esf: strParaNumero(document.getElementById('edit-esf').value)/100, pac: strParaNumero(document.getElementById('edit-pac').value)/100, dem: strParaNumero(document.getElementById('edit-dem').value)/100, sup: strParaNumero(document.getElementById('edit-sup').value)/100,
+                depreciacoes: strParaNumero(document.getElementById('edit-depreciacoes').value), pvp_desc: strParaNumero(document.getElementById('edit-pvp_desc').value)
+            };
             const dt_mat = document.getElementById('edit-data_matricula').value;
             const stats = calcularPrecosTempoReal({inputs: m, data_matricula: dt_mat});
             if(!stats) return;
-            document.getElementById('auto-idade').value = stats.idade; document.getElementById('auto-penetracao').value = formatarPerc(stats.penetracao); document.getElementById('auto-pvp-bruto').value = formatarEuros(stats.pvp_bruto); document.getElementById('auto-iva').value = formatarEuros(stats.iva); document.getElementById('auto-desc-perc').value = formatarPerc(stats.desc_perc); document.getElementById('auto-desc-eur').value = formatarEuros(stats.desc_eur); document.getElementById('auto-preco-min').value = formatarEuros(stats.preco_minimo); document.getElementById('auto-s-iva').value = formatarEuros(stats.s_iva); document.getElementById('auto-mg-perc').value = formatarPerc(stats.mg_perc);
-            const mgEl = document.getElementById('auto-mg'); mgEl.value = formatarEuros(stats.mg); mgEl.className = stats.mg < 0 ? "w-full text-xl font-black outline-none calc-auto text-red-600" : "w-full text-xl font-black outline-none calc-auto text-green-700";
+            
+            document.getElementById('auto-idade').value = stats.idade;
+            document.getElementById('auto-penetracao').value = formatarPerc(stats.penetracao); document.getElementById('auto-pvp-bruto').value = formatarEuros(stats.pvp_bruto); document.getElementById('auto-iva').value = formatarEuros(stats.iva); document.getElementById('auto-desc-perc').value = formatarPerc(stats.desc_perc); document.getElementById('auto-desc-eur').value = formatarEuros(stats.desc_eur); document.getElementById('auto-preco-min').value = formatarEuros(stats.preco_minimo); document.getElementById('auto-s-iva').value = formatarEuros(stats.s_iva); document.getElementById('auto-mg-perc').value = formatarPerc(stats.mg_perc);
+            const mgEl = document.getElementById('auto-mg'); mgEl.value = formatarEuros(stats.mg);
+            mgEl.className = stats.mg < 0 ? "w-full text-xl font-black outline-none calc-auto text-red-600" : "w-full text-xl font-black outline-none calc-auto text-green-700";
         }
 
         // --- NAVEGAÇÃO E VISTAS ---
@@ -559,9 +578,15 @@
         function mudarVista(v) { 
             document.getElementById('vista-tabela').style.display = v==='tabela'?'block':'none'; 
             document.getElementById('vista-cartoes').style.display = v==='cartoes'?'grid':'none'; 
+            
             const btnT = document.getElementById('btn-vista-tabela'); const btnC = document.getElementById('btn-vista-cartoes');
-            if(v === 'tabela') { btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all"; btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent border border-transparent hover:bg-gray-200"; } 
-            else { btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all"; btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent border border-transparent hover:bg-gray-200"; }
+            if(v === 'tabela') {
+                btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all";
+                btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent border border-transparent hover:bg-gray-200";
+            } else {
+                btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all";
+                btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent border border-transparent hover:bg-gray-200";
+            }
         }
 
         // --- FILTROS E RENDERIZAÇÃO ---
@@ -677,8 +702,8 @@
             ['Todas','Porto','Gaia','Maia','Feira','Aveiro'].forEach(v => {
                 let btn = document.getElementById('btn-filtro-admin-' + v);
                 if (btn) {
-                    if (v === val) { btn.classList.add('active', 'text-white', 'bg-bmw'); btn.classList.remove('bg-white', 'text-gray-600'); } 
-                    else { btn.classList.remove('active', 'text-white', 'bg-bmw'); btn.classList.add('bg-white', 'text-gray-600'); }
+                    if (v === val) { btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600'); } 
+                    else { btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600'); }
                 }
             });
             renderizarListaAdmin();
@@ -759,7 +784,7 @@
 
             const novaMatricula = document.getElementById('edit-matricula').value.trim().toUpperCase();
 
-            // VALIDAÇÃO SEGURA: CHASSIS E MATRÍCULA
+            // VALIDAÇÃO DUPLA (MATRÍCULA E CHASSIS)
             const chassisDuplicado = inventario.find(x => x.chassis.toUpperCase() === novoChassis && x.chassis !== originalChassis);
             if(chassisDuplicado) { alert(`Operação Cancelada:\nO chassis ${novoChassis} já se encontra inserido no sistema.`); return; }
 
@@ -785,11 +810,9 @@
             const payloadSupabase = { chassis: carro.chassis, matricula: carro.matricula, modelo: carro.modelo, versao: carro.versao, estado_entrega: carro.estado_entrega, data_matricula: carro.data_matricula, encomenda: carro.encomenda, tipologia: carro.tipologia, local: carro.local, link_fotos: carro.link_fotos, marca: carro.marca, estado_negocio: carro.estado_negocio, inputs: carro.inputs, stats: carro.stats };
 
             if(supabaseClient) {
-                // Se mudou de chassis (chave primária), é preciso apagar o registo antigo no Supabase primeiro
                 if (isUpdate && originalChassis !== novoChassis) {
                     await supabaseClient.from('viaturas').delete().eq('chassis', originalChassis);
                 }
-
                 const { error } = await supabaseClient.from('viaturas').upsert(payloadSupabase);
                 if(error) { mostrarAviso("Falha ao gravar no Supabase: " + error.message); return; }
                 await registarHistorico('viaturas', isUpdate ? 'ATUALIZAR' : 'CRIAR', carro.chassis, { ...payloadSupabase, editado_por: currentUser.email });
@@ -825,6 +848,7 @@
             e.preventDefault(); 
             const idVal = document.getElementById('user-id').value; const novoId = idVal !== "" ? parseInt(idVal) : Date.now(); 
             const userObj = { id: novoId, nome: document.getElementById('user-nome').value, email: document.getElementById('user-email').value, local: uLoc, perfil: uPerf, negocio: uNeg, marca: uMar };
+            
             const isUpdate = idVal !== "";
             if(isUpdate) utilizadoresDb[utilizadoresDb.findIndex(x=>x.id===parseInt(idVal))] = userObj; else utilizadoresDb.push(userObj);
             
@@ -833,7 +857,9 @@
                 if(error) { mostrarAviso("Erro ao gravar utilizador: " + error.message); return; }
                 await registarHistorico('utilizadores', isUpdate ? 'ATUALIZAR' : 'CRIAR', userObj.id, { email: userObj.email, operacao_por: currentUser.email });
             }
-            renderizarListaUtilizadores(); cancelarEdicaoUser(); alert(isUpdate ? "Perfil atualizado com sucesso!" : "Utilizador criado!");
+            
+            renderizarListaUtilizadores(); cancelarEdicaoUser(); 
+            alert(isUpdate ? "Perfil atualizado com sucesso!" : "Utilizador criado!");
         }
 
         async function removerUtilizador() {
