@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Caetano Sales Force</title>
+    <title>Caetano BMW & MINI Sales Force</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -32,7 +32,7 @@
                     <div class="flex items-center">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/BMW_logo_%28gray%29.svg" alt="BMW" class="h-8 sm:h-11">
                         <div class="h-6 sm:h-8 w-[1px] bg-gray-300 mx-3 sm:mx-5"></div>
-                        <img src="img/MINI_logo.png" alt="MINI" class="h-4 sm:h-6 opacity-80">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/c/c5/Mini_logo.svg" alt="MINI" class="h-4 sm:h-6 opacity-80">
                     </div>
                     
                     <div class="pl-4 sm:pl-6 border-l border-gray-200 flex items-center">
@@ -234,7 +234,7 @@
                             </div>
                             <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">TECNOLOGIA</label><div class="flex flex-wrap gap-2" id="edit-tipologia-container"><button type="button" onclick="toggleEditTipologia('ICE')" id="btn-edit-tip-ICE" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">ICE</button><button type="button" onclick="toggleEditTipologia('BEV')" id="btn-edit-tip-BEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">BEV</button><button type="button" onclick="toggleEditTipologia('PHEV')" id="btn-edit-tip-PHEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">PHEV</button><button type="button" onclick="toggleEditTipologia('M')" id="btn-edit-tip-M" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">M</button></div></div>
                             <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">LOCALIZAÇÃO (Multi-seleção)</label><div class="flex flex-wrap gap-2" id="edit-local-container"><button type="button" onclick="toggleEditLocal('Porto')" id="btn-edit-loc-Porto" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Porto</button><button type="button" onclick="toggleEditLocal('Gaia')" id="btn-edit-loc-Gaia" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Gaia</button><button type="button" onclick="toggleEditLocal('Maia')" id="btn-edit-loc-Maia" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Maia</button><button type="button" onclick="toggleEditLocal('Feira')" id="btn-edit-loc-Feira" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Feira</button><button type="button" onclick="toggleEditLocal('Aveiro')" id="btn-edit-loc-Aveiro" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Aveiro</button></div></div>
-                            <div class="pt-4 border-t border-gray-200"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">LINK FOTOS / GALERIA (Visível no Parque)</label><input type="url" id="edit-link_fotos" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none text-blue-600 focus:border-bmw" placeholder="https://..."></div>
+                            <div class="pt-4 border-t border-gray-200"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">LINK FOTOS / GALERIA</label><input type="url" id="edit-link_fotos" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none text-blue-600 focus:border-bmw" placeholder="https://..."></div>
                         </div>
 
                         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm">
@@ -345,7 +345,7 @@
                 <button onclick="toggleChat()" class="text-white hover:text-blue-200 focus:outline-none"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
             </div>
             <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col space-y-4 text-sm no-scrollbar scroll-smooth">
-                <div class="flex items-start"><div class="bg-white border border-gray-200 text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] shadow-sm leading-relaxed">Olá! Sou o Assistente da Caetano.<br><br>Consigo pesquisar instantaneamente no nosso parque (sempre com o <b>PVP real do momento</b>).<br><br>Ex: <i>"Temos algum X1 elétrico azul abaixo dos 55000?"</i> ou <i>"Mostra-me híbridos no Porto"</i>.</div></div>
+                <div class="flex items-start"><div class="bg-white border border-gray-200 text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] shadow-sm leading-relaxed">Olá! Sou o Assistente da Caetano.<br><br>Consigo pesquisar instantaneamente no nosso parque (sempre com o <b>PVP real do momento</b>).<br><br>Ex: <i>"Temos algum X1 elétrico abaixo dos 55000?"</i> ou <i>"Mostra-me híbridos no Porto"</i>.</div></div>
             </div>
             <div class="p-3 bg-white border-t border-gray-100 flex items-center space-x-2">
                 <input type="text" id="chat-input" onkeypress="if(event.key === 'Enter') enviarMensagemChat()" placeholder="Escreva o que procura..." class="flex-1 bg-gray-100 border-transparent focus:bg-white focus:border-bmw focus:ring-1 focus:ring-bmw rounded-full px-4 py-2 text-sm outline-none transition-colors">
@@ -404,6 +404,7 @@
         function fazerLogout() { if(confirm("Deseja terminar a sessão?")) { currentUser = null; atualizarAcessos(); mudarTab('parque'); } }
         function abrirMudarPassword() { document.getElementById('new-password').value = ''; document.getElementById('confirm-password').value = ''; document.getElementById('modal-change-password').classList.replace('hidden','flex'); document.getElementById('new-password').focus(); }
         function fecharMudarPassword() { document.getElementById('modal-change-password').classList.replace('flex','hidden'); }
+        
         async function guardarNovaPassword(e) {
             e.preventDefault(); const nova = document.getElementById('new-password').value; const conf = document.getElementById('confirm-password').value;
             if (nova !== conf) { alert("Erro: As palavras-passe não coincidem."); return; }
@@ -412,6 +413,7 @@
             if (supabaseClient) { const { error } = await supabaseClient.from('utilizadores').upsert(currentUser); if (error) { alert("Erro ao gravar: " + error.message); return; } await registarHistorico('utilizadores', 'ATUALIZAR', currentUser.id, { acao: 'Alteração de password', email: currentUser.email }); }
             fecharMudarPassword(); alert("Palavra-passe alterada com sucesso!");
         }
+        
         function atualizarAcessos() {
             ['tab-utilizadores', 'tab-historico', 'tab-admin-vn', 'tab-admin-vu'].forEach(id => document.getElementById(id).classList.add('hidden'));
             if (!currentUser) { document.getElementById('btn-login-header').classList.remove('hidden'); document.getElementById('user-info-header').classList.replace('flex','hidden'); return; }
@@ -434,11 +436,9 @@
         async function reservarViaturaModal() {
             const ch = document.getElementById('detalhe-chassis-hidden').value;
             if(!ch || !currentUser) return;
-            
             const expira = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(); 
             const carro = inventario.find(x => x.chassis === ch);
             if(carro) { carro.reserva_expira = expira; carro.reserva_user = currentUser.nome; }
-
             if(supabaseClient) {
                 await supabaseClient.from('viaturas').update({ reserva_expira: expira, reserva_user: currentUser.nome }).eq('chassis', ch);
                 await registarHistorico('viaturas', 'RESERVA', ch, { user: currentUser.nome, expira: expira });
@@ -487,12 +487,12 @@
             if (texto.includes('mini')) res = res.filter(c => c.marca === 'MINI'); else if (texto.includes('bmw')) res = res.filter(c => c.marca === 'BMW');
             const modelos = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'i4', 'i5', 'ix', 'xm', 'm2', 'm3', 'm4', 'serie 1', 'série 1', 'serie 2', 'série 2', 'serie 3', 'série 3'];
             let modeloEncontrado = modelos.find(m => texto.includes(m));
-            if (modeloEncontrado) { if(modeloEncontrado.includes('serie')) modeloEncontrado = modeloEncontrado.replace('serie', 'série'); res = res.filter(c => c.modelo.toLowerCase().includes(modeloEncontrado) || c.versao.toLowerCase().includes(modeloEncontrado)); }
+            if (modeloEncontrado) { if(modeloEncontrado.includes('serie')) modeloEncontrado = modeloEncontrado.replace('serie', 'série'); res = res.filter(c => (c.modelo||"").toLowerCase().includes(modeloEncontrado) || (c.versao||"").toLowerCase().includes(modeloEncontrado)); }
             const locais = ['porto', 'gaia', 'maia', 'feira', 'aveiro'];
             let localEncontrado = locais.find(l => texto.includes(l));
             if (localEncontrado) { res = res.filter(c => (c.local||[]).map(x=>x.toLowerCase()).includes(localEncontrado)); }
             
-            if (res.length === 0) return "Não encontrei nenhuma viatura no nosso parque que corresponda exatamente a esse pedido. Tente ser mais abrangente.";
+            if (res.length === 0) return "Não encontrei nenhuma viatura no nosso parque que corresponda a esse pedido.";
             let htmlResp = `<p class="font-bold text-bmw mb-2">Encontrei ${res.length} viatura(s):</p>`;
             res.sort((a,b) => a.pvp_final - b.pvp_final);
             res.slice(0, 3).forEach(c => {
@@ -500,96 +500,26 @@
                 const badge = vReservado ? `<span class="bg-orange-100 text-orange-600 text-[8px] font-black px-1 py-0.5 rounded ml-1 uppercase">Em Negociação</span>` : '';
                 htmlResp += `<div class="mb-3 border-l-2 border-bmw pl-2"><p class="font-black text-gray-800 leading-tight">${c.modelo} ${c.versao} ${badge}</p><p class="text-[10px] text-gray-500 font-mono">${c.matricula||c.chassis} | ${(c.local||[]).join(',')}</p><p class="text-sm font-black text-bmw mt-0.5">${formatarEuros(c.pvp_final)}</p><button onclick="abrirDetalheViatura('${c.chassis}')" class="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline mt-1">Ver Ficha</button></div>`;
             });
-            if (res.length > 3) htmlResp += `<p class="text-[9px] text-gray-400 italic mt-2 border-t border-gray-100 pt-2">Mostrando os 3 resultados mais baratos. Seja mais específico na pesquisa para filtrar mais.</p>`;
+            if (res.length > 3) htmlResp += `<p class="text-[9px] text-gray-400 italic mt-2 border-t border-gray-100 pt-2">Mostrando os 3 resultados mais baratos. Seja mais específico na pesquisa.</p>`;
             return htmlResp;
         }
 
-        // --- MATEMÁTICA E RENDERIZAÇÃO RESTANTES ---
-        function carregarPrecosEmDireto() { inventario.forEach(c => { const s = calcularPrecosTempoReal(c); if(s){ c.pvp_bruto = s.pvp_bruto; c.pvp_final = s.pvp_final; c.stats = s; } }); }
-
-        function aplicarFiltros() { 
-            const res = inventario.filter(c => (filtros.modelo==='Todos' || c.modelo===filtros.modelo) && (filtros.local==='Todas' || (c.local||[]).includes(filtros.local)) && (filtros.tipologia==='Todas' || (c.tipologia||[]).includes(filtros.tipologia)) && (filtros.estado==='Todos' || c.estado_negocio === filtros.estado) && (filtros.marca==='Todas' || c.marca === filtros.marca)); 
-            document.getElementById('num-resultados').innerText = res.length; renderizar(res); 
-        }
-
-        function abrirDetalheViatura(ch) {
-            const c = inventario.find(x=>x.chassis===ch); if(!c) return;
-            document.getElementById('detalhe-chassis-hidden').value = ch;
-            document.getElementById('detalhe-titulo').innerText = `${c.modelo} ${c.versao}`; 
-            document.getElementById('detalhe-matricula').innerText = c.matricula || c.chassis;
-            document.getElementById('detalhe-pvp-final').innerText = c.pvp_final > 0 ? formatarEuros(c.pvp_final) : 'PVP N/A';
-
-            const bFotos = document.getElementById('btn-ver-fotos-modal');
-            if(c.link_fotos && c.link_fotos.trim() !== '') { bFotos.href=c.link_fotos; bFotos.classList.remove('hidden'); bFotos.classList.add('inline-block'); } 
-            else { bFotos.classList.add('hidden'); bFotos.classList.remove('inline-block'); }
-            
-            const rInfo = document.getElementById('detalhe-reserva-info');
-            const bReserva = document.getElementById('btn-reservar-viatura');
-            const bCancela = document.getElementById('btn-cancelar-reserva');
-            rInfo.classList.replace('flex','hidden'); bReserva.classList.add('hidden'); bCancela.classList.add('hidden');
-
-            if (isReservado(c)) {
-                rInfo.classList.replace('hidden','flex');
-                document.getElementById('detalhe-reserva-user').innerText = `Por: ${c.reserva_user || 'Desconhecido'}`;
-                document.getElementById('detalhe-reserva-data').innerText = `Válido até: ${new Date(c.reserva_expira).toLocaleString('pt-PT')}`;
-                if (currentUser && (currentUser.perfil === 'Chefe de Vendas' || currentUser.perfil === 'Administrador')) bCancela.classList.remove('hidden');
-            } else {
-                if (currentUser && (currentUser.perfil === 'Chefe de Vendas' || currentUser.perfil === 'Administrador')) bReserva.classList.remove('hidden');
-            }
-            document.getElementById('modal-detalhe').classList.replace('hidden', 'flex');
-        }
-
-        function fecharDetalheViatura() { document.getElementById('modal-detalhe').classList.replace('flex', 'hidden'); }
-
-        function renderizar(dados) {
-            if(dados.length===0) { document.getElementById('dados-viaturas').classList.add('hidden'); document.getElementById('sem-resultados').classList.remove('hidden'); return; }
-            document.getElementById('dados-viaturas').classList.remove('hidden'); document.getElementById('sem-resultados').classList.add('hidden');
-            
-            document.getElementById('vista-cartoes').innerHTML = dados.map(c => {
-                const dispLoc = Array.isArray(c.local) ? c.local.join(', ') : c.local;
-                const dataMat = c.data_matricula ? new Date(c.data_matricula).toLocaleDateString('pt-PT') : 'N/A';
-                const reservado = isReservado(c);
-                const badgeEmNegociacao = reservado ? `<div class="absolute top-4 right-4 bg-orange-500 text-white text-[9px] font-black px-2 py-1 rounded shadow-md uppercase tracking-widest z-20 animate-pulse">Em Negociação</div>` : '';
-                const opacidade = reservado ? 'opacity-90' : 'opacity-100';
-                return `<div class="bg-white border ${reservado ? 'border-orange-300' : 'border-gray-200'} rounded-2xl shadow-sm relative overflow-hidden flex cursor-pointer hover:shadow-xl ${reservado ? 'hover:border-orange-500' : 'hover:border-blue-300'} transition-all group duration-300 ${opacidade}" onclick="abrirDetalheViatura('${c.chassis}')"><div class="absolute left-0 top-0 w-1.5 h-full ${reservado ? 'bg-orange-500' : 'bg-bmw'} group-hover:w-2 transition-all"></div>${badgeEmNegociacao}<div class="flex-1 p-5 pl-7 flex flex-col justify-between z-10 w-full"><div class="flex justify-between items-start pr-16"><div><div class="text-2xl font-black text-gray-900 leading-none group-hover:${reservado ? 'text-orange-600' : 'text-bmw'} transition-colors">${c.modelo}</div><div class="font-normal text-gray-500 text-sm mt-1">${c.versao}</div></div></div><div class="grid grid-cols-2 gap-x-4 gap-y-3 my-5 ${reservado ? 'bg-orange-50/50 border-orange-100' : 'bg-gray-50 border-gray-100'} p-4 rounded-xl border"><div><p class="text-[9px] ${reservado ? 'text-orange-400' : 'text-gray-400'} font-bold uppercase tracking-widest">Matrícula</p><p class="text-sm font-mono font-black text-gray-800">${c.matricula || '-'}</p></div><div><p class="text-[9px] ${reservado ? 'text-orange-400' : 'text-gray-400'} font-bold uppercase tracking-widest">Data Matrícula</p><p class="text-xs font-medium text-gray-700 mt-0.5">${dataMat}</p></div><div><p class="text-[9px] ${reservado ? 'text-orange-400' : 'text-gray-400'} font-bold uppercase tracking-widest">Chassis</p><p class="text-[10px] font-mono text-gray-500 uppercase mt-0.5">${c.chassis || '-'}</p></div><div><p class="text-[9px] ${reservado ? 'text-orange-400' : 'text-gray-400'} font-bold uppercase tracking-widest">Local</p><p class="text-[10px] font-bold text-gray-600 mt-0.5 uppercase tracking-widest">${dispLoc}</p></div></div><div class="flex justify-between items-end border-t ${reservado ? 'border-orange-100' : 'border-gray-100'} pt-3 mt-auto"><div><span class="text-[9px] ${reservado ? 'text-orange-400' : 'text-gray-400'} font-bold uppercase tracking-widest">PVP Base</span><div class="text-xs text-gray-500 font-medium line-through">${c.pvp_bruto > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</div></div><div class="text-right"><span class="text-[10px] ${reservado ? 'text-orange-600' : 'text-bmw'} font-bold uppercase tracking-widest">PVP c/ Desc.</span><div class="text-xl font-black ${reservado ? 'text-orange-600' : 'text-bmw'} tracking-tight">${c.pvp_final > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</div></div></div></div></div>`;
-            }).join('');
-            
-            document.getElementById('tabela-corpo').innerHTML = dados.map(c => {
-                const dispLoc = Array.isArray(c.local) ? c.local.join(', ') : c.local;
-                const dataMat = c.data_matricula ? new Date(c.data_matricula).toLocaleDateString('pt-PT') : 'N/A';
-                const reservado = isReservado(c);
-                const classRow = reservado ? 'bg-orange-50/30 hover:bg-orange-50' : 'hover:bg-blue-50';
-                const tagReserva = reservado ? `<span class="bg-orange-500 text-white text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest ml-2">Reserva</span>` : '';
-                return `<tr class="${classRow} cursor-pointer border-b border-gray-50 transition-colors" onclick="abrirDetalheViatura('${c.chassis}')"><td class="px-5 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold border border-gray-200 shadow-sm">${dispLoc}</span></td><td class="px-5 py-4 font-bold text-gray-900">${c.modelo || '-'}${tagReserva}</td><td class="px-5 py-4 text-gray-600">${c.versao || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs">${c.encomenda || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs uppercase">${c.chassis || '-'}</td><td class="px-5 py-4 text-gray-800 font-mono text-xs uppercase font-semibold">${c.matricula || '-'}</td><td class="px-5 py-4 text-center text-gray-500 text-xs">${dataMat}</td><td class="px-5 py-4 text-right text-xs text-gray-400 line-through">${c.pvp_bruto > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</td><td class="px-5 py-4 text-right font-black ${reservado ? 'text-orange-600' : 'text-bmw'} text-sm">${c.pvp_final > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td></tr>`;
-            }).join('');
-        }
-
-        function renderizarListaAdmin() { 
-            const loc = filtroLocalAdmin; let dados = inventario;
-            if(currentUser && currentUser.perfil === 'Chefe de Vendas') { dados = dados.filter(c => { const matchMarca = (currentUser.marca||[]).includes('Todas') || (currentUser.marca||[]).includes(c.marca); const matchNegocio = (currentUser.negocio||[]).includes('Todas') || (currentUser.negocio||[]).includes(c.estado_negocio); const carroLocais = Array.isArray(c.local) ? c.local : [c.local]; const matchLocal = (currentUser.local||[]).includes('Todas') || (currentUser.local||[]).some(l => carroLocais.includes(l)); return matchMarca && matchNegocio && matchLocal; }); }
-            dados = dados.filter(c => loc === 'Todas' || (c.local || []).includes(loc));
-            const cont = document.getElementById('lista-admin-viaturas');
-            if(dados.length === 0) { cont.innerHTML = '<p class="text-xs text-gray-400 font-bold uppercase tracking-widest text-center py-10">Nenhuma viatura autorizada/encontrada.</p>'; return; }
-            cont.innerHTML = dados.map(c=>`<button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white hover:border-bmw hover:shadow-md transition-all mb-2"><div class="font-black text-sm text-gray-800">${c.modelo} ${c.versao}</div><div class="text-[10px] text-gray-400 mt-1 uppercase">${c.matricula||c.chassis} | ${c.estado_negocio||'-'}</div></button>`).join(''); 
-        }
-
+        // --- RESTANTE LÓGICA DE DADOS ---
         async function guardarPrecos(e) {
             e.preventDefault(); 
             const originalChassis = document.getElementById('edit-original-chassis').value; const novoChassis = document.getElementById('edit-chassis').value.trim().toUpperCase();
             if(!novoChassis) { alert("O Chassis é obrigatório."); return; }
             const novaMatricula = document.getElementById('edit-matricula').value.trim().toUpperCase();
+            
             const chassisDuplicado = inventario.find(x => x.chassis.toUpperCase() === novoChassis && x.chassis !== originalChassis);
-            if(chassisDuplicado) { alert(`Operação Cancelada:\nO chassis ${novoChassis} já se encontra inserido no sistema.`); return; }
-            if(novaMatricula) { const matriculaDuplicada = inventario.find(x => (x.matricula || "").toUpperCase() === novaMatricula && x.chassis !== originalChassis); if(matriculaDuplicada) { alert(`Operação Cancelada:\nA matrícula ${novaMatricula} já está associada à viatura com o chassis ${matriculaDuplicada.chassis}.`); return; } }
+            if(chassisDuplicado) { alert(`Operação Cancelada:\nO chassis ${novoChassis} já está no sistema.`); return; }
+            if(novaMatricula) { const matriculaDuplicada = inventario.find(x => (x.matricula || "").toUpperCase() === novaMatricula && x.chassis !== originalChassis); if(matriculaDuplicada) { alert(`Operação Cancelada:\nA matrícula ${novaMatricula} já está associada ao chassis ${matriculaDuplicada.chassis}.`); return; } }
+            
             const isUpdate = inventario.some(x => x.chassis === originalChassis); let carro = inventario.find(x => x.chassis === originalChassis); if(!carro) { carro = { inputs: { ...templateInputs } }; inventario.unshift(carro); }
             
-            // Garantir que não se limpam as reservas ao gravar!
-            const memExpira = carro.reserva_expira || null;
-            const memUser = carro.reserva_user || null;
-
+            const memExpira = carro.reserva_expira || null; const memUser = carro.reserva_user || null;
             carro.chassis = novoChassis; carro.matricula = novaMatricula; carro.modelo = document.getElementById('edit-modelo').value; carro.versao = document.getElementById('edit-versao').value; carro.link_fotos = document.getElementById('edit-link_fotos').value; carro.estado_entrega = document.getElementById('edit-estado_entrega').value; carro.data_matricula = document.getElementById('edit-data_matricula').value || null; carro.encomenda = document.getElementById('edit-encomenda').value; carro.tipologia = [...editCarroTipologia]; carro.local = [...editCarroLocal]; carro.marca = editCarroMarca; carro.estado_negocio = editCarroEstado;
-            ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value); });
-            ['mgb','esf','pac','dem','sup'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value) / 100; });
+            ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value); }); ['mgb','esf','pac','dem','sup'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value) / 100; });
             const statsAtuais = calcularPrecosTempoReal(carro); if(statsAtuais) carro.stats = statsAtuais;
 
             const payloadSupabase = { chassis: carro.chassis, matricula: carro.matricula, modelo: carro.modelo, versao: carro.versao, estado_entrega: carro.estado_entrega, data_matricula: carro.data_matricula, encomenda: carro.encomenda, tipologia: carro.tipologia, local: carro.local, link_fotos: carro.link_fotos, marca: carro.marca, estado_negocio: carro.estado_negocio, inputs: carro.inputs, stats: carro.stats, reserva_expira: memExpira, reserva_user: memUser };
@@ -597,7 +527,11 @@
             if(supabaseClient) {
                 if (isUpdate && originalChassis !== novoChassis) { await supabaseClient.from('viaturas').delete().eq('chassis', originalChassis); }
                 const { error } = await supabaseClient.from('viaturas').upsert(payloadSupabase);
-                if(error) { mostrarAviso("Falha ao gravar no Supabase: " + error.message); return; }
+                if(error) { 
+                    alert("⚠️ ERRO DO SUPABASE:\n" + error.message + "\n\nA viatura não foi guardada na nuvem! Verifique se correu o código SQL para adicionar as novas colunas."); 
+                    mostrarAviso("Falha ao gravar no Supabase: " + error.message); 
+                    return; 
+                }
                 await registarHistorico('viaturas', isUpdate ? 'ATUALIZAR' : 'CRIAR', carro.chassis, { editado_por: currentUser.email });
             }
             carregarPrecosEmDireto(); initModeloFiltros(); aplicarFiltros(); renderizarListaAdmin(); abrirEdicao(carro.chassis);
