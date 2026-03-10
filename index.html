@@ -64,10 +64,34 @@
                     <div class="flex bg-gray-100 p-1 rounded-lg border border-gray-200"><button onclick="mudarVista('cartoes')" id="btn-vista-cartoes" class="px-4 py-1.5 text-xs font-bold rounded-md bg-white text-bmw uppercase shadow-sm transition-all">Cartões</button><button onclick="mudarVista('tabela')" id="btn-vista-tabela" class="px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all bg-transparent border border-transparent hover:bg-gray-200 hover:text-gray-800">Tabela</button></div>
                 </div>
             </div>
+            
             <div id="dados-viaturas">
-                <div id="vista-cartoes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-                <div id="vista-tabela" class="hidden bg-white border border-gray-200 rounded-xl overflow-hidden w-full"><table class="min-w-full divide-y divide-gray-100"><thead class="bg-gray-50 text-[10px] font-bold text-gray-500 uppercase tracking-widest"><tr><th class="px-6 py-4 text-left">Matrícula</th><th class="px-6 py-4 text-center">Local</th><th class="px-6 py-4 text-left">Estado</th><th class="px-6 py-4 text-right">PVP Base</th><th class="px-6 py-4 text-right text-bmw">PVP Final</th></tr></thead><tbody id="tabela-corpo" class="divide-y divide-gray-100"></tbody></table></div>
-                <div id="sem-resultados" class="hidden text-center py-24 bg-white rounded-2xl border border-gray-200"><p class="text-gray-500 font-medium">Nenhuma viatura corresponde aos filtros.</p></div>
+                <div id="vista-cartoes" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
+                
+                <div id="vista-tabela" class="hidden bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden w-full">
+                    <div class="overflow-x-auto no-scrollbar w-full">
+                        <table class="min-w-full divide-y divide-gray-100">
+                            <thead class="bg-gray-50 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
+                                <tr>
+                                    <th class="px-5 py-4 text-center whitespace-nowrap">Local</th>
+                                    <th class="px-5 py-4 text-left whitespace-nowrap">Modelo</th>
+                                    <th class="px-5 py-4 text-left whitespace-nowrap">Versão</th>
+                                    <th class="px-5 py-4 text-left whitespace-nowrap">Encomenda</th>
+                                    <th class="px-5 py-4 text-left whitespace-nowrap">Chassis</th>
+                                    <th class="px-5 py-4 text-left whitespace-nowrap">Matrícula</th>
+                                    <th class="px-5 py-4 text-center whitespace-nowrap">Data Matrícula</th>
+                                    <th class="px-5 py-4 text-right whitespace-nowrap">PVP</th>
+                                    <th class="px-5 py-4 text-right text-bmw whitespace-nowrap">PVP c/ Desc.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-corpo" class="divide-y divide-gray-100 bg-white"></tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div id="sem-resultados" class="hidden text-center py-24 bg-white rounded-2xl border border-gray-200 shadow-sm">
+                    <p class="text-gray-500 font-medium">Nenhuma viatura corresponde aos filtros.</p>
+                </div>
             </div>
         </div>
 
@@ -75,28 +99,28 @@
 
         <div id="conteudo-utilizadores" class="tab-content">
             <div class="flex flex-col lg:flex-row gap-6">
-                <div class="w-full lg:w-1/3 bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col h-[600px]">
-                    <div class="p-4 border-b border-gray-100 bg-gray-50"><h2 class="font-bold text-gray-700 text-sm uppercase">Equipa</h2></div>
-                    <div class="p-3 border-b border-gray-100"><button onclick="prepararNovoUtilizador()" class="w-full bg-bmw hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg text-xs uppercase">Adicionar Utilizador</button></div>
+                <div class="w-full lg:w-1/3 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[450px] lg:h-[750px]">
+                    <div class="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center"><h2 class="font-bold text-gray-700 text-sm uppercase tracking-widest">Equipa</h2></div>
+                    <div class="p-3 border-b border-gray-100"><button onclick="prepararNovoUtilizador()" class="w-full bg-bmw hover:bg-blue-700 text-white font-bold py-2.5 rounded-lg shadow-sm transition-colors text-xs uppercase tracking-widest flex justify-center items-center gap-2">Adicionar Utilizador</button></div>
                     <div class="overflow-y-auto p-3 space-y-2 flex-1 no-scrollbar" id="lista-utilizadores"></div>
                 </div>
-                <div class="w-full lg:w-2/3 bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex" id="painel-user-vazio"><div class="flex w-full items-center justify-center h-full"><p class="text-gray-400 font-medium">Selecione um utilizador.</p></div></div>
-                <div class="w-full lg:w-2/3 bg-white border border-gray-200 rounded-xl shadow-sm p-6 hidden flex-col h-auto overflow-y-auto no-scrollbar" id="painel-user-form">
-                    <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4"><h2 class="text-xl font-black text-gray-800" id="titulo-form-user">Perfil</h2></div>
+                <div class="w-full lg:w-2/3 bg-white border border-gray-200 rounded-xl shadow-sm p-6 flex" id="painel-user-vazio"><div class="flex w-full items-center justify-center h-full text-center"><p class="text-gray-400 font-medium">Selecione um utilizador<br>ou adicione um novo.</p></div></div>
+                <div class="w-full lg:w-2/3 bg-white border border-gray-200 rounded-xl shadow-sm p-6 hidden flex-col h-auto lg:h-[750px] lg:overflow-y-auto no-scrollbar" id="painel-user-form">
+                    <div class="flex justify-between items-center mb-6 border-b border-gray-100 pb-4"><h2 class="text-xl font-black text-gray-800" id="titulo-form-user">Perfil do Utilizador</h2></div>
                     <form id="form-user" onsubmit="guardarUtilizador(event)" class="space-y-6">
                         <input type="hidden" id="user-id" value="">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-1">NOME COMPLETO</label><input type="text" id="user-nome" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-1">EMAIL</label><input type="email" id="user-email" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">NOME COMPLETO</label><input type="text" id="user-nome" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw focus:ring-1"></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">EMAIL PROFISSIONAL</label><input type="email" id="user-email" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw focus:ring-1"></div>
                         </div>
                         <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-6">
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">CONCESSÃO BASE</label><div class="flex flex-wrap gap-2" id="user-local-container"><button type="button" onclick="toggleUserLocal('Todas')" id="btn-local-Todas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Todas</button><button type="button" onclick="toggleUserLocal('MPA')" id="btn-local-MPA" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">MPA</button><button type="button" onclick="toggleUserLocal('VNG')" id="btn-local-VNG" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">VNG</button><button type="button" onclick="toggleUserLocal('Porto')" id="btn-local-Porto" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Porto</button></div></div>
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">PERFIL DE ACESSO</label><div class="flex flex-wrap gap-2" id="user-perfil-container"><button type="button" onclick="toggleUserPerfil('Vendedor')" id="btn-perfil-Vendedor" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Vendedor</button><button type="button" onclick="toggleUserPerfil('Gestor')" id="btn-perfil-Gestor" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Gestor</button><button type="button" onclick="toggleUserPerfil('Administrador')" id="btn-perfil-Administrador" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Administrador</button></div></div>
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">NEGÓCIO</label><div class="flex flex-wrap gap-2" id="user-negocio-container"><button type="button" onclick="toggleUserNegocio('VN')" id="btn-negocio-VN" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">VN</button><button type="button" onclick="toggleUserNegocio('VU')" id="btn-negocio-VU" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">VU</button></div></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">CONCESSÃO BASE (Multi-seleção)</label><div class="flex flex-wrap gap-2" id="user-local-container"><button type="button" onclick="toggleUserLocal('Todas')" id="btn-local-Todas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Todas</button><button type="button" onclick="toggleUserLocal('MPA')" id="btn-local-MPA" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">MPA</button><button type="button" onclick="toggleUserLocal('VNG')" id="btn-local-VNG" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">VNG</button><button type="button" onclick="toggleUserLocal('Porto')" id="btn-local-Porto" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Porto</button></div></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">PERFIL DE ACESSO (Escolha Única)</label><div class="flex flex-wrap gap-2" id="user-perfil-container"><button type="button" onclick="toggleUserPerfil('Vendedor')" id="btn-perfil-Vendedor" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Vendedor</button><button type="button" onclick="toggleUserPerfil('Gestor')" id="btn-perfil-Gestor" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Gestor</button><button type="button" onclick="toggleUserPerfil('Administrador')" id="btn-perfil-Administrador" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Administrador</button></div></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">NEGÓCIO (Multi-seleção)</label><div class="flex flex-wrap gap-2" id="user-negocio-container"><button type="button" onclick="toggleUserNegocio('VN')" id="btn-negocio-VN" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Veículos Novos (VN)</button><button type="button" onclick="toggleUserNegocio('VU')" id="btn-negocio-VU" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Veículos Usados (VU)</button></div></div>
                         </div>
-                        <div class="pt-4 flex justify-between items-center">
-                            <button type="button" id="btn-remover-user" onclick="removerUtilizador()" class="bg-red-50 text-red-600 font-bold py-2.5 px-6 rounded-lg text-xs uppercase hidden">Revogar Acesso</button>
-                            <div class="ml-auto flex gap-3"><button type="button" onclick="cancelarEdicaoUser()" class="text-gray-500 font-bold py-2.5 uppercase text-xs">Cancelar</button><button type="submit" id="btn-guardar-user" class="bg-bmw text-white font-bold py-2.5 px-8 rounded-lg text-xs uppercase">Gravar</button></div>
+                        <div class="pt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+                            <button type="button" id="btn-remover-user" onclick="removerUtilizador()" class="w-full sm:w-auto bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold py-2.5 px-6 rounded-lg text-xs uppercase tracking-widest hidden">Revogar Acesso</button>
+                            <div class="w-full sm:w-auto ml-auto flex flex-col sm:flex-row gap-3 sm:gap-4"><button type="button" onclick="cancelarEdicaoUser()" class="text-gray-500 hover:text-gray-800 text-xs font-bold py-2.5 uppercase tracking-widest">Cancelar</button><button type="submit" id="btn-guardar-user" class="w-full sm:w-auto bg-bmw hover:bg-blue-700 text-white font-bold py-2.5 px-8 rounded-lg shadow-sm transition-colors focus:outline-none text-xs uppercase tracking-widest">Gravar Base Dados</button></div>
                         </div>
                     </form>
                 </div>
@@ -109,7 +133,7 @@
                     <h2 class="font-black text-gray-800 text-xl uppercase tracking-widest">Registo de Atividades (Logs)</h2>
                     <button onclick="carregarHistorico()" class="bg-white border border-gray-200 hover:border-bmw hover:text-bmw text-gray-600 font-bold py-2 px-4 rounded-lg shadow-sm text-xs uppercase transition-colors flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                        Atualizar Histórico
+                        Atualizar
                     </button>
                 </div>
                 <div class="p-6 overflow-y-auto space-y-3 flex-1 bg-slate-50 no-scrollbar" id="lista-historico">
@@ -124,7 +148,7 @@
             <div class="flex flex-col xl:flex-row gap-6">
                 <div class="w-full xl:w-1/3 bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col h-[700px]">
                     <div class="p-5 border-b border-gray-100 bg-gray-50"><h2 class="font-black text-gray-800 text-lg uppercase">Inventário VN</h2></div>
-                    <div class="p-3 border-b border-gray-100"><button onclick="prepararNovaViatura()" class="w-full bg-bmw text-white font-bold py-3 rounded-lg text-xs uppercase">Adicionar Viatura</button></div>
+                    <div class="p-3 border-b border-gray-100"><button onclick="prepararNovaViatura()" class="w-full bg-bmw hover:bg-blue-700 text-white font-bold py-3 rounded-lg text-xs uppercase transition-colors">Adicionar Viatura</button></div>
                     <div class="overflow-y-auto p-3 space-y-2 flex-1 no-scrollbar bg-slate-50" id="lista-admin-viaturas"></div>
                 </div>
 
@@ -236,8 +260,13 @@
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpZnhnaXdtaWJqYW9ybmlnaHZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NjMxNTgsImV4cCI6MjA4NzQzOTE1OH0.XXG4TypXvwhB8EFW63zfBXq4fn03dJ4g73ty9Tzco90';
         let supabaseClient = null;
         
-        try { if(supabaseUrl && !supabaseUrl.includes('COLA_AQUI')) supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey); } 
-        catch(e) { console.error("Erro ao inicializar Supabase JS", e); }
+        try { 
+            if(supabaseUrl && !supabaseUrl.includes('COLA_AQUI')) {
+                supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey); 
+            }
+        } catch(e) { 
+            console.error("Erro ao inicializar Supabase JS", e); 
+        }
 
         const templateInputs = { pvb: 0, opc: 0, bsi: 0, eco: 4.20, leg: 1550, isv: 0, mgb: 0, esf: 0, pac: 0, dem: 0, sup: 0, pvp_desc: 0, depreciacoes: 0 };
         
@@ -284,7 +313,7 @@
         
         let inventario = [...viaturasOriginais];
         let utilizadoresDb = [];
-        let historicoDb = []; // NOVO: Tabela de auditoria
+        let historicoDb = []; 
 
         function mostrarAviso(msg) {
             const el = document.getElementById('aviso-supabase');
@@ -300,7 +329,6 @@
             }
 
             try {
-                // Viaturas
                 const { data: vData, error: vErr } = await supabaseClient.from('viaturas').select('*');
                 if (vErr) { mostrarAviso(vErr.message); executarArranqueLocal(); return; }
                 
@@ -311,7 +339,6 @@
                     inventario = [...viaturasOriginais];
                 }
 
-                // Utilizadores
                 const { data: uData } = await supabaseClient.from('utilizadores').select('*');
                 if (uData && uData.length > 0) { utilizadoresDb = uData; }
                 
@@ -322,7 +349,7 @@
             
             document.getElementById('loading-supabase').classList.add('hidden');
             executarArranqueLocal();
-            carregarHistorico(); // Carrega o log de atividades
+            carregarHistorico(); 
         }
 
         function executarArranqueLocal() {
@@ -330,10 +357,9 @@
             carregarPrecosEmDireto(); initModeloFiltros(); renderizarListaAdmin(); renderizarListaUtilizadores(); aplicarFiltros();
         }
 
-        // --- FUNÇÕES DE REGISTO DE ATIVIDADE (HISTÓRICO / AUDIT LOG) ---
+        // --- HISTÓRICO / AUDIT LOG ---
         async function registarHistorico(tabela, acao, registo_id, detalhes) {
             const log = { tabela, acao, registo_id: String(registo_id), detalhes };
-            
             if(supabaseClient) {
                 try { await supabaseClient.from('historico').insert(log); } 
                 catch(e) { console.error("Erro a guardar log:", e); }
@@ -418,6 +444,15 @@
         function mudarVista(v) { 
             document.getElementById('vista-tabela').style.display = v==='tabela'?'block':'none'; 
             document.getElementById('vista-cartoes').style.display = v==='cartoes'?'grid':'none'; 
+            
+            const btnT = document.getElementById('btn-vista-tabela'); const btnC = document.getElementById('btn-vista-cartoes');
+            if(v === 'tabela') {
+                btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all";
+                btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent";
+            } else {
+                btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all";
+                btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent";
+            }
         }
 
         // --- FILTROS E RENDERIZAÇÃO ---
@@ -425,7 +460,7 @@
         function initModeloFiltros() { 
             const c=document.getElementById('filtro-modelo-container'); 
             c.innerHTML=`<button onclick="setFiltro('modelo','Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold">Todos</button>`; 
-            [...new Set(inventario.map(x=>x.modelo))].sort().forEach(m=>c.innerHTML+=`<button onclick="setFiltro('modelo','${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600">${m}</button>`); 
+            [...new Set(inventario.map(x=>x.modelo))].sort().forEach(m=>c.innerHTML+=`<button onclick="setFiltro('modelo','${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 hover:text-bmw hover:border-bmw">${m}</button>`); 
         }
 
         function setFiltro(tipo, valor) { 
@@ -438,7 +473,11 @@
         }
 
         function aplicarFiltros() { 
-            const res = inventario.filter(c => (filtros.modelo==='Todos' || c.modelo===filtros.modelo) && (filtros.local==='Todas' || (c.local||[]).includes(filtros.local)) && (filtros.tipologia==='Todas' || (c.tipologia||[]).includes(filtros.tipologia))); 
+            const res = inventario.filter(c => 
+                (filtros.modelo==='Todos' || c.modelo===filtros.modelo) && 
+                (filtros.local==='Todas' || (c.local||[]).includes(filtros.local)) && 
+                (filtros.tipologia==='Todas' || (c.tipologia||[]).includes(filtros.tipologia))
+            ); 
             document.getElementById('num-resultados').innerText = res.length; 
             renderizar(res); 
         }
@@ -459,9 +498,57 @@
             if(dados.length===0) { document.getElementById('dados-viaturas').classList.add('hidden'); document.getElementById('sem-resultados').classList.remove('hidden'); return; }
             document.getElementById('dados-viaturas').classList.remove('hidden'); document.getElementById('sem-resultados').classList.add('hidden');
             
-            document.getElementById('vista-cartoes').innerHTML = dados.map(c => `<div class="bg-white border border-gray-200 rounded-2xl shadow-sm p-5 pl-7 cursor-pointer hover:shadow-xl hover:border-bmw transition-all group relative" onclick="abrirDetalheViatura('${c.chassis}')"><div class="absolute left-0 top-0 w-1.5 h-full bg-bmw"></div><div class="text-2xl font-black text-gray-900 leading-none group-hover:text-bmw">${c.modelo} <span class="font-normal text-gray-500 text-lg">${c.versao}</span></div><div class="text-[10px] font-mono text-gray-400 mt-2 uppercase">${c.matricula||c.chassis}</div><div class="mt-6 flex justify-between items-end border-t border-gray-100 pt-2"><span class="text-[10px] text-bmw font-bold uppercase">PVP (NET)</span><span class="text-xl font-black text-bmw">${c.pvp_final>0?formatarEuros(c.pvp_final):'N/A'}</span></div></div>`).join('');
+            document.getElementById('vista-cartoes').innerHTML = dados.map(c => {
+                const dispLoc = Array.isArray(c.local) ? c.local.join(', ') : c.local;
+                const dataMat = c.data_matricula ? new Date(c.data_matricula).toLocaleDateString('pt-PT') : 'N/A';
+                return `
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-sm relative overflow-hidden flex cursor-pointer hover:shadow-xl hover:border-blue-300 transition-all group duration-300" onclick="abrirDetalheViatura('${c.chassis}')">
+                    <div class="absolute left-0 top-0 w-1.5 h-full bg-bmw group-hover:w-2 transition-all"></div>
+                    <div class="flex-1 p-5 pl-7 flex flex-col justify-between z-10 w-full">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <div class="text-2xl font-black text-gray-900 leading-none group-hover:text-bmw transition-colors">${c.modelo}</div>
+                                <div class="font-normal text-gray-500 text-sm mt-1">${c.versao}</div>
+                            </div>
+                            <span class="bg-gray-100 border border-gray-200 text-gray-600 text-[10px] font-bold px-2 py-1 rounded shadow-sm">${dispLoc}</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-x-4 gap-y-3 my-5 bg-gray-50 p-4 rounded-xl border border-gray-100">
+                            <div><p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Matrícula</p><p class="text-sm font-mono font-black text-gray-800">${c.matricula || '-'}</p></div>
+                            <div><p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Data Matrícula</p><p class="text-xs font-medium text-gray-700 mt-0.5">${dataMat}</p></div>
+                            <div><p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Chassis</p><p class="text-[10px] font-mono text-gray-500 uppercase mt-0.5">${c.chassis || '-'}</p></div>
+                            <div><p class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">Encomenda</p><p class="text-[10px] font-mono text-gray-500 mt-0.5">${c.encomenda || '-'}</p></div>
+                        </div>
+
+                        <div class="flex justify-between items-end border-t border-gray-100 pt-3 mt-auto">
+                            <div>
+                                <span class="text-[9px] text-gray-400 font-bold uppercase tracking-widest">PVP</span>
+                                <div class="text-xs text-gray-500 font-medium line-through">${c.pvp_bruto > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</div>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-[10px] text-bmw font-bold uppercase tracking-widest">PVP c/ Desconto</span>
+                                <div class="text-xl font-black text-bmw tracking-tight">${c.pvp_final > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }).join('');
             
-            document.getElementById('tabela-corpo').innerHTML = dados.map(c => `<tr class="hover:bg-blue-50 cursor-pointer border-b border-gray-50" onclick="abrirDetalheViatura('${c.chassis}')"><td class="px-6 py-4 font-bold">${c.modelo} ${c.versao}</td><td class="px-6 py-4 text-center">${(c.local||[]).join(', ')}</td><td class="px-6 py-4">${c.estado_entrega}</td><td class="px-6 py-4 text-right">${formatarEuros(c.pvp_bruto)}</td><td class="px-6 py-4 text-right font-black text-bmw">${formatarEuros(c.pvp_final)}</td></tr>`).join('');
+            document.getElementById('tabela-corpo').innerHTML = dados.map(c => {
+                const dispLoc = Array.isArray(c.local) ? c.local.join(', ') : c.local;
+                const dataMat = c.data_matricula ? new Date(c.data_matricula).toLocaleDateString('pt-PT') : 'N/A';
+                return `<tr class="hover:bg-blue-50 cursor-pointer border-b border-gray-50 transition-colors" onclick="abrirDetalheViatura('${c.chassis}')">
+                    <td class="px-5 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold border border-gray-200 shadow-sm">${dispLoc}</span></td>
+                    <td class="px-5 py-4 font-bold text-gray-900">${c.modelo || '-'}</td>
+                    <td class="px-5 py-4 text-gray-600">${c.versao || '-'}</td>
+                    <td class="px-5 py-4 text-gray-500 font-mono text-xs">${c.encomenda || '-'}</td>
+                    <td class="px-5 py-4 text-gray-500 font-mono text-xs uppercase">${c.chassis || '-'}</td>
+                    <td class="px-5 py-4 text-gray-800 font-mono text-xs uppercase font-semibold">${c.matricula || '-'}</td>
+                    <td class="px-5 py-4 text-center text-gray-500 text-xs">${dataMat}</td>
+                    <td class="px-5 py-4 text-right text-xs text-gray-400 line-through">${c.pvp_bruto > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</td>
+                    <td class="px-5 py-4 text-right font-black text-bmw text-sm">${c.pvp_final > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td>
+                </tr>`;
+            }).join('');
         }
 
         // --- GESTÃO VN ---
@@ -475,7 +562,7 @@
         function toggleEditTipologia(val){ if(editCarroTipologia.includes(val)) editCarroTipologia = editCarroTipologia.filter(x => x !== val); else editCarroTipologia.push(val); atualizarBotoesEditCarro(); }
         function toggleEditLocal(val){ if(editCarroLocal.includes(val)) editCarroLocal = editCarroLocal.filter(x => x !== val); else editCarroLocal.push(val); atualizarBotoesEditCarro(); }
 
-        function renderizarListaAdmin() { document.getElementById('lista-admin-viaturas').innerHTML = inventario.map(c=>`<button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white hover:border-bmw mb-2"><div class="font-black text-sm text-gray-800">${c.modelo} ${c.versao}</div><div class="text-[10px] text-gray-400 mt-1">${c.matricula||c.chassis}</div></button>`).join(''); }
+        function renderizarListaAdmin() { document.getElementById('lista-admin-viaturas').innerHTML = inventario.map(c=>`<button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white hover:border-bmw hover:shadow-md transition-all mb-2"><div class="font-black text-sm text-gray-800">${c.modelo} ${c.versao}</div><div class="text-[10px] text-gray-400 mt-1">${c.matricula||c.chassis}</div></button>`).join(''); }
 
         function prepararNovaViatura() { 
             document.getElementById('form-precos').reset(); document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); 
@@ -486,6 +573,7 @@
             const carro = inventario.find(x => x.chassis === ch); 
             document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none');
             document.getElementById('admin-titulo-carro').innerText = `${carro.modelo} ${carro.versao}`; 
+            document.getElementById('admin-matricula').innerText = `Matrícula: ${carro.matricula || 'N/A'}`;
             document.getElementById('edit-original-chassis').value = carro.chassis;
             document.getElementById('edit-chassis').value = carro.chassis; document.getElementById('edit-matricula').value = carro.matricula || ''; document.getElementById('edit-modelo').value = carro.modelo || ''; document.getElementById('edit-versao').value = carro.versao || ''; document.getElementById('edit-link_fotos').value = carro.link_fotos || ''; document.getElementById('edit-estado_entrega').value = carro.estado_entrega || ''; document.getElementById('edit-encomenda').value = carro.encomenda || ''; document.getElementById('edit-data_matricula').value = carro.data_matricula || '';
             editCarroTipologia = [...(carro.tipologia||[])]; editCarroLocal = [...(carro.local||[])]; atualizarBotoesEditCarro();
@@ -512,14 +600,13 @@
             
             const statsAtuais = calcularPrecosTempoReal(carro); if(statsAtuais) carro.stats = statsAtuais;
 
-            // O FILTRO CUIDADOSO
+            // O FILTRO CUIDADOSO DE COLUNAS
             const payloadSupabase = { chassis: carro.chassis, matricula: carro.matricula, modelo: carro.modelo, versao: carro.versao, estado_entrega: carro.estado_entrega, data_matricula: carro.data_matricula, encomenda: carro.encomenda, tipologia: carro.tipologia, local: carro.local, link_fotos: carro.link_fotos, inputs: carro.inputs, stats: carro.stats };
 
             if(supabaseClient) {
                 const { error } = await supabaseClient.from('viaturas').upsert(payloadSupabase);
                 if(error) { mostrarAviso("Falha ao gravar no Supabase: " + error.message); return; }
                 
-                // REGISTAR NO HISTÓRICO
                 await registarHistorico('viaturas', isUpdate ? 'ATUALIZAR' : 'CRIAR', carro.chassis, payloadSupabase);
             }
 
@@ -531,8 +618,8 @@
         // --- GESTÃO DE UTILIZADORES ---
         let uPerf="", uNeg=[], uMar=['BMW'], uLoc=[];
         
-        function renderizarListaUtilizadores() { document.getElementById('lista-utilizadores').innerHTML = utilizadoresDb.map(u => `<button onclick="editarUtilizador(${u.id})" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white mb-2 shadow-sm hover:border-bmw"><div class="font-black text-sm">${u.nome}</div><div class="text-[10px] text-gray-400 mt-1 uppercase tracking-widest">${u.perfil}</div></button>`).join(''); }
-        function prepararNovoUtilizador() { document.getElementById('painel-user-form').classList.replace('hidden','flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('form-user').reset(); document.getElementById('user-id').value=""; uPerf=""; uNeg=[]; uMar=['BMW']; uLoc=[]; atualizarBtnsU(); }
+        function renderizarListaUtilizadores() { document.getElementById('lista-utilizadores').innerHTML = utilizadoresDb.map(u => `<button onclick="editarUtilizador(${u.id})" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white mb-2 shadow-sm hover:border-bmw transition-colors"><div class="font-black text-sm">${u.nome}</div><div class="text-[10px] text-gray-400 mt-1 uppercase tracking-widest">${u.perfil}</div></button>`).join(''); }
+        function prepararNovoUtilizador() { document.getElementById('painel-user-form').classList.replace('hidden','flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('form-user').reset(); document.getElementById('user-id').value=""; uPerf=""; uNeg=[]; uMar=['BMW']; uLoc=[]; atualizarBtnsU(); document.getElementById('btn-remover-user').classList.add('hidden'); }
         function editarUtilizador(id) { const u = utilizadoresDb.find(x=>x.id===id); document.getElementById('painel-user-form').classList.replace('hidden','flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('user-id').value = u.id; document.getElementById('user-nome').value = u.nome; document.getElementById('user-email').value = u.email; uPerf = u.perfil; uNeg = [...(u.negocio||[])]; uMar = [...(u.marca||[])]; uLoc = [...(u.local||[])]; atualizarBtnsU(); document.getElementById('btn-remover-user').classList.remove('hidden'); }
         function cancelarEdicaoUser() { document.getElementById('painel-user-form').classList.replace('flex','hidden'); document.getElementById('painel-user-vazio').classList.remove('hidden'); document.getElementById('btn-remover-user').classList.add('hidden'); }
 
@@ -560,8 +647,6 @@
             if(supabaseClient) {
                 const { error } = await supabaseClient.from('utilizadores').upsert(userObj);
                 if(error) { mostrarAviso("Erro ao gravar utilizador: " + error.message); return; }
-                
-                // REGISTAR NO HISTÓRICO
                 await registarHistorico('utilizadores', isUpdate ? 'ATUALIZAR' : 'CRIAR', userObj.id, userObj);
             }
             
@@ -575,8 +660,6 @@
                 utilizadoresDb = utilizadoresDb.filter(u => u.id !== id);
                 if(supabaseClient) {
                     await supabaseClient.from('utilizadores').delete().eq('id', id);
-                    
-                    // REGISTAR ELIMINAÇÃO NO HISTÓRICO
                     await registarHistorico('utilizadores', 'ELIMINAR', id, { id });
                 }
                 renderizarListaUtilizadores(); cancelarEdicaoUser();
