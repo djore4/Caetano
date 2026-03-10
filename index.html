@@ -114,13 +114,13 @@
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">EMAIL PROFISSIONAL</label><input type="email" id="user-email" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw focus:ring-1"></div>
                         </div>
                         <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-6">
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">CONCESSÃO BASE (Multi-seleção)</label><div class="flex flex-wrap gap-2" id="user-local-container"><button type="button" onclick="toggleUserLocal('Todas')" id="btn-local-Todas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Todas</button><button type="button" onclick="toggleUserLocal('MPA')" id="btn-local-MPA" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">MPA</button><button type="button" onclick="toggleUserLocal('VNG')" id="btn-local-VNG" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">VNG</button><button type="button" onclick="toggleUserLocal('Porto')" id="btn-local-Porto" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Porto</button></div></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">CONCESSÃO BASE (Multi-seleção)</label><div class="flex flex-wrap gap-2" id="user-local-container"><button type="button" onclick="toggleUserLocal('Todas')" id="btn-local-Todas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Todas</button><button type="button" onclick="toggleUserLocal('MPA')" id="btn-local-MPA" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">MPA</button><button type="button" onclick="toggleUserLocal('VNG')" id="btn-local-VNG" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">VNG</button><button type="button" onclick="toggleUserLocal('Porto')" id="btn-local-Porto" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Porto</button><button type="button" onclick="toggleUserLocal('Gaia')" id="btn-local-Gaia" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Gaia</button><button type="button" onclick="toggleUserLocal('Feira')" id="btn-local-Feira" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Feira</button><button type="button" onclick="toggleUserLocal('Aveiro')" id="btn-local-Aveiro" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Aveiro</button><button type="button" onclick="toggleUserLocal('Matosinhos')" id="btn-local-Matosinhos" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Matosinhos</button></div></div>
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">PERFIL DE ACESSO (Escolha Única)</label><div class="flex flex-wrap gap-2" id="user-perfil-container"><button type="button" onclick="toggleUserPerfil('Vendedor')" id="btn-perfil-Vendedor" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Vendedor</button><button type="button" onclick="toggleUserPerfil('Gestor')" id="btn-perfil-Gestor" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Gestor</button><button type="button" onclick="toggleUserPerfil('Administrador')" id="btn-perfil-Administrador" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Administrador</button></div></div>
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">NEGÓCIO (Multi-seleção)</label><div class="flex flex-wrap gap-2" id="user-negocio-container"><button type="button" onclick="toggleUserNegocio('VN')" id="btn-negocio-VN" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Veículos Novos (VN)</button><button type="button" onclick="toggleUserNegocio('VU')" id="btn-negocio-VU" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Veículos Usados (VU)</button></div></div>
                         </div>
                         <div class="pt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
                             <button type="button" id="btn-remover-user" onclick="removerUtilizador()" class="w-full sm:w-auto bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold py-2.5 px-6 rounded-lg text-xs uppercase tracking-widest hidden">Revogar Acesso</button>
-                            <div class="w-full sm:w-auto ml-auto flex flex-col sm:flex-row gap-3 sm:gap-4"><button type="button" onclick="cancelarEdicaoUser()" class="text-gray-500 hover:text-gray-800 text-xs font-bold py-2.5 uppercase tracking-widest">Cancelar</button><button type="submit" id="btn-guardar-user" class="w-full sm:w-auto bg-bmw hover:bg-blue-700 text-white font-bold py-2.5 px-8 rounded-lg shadow-sm transition-colors focus:outline-none text-xs uppercase tracking-widest">Gravar Base Dados</button></div>
+                            <div class="w-full sm:w-auto ml-auto flex flex-col sm:flex-row gap-3 sm:gap-4"><button type="button" onclick="cancelarEdicaoUser()" class="text-gray-500 hover:text-gray-800 text-xs font-bold py-2.5 uppercase tracking-widest">Cancelar</button><button type="submit" id="btn-guardar-user" class="w-full sm:w-auto bg-bmw hover:bg-blue-700 text-white font-bold py-2.5 px-8 rounded-lg shadow-sm transition-colors focus:outline-none text-xs uppercase tracking-widest">Gravar</button></div>
                         </div>
                     </form>
                 </div>
@@ -239,6 +239,26 @@
         </div>
 
     </main>
+
+    <div id="chat-widget" class="fixed bottom-6 right-6 z-50 flex-col items-end hidden">
+        <div id="chat-window" class="hidden w-80 sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 mb-4 overflow-hidden flex-col transition-all duration-300" style="height: 400px; max-height: 70vh;">
+            <div class="bg-bmw p-4 flex justify-between items-center text-white">
+                <div class="flex items-center space-x-2">
+                    <div class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse"></div>
+                    <div><h3 class="font-bold text-sm leading-none">Assistente Parque</h3><span class="text-[10px] text-blue-200">IA Inteligente</span></div>
+                </div>
+                <button onclick="toggleChat()" class="text-white hover:text-blue-200 focus:outline-none"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            </div>
+            <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col space-y-4 text-sm no-scrollbar">
+                <div class="flex items-start"><div class="bg-white border border-gray-200 text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] shadow-sm leading-relaxed">Olá! Sou o Assistente da Caetano BMW.<br>Pode pedir-me para encontrar uma matrícula, sugerir viaturas com base em orçamento ou cruzar opcionais. Em que posso ajudar?</div></div>
+            </div>
+            <div class="p-3 bg-white border-t border-gray-100 flex items-center space-x-2">
+                <input type="text" id="chat-input" onkeypress="if(event.key === 'Enter') enviarMensagemChat()" placeholder="Escreva aqui..." class="flex-1 bg-gray-100 border-transparent focus:bg-white focus:border-bmw focus:ring-1 focus:ring-bmw rounded-full px-4 py-2 text-sm outline-none transition-colors">
+                <button onclick="enviarMensagemChat()" class="bg-bmw text-white p-2 rounded-full hover:bg-blue-700 focus:outline-none transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
+            </div>
+        </div>
+        <button onclick="toggleChat()" class="bg-bmw text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-blue-800 transition-transform hover:scale-105 focus:outline-none mt-auto self-end"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg></button>
+    </div>
 
     <div id="modal-detalhe" class="fixed inset-0 bg-slate-900/70 z-[70] hidden flex-col items-center justify-center p-4 sm:p-6 backdrop-blur-sm">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl flex flex-col overflow-hidden">
@@ -411,9 +431,28 @@
         function calcularPrecosTempoReal(carro) {
             const inps = carro.inputs; if(!inps) return null;
             const pvp_bruto = ((inps.pvb||0) + (inps.opc||0) + (inps.bsi||0) + (inps.eco||0) + (inps.leg||0) + (inps.isv||0)) * (1+taxa_iva);
-            const desconto_eur = ((inps.pvb||0) + (inps.opc||0)) * ((inps.mgb||0) + (inps.esf||0) + (inps.pac||0) + (inps.dem||0) + (inps.sup||0)) * (1+taxa_iva);
-            const mg = (inps.pvp_desc||0) - (pvp_bruto - desconto_eur) + (inps.depreciacoes||0);
-            return { pvp_bruto, pvp_final: (inps.pvp_desc||0), mg, idade:0, penetracao:((inps.pvb>0)?((inps.opc||0)/inps.pvb):0), desc_perc:((inps.mgb||0)+(inps.esf||0)+(inps.pac||0)+(inps.dem||0)+(inps.sup||0)), desc_eur:desconto_eur, iva:(pvp_bruto/(1+taxa_iva)*taxa_iva), preco_minimo:(pvp_bruto-desconto_eur), mg_perc:((inps.pvb+inps.opc)>0?(mg/(inps.pvb+inps.opc)):0), s_iva:(inps.pvp_desc||0)/(1+taxa_iva) };
+            
+            // CORREÇÃO DA FÓRMULA DE DESCONTO: Base + Opcs * % (Sem adicionar IVA aqui)
+            const desc_perc = ((inps.mgb||0) + (inps.esf||0) + (inps.pac||0) + (inps.dem||0) + (inps.sup||0));
+            const desconto_eur = ((inps.pvb||0) + (inps.opc||0)) * desc_perc;
+            
+            // O Preço Mínimo exige a reposição do IVA sobre o valor descontado para fazer sentido com o PVP Bruto
+            const preco_minimo = pvp_bruto - (desconto_eur * (1+taxa_iva));
+            const mg = (inps.pvp_desc||0) - preco_minimo + (inps.depreciacoes||0);
+            
+            return { 
+                pvp_bruto, 
+                pvp_final: (inps.pvp_desc||0), 
+                mg, 
+                idade:0, 
+                penetracao:((inps.pvb>0)?((inps.opc||0)/inps.pvb):0), 
+                desc_perc, 
+                desc_eur: desconto_eur, // Apresenta agora o Desconto sem IVA
+                iva:(pvp_bruto/(1+taxa_iva)*taxa_iva), 
+                preco_minimo, 
+                mg_perc:((inps.pvb+inps.opc)>0?(mg/(inps.pvb+inps.opc)):0), 
+                s_iva:(inps.pvp_desc||0)/(1+taxa_iva) 
+            };
         }
 
         function carregarPrecosEmDireto() { inventario.forEach(c => { const s = calcularPrecosTempoReal(c); if(s){ c.pvp_bruto = s.pvp_bruto; c.pvp_final = s.pvp_final; c.stats = s; } }); }
@@ -426,7 +465,15 @@
             };
             const stats = calcularPrecosTempoReal({inputs: m});
             if(!stats) return;
-            document.getElementById('auto-penetracao').value = formatarPerc(stats.penetracao); document.getElementById('auto-pvp-bruto').value = formatarEuros(stats.pvp_bruto); document.getElementById('auto-iva').value = formatarEuros(stats.iva); document.getElementById('auto-desc-perc').value = formatarPerc(stats.desc_perc); document.getElementById('auto-desc-eur').value = formatarEuros(stats.desc_eur); document.getElementById('auto-preco-min').value = formatarEuros(stats.preco_minimo); document.getElementById('auto-s-iva').value = formatarEuros(stats.s_iva); document.getElementById('auto-mg-perc').value = formatarPerc(stats.mg_perc);
+            document.getElementById('auto-penetracao').value = formatarPerc(stats.penetracao); 
+            document.getElementById('auto-pvp-bruto').value = formatarEuros(stats.pvp_bruto); 
+            document.getElementById('auto-iva').value = formatarEuros(stats.iva); 
+            document.getElementById('auto-desc-perc').value = formatarPerc(stats.desc_perc); 
+            document.getElementById('auto-desc-eur').value = formatarEuros(stats.desc_eur); 
+            document.getElementById('auto-preco-min').value = formatarEuros(stats.preco_minimo); 
+            document.getElementById('auto-s-iva').value = formatarEuros(stats.s_iva); 
+            document.getElementById('auto-mg-perc').value = formatarPerc(stats.mg_perc);
+            
             const mgEl = document.getElementById('auto-mg'); mgEl.value = formatarEuros(stats.mg);
             mgEl.className = stats.mg < 0 ? "w-full text-xl font-black outline-none calc-auto text-red-600" : "w-full text-xl font-black outline-none calc-auto text-green-700";
         }
@@ -448,10 +495,10 @@
             const btnT = document.getElementById('btn-vista-tabela'); const btnC = document.getElementById('btn-vista-cartoes');
             if(v === 'tabela') {
                 btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all";
-                btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent";
+                btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent border border-transparent hover:bg-gray-200";
             } else {
                 btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all";
-                btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent";
+                btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent border border-transparent hover:bg-gray-200";
             }
         }
 
@@ -489,10 +536,10 @@
             const b = document.getElementById('btn-ver-fotos-modal');
             if(c.link_fotos && c.link_fotos.trim() !== '') { b.href=c.link_fotos; b.classList.remove('hidden'); b.classList.add('inline-block'); } 
             else { b.classList.add('hidden'); b.classList.remove('inline-block'); }
-            document.getElementById('modal-detalhe').classList.replace('hidden','flex');
+            document.getElementById('modal-detalhe').classList.remove('hidden'); document.getElementById('modal-detalhe').classList.add('flex');
         }
 
-        function fecharDetalheViatura() { document.getElementById('modal-detalhe').classList.replace('flex','hidden'); }
+        function fecharDetalheViatura() { document.getElementById('modal-detalhe').classList.add('hidden'); document.getElementById('modal-detalhe').classList.remove('flex'); }
 
         function renderizar(dados) {
             if(dados.length===0) { document.getElementById('dados-viaturas').classList.add('hidden'); document.getElementById('sem-resultados').classList.remove('hidden'); return; }
@@ -600,7 +647,6 @@
             
             const statsAtuais = calcularPrecosTempoReal(carro); if(statsAtuais) carro.stats = statsAtuais;
 
-            // O FILTRO CUIDADOSO DE COLUNAS
             const payloadSupabase = { chassis: carro.chassis, matricula: carro.matricula, modelo: carro.modelo, versao: carro.versao, estado_entrega: carro.estado_entrega, data_matricula: carro.data_matricula, encomenda: carro.encomenda, tipologia: carro.tipologia, local: carro.local, link_fotos: carro.link_fotos, inputs: carro.inputs, stats: carro.stats };
 
             if(supabaseClient) {
