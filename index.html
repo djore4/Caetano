@@ -419,11 +419,19 @@
             const preco_minimo = pvp_bruto - (desconto_eur * (1+taxa_iva));
             const mg = (inps.pvp_desc||0) - preco_minimo + (inps.depreciacoes||0);
             
+            let idade_calc = 0;
+            if (carro.data_matricula) {
+                const matDate = new Date(carro.data_matricula);
+                const hoje = new Date();
+                idade_calc = (hoje.getFullYear() - matDate.getFullYear()) * 12 + (hoje.getMonth() - matDate.getMonth());
+                if (idade_calc < 0) idade_calc = 0;
+            }
+            
             return { 
                 pvp_bruto, 
                 pvp_final: (inps.pvp_desc||0), 
                 mg, 
-                idade:0, 
+                idade: idade_calc, 
                 penetracao:((inps.pvb>0)?((inps.opc||0)/inps.pvb):0), 
                 desc_perc, 
                 desc_eur: desconto_eur, 
@@ -442,9 +450,20 @@
                 mgb: strParaNumero(document.getElementById('edit-mgb').value)/100, esf: strParaNumero(document.getElementById('edit-esf').value)/100, pac: strParaNumero(document.getElementById('edit-pac').value)/100, dem: strParaNumero(document.getElementById('edit-dem').value)/100, sup: strParaNumero(document.getElementById('edit-sup').value)/100,
                 depreciacoes: strParaNumero(document.getElementById('edit-depreciacoes').value), pvp_desc: strParaNumero(document.getElementById('edit-pvp_desc').value)
             };
-            const stats = calcularPrecosTempoReal({inputs: m});
+            const dt_mat = document.getElementById('edit-data_matricula').value;
+            const stats = calcularPrecosTempoReal({inputs: m, data_matricula: dt_mat});
             if(!stats) return;
-            document.getElementById('auto-penetracao').value = formatarPerc(stats.penetracao); document.getElementById('auto-pvp-bruto').value = formatarEuros(stats.pvp_bruto); document.getElementById('auto-iva').value = formatarEuros(stats.iva); document.getElementById('auto-desc-perc').value = formatarPerc(stats.desc_perc); document.getElementById('auto-desc-eur').value = formatarEuros(stats.desc_eur); document.getElementById('auto-preco-min').value = formatarEuros(stats.preco_minimo); document.getElementById('auto-s-iva').value = formatarEuros(stats.s_iva); document.getElementById('auto-mg-perc').value = formatarPerc(stats.mg_perc);
+            
+            document.getElementById('auto-idade').value = stats.idade;
+            document.getElementById('auto-penetracao').value = formatarPerc(stats.penetracao); 
+            document.getElementById('auto-pvp-bruto').value = formatarEuros(stats.pvp_bruto); 
+            document.getElementById('auto-iva').value = formatarEuros(stats.iva); 
+            document.getElementById('auto-desc-perc').value = formatarPerc(stats.desc_perc); 
+            document.getElementById('auto-desc-eur').value = formatarEuros(stats.desc_eur); 
+            document.getElementById('auto-preco-min').value = formatarEuros(stats.preco_minimo); 
+            document.getElementById('auto-s-iva').value = formatarEuros(stats.s_iva); 
+            document.getElementById('auto-mg-perc').value = formatarPerc(stats.mg_perc);
+            
             const mgEl = document.getElementById('auto-mg'); mgEl.value = formatarEuros(stats.mg);
             mgEl.className = stats.mg < 0 ? "w-full text-xl font-black outline-none calc-auto text-red-600" : "w-full text-xl font-black outline-none calc-auto text-green-700";
         }
@@ -484,7 +503,7 @@
         function setFiltro(tipo, valor) { 
             filtros[tipo] = valor; 
             Array.from(document.getElementById(`filtro-${tipo}-container`).children).forEach(btn => { 
-                if(btn.innerText === valor || (valor === 'Todas' && btn.innerText === 'Todas') || (valor === 'Todos' && btn.innerText === 'Todos') || (valor === 'VN' && btn.innerText.includes('VN')) || (valor === 'VU' && btn.innerText.includes('VU'))) { 
+                if(btn.innerText === valor || (valor === 'Todas' && btn.innerText === 'Todas') || (valor === 'Todos' && btn.innerText === 'Todos') || (valor === 'VN' && btn.innerText === 'VN') || (valor === 'VU' && btn.innerText === 'VU')) { 
                     btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600'); 
                 } 
                 else { btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600'); } 
