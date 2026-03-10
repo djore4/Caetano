@@ -72,8 +72,8 @@
 
                 <div class="flex justify-between items-end border-t border-gray-200 pt-4"><div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest"><span id="num-resultados" class="text-bmw font-black text-sm">0</span> viaturas encontradas</div>
                     <div class="flex bg-gray-100 p-1 rounded-lg border border-gray-200 shadow-inner">
-                        <button onclick="mudarVista('tabela')" id="btn-vista-tabela" class="px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all">Tabela</button>
-                        <button onclick="mudarVista('cartoes')" id="btn-vista-cartoes" class="px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all bg-transparent border border-transparent hover:bg-gray-200 hover:text-gray-800">Cartões</button>
+                        <button onclick="mudarVista('tabela')" id="btn-vista-tabela" class="px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all bg-transparent border border-transparent hover:bg-gray-200 hover:text-gray-800">Tabela</button>
+                        <button onclick="mudarVista('cartoes')" id="btn-vista-cartoes" class="px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all">Cartões</button>
                     </div>
                 </div>
             </div>
@@ -354,6 +354,13 @@
         function executarArranqueLocal() {
             document.getElementById('loading-supabase').classList.add('hidden');
             carregarPrecosEmDireto(); initModeloFiltros(); renderizarListaAdmin(); renderizarListaUtilizadores(); aplicarFiltros();
+            
+            // Lógica de visualização por defeito dependendo do dispositivo
+            if (window.innerWidth < 768) {
+                mudarVista('cartoes');
+            } else {
+                mudarVista('tabela');
+            }
         }
 
         // --- HISTÓRICO / AUDIT LOG ---
@@ -751,7 +758,6 @@
 
         window.onload = async () => { 
             await inicializarDados(); 
-            mudarVista('tabela'); 
         };
     </script>
 </body>
