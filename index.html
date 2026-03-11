@@ -149,7 +149,7 @@
                         <input type="hidden" id="user-id" value="">
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                             <div class="col-span-1 md:col-span-1"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">NOME COMPLETO</label><input type="text" id="user-nome" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw focus:ring-1"></div>
-                            <div class="col-span-1 md:col-span-1"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">EMAIL PROFISSIONAL (Login)</label><input type="email" id="user-email" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw focus:ring-1"></div>
+                            <div class="col-span-1 md:col-span-1"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">EMAIL PROFISSIONAL</label><input type="email" id="user-email" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw focus:ring-1"></div>
                             <div class="col-span-1 md:col-span-1"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">PALAVRA-PASSE</label><input type="text" id="user-password" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw focus:ring-1" placeholder="Definir Password"></div>
                         </div>
                         <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-6">
@@ -335,7 +335,7 @@
         </div>
     </div>
 
-    <div id="chat-widget" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end">
+    <div id="chat-widget" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 hidden flex-col items-end">
         <div id="chat-window" class="absolute bottom-16 sm:bottom-20 right-0 w-[calc(100vw-2rem)] sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col transition-all duration-300 origin-bottom-right opacity-0 scale-95 pointer-events-none" style="height: 450px; max-height: calc(100vh - 120px);">
             <div class="bg-bmw p-4 flex justify-between items-center text-white rounded-t-2xl">
                 <div class="flex items-center space-x-2">
@@ -352,7 +352,6 @@
                 <button onclick="enviarMensagemChat()" class="bg-bmw text-white p-2 rounded-full hover:bg-blue-700 focus:outline-none transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
             </div>
         </div>
-        
         <button onclick="toggleChat()" class="bg-bmw text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-blue-800 transition-transform hover:scale-105 focus:outline-none mt-auto self-end relative z-10"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg></button>
     </div>
 
@@ -438,6 +437,8 @@
         function executarArranqueLocal() {
             try {
                 document.getElementById('loading-supabase').classList.add('hidden');
+                document.getElementById('chat-widget').classList.remove('hidden'); 
+                document.getElementById('chat-widget').classList.add('flex');
                 
                 carregarPrecosEmDireto(); 
                 initModeloFiltros(); 
@@ -469,6 +470,7 @@
                 const email = document.getElementById('login-email').value.trim().toLowerCase(); 
                 const pass = document.getElementById('login-password').value.trim();
                 
+                // Leitura segura do email para evitar crashes se BD tiver lixo
                 const user = utilizadoresDb.find(u => (u.email || '').toLowerCase() === email && String(u.password || '').trim() === pass);
                 
                 if(user) { 
@@ -1011,7 +1013,7 @@
         }
 
         function atualizarBotoesEditCarro() {
-            // Tipologia (Sem restrição de acesso)
+            // Tipologia
             ['ICE','BEV','PHEV','M'].forEach(v => { 
                 let b = document.getElementById('btn-edit-tip-'+v); 
                 if(b) { 
@@ -1020,7 +1022,7 @@
                 } 
             }); 
             
-            // Locais (Bloqueio visual se não tiver permissão)
+            // Locais
             ['MPA','VNG','Porto','Gaia','Maia','Feira','Aveiro'].forEach(v => { 
                 let b = document.getElementById('btn-edit-loc-'+v); 
                 if(b) { 
@@ -1050,7 +1052,7 @@
                 } 
             }); 
             
-            // Negocio (Estado)
+            // Negocio
             ['VN', 'VU'].forEach(v => { 
                 let b = document.getElementById('btn-edit-estado-'+v); 
                 if(b) { 
@@ -1100,7 +1102,6 @@
             editCarroTipologia = []; 
             editCarroLocal = []; 
             
-            // Inteligência: Selecionar automaticamente opções com base nas permissões
             if(hasPerm('marca', 'BMW')) editCarroMarca = 'BMW'; else if(hasPerm('marca', 'MINI')) editCarroMarca = 'MINI';
             if(hasPerm('negocio', 'VN')) editCarroEstado = 'VN'; else if(hasPerm('negocio', 'VU')) editCarroEstado = 'VU';
             
@@ -1355,13 +1356,16 @@
             try {
                 const log = { tabela, acao, registo_id: String(registo_id), detalhes };
                 if(supabaseClient) {
-                    await supabaseClient.from('historico').insert(log);
+                    const { error } = await supabaseClient.from('historico').insert(log);
+                    if(error && currentUser && currentUser.perfil === 'Administrador') {
+                        console.error("Erro Supabase Histórico:", error);
+                    }
                 } else {
                     log.data_hora = new Date().toISOString();
                     historicoDb.unshift(log);
                 }
                 carregarHistorico();
-            } catch(e) { console.error("Falha silenciosa no Histórico", e); }
+            } catch(e) { console.error("Falha ao gravar no Histórico", e); }
         }
     </script>
 </body>
