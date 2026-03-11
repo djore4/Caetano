@@ -154,7 +154,7 @@
                         </div>
                         <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-6">
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">CONCESSÃO BASE (Multi-seleção)</label><div class="flex flex-wrap gap-2" id="user-local-container"><button type="button" onclick="toggleUserLocal('Todas')" id="btn-local-Todas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Todas</button><button type="button" onclick="toggleUserLocal('Porto')" id="btn-local-Porto" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Porto</button><button type="button" onclick="toggleUserLocal('Gaia')" id="btn-local-Gaia" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Gaia</button><button type="button" onclick="toggleUserLocal('Maia')" id="btn-local-Maia" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Maia</button><button type="button" onclick="toggleUserLocal('Feira')" id="btn-local-Feira" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Feira</button><button type="button" onclick="toggleUserLocal('Aveiro')" id="btn-local-Aveiro" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Aveiro</button></div></div>
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">PERFIL DE ACESSO (Escolha Única)</label><div class="flex flex-wrap gap-2" id="user-perfil-container"><button type="button" onclick="toggleUserPerfil('Vendedor')" id="btn-perfil-Vendedor" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Vendedor</button><button type="button" onclick="toggleUserPerfil('Chefe de Vendas')" id="btn-perfil-Chefe de Vendas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Chefe de Vendas</button><button type="button" onclick="toggleUserPerfil('Administrador')" id="btn-perfil-Administrador" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Administrador</button></div></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">PERFIL DE ACESSO (Escolha Única)</label><div class="flex flex-wrap gap-2" id="user-perfil-container"><button type="button" onclick="toggleUserPerfil('Vendedor')" id="btn-perfil-Vendedor" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Vendedor (S/ Gestão)</button><button type="button" onclick="toggleUserPerfil('Chefe de Vendas')" id="btn-perfil-Chefe de Vendas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Chefe de Vendas</button><button type="button" onclick="toggleUserPerfil('Administrador')" id="btn-perfil-Administrador" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">Administrador</button></div></div>
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">NEGÓCIO E MARCA (Multi-seleção)</label><div class="flex flex-wrap gap-2" id="user-negocio-container"><button type="button" onclick="toggleUserNegocio('VN')" id="btn-negocio-VN" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">VN</button><button type="button" onclick="toggleUserNegocio('VU')" id="btn-negocio-VU" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">VU</button><button type="button" onclick="toggleUserMarca('BMW')" id="btn-marca-BMW" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm ml-4">BMW</button><button type="button" onclick="toggleUserMarca('MINI')" id="btn-marca-MINI" class="user-btn border px-4 py-2 rounded-md text-xs font-bold transition-all bg-white text-gray-600 border-gray-200 shadow-sm">MINI</button></div></div>
                         </div>
                         <div class="pt-4 flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -219,8 +219,8 @@
                             <h3 class="text-xs font-bold text-gray-800 uppercase mb-4 tracking-widest">0. Identificação da Viatura</h3>
                             
                             <div class="mb-5 flex flex-col md:flex-row gap-6 border-b border-gray-200 pb-5">
-                                <div class="w-full sm:w-auto"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">MARCA</label><div class="flex flex-wrap gap-2" id="edit-marca-container"><button type="button" onclick="setEditCarroMarca('BMW')" id="btn-edit-marca-BMW" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">BMW</button><button type="button" onclick="setEditCarroMarca('MINI')" id="btn-edit-marca-MINI" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">MINI</button></div></div>
-                                <div class="w-full sm:w-auto"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">TIPO</label><div class="flex flex-wrap gap-2" id="edit-estado-container"><button type="button" onclick="setEditCarroEstado('VN')" id="btn-edit-estado-VN" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">VN</button><button type="button" onclick="setEditCarroEstado('VU')" id="btn-edit-estado-VU" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">VU</button></div></div>
+                                <div class="w-full sm:w-auto"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">MARCA</label><div class="flex flex-wrap gap-2" id="edit-marca-container"><button type="button" onclick="setEditCarroMarca('BMW')" id="btn-edit-marca-BMW" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">BMW</button><button type="button" onclick="setEditCarroMarca('MINI')" id="btn-edit-marca-MINI" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">MINI</button></div></div>
+                                <div class="w-full sm:w-auto"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">TIPO</label><div class="flex flex-wrap gap-2" id="edit-estado-container"><button type="button" onclick="setEditCarroEstado('VN')" id="btn-edit-estado-VN" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">VN</button><button type="button" onclick="setEditCarroEstado('VU')" id="btn-edit-estado-VU" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">VU</button></div></div>
                             </div>
 
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
@@ -232,8 +232,8 @@
                                 <div class="col-span-1 md:col-span-2"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">VERSÃO</label><input type="text" id="edit-versao" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">ESTADO ENTREGA</label><input type="text" id="edit-estado_entrega" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw" placeholder="Ex: Imediata"></div>
                             </div>
-                            <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">TECNOLOGIA</label><div class="flex flex-wrap gap-2" id="edit-tipologia-container"><button type="button" onclick="toggleEditTipologia('ICE')" id="btn-edit-tip-ICE" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">ICE</button><button type="button" onclick="toggleEditTipologia('BEV')" id="btn-edit-tip-BEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">BEV</button><button type="button" onclick="toggleEditTipologia('PHEV')" id="btn-edit-tip-PHEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">PHEV</button><button type="button" onclick="toggleEditTipologia('M')" id="btn-edit-tip-M" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">M</button></div></div>
-                            <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">LOCALIZAÇÃO (Multi-seleção)</label><div class="flex flex-wrap gap-2" id="edit-local-container"><button type="button" onclick="toggleEditLocal('Porto')" id="btn-edit-loc-Porto" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Porto</button><button type="button" onclick="toggleEditLocal('Gaia')" id="btn-edit-loc-Gaia" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Gaia</button><button type="button" onclick="toggleEditLocal('Maia')" id="btn-edit-loc-Maia" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Maia</button><button type="button" onclick="toggleEditLocal('Feira')" id="btn-edit-loc-Feira" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Feira</button><button type="button" onclick="toggleEditLocal('Aveiro')" id="btn-edit-loc-Aveiro" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600">Aveiro</button></div></div>
+                            <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">TECNOLOGIA</label><div class="flex flex-wrap gap-2" id="edit-tipologia-container"><button type="button" onclick="toggleEditTipologia('ICE')" id="btn-edit-tip-ICE" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">ICE</button><button type="button" onclick="toggleEditTipologia('BEV')" id="btn-edit-tip-BEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">BEV</button><button type="button" onclick="toggleEditTipologia('PHEV')" id="btn-edit-tip-PHEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">PHEV</button><button type="button" onclick="toggleEditTipologia('M')" id="btn-edit-tip-M" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">M</button></div></div>
+                            <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">LOCALIZAÇÃO (Multi-seleção)</label><div class="flex flex-wrap gap-2" id="edit-local-container"><button type="button" onclick="toggleEditLocal('Porto')" id="btn-edit-loc-Porto" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">Porto</button><button type="button" onclick="toggleEditLocal('Gaia')" id="btn-edit-loc-Gaia" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">Gaia</button><button type="button" onclick="toggleEditLocal('Maia')" id="btn-edit-loc-Maia" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">Maia</button><button type="button" onclick="toggleEditLocal('Feira')" id="btn-edit-loc-Feira" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">Feira</button><button type="button" onclick="toggleEditLocal('Aveiro')" id="btn-edit-loc-Aveiro" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">Aveiro</button></div></div>
                             <div class="pt-4 border-t border-gray-200"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">LINK FOTOS / GALERIA (Visível no Parque)</label><input type="url" id="edit-link_fotos" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none text-blue-600 focus:border-bmw" placeholder="https://..."></div>
                         </div>
 
@@ -422,9 +422,15 @@
             el.classList.add('flex');
         }
 
-        // Arranque Inicial Seguro
+        function hasPerm(tipo, val) {
+            if(!currentUser) return false;
+            if(currentUser.perfil === 'Administrador') return true;
+            const perms = currentUser[tipo] || [];
+            return perms.includes('Todas') || perms.includes(val);
+        }
+
         window.onload = async () => { 
-            mudarTab('parque'); // Mostra UI público logo para não bloquear ecrã
+            mudarTab('parque'); 
             await inicializarDados(); 
         };
 
@@ -436,12 +442,10 @@
             }
             
             try {
-                // Puxa Viaturas
                 const { data: vData, error: vErr } = await supabaseClient.from('viaturas').select('*');
                 if (vErr) { console.error("Erro viaturas:", vErr); } 
                 else if (vData) { inventario = vData; } 
 
-                // Puxa Utilizadores
                 const { data: uData, error: uErr } = await supabaseClient.from('utilizadores').select('*');
                 if (uData && uData.length > 0) { 
                     utilizadoresDb = uData; 
@@ -652,7 +656,6 @@
         function formatarPerc(num) { return ((num||0)*100).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %'; }
 
         function calcularPrecosTempoReal(carro) {
-            // Garantir que os inputs existem para não crashar em carros antigos
             const inps = carro.inputs || { pvb: 0, opc: 0, bsi: 0, eco: 4.20, leg: 1550, isv: 0, mgb: 0, esf: 0, pac: 0, dem: 0, sup: 0, pvp_desc: 0, depreciacoes: 0 };
             
             const base_tributavel = (inps.pvb||0) + (inps.opc||0) + (inps.bsi||0) + (inps.eco||0) + (inps.leg||0) + (inps.isv||0);
@@ -951,13 +954,35 @@
             return htmlResp;
         }
 
-        // --- GESTÃO VN / UTILIZADORES ---
+        // --- GESTÃO VN E CONTROLO DE ACESSOS FÍSICO ---
         let editCarroTipologia = []; let editCarroLocal = [];
         let editCarroMarca = 'BMW'; let editCarroEstado = 'VN';
         let filtroLocalAdmin = 'Todas';
 
-        function setEditCarroMarca(val) { editCarroMarca = val; atualizarBotoesEditCarro(); }
-        function setEditCarroEstado(val) { editCarroEstado = val; atualizarBotoesEditCarro(); }
+        function setEditCarroMarca(val) { 
+            if(!hasPerm('marca', val)) { alert("Acesso Negado: Não tem permissão para editar esta Marca."); return; }
+            editCarroMarca = val; 
+            atualizarBotoesEditCarro(); 
+        }
+        
+        function setEditCarroEstado(val) { 
+            if(!hasPerm('negocio', val)) { alert("Acesso Negado: Não tem permissão para este Negócio."); return; }
+            editCarroEstado = val; 
+            atualizarBotoesEditCarro(); 
+        }
+
+        function toggleEditLocal(val){ 
+            if(!hasPerm('local', val)) { alert("Acesso Negado: Não tem permissão para este Local."); return; }
+            if(editCarroLocal.includes(val)) editCarroLocal = editCarroLocal.filter(x => x !== val); 
+            else editCarroLocal.push(val); 
+            atualizarBotoesEditCarro(); 
+        }
+
+        function toggleEditTipologia(val){ 
+            if(editCarroTipologia.includes(val)) editCarroTipologia = editCarroTipologia.filter(x => x !== val); 
+            else editCarroTipologia.push(val); 
+            atualizarBotoesEditCarro(); 
+        }
 
         function setFiltroLocalAdmin(val) {
             filtroLocalAdmin = val;
@@ -972,14 +997,60 @@
         }
 
         function atualizarBotoesEditCarro() {
-            ['ICE','BEV','PHEV','M'].forEach(v => { let b = document.getElementById('btn-edit-tip-'+v); if(b) { if(editCarroTipologia.includes(v)){b.classList.add('active','text-white');b.classList.remove('bg-white','text-gray-600');} else {b.classList.remove('active','text-white');b.classList.add('bg-white','text-gray-600');} } });
-            ['MPA','VNG','Porto','Gaia','Maia','Feira','Aveiro'].forEach(v => { let b = document.getElementById('btn-edit-loc-'+v); if(b) { if(editCarroLocal.includes(v)){b.classList.add('active','text-white');b.classList.remove('bg-white','text-gray-600');} else {b.classList.remove('active','text-white');b.classList.add('bg-white','text-gray-600');} } });
-            ['BMW', 'MINI'].forEach(v => { let b = document.getElementById('btn-edit-marca-'+v); if(b) { if(editCarroMarca === v){b.classList.add('active','text-white');b.classList.remove('bg-white','text-gray-600');} else {b.classList.remove('active','text-white');b.classList.add('bg-white','text-gray-600');} } });
-            ['VN', 'VU'].forEach(v => { let b = document.getElementById('btn-edit-estado-'+v); if(b) { if(editCarroEstado === v){b.classList.add('active','text-white');b.classList.remove('bg-white','text-gray-600');} else {b.classList.remove('active','text-white');b.classList.add('bg-white','text-gray-600');} } });
+            // Tipologia (Sem restrição de acesso)
+            ['ICE','BEV','PHEV','M'].forEach(v => { 
+                let b = document.getElementById('btn-edit-tip-'+v); 
+                if(b) { 
+                    if(editCarroTipologia.includes(v)){ b.classList.add('active','text-white','bg-bmw'); b.classList.remove('bg-white','text-gray-600'); } 
+                    else { b.classList.remove('active','text-white','bg-bmw'); b.classList.add('bg-white','text-gray-600'); } 
+                } 
+            }); 
+            
+            // Locais (Bloqueio visual se não tiver permissão)
+            ['MPA','VNG','Porto','Gaia','Maia','Feira','Aveiro'].forEach(v => { 
+                let b = document.getElementById('btn-edit-loc-'+v); 
+                if(b) { 
+                    if(!hasPerm('local', v)) { 
+                        b.classList.add('opacity-30', 'cursor-not-allowed'); 
+                        b.classList.remove('active','text-white','bg-bmw'); 
+                    } else { 
+                        b.classList.remove('opacity-30', 'cursor-not-allowed');
+                        if(editCarroLocal.includes(v)){ b.classList.add('active','text-white','bg-bmw'); b.classList.remove('bg-white','text-gray-600'); } 
+                        else { b.classList.remove('active','text-white','bg-bmw'); b.classList.add('bg-white','text-gray-600'); } 
+                    }
+                } 
+            }); 
+            
+            // Marca
+            ['BMW', 'MINI'].forEach(v => { 
+                let b = document.getElementById('btn-edit-marca-'+v); 
+                if(b) { 
+                    if(!hasPerm('marca', v)) { 
+                        b.classList.add('opacity-30', 'cursor-not-allowed'); 
+                        b.classList.remove('active','text-white','bg-bmw'); 
+                    } else {
+                        b.classList.remove('opacity-30', 'cursor-not-allowed');
+                        if(editCarroMarca === v){ b.classList.add('active','text-white','bg-bmw'); b.classList.remove('bg-white','text-gray-600'); } 
+                        else { b.classList.remove('active','text-white','bg-bmw'); b.classList.add('bg-white','text-gray-600'); } 
+                    }
+                } 
+            }); 
+            
+            // Negocio (Estado)
+            ['VN', 'VU'].forEach(v => { 
+                let b = document.getElementById('btn-edit-estado-'+v); 
+                if(b) { 
+                    if(!hasPerm('negocio', v)) { 
+                        b.classList.add('opacity-30', 'cursor-not-allowed'); 
+                        b.classList.remove('active','text-white','bg-bmw'); 
+                    } else {
+                        b.classList.remove('opacity-30', 'cursor-not-allowed');
+                        if(editCarroEstado === v){ b.classList.add('active','text-white','bg-bmw'); b.classList.remove('bg-white','text-gray-600'); } 
+                        else { b.classList.remove('active','text-white','bg-bmw'); b.classList.add('bg-white','text-gray-600'); } 
+                    }
+                } 
+            }); 
         }
-
-        function toggleEditTipologia(val){ if(editCarroTipologia.includes(val)) editCarroTipologia = editCarroTipologia.filter(x => x !== val); else editCarroTipologia.push(val); atualizarBotoesEditCarro(); }
-        function toggleEditLocal(val){ if(editCarroLocal.includes(val)) editCarroLocal = editCarroLocal.filter(x => x !== val); else editCarroLocal.push(val); atualizarBotoesEditCarro(); }
 
         function renderizarListaAdmin() { 
             try {
@@ -1014,8 +1085,15 @@
             document.getElementById('edit-original-chassis').value = ""; 
             editCarroTipologia = []; 
             editCarroLocal = []; 
-            editCarroMarca = 'BMW'; 
-            editCarroEstado = 'VN'; 
+            
+            // Inteligência: Selecionar automaticamente opções com base nas permissões
+            if(hasPerm('marca', 'BMW')) editCarroMarca = 'BMW'; else if(hasPerm('marca', 'MINI')) editCarroMarca = 'MINI';
+            if(hasPerm('negocio', 'VN')) editCarroEstado = 'VN'; else if(hasPerm('negocio', 'VU')) editCarroEstado = 'VU';
+            
+            if(currentUser && currentUser.perfil !== 'Administrador' && !currentUser.local.includes('Todas') && currentUser.local.length > 0) {
+                editCarroLocal = [...currentUser.local];
+            }
+
             atualizarBotoesEditCarro(); 
             document.getElementById('btn-remover-viatura').classList.add('hidden');
             ['idade','penetracao','pvp-bruto','iva','desc-perc','desc-eur','preco-min','s-iva','mg','mg-perc'].forEach(id => { 
@@ -1070,6 +1148,17 @@
 
         async function guardarPrecos(e) {
             e.preventDefault(); 
+            
+            // Segurança Mestre: Se o utilizador mexeu no HTML para selecionar algo que não tem permissão, isto bloqueia a gravação.
+            if(!hasPerm('marca', editCarroMarca) || !hasPerm('negocio', editCarroEstado)) {
+                alert("Operação Cancelada: Não tem permissões para gravar viaturas desta Marca ou Negócio.");
+                return;
+            }
+            if(!editCarroLocal.some(l => hasPerm('local', l)) && editCarroLocal.length > 0) {
+                alert("Operação Cancelada: Não tem permissões para gravar viaturas nestas Localizações.");
+                return;
+            }
+
             const originalChassis = document.getElementById('edit-original-chassis').value; 
             const novoChassis = document.getElementById('edit-chassis').value.trim().toUpperCase();
             
