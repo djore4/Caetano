@@ -41,7 +41,7 @@
                             <span class="hidden sm:inline">Área Reservada</span>
                         </button>
                         
-                        <div id="user-info-header" class="hidden flex items-center gap-2 sm:gap-3">
+                        <div id="user-info-header" class="hidden items-center gap-2 sm:gap-3">
                             <div class="text-right hidden sm:block">
                                 <p id="header-user-name" class="text-xs font-black text-gray-800 leading-tight">Nome</p>
                                 <p id="header-user-role" class="text-[9px] font-bold text-bmw uppercase tracking-widest">Perfil</p>
@@ -284,7 +284,7 @@
                                 </div>
                             </div>
                             <div class="bg-green-50 p-5 border-t border-green-200 grid grid-cols-2 md:grid-cols-4 gap-4 pl-8">
-                                <div><label class="block text-[9px] font-bold text-slate-500 uppercase">Preço Mín. (€)</label><input type="text" readonly id="auto-preco-min" class="w-full text-base outline-none calc-auto"></div>
+                                <div><label class="block text-[9px] font-bold text-slate-500 uppercase">PVP (Novo) (€)</label><input type="text" readonly id="auto-preco-min" class="w-full text-base outline-none calc-auto"></div>
                                 <div><label class="block text-[9px] font-bold text-slate-500 uppercase">S/ IVA PVP (€)</label><input type="text" readonly id="auto-s-iva" class="w-full text-base outline-none calc-auto"></div>
                                 <div><label class="block text-[10px] font-black text-green-700 uppercase">Margem Real (€)</label><input type="text" readonly id="auto-mg" class="w-full text-xl font-black outline-none calc-auto"></div>
                                 <div><label class="block text-[10px] font-black text-green-700 uppercase">Margem Real (%)</label><input type="text" readonly id="auto-mg-perc" class="w-full text-xl font-black outline-none calc-auto"></div>
@@ -355,8 +355,45 @@
         <button onclick="toggleChat()" class="bg-bmw text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-blue-800 transition-transform hover:scale-105 focus:outline-none mt-auto self-end relative z-10"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg></button>
     </div>
 
-    <div id="modal-login" class="fixed inset-0 bg-slate-900/80 z-[80] hidden flex-col items-center justify-center p-4 backdrop-blur-sm"><div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm flex flex-col overflow-hidden"><div class="bg-gray-50 px-8 py-5 border-b border-gray-200 flex justify-between items-center"><h2 class="text-xl font-black text-gray-900 uppercase tracking-widest">Área Reservada</h2><button onclick="fecharLogin()" class="text-gray-400 hover:text-red-500 bg-white rounded-full p-2 border border-gray-100 shadow-sm transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><form onsubmit="fazerLogin(event)" class="p-8 flex flex-col space-y-6"><div><label class="block text-xs font-bold text-gray-500 mb-2 tracking-widest uppercase">Email Profissional</label><input type="email" id="login-email" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="nome@caetano.pt"></div><div><label class="block text-xs font-bold text-gray-500 mb-2 tracking-widest uppercase">Palavra-Passe</label><input type="password" id="login-password" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="••••••••"></div><button type="submit" class="w-full bg-bmw hover:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-md transition-colors uppercase tracking-widest text-sm">Entrar na Plataforma</button></form></div></div>
-    <div id="modal-change-password" class="fixed inset-0 bg-slate-900/80 z-[90] hidden flex-col items-center justify-center p-4 backdrop-blur-sm"><div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm flex flex-col overflow-hidden"><div class="bg-gray-50 px-8 py-5 border-b border-gray-200 flex justify-between items-center"><h2 class="text-lg font-black text-gray-900 uppercase tracking-widest">Mudar Palavra-Passe</h2><button onclick="fecharMudarPassword()" class="text-gray-400 hover:text-red-500 bg-white rounded-full p-2 border border-gray-100 shadow-sm transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><form onsubmit="guardarNovaPassword(event)" class="p-8 flex flex-col space-y-5"><div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest uppercase">Nova Palavra-Passe</label><input type="password" id="new-password" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="••••••••"></div><div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest uppercase">Confirmar Palavra-Passe</label><input type="password" id="confirm-password" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="••••••••"></div><button type="submit" class="w-full bg-bmw hover:bg-blue-800 text-white font-bold py-3.5 rounded-xl shadow-md transition-colors uppercase tracking-widest text-sm mt-2">Atualizar</button></form></div></div>
+    <div id="modal-login" class="fixed inset-0 bg-slate-900/80 z-[80] hidden flex-col items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm flex flex-col overflow-hidden">
+            <div class="bg-gray-50 px-8 py-5 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-xl font-black text-gray-900 uppercase tracking-widest">Área Reservada</h2>
+                <button onclick="fecharLogin()" class="text-gray-400 hover:text-red-500 bg-white rounded-full p-2 border border-gray-100 shadow-sm transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            </div>
+            <form onsubmit="fazerLogin(event)" class="p-8 flex flex-col space-y-6">
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 mb-2 tracking-widest uppercase">Email Profissional</label>
+                    <input type="email" id="login-email" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="nome@caetano.pt">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-gray-500 mb-2 tracking-widest uppercase">Palavra-Passe</label>
+                    <input type="password" id="login-password" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="••••••••">
+                </div>
+                <button type="submit" class="w-full bg-bmw hover:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-md transition-colors uppercase tracking-widest text-sm">Entrar na Plataforma</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-change-password" class="fixed inset-0 bg-slate-900/80 z-[90] hidden flex-col items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm flex flex-col overflow-hidden">
+            <div class="bg-gray-50 px-8 py-5 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="text-lg font-black text-gray-900 uppercase tracking-widest">Mudar Palavra-Passe</h2>
+                <button onclick="fecharMudarPassword()" class="text-gray-400 hover:text-red-500 bg-white rounded-full p-2 border border-gray-100 shadow-sm transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+            </div>
+            <form onsubmit="guardarNovaPassword(event)" class="p-8 flex flex-col space-y-5">
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest uppercase">Nova Palavra-Passe</label>
+                    <input type="password" id="new-password" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="••••••••">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest uppercase">Confirmar Palavra-Passe</label>
+                    <input type="password" id="confirm-password" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="••••••••">
+                </div>
+                <button type="submit" class="w-full bg-bmw hover:bg-blue-800 text-white font-bold py-3.5 rounded-xl shadow-md transition-colors uppercase tracking-widest text-sm mt-2">Atualizar</button>
+            </form>
+        </div>
+    </div>
 
     <script>
         const supabaseUrl = 'https://yifxgiwmibjaornighvt.supabase.co'; 
@@ -382,7 +419,7 @@
         let currentSortCol = null;
         let currentSortAsc = true;
 
-        // FUNÇÕES ANTI-FALHAS PARA BD (Protege contra NULL e texto errado)
+        // FUNÇÕES ANTI-FALHAS PARA BD
         function getArr(v) {
             if(!v) return [];
             if(Array.isArray(v)) return v;
@@ -415,10 +452,14 @@
             return perms.includes('Todas') || perms.includes(val);
         }
 
-        // Arranque Inicial Seguro
+        // ARRANQUE SEGURO
         window.onload = async () => { 
-            mudarTab('parque'); // Mostra UI público logo para não bloquear ecrã
-            await inicializarDados(); 
+            try {
+                mudarTab('parque'); 
+                await inicializarDados(); 
+            } catch(e) {
+                console.error("Falha no arranque crítico", e);
+            }
         };
 
         async function inicializarDados() {
@@ -429,12 +470,10 @@
             }
             
             try {
-                // Puxa Viaturas
                 const { data: vData, error: vErr } = await supabaseClient.from('viaturas').select('*');
                 if (vErr) { console.error("Erro viaturas:", vErr); } 
                 else if (vData) { inventario = vData; } 
 
-                // Puxa Utilizadores
                 const { data: uData, error: uErr } = await supabaseClient.from('utilizadores').select('*');
                 if (uData && uData.length > 0) { 
                     utilizadoresDb = uData; 
@@ -450,7 +489,11 @@
             
             document.getElementById('loading-supabase').classList.add('hidden');
             executarArranqueLocal();
-            carregarHistorico(); 
+            
+            try {
+                // Tenta carregar histórico mas não bloqueia a plataforma se falhar
+                await carregarHistorico(); 
+            } catch(e) {}
         }
 
         function executarArranqueLocal() {
@@ -572,18 +615,26 @@
         }
 
         function mudarTab(t) { 
-            if ((t === 'utilizadores' || t === 'historico' || t === 'admin-vn' || t === 'admin-vu') && (!currentUser || currentUser.perfil === 'Vendedor')) {
-                alert("Acesso Restrito: Por favor, inicie sessão na Área Reservada."); return;
-            }
-            document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active')); 
-            document.getElementById('conteudo-'+t).classList.add('active'); 
-            document.querySelectorAll('.nav-tab').forEach(b=>{
-                b.classList.remove('border-bmw','text-bmw');
-                b.classList.add('border-transparent','text-gray-400');
-            }); 
-            document.getElementById('tab-'+t).classList.add('border-bmw','text-bmw'); 
-            document.getElementById('tab-'+t).classList.remove('border-transparent','text-gray-400'); 
-            if(t === 'historico') carregarHistorico();
+            try {
+                if ((t === 'utilizadores' || t === 'historico' || t === 'admin-vn' || t === 'admin-vu') && (!currentUser || currentUser.perfil === 'Vendedor')) {
+                    alert("Acesso Restrito: Por favor, inicie sessão na Área Reservada."); return;
+                }
+                document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active')); 
+                const tgt = document.getElementById('conteudo-'+t);
+                if(tgt) tgt.classList.add('active'); 
+                
+                document.querySelectorAll('.nav-tab').forEach(b=>{
+                    b.classList.remove('border-bmw','text-bmw');
+                    b.classList.add('border-transparent','text-gray-400');
+                }); 
+                
+                const bT = document.getElementById('tab-'+t);
+                if(bT){
+                    bT.classList.add('border-bmw','text-bmw'); 
+                    bT.classList.remove('border-transparent','text-gray-400'); 
+                }
+                if(t === 'historico') carregarHistorico();
+            } catch(e) { console.error("Erro mudar tab", e); }
         }
 
         function mudarVista(v) { 
@@ -641,7 +692,7 @@
                 await supabaseClient.from('viaturas').update({ reserva_expira: null, reserva_user: null }).eq('chassis', ch);
                 await registarHistorico('viaturas', 'CANC_RESERVA', ch, { user: currentUser.nome });
             }
-            alert("Reserva cancelada. Viatura disponível no parque."); 
+            alert("Reserva cancelada."); 
             fecharDetalheViatura(); 
             aplicarFiltros(); 
         }
@@ -889,6 +940,8 @@
                 }
 
                 const opacidade = reservado ? 'opacity-90' : 'opacity-100';
+                const textoBSI = (inps.bsi < 0) ? 'Não' : 'Sim';
+                const precoNovo = stats.preco_minimo || 0;
                 
                 return `
                 <div class="bg-white border ${reservado ? 'border-orange-300 shadow-md' : 'border-gray-200 shadow-sm'} rounded-2xl p-5 hover:shadow-xl ${reservado ? 'hover:border-orange-500' : 'hover:border-blue-300'} transition-all cursor-pointer relative overflow-hidden group ${opacidade}" onclick="abrirDetalheViatura('${c.chassis}')">
@@ -908,8 +961,8 @@
                     </div>
                     <div class="space-y-2.5 border-t border-gray-100 pt-4">
                         <div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">Desconto total</span><span class="text-xs font-black text-gray-800">${formatarEuros(stats.desc_eur)}</span></div>
-                        <div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">Preço mínimo</span><span class="text-xs font-black text-gray-800">${formatarEuros(stats.preco_minimo)}</span></div>
-                        <div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">BSI incluído</span><span class="text-xs font-black text-gray-800">${(inps.bsi > 0) ? 'Sim' : 'Não'}</span></div>
+                        <div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">PVP (Novo)</span><span class="text-xs font-black text-gray-800">${formatarEuros(precoNovo)}</span></div>
+                        <div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">BSI incluído</span><span class="text-xs font-black text-gray-800">${textoBSI}</span></div>
                     </div>
                 </div>`;
             }).join('');
@@ -1153,6 +1206,8 @@
 
             atualizarBotoesEditCarro(); 
             document.getElementById('btn-remover-viatura').classList.add('hidden');
+            
+            // Corrige Rótulos PVB, OPC etc para vazio
             ['idade','penetracao','pvp-bruto','iva','desc-perc','desc-eur','preco-min','s-iva','mg','mg-perc'].forEach(id => { 
                 if(document.getElementById('auto-'+id)) document.getElementById('auto-'+id).value = "--"; 
             }); 
