@@ -189,7 +189,7 @@
 
                         <div class="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm"><div class="p-6"><div class="grid grid-cols-2 lg:grid-cols-6 gap-3"><div><label class="block text-[10px] font-bold text-gray-500 mb-1">PREÇO BASE</label><input type="text" id="edit-pvb" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none"></div><div><label class="block text-[10px] font-bold text-gray-500 mb-1">OPCIONAIS</label><input type="text" id="edit-opc" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none"></div><div><label class="block text-[10px] font-bold text-gray-500 mb-1">BSI/MSI</label><input type="text" id="edit-bsi" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none"></div><div><label class="block text-[10px] font-bold text-gray-500 mb-1">ECOVALOR</label><input type="text" id="edit-eco" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none"></div><div><label class="block text-[10px] font-bold text-gray-500 mb-1">LEG/TRANSP</label><input type="text" id="edit-leg" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none"></div><div><label class="block text-[10px] font-bold text-gray-500 mb-1">ISV</label><input type="text" id="edit-isv" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none"></div></div></div><div class="bg-gray-50 p-4 border-t border-gray-200 grid grid-cols-4 gap-4"><div><label class="block text-[9px] font-bold text-slate-400">Idade</label><input type="text" readonly id="auto-idade" class="w-full text-base outline-none calc-auto"></div><div><label class="block text-[9px] font-bold text-slate-400">Penetração</label><input type="text" readonly id="auto-penetracao" class="w-full text-base outline-none calc-auto"></div><div><label class="block text-[9px] font-bold text-slate-600">PVP Bruto</label><input type="text" readonly id="auto-pvp-bruto" class="w-full text-base outline-none calc-auto font-black"></div><div><label class="block text-[9px] font-bold text-slate-400">IVA</label><input type="text" readonly id="auto-iva" class="w-full text-base outline-none calc-auto"></div></div></div>
                         <div class="bg-white border border-blue-200 rounded-xl overflow-hidden shadow-sm"><div class="p-6"><div class="grid grid-cols-2 lg:grid-cols-5 gap-3"><div><label class="block text-[10px] font-bold text-gray-500 mb-1">MG FIXA</label><input type="text" id="edit-mgb" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none"></div><div><label class="block text-[10px] font-bold text-gray-500 mb-1">MG VAR.</label><input type="text" id="edit-esf" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none"></div><div><label class="block text-[10px] font-bold text-gray-500 mb-1">PAC</label><input type="text" id="edit-pac" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none"></div><div><label class="block text-[10px] font-bold text-gray-500 mb-1">APOIO DEM.</label><input type="text" id="edit-dem" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none"></div><div><label class="block text-[10px] font-bold text-gray-500 mb-1">APOIO SUP.</label><input type="text" id="edit-sup" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none"></div></div></div><div class="bg-blue-50 p-4 border-t border-blue-100 grid grid-cols-2 gap-4"><div><label class="block text-[9px] font-bold text-blue-500">Corte (%)</label><input type="text" readonly id="auto-desc-perc" class="w-full text-base outline-none calc-auto font-black text-blue-700"></div><div><label class="block text-[9px] font-bold text-blue-500">Desc Total (€)</label><input type="text" readonly id="auto-desc-eur" class="w-full text-base outline-none calc-auto font-black text-red-500"></div></div></div>
-                        <div class="bg-white border border-green-300 rounded-xl overflow-hidden shadow-md relative"><div class="absolute left-0 top-0 w-1.5 h-full bg-green-500"></div><div class="p-6 pl-8"><div class="grid grid-cols-2 gap-6"><div><label class="block text-[10px] font-bold text-gray-500 mb-1">DEPRECIAÇÕES</label><input type="text" id="edit-depreciacoes" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-3 text-base outline-none"></div><div><label class="block text-[10px] font-black text-green-700 mb-1">PVP FINAL</label><input type="text" id="edit-pvp_desc" oninput="recalcularPreview()" class="w-full border-2 border-green-500 bg-green-50/30 rounded-lg px-3 py-3 text-lg font-black text-green-800 outline-none"></div></div></div><div class="bg-green-50 p-5 border-t border-green-200 grid grid-cols-4 gap-4 pl-8"><div><label class="block text-[9px] font-bold text-slate-500">PVP (Novo)</label><input type="text" readonly id="auto-preco-min" class="w-full text-base outline-none calc-auto"></div><div><label class="block text-[9px] font-bold text-slate-500">S/ IVA</label><input type="text" readonly id="auto-s-iva" class="w-full text-base outline-none calc-auto"></div><div><label class="block text-[10px] font-black text-green-700">Mg Real (€)</label><input type="text" readonly id="auto-mg" class="w-full text-xl font-black outline-none calc-auto"></div><div><label class="block text-[10px] font-black text-green-700">Mg Real (%)</label><input type="text" readonly id="auto-mg-perc" class="w-full text-xl font-black outline-none calc-auto"></div></div></div>
+                        <div class="bg-white border border-green-300 rounded-xl overflow-hidden shadow-md relative"><div class="absolute left-0 top-0 w-1.5 h-full bg-green-500"></div><div class="p-6 pl-8"><div class="grid grid-cols-2 gap-6"><div><label class="block text-[10px] font-bold text-gray-500 mb-1">DEPRECIAÇÕES</label><input type="text" id="edit-depreciacoes" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-3 text-base outline-none"></div><div><label class="block text-[10px] font-black text-green-700 mb-1">PVP FINAL</label><input type="text" id="edit-pvp_desc" oninput="recalcularPreview()" class="w-full border-2 border-green-500 bg-green-50/30 rounded-lg px-3 py-3 text-lg font-black text-green-800 outline-none"></div></div></div><div class="bg-green-50 p-5 border-t border-green-200 grid grid-cols-4 gap-4 pl-8"><div><label class="block text-[9px] font-bold text-slate-500">Preço Mín.</label><input type="text" readonly id="auto-preco-min" class="w-full text-base outline-none calc-auto"></div><div><label class="block text-[9px] font-bold text-slate-500">S/ IVA</label><input type="text" readonly id="auto-s-iva" class="w-full text-base outline-none calc-auto"></div><div><label class="block text-[10px] font-black text-green-700">Mg Real (€)</label><input type="text" readonly id="auto-mg" class="w-full text-xl font-black outline-none calc-auto"></div><div><label class="block text-[10px] font-black text-green-700">Mg Real (%)</label><input type="text" readonly id="auto-mg-perc" class="w-full text-xl font-black outline-none calc-auto"></div></div></div>
 
                         <div class="pt-6 flex justify-between gap-4 pb-8"><button type="button" id="btn-remover-viatura" onclick="removerViatura()" class="hidden bg-red-50 hover:bg-red-100 text-red-600 font-bold py-4 px-8 rounded-xl text-xs uppercase">Eliminar Viatura</button><button type="submit" id="btn-gravar-db" class="ml-auto bg-bmw text-white font-bold py-4 px-12 rounded-xl shadow-lg uppercase">Gravar</button></div>
                     </form>
@@ -249,7 +249,6 @@
         let inventario = []; let utilizadoresDb = []; let historicoDb = []; let currentUser = null; 
         let currentSortCol = null; let currentSortAsc = true;
 
-        // FUNÇÕES ANTI-FALHAS PARA BD
         function getArr(v) {
             if(!v) return [];
             if(Array.isArray(v)) return v;
@@ -352,6 +351,7 @@
         }
         function ordenarTabela(col) { if (currentSortCol === col) currentSortAsc = !currentSortAsc; else { currentSortCol = col; currentSortAsc = true; } aplicarFiltros(); }
         function isReservado(carro) { if(!carro || !carro.reserva_expira) return false; return new Date(carro.reserva_expira) > new Date(); }
+        
         async function reservarViaturaModal() {
             const ch = document.getElementById('detalhe-chassis-hidden').value; if(!ch || !currentUser) return;
             const expira = new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(); const carro = inventario.find(x => x.chassis === ch);
@@ -448,7 +448,7 @@
                 }
                 return 0;
             });
-            
+
             document.querySelectorAll('[id^="sort-icon-"]').forEach(el => el.innerHTML = '');
             if(currentSortCol) { const icon = document.getElementById('sort-icon-' + currentSortCol); if(icon) icon.innerHTML = currentSortAsc ? ' ▲' : ' ▼'; }
             document.getElementById('dados-viaturas').classList.remove('hidden'); document.getElementById('sem-resultados').classList.add('hidden');
@@ -458,9 +458,8 @@
                 const dispLoc = getArr(c.local).join(', ') || 'N/A'; const dispTip = getArr(c.tipologia).join(', ') || 'N/A';
                 const reservado = isReservado(c); const matChassis = c.matricula || c.chassis || '-'; const modeloVersao = `${c.modelo || '-'} ${c.versao || '-'}`;
                 
-                // Textos BSI e PVP Novo
                 const textoBSI = (inps.bsi < 0) ? 'Não' : 'Sim';
-                const precoNovo = stats.preco_minimo || 0;
+                const pvpNovoPreco = stats.pvp_bruto || 0;
 
                 const badgeStatus = reservado 
                     ? `<div class="flex items-center gap-1.5 bg-yellow-400 border border-yellow-500 px-2 py-1 rounded-md shadow-sm"><div class="w-1.5 h-1.5 rounded-full bg-yellow-900 animate-pulse"></div><span class="text-[10px] font-black text-yellow-900 uppercase tracking-widest">Em Negociação</span></div>`
@@ -475,37 +474,46 @@
                 const classLeftBar = reservado ? 'bg-yellow-500' : 'bg-bmw';
                 const classPreco = reservado ? 'text-red-600' : 'text-bmw';
 
-                return `
-                <div class="${classCard} rounded-2xl p-5 hover:shadow-xl transition-all cursor-pointer relative overflow-hidden group" onclick="abrirDetalheViatura('${c.chassis}')">
-                    <div class="absolute left-0 top-0 w-1.5 h-full ${classLeftBar} group-hover:w-2 transition-all"></div>
-                    <div class="flex justify-between items-start mb-5 pl-2">
-                        <div class="pr-2">
-                            <h3 class="text-[16px] sm:text-lg font-black text-gray-900 leading-tight group-hover:text-bmw transition-colors">${modeloVersao}</h3>
-                            <p class="text-[11px] text-gray-500 mt-1.5 font-medium">${matChassis} &bull; ${dispLoc} &bull; ${dispTip}</p>
-                        </div>
-                        <div class="flex flex-col items-end gap-2 shrink-0">
-                            ${badgeStatus}
-                            ${badgeIdade}
-                        </div>
-                    </div>
-                    <div class="mb-5 pl-2">
-                        <div class="text-3xl font-black ${classPreco} tracking-tight">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</div>
-                    </div>
-                    <div class="space-y-2.5 border-t border-gray-200/60 pt-4 pl-2">
-                        <div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">Desconto total</span><span class="text-xs font-black text-gray-800">${formatarEuros(stats.desc_eur)}</span></div>
-                        <div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">PVP (Novo)</span><span class="text-xs font-black text-gray-800">${formatarEuros(precoNovo)}</span></div>
-                        <div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">BSI incluído</span><span class="text-xs font-black text-gray-800">${textoBSI}</span></div>
-                    </div>
-                </div>`;
+                return `<div class="${classCard} rounded-2xl p-5 hover:shadow-xl transition-all cursor-pointer relative overflow-hidden group" onclick="abrirDetalheViatura('${c.chassis}')"><div class="absolute left-0 top-0 w-1.5 h-full ${classLeftBar} group-hover:w-2 transition-all"></div><div class="flex justify-between items-start mb-5 pl-2"><div class="pr-2"><h3 class="text-[16px] sm:text-lg font-black text-gray-900 leading-tight group-hover:text-bmw transition-colors">${modeloVersao}</h3><p class="text-[11px] text-gray-500 mt-1.5 font-medium">${matChassis} &bull; ${dispLoc} &bull; ${dispTip}</p></div><div class="flex flex-col items-end gap-2 shrink-0">${badgeStatus}${badgeIdade}</div></div><div class="mb-5 pl-2"><div class="text-3xl font-black ${classPreco} tracking-tight">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</div></div><div class="space-y-2.5 border-t border-gray-200/60 pt-4 pl-2"><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">Desconto total</span><span class="text-xs font-black text-gray-800">${formatarEuros(stats.desc_eur)}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">PVP (Novo)</span><span class="text-xs font-black text-gray-800">${formatarEuros(pvpNovoPreco)}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">BSI incluído</span><span class="text-xs font-black text-gray-800">${textoBSI}</span></div></div></div>`;
             }).join('');
             
             document.getElementById('tabela-corpo').innerHTML = dados.map(c => {
                 const dispLoc = getArr(c.local).join(', ') || 'N/A'; const dataMat = c.data_matricula ? new Date(c.data_matricula).toLocaleDateString('pt-PT') : 'N/A'; const reservado = isReservado(c);
-                const classRow = reservado ? 'bg-yellow-50 hover:bg-yellow-100' : 'hover:bg-blue-50'; 
-                const classPreco = reservado ? 'text-red-600' : 'text-bmw';
+                const classRow = reservado ? 'bg-yellow-50 hover:bg-yellow-100' : 'hover:bg-blue-50'; const classPreco = reservado ? 'text-red-600' : 'text-bmw';
                 const tagReserva = reservado ? `<span class="bg-yellow-400 text-yellow-900 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest ml-2 border border-yellow-500">Em Negociação</span>` : '';
                 return `<tr class="${classRow} cursor-pointer border-b border-gray-50 transition-colors" onclick="abrirDetalheViatura('${c.chassis}')"><td class="px-5 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold border border-gray-200 shadow-sm">${dispLoc}</span></td><td class="px-5 py-4 font-bold text-gray-900">${c.modelo || '-'}${tagReserva}</td><td class="px-5 py-4 text-gray-600">${c.versao || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs">${c.encomenda || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs uppercase">${c.chassis || '-'}</td><td class="px-5 py-4 text-gray-800 font-mono text-xs uppercase font-semibold">${c.matricula || '-'}</td><td class="px-5 py-4 text-center text-gray-500 text-xs">${dataMat}</td><td class="px-5 py-4 text-right text-xs text-gray-400 line-through">${(c.pvp_bruto||0) > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</td><td class="px-5 py-4 text-right font-black ${classPreco} text-sm">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td></tr>`;
             }).join('');
+        }
+
+        // --- BOT IA ---
+        function toggleChat() { const cw = document.getElementById('chat-window'); if(cw.classList.contains('opacity-0')) { cw.classList.remove('opacity-0', 'scale-95', 'pointer-events-none'); document.getElementById('chat-input').focus(); } else { cw.classList.add('opacity-0', 'scale-95', 'pointer-events-none'); } }
+        function enviarMensagemChat() {
+            const inp = document.getElementById('chat-input'); const txt = inp.value.trim(); if(!txt) return; const msgs = document.getElementById('chat-messages');
+            msgs.innerHTML += `<div class="flex items-start justify-end mt-4"><div class="bg-blue-50 border border-blue-100 text-blue-900 p-3 rounded-2xl rounded-tr-none max-w-[85%] shadow-sm leading-relaxed">${txt}</div></div>`; inp.value = ''; msgs.scrollTop = msgs.scrollHeight;
+            setTimeout(() => { const resposta = processarMensagemBot(txt); msgs.innerHTML += `<div class="flex items-start mt-4"><div class="bg-white border border-gray-200 text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[90%] shadow-sm leading-relaxed text-xs">${resposta}</div></div>`; msgs.scrollTop = msgs.scrollHeight; }, 600);
+        }
+        function processarMensagemBot(msg) {
+            const texto = msg.toLowerCase(); let res = [...inventario];
+            const precoMatch = texto.match(/(?:ate|até|abaixo|menos|<|maximo|máximo)\s*(?:de\s*)?(\d+)[k\s€.]*/);
+            if (precoMatch) { let maxPrice = parseInt(precoMatch[1]); if(texto.includes('k') || maxPrice < 1000) maxPrice = maxPrice * 1000; res = res.filter(c => (c.pvp_final||0) <= maxPrice); }
+            if (texto.includes('elétrico') || texto.includes('eletrico') || texto.includes('bev')) res = res.filter(c => getArr(c.tipologia).includes('BEV'));
+            if (texto.includes('híbrido') || texto.includes('hibrido') || texto.includes('phev')) res = res.filter(c => getArr(c.tipologia).includes('PHEV'));
+            if (texto.includes('gasoleo') || texto.includes('gasolina') || texto.includes('combustao')) res = res.filter(c => getArr(c.tipologia).includes('ICE'));
+            if (texto.includes('mini')) res = res.filter(c => c.marca === 'MINI'); else if (texto.includes('bmw')) res = res.filter(c => c.marca === 'BMW');
+            const modelos = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'i4', 'i5', 'ix', 'xm', 'm2', 'm3', 'm4', 'serie 1', 'série 1', 'serie 2', 'série 2', 'serie 3', 'série 3'];
+            let modeloEncontrado = modelos.find(m => texto.includes(m));
+            if (modeloEncontrado) { if(modeloEncontrado.includes('serie')) modeloEncontrado = modeloEncontrado.replace('serie', 'série'); res = res.filter(c => (c.modelo||"").toLowerCase().includes(modeloEncontrado) || (c.versao||"").toLowerCase().includes(modeloEncontrado)); }
+            const locais = ['porto', 'gaia', 'maia', 'feira', 'aveiro']; let localEncontrado = locais.find(l => texto.includes(l));
+            if (localEncontrado) { res = res.filter(c => getArr(c.local).map(x=>x.toLowerCase()).includes(localEncontrado)); }
+            if (res.length === 0) return "Não encontrei nenhuma viatura no parque que corresponda a esse pedido.";
+            let htmlResp = `<p class="font-bold text-bmw mb-2">Encontrei ${res.length} viatura(s):</p>`;
+            res.sort((a,b) => (a.pvp_final||0) - (b.pvp_final||0));
+            res.slice(0, 3).forEach(c => {
+                const vReservado = isReservado(c); const badge = vReservado ? `<span class="bg-yellow-400 text-yellow-900 text-[8px] font-black px-1 py-0.5 rounded ml-1 uppercase">Em Negociação</span>` : ''; const lStr = getArr(c.local).join(',') || 'N/A';
+                htmlResp += `<div class="mb-3 border-l-2 border-bmw pl-2"><p class="font-black text-gray-800 leading-tight">${c.modelo || '-'} ${c.versao || '-'} ${badge}</p><p class="text-[10px] text-gray-500 font-mono">${c.matricula||c.chassis} | ${lStr}</p><p class="text-sm font-black text-bmw mt-0.5">${formatarEuros(c.pvp_final)}</p><button onclick="abrirDetalheViatura('${c.chassis}')" class="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline mt-1">Ver Ficha</button></div>`;
+            });
+            if (res.length > 3) htmlResp += `<p class="text-[9px] text-gray-400 italic mt-2 border-t border-gray-100 pt-2">Mostrando os 3 resultados mais baratos.</p>`;
+            return htmlResp;
         }
 
         // --- GESTÃO VN / ADMIN ---
@@ -630,38 +638,6 @@
                 return `<div class="flex justify-between p-4 bg-white rounded-xl border border-gray-100 shadow-sm"><div><div class="flex items-center gap-3 mb-1"><span class="px-2 py-1 rounded text-[9px] font-black border ${cor}">${h.acao}</span><span class="text-xs font-black text-gray-800 uppercase tracking-widest">${h.tabela}</span></div><div class="text-xs font-medium text-gray-500 mt-2">ID: <span class="font-mono font-bold text-gray-700">${h.registo_id}</span></div></div><div class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">${dt}</div></div>`;
             }).join('');
         }
-
-        // CHATBOT (IA LÓGICA)
-        function toggleChat() { const cw = document.getElementById('chat-window'); if(cw.classList.contains('opacity-0')) { cw.classList.remove('opacity-0', 'scale-95', 'pointer-events-none'); document.getElementById('chat-input').focus(); } else { cw.classList.add('opacity-0', 'scale-95', 'pointer-events-none'); } }
-        function enviarMensagemChat() {
-            const inp = document.getElementById('chat-input'); const txt = inp.value.trim(); if(!txt) return; const msgs = document.getElementById('chat-messages');
-            msgs.innerHTML += `<div class="flex items-start justify-end mt-4"><div class="bg-blue-50 border border-blue-100 text-blue-900 p-3 rounded-2xl rounded-tr-none max-w-[85%] shadow-sm leading-relaxed">${txt}</div></div>`; inp.value = ''; msgs.scrollTop = msgs.scrollHeight;
-            setTimeout(() => { const resposta = processarMensagemBot(txt); msgs.innerHTML += `<div class="flex items-start mt-4"><div class="bg-white border border-gray-200 text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[90%] shadow-sm leading-relaxed text-xs">${resposta}</div></div>`; msgs.scrollTop = msgs.scrollHeight; }, 600);
-        }
-        function processarMensagemBot(msg) {
-            const texto = msg.toLowerCase(); let res = [...inventario];
-            const precoMatch = texto.match(/(?:ate|até|abaixo|menos|<|maximo|máximo)\s*(?:de\s*)?(\d+)[k\s€.]*/);
-            if (precoMatch) { let maxPrice = parseInt(precoMatch[1]); if(texto.includes('k') || maxPrice < 1000) maxPrice = maxPrice * 1000; res = res.filter(c => (c.pvp_final||0) <= maxPrice); }
-            if (texto.includes('elétrico') || texto.includes('eletrico') || texto.includes('bev')) res = res.filter(c => getArr(c.tipologia).includes('BEV'));
-            if (texto.includes('híbrido') || texto.includes('hibrido') || texto.includes('phev')) res = res.filter(c => getArr(c.tipologia).includes('PHEV'));
-            if (texto.includes('gasoleo') || texto.includes('gasolina') || texto.includes('combustao')) res = res.filter(c => getArr(c.tipologia).includes('ICE'));
-            if (texto.includes('mini')) res = res.filter(c => c.marca === 'MINI'); else if (texto.includes('bmw')) res = res.filter(c => c.marca === 'BMW');
-            const modelos = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'i4', 'i5', 'ix', 'xm', 'm2', 'm3', 'm4', 'serie 1', 'série 1', 'serie 2', 'série 2', 'serie 3', 'série 3'];
-            let modeloEncontrado = modelos.find(m => texto.includes(m));
-            if (modeloEncontrado) { if(modeloEncontrado.includes('serie')) modeloEncontrado = modeloEncontrado.replace('serie', 'série'); res = res.filter(c => (c.modelo||"").toLowerCase().includes(modeloEncontrado) || (c.versao||"").toLowerCase().includes(modeloEncontrado)); }
-            const locais = ['porto', 'gaia', 'maia', 'feira', 'aveiro']; let localEncontrado = locais.find(l => texto.includes(l));
-            if (localEncontrado) { res = res.filter(c => getArr(c.local).map(x=>x.toLowerCase()).includes(localEncontrado)); }
-            if (res.length === 0) return "Não encontrei nenhuma viatura no parque que corresponda a esse pedido.";
-            let htmlResp = `<p class="font-bold text-bmw mb-2">Encontrei ${res.length} viatura(s):</p>`;
-            res.sort((a,b) => (a.pvp_final||0) - (b.pvp_final||0));
-            res.slice(0, 3).forEach(c => {
-                const vReservado = isReservado(c); const badge = vReservado ? `<span class="bg-yellow-400 text-yellow-900 text-[8px] font-black px-1 py-0.5 rounded ml-1 uppercase">Em Negociação</span>` : ''; const lStr = getArr(c.local).join(',') || 'N/A';
-                htmlResp += `<div class="mb-3 border-l-2 border-bmw pl-2"><p class="font-black text-gray-800 leading-tight">${c.modelo || '-'} ${c.versao || '-'} ${badge}</p><p class="text-[10px] text-gray-500 font-mono">${c.matricula||c.chassis} | ${lStr}</p><p class="text-sm font-black text-bmw mt-0.5">${formatarEuros(c.pvp_final)}</p><button onclick="abrirDetalheViatura('${c.chassis}')" class="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline mt-1">Ver Ficha</button></div>`;
-            });
-            if (res.length > 3) htmlResp += `<p class="text-[9px] text-gray-400 italic mt-2 border-t border-gray-100 pt-2">Mostrando os 3 resultados mais baratos.</p>`;
-            return htmlResp;
-        }
-
     </script>
 </body>
 </html>
