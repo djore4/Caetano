@@ -21,7 +21,7 @@
     </style>
     <script>tailwind.config = { theme: { extend: { colors: { bmw: '#0066B1' } } } }</script>
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-800 relative pb-20">
+<body class="min-h-screen bg-slate-50 text-slate-800 relative pb-20 overflow-y-scroll">
 
     <header class="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -456,12 +456,12 @@
             try {
                 const email = document.getElementById('login-email').value.trim().toLowerCase(); const pass = document.getElementById('login-password').value.trim();
                 const user = utilizadoresDb.find(u => (u.email || '').toLowerCase() === email && String(u.password || '').trim() === pass);
-                if(user) { currentUser = user; fecharLogin(); document.getElementById('login-password').value = ''; atualizarAcessos(); registarHistorico('acesso', 'LOGIN', user.id, { nome: user.nome, email: user.email }); } 
+                if(user) { currentUser = user; fecharLogin(); document.getElementById('login-password').value = ''; atualizarAcessos(); aplicarFiltros(); registarHistorico('acesso', 'LOGIN', user.id, { nome: user.nome, email: user.email }); } 
                 else { alert("Acesso Negado: Email ou Palavra-passe incorretos."); }
             } catch(err) { alert("Erro de sistema no login."); }
         }
 
-        function fazerLogout() { if(confirm("Deseja terminar a sessão?")) { currentUser = null; atualizarAcessos(); mudarTab('parque'); } }
+        function fazerLogout() { if(confirm("Deseja terminar a sessão?")) { currentUser = null; atualizarAcessos(); aplicarFiltros(); mudarTab('parque'); } }
         function abrirMudarPassword() { document.getElementById('new-password').value = ''; document.getElementById('confirm-password').value = ''; document.getElementById('modal-change-password').classList.remove('hidden'); document.getElementById('modal-change-password').classList.add('flex'); document.getElementById('new-password').focus(); }
         function fecharMudarPassword() { document.getElementById('modal-change-password').classList.add('hidden'); document.getElementById('modal-change-password').classList.remove('flex'); }
         
@@ -527,7 +527,11 @@
         function strParaNumero(str) { let val = (str||"").toString().replace(/\s/g, '').replace(/\./g, '').replace(',', '.'); return parseFloat(val) || 0; }
         function numeroParaStr(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
         function numeroParaStrPerc(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 0, maximumFractionDigits: 2}); }
-        function formatarEuros(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €'; }
+        
+        function formatarEuros(num) { 
+            const dec = currentUser ? 2 : 0;
+            return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: dec, maximumFractionDigits: dec}) + ' €'; 
+        }
         function formatarPerc(num) { return ((num||0)*100).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %'; }
 
         function calcularPrecosTempoReal(carro) {
