@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -320,12 +321,12 @@
                     </div>
                 </div>
 
-                <div class="w-full max-w-sm bg-white border border-gray-100 shadow-sm rounded-xl p-5 mb-8 text-sm text-left">
+                <div class="w-full max-w-sm bg-white border border-gray-100 shadow-sm rounded-xl p-5 mb-8 text-sm">
                     <div class="flex justify-between py-1 text-gray-600"><span class="font-medium">Preço Base</span><span id="detalhe-pvb" class="font-bold text-gray-800"></span></div>
                     <div class="flex justify-between py-1 text-gray-600"><span class="font-medium">Opcionais</span><span id="detalhe-opc" class="font-bold text-gray-800"></span></div>
                     <div class="flex justify-between py-1 text-gray-600"><span class="font-medium">BSI/MSI</span><span id="detalhe-bsi" class="font-bold text-gray-800"></span></div>
                     <div class="flex justify-between py-1 text-gray-600"><span class="font-medium">Ecovalor</span><span id="detalhe-eco" class="font-bold text-gray-800"></span></div>
-                    <div class="flex justify-between py-1 text-gray-600"><span class="font-medium">Leg. e Transp.</span><span id="detalhe-leg" class="font-bold text-gray-800"></span></div>
+                    <div class="flex justify-between py-1 text-gray-600"><span class="font-medium">Leg. e Transporte</span><span id="detalhe-leg" class="font-bold text-gray-800"></span></div>
                     <div class="flex justify-between py-1 text-gray-600 border-b border-gray-100 pb-3"><span class="font-medium">ISV</span><span id="detalhe-isv" class="font-bold text-gray-800"></span></div>
                     
                     <div class="flex justify-between py-1 text-gray-600 mt-2"><span class="font-medium">IVA</span><span id="detalhe-iva" class="font-bold text-gray-800"></span></div>
@@ -363,7 +364,7 @@
                 <button onclick="enviarMensagemChat()" class="bg-bmw text-white p-2 rounded-full hover:bg-blue-700 focus:outline-none transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
             </div>
         </div>
-        <button onclick="toggleChat()" class="bg-bmw text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-blue-800 transition-transform hover:scale-105 focus:outline-none mt-auto self-end relative z-10"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7"><path fill-rule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75c1.575 0 3.06-.375 4.365-1.035L21 21.75l-1.035-4.635C21.12 15.81 21.75 14.325 21.75 12.75c0-5.385-4.365-9.75-9.75-9.75zM8.25 10.875a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25zM10.875 12a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0zm4.875-1.125a1.125 1.125 0 100 2.25 1.125 1.125 0 000-2.25z" clip-rule="evenodd" /></svg></button>
+        <button onclick="toggleChat()" class="bg-bmw text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-blue-800 transition-transform hover:scale-105 focus:outline-none mt-auto self-end relative z-10"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 01-2-2h-5l-5 5v-5z"></path></svg></button>
     </div>
 
     <div id="modal-login" class="fixed inset-0 bg-slate-900/80 z-[80] hidden flex-col items-center justify-center p-4 backdrop-blur-sm"><div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm flex flex-col overflow-hidden"><div class="bg-gray-50 px-8 py-5 border-b border-gray-200 flex justify-between items-center"><h2 class="text-xl font-black text-gray-900 uppercase tracking-widest">Área Reservada</h2><button onclick="fecharLogin()" class="text-gray-400 hover:text-red-500 bg-white rounded-full p-2 border border-gray-100 shadow-sm transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><form onsubmit="fazerLogin(event)" class="p-8 flex flex-col space-y-6"><div><label class="block text-xs font-bold text-gray-500 mb-2 tracking-widest uppercase">Email Profissional</label><input type="email" id="login-email" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="nome@caetano.pt"></div><div><label class="block text-xs font-bold text-gray-500 mb-2 tracking-widest uppercase">Palavra-Passe</label><input type="password" id="login-password" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="••••••••"></div><button type="submit" class="w-full bg-bmw hover:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-md transition-colors uppercase tracking-widest text-sm">Entrar na Plataforma</button></form></div></div>
@@ -385,6 +386,7 @@
         let inventario = []; let utilizadoresDb = []; let historicoDb = []; let currentUser = null; 
         let currentSortCol = null; let currentSortAsc = true;
 
+        // FUNÇÕES ANTI-FALHAS
         function getArr(v) {
             if(!v) return [];
             if(Array.isArray(v)) return v;
@@ -410,6 +412,7 @@
             return perms.includes('Todas') || perms.includes(val);
         }
 
+        // ARRANQUE SEGURO
         window.onload = async () => { 
             mudarTab('parque'); 
             await inicializarDados(); 
@@ -438,6 +441,7 @@
             if (window.innerWidth < 768) mudarVista('cartoes'); else mudarVista('tabela');
         }
 
+        // SISTEMA DE LOGIN
         function abrirLogin() { document.getElementById('modal-login').classList.remove('hidden'); document.getElementById('modal-login').classList.add('flex'); document.getElementById('login-email').focus(); }
         function fecharLogin() { document.getElementById('modal-login').classList.add('hidden'); document.getElementById('modal-login').classList.remove('flex'); }
         function fazerLogin(e) {
@@ -492,6 +496,7 @@
             else { btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all"; btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent border border-transparent hover:bg-gray-200"; }
         }
 
+        // ORDENAÇÃO E RESERVAS
         function ordenarTabela(col) { if (currentSortCol === col) currentSortAsc = !currentSortAsc; else { currentSortCol = col; currentSortAsc = true; } aplicarFiltros(); }
         function isReservado(carro) { if(!carro || !carro.reserva_expira) return false; return new Date(carro.reserva_expira) > new Date(); }
 
@@ -510,12 +515,12 @@
             alert("Reserva cancelada."); fecharDetalheViatura(); aplicarFiltros(); 
         }
 
+        // MATEMÁTICA E TABELA
         const taxa_iva = 0.23;
         function strParaNumero(str) { let val = (str||"").toString().replace(/\s/g, '').replace(/\./g, '').replace(',', '.'); return parseFloat(val) || 0; }
         function numeroParaStr(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
         function numeroParaStrPerc(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 0, maximumFractionDigits: 2}); }
         function formatarEuros(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €'; }
-        function formatarEurosParque(num) { return Math.round(num||0).toLocaleString('pt-PT') + ' €'; }
         function formatarPerc(num) { return ((num||0)*100).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %'; }
 
         function calcularPrecosTempoReal(carro) {
@@ -572,6 +577,7 @@
             document.getElementById('detalhe-titulo').innerText = `${c.modelo || '-'} ${c.versao || '-'}`; 
             document.getElementById('detalhe-matricula').innerText = c.matricula || c.chassis; 
             
+            // LOGICA DE DESTAQUE SUPERIOR (ENTREGA IMEDIATA vs OUTROS)
             const containerEntrega = document.getElementById('container-destaque-entrega');
             const estiloEntrega = document.getElementById('estilo-destaque-entrega');
             const textoEntrega = document.getElementById('detalhe-estado-entrega-texto');
@@ -581,7 +587,7 @@
                 textoEntrega.innerText = `Entrega: ${c.estado_entrega}`;
                 
                 if(estadoLower.includes('imediata')) {
-                    estiloEntrega.className = "bg-green-50 border-2 border-green-600 text-green-800 px-6 py-3 rounded-full shadow-lg flex items-center gap-3";
+                    estiloEntrega.className = "bg-green-100 border-2 border-green-700 text-green-900 px-6 py-3 rounded-full shadow-lg flex items-center gap-3";
                     estiloEntrega.querySelector('svg').className.baseVal = "w-6 h-6 text-green-700";
                 } else {
                     estiloEntrega.className = "bg-yellow-400 border-2 border-yellow-950 text-black px-6 py-3 rounded-full shadow-lg flex items-center gap-3";
@@ -592,6 +598,7 @@
                 containerEntrega.classList.add('hidden');
             }
 
+            // NOVO: Preencher o breakdown de preços
             const inps = getInps(c.inputs);
             const stats = c.stats || calcularPrecosTempoReal(c) || {};
             
@@ -629,7 +636,6 @@
                     if (currentSortCol === 'local') { valA = getArr(a.local).join(', '); valB = getArr(b.local).join(', '); } 
                     else if (currentSortCol === 'pvp_bruto' || currentSortCol === 'pvp_final') { valA = a[currentSortCol] || 0; valB = b[currentSortCol] || 0; } 
                     else if (currentSortCol === 'data_matricula') { valA = a.data_matricula ? new Date(a.data_matricula).getTime() : 0; valB = b.data_matricula ? new Date(b.data_matricula).getTime() : 0; } 
-                    else if (currentSortCol === 'estado_entrega') { valA = (a.estado_entrega || '').toString().toLowerCase(); valB = (b.estado_entrega || '').toString().toLowerCase(); }
                     else { valA = (valA || '').toString().toLowerCase(); valB = (valB || '').toString().toLowerCase(); }
                     if (valA < valB) return currentSortAsc ? -1 : 1; if (valA > valB) return currentSortAsc ? 1 : -1; 
                 }
@@ -661,14 +667,14 @@
                 const classLeftBar = reservado ? 'bg-yellow-500' : 'bg-bmw';
                 const classPreco = reservado ? 'text-red-600' : 'text-bmw';
 
-                return `<div class="${classCard} rounded-2xl p-5 hover:shadow-xl transition-all cursor-pointer relative overflow-hidden group" onclick="abrirDetalheViatura('${c.chassis}')"><div class="absolute left-0 top-0 w-1.5 h-full ${classLeftBar} group-hover:w-2 transition-all"></div><div class="flex justify-between items-start mb-5 pl-2"><div class="pr-2"><h3 class="text-[16px] sm:text-lg font-black text-gray-900 leading-tight group-hover:text-bmw transition-colors">${modeloVersao}</h3><p class="text-[11px] text-gray-500 mt-1.5 font-medium">${matChassis} &bull; ${dispLoc} &bull; ${dispTip}</p></div><div class="flex flex-col items-end gap-2 shrink-0">${badgeStatus}${badgeIdade}</div></div><div class="mb-5 pl-2"><div class="text-3xl font-black ${classPreco} tracking-tight">${(c.pvp_final||0) > 0 ? formatarEurosParque(c.pvp_final) : 'N/A'}</div></div><div class="space-y-2.5 border-t border-gray-200/60 pt-4 pl-2"><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">Desconto total</span><span class="text-xs font-black text-gray-800">${formatarEurosParque(stats.desc_eur)}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">PVP (Novo)</span><span class="text-xs font-black text-gray-800">${formatarEurosParque(pvpNovoPreco)}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">BSI incluído</span><span class="text-xs font-black text-gray-800">${textoBSI}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">Entrega</span><span class="text-xs font-black text-gray-800">${c.estado_entrega || '-'}</span></div></div></div>`;
+                return `<div class="${classCard} rounded-2xl p-5 hover:shadow-xl transition-all cursor-pointer relative overflow-hidden group" onclick="abrirDetalheViatura('${c.chassis}')"><div class="absolute left-0 top-0 w-1.5 h-full ${classLeftBar} group-hover:w-2 transition-all"></div><div class="flex justify-between items-start mb-5 pl-2"><div class="pr-2"><h3 class="text-[16px] sm:text-lg font-black text-gray-900 leading-tight group-hover:text-bmw transition-colors">${modeloVersao}</h3><p class="text-[11px] text-gray-500 mt-1.5 font-medium">${matChassis} &bull; ${dispLoc} &bull; ${dispTip}</p></div><div class="flex flex-col items-end gap-2 shrink-0">${badgeStatus}${badgeIdade}</div></div><div class="mb-5 pl-2"><div class="text-3xl font-black ${classPreco} tracking-tight">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</div></div><div class="space-y-2.5 border-t border-gray-200/60 pt-4 pl-2"><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">Desconto total</span><span class="text-xs font-black text-gray-800">${formatarEuros(stats.desc_eur)}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">PVP (Novo)</span><span class="text-xs font-black text-gray-800">${formatarEuros(pvpNovoPreco)}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">BSI incluído</span><span class="text-xs font-black text-gray-800">${textoBSI}</span></div></div></div>`;
             }).join('');
             
             document.getElementById('tabela-corpo').innerHTML = dados.map(c => {
                 const dispLoc = getArr(c.local).join(', ') || 'N/A'; const dataMat = c.data_matricula ? new Date(c.data_matricula).toLocaleDateString('pt-PT') : 'N/A'; const reservado = isReservado(c);
                 const classRow = reservado ? 'bg-yellow-50 hover:bg-yellow-100' : 'hover:bg-blue-50'; const classPreco = reservado ? 'text-red-600' : 'text-bmw';
                 const tagReserva = reservado ? `<span class="bg-yellow-400 text-yellow-900 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest ml-2 border border-yellow-500">Em Negociação</span>` : '';
-                return `<tr class="${classRow} cursor-pointer border-b border-gray-50 transition-colors" onclick="abrirDetalheViatura('${c.chassis}')"><td class="px-5 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold border border-gray-200 shadow-sm">${dispLoc}</span></td><td class="px-5 py-4 font-bold text-gray-900 text-[11px]">${c.modelo || '-'}${tagReserva}</td><td class="px-5 py-4 text-gray-600 text-[11px]">${c.versao || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs">${c.encomenda || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs uppercase">${c.chassis || '-'}</td><td class="px-5 py-4 text-gray-800 font-mono text-xs uppercase font-semibold">${c.matricula || '-'}</td><td class="px-5 py-4 text-center text-gray-500 text-xs">${dataMat}</td><td class="px-5 py-4 text-right text-xs text-gray-400 line-through">${(c.pvp_bruto||0) > 0 ? formatarEurosParque(c.pvp_bruto) : 'N/A'}</td><td class="px-5 py-4 text-right font-black ${classPreco} text-sm">${(c.pvp_final||0) > 0 ? formatarEurosParque(c.pvp_final) : 'N/A'}</td><td class="px-5 py-4 text-gray-600 text-[11px] whitespace-nowrap">${c.estado_entrega || '-'}</td></tr>`;
+                return `<tr class="${classRow} cursor-pointer border-b border-gray-50 transition-colors" onclick="abrirDetalheViatura('${c.chassis}')"><td class="px-5 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold border border-gray-200 shadow-sm">${dispLoc}</span></td><td class="px-5 py-4 font-bold text-gray-900">${c.modelo || '-'}${tagReserva}</td><td class="px-5 py-4 text-gray-600">${c.versao || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs">${c.encomenda || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs uppercase">${c.chassis || '-'}</td><td class="px-5 py-4 text-gray-800 font-mono text-xs uppercase font-semibold">${c.matricula || '-'}</td><td class="px-5 py-4 text-center text-gray-500 text-xs">${dataMat}</td><td class="px-5 py-4 text-right text-xs text-gray-400 line-through">${(c.pvp_bruto||0) > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</td><td class="px-5 py-4 text-right font-black ${classPreco} text-sm">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td></tr>`;
             }).join('');
         }
 
@@ -697,7 +703,7 @@
             res.sort((a,b) => (a.pvp_final||0) - (b.pvp_final||0));
             res.slice(0, 3).forEach(c => {
                 const vReservado = isReservado(c); const badge = vReservado ? `<span class="bg-yellow-400 text-yellow-900 text-[8px] font-black px-1 py-0.5 rounded ml-1 uppercase">Em Negociação</span>` : ''; const lStr = getArr(c.local).join(',') || 'N/A';
-                htmlResp += `<div class="mb-3 border-l-2 border-bmw pl-2"><p class="font-black text-gray-800 leading-tight">${c.modelo || '-'} ${c.versao || '-'} ${badge}</p><p class="text-[10px] text-gray-500 font-mono">${c.matricula||c.chassis} | ${lStr}</p><p class="text-sm font-black text-bmw mt-0.5">${formatarEurosParque(c.pvp_final)}</p><button onclick="abrirDetalheViatura('${c.chassis}')" class="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline mt-1">Ver Ficha</button></div>`;
+                htmlResp += `<div class="mb-3 border-l-2 border-bmw pl-2"><p class="font-black text-gray-800 leading-tight">${c.modelo || '-'} ${c.versao || '-'} ${badge}</p><p class="text-[10px] text-gray-500 font-mono">${c.matricula||c.chassis} | ${lStr}</p><p class="text-sm font-black text-bmw mt-0.5">${formatarEuros(c.pvp_final)}</p><button onclick="abrirDetalheViatura('${c.chassis}')" class="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline mt-1">Ver Ficha</button></div>`;
             });
             if (res.length > 3) htmlResp += `<p class="text-[9px] text-gray-400 italic mt-2 border-t border-gray-100 pt-2">Mostrando os 3 resultados mais baratos.</p>`;
             return htmlResp;
