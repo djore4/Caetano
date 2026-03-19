@@ -18,15 +18,6 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .calc-auto { background-color: transparent; color: #334155; font-weight: 700; border: none; outline: none;}
-
-        /* Animação para o destaque */
-        @keyframes pulse-soft {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.9; transform: scale(1.02); }
-        }
-        .destaque-entrega {
-            animation: pulse-soft 2s infinite;
-        }
     </style>
     <script>tailwind.config = { theme: { extend: { colors: { bmw: '#0066B1' } } } }</script>
 </head>
@@ -150,9 +141,9 @@
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-1">PASSWORD</label><input type="text" id="user-password" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
                         </div>
                         <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-6">
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">CONCESSÃO</label><div class="flex flex-wrap gap-2" id="user-local-container"></div></div>
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">PERFIL</label><div class="flex flex-wrap gap-2" id="user-perfil-container"></div></div>
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">NEGÓCIO E MARCA</label><div class="flex flex-wrap gap-2" id="user-negocio-container"></div></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">CONCESSÃO</label><div class="flex flex-wrap gap-2" id="user-local-container"><button type="button" onclick="toggleUserLocal('Todas')" id="btn-local-Todas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Todas</button><button type="button" onclick="toggleUserLocal('Porto')" id="btn-local-Porto" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Porto</button><button type="button" onclick="toggleUserLocal('Gaia')" id="btn-local-Gaia" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Gaia</button><button type="button" onclick="toggleUserLocal('Maia')" id="btn-local-Maia" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Maia</button><button type="button" onclick="toggleUserLocal('Feira')" id="btn-local-Feira" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Feira</button><button type="button" onclick="toggleUserLocal('Aveiro')" id="btn-local-Aveiro" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Aveiro</button></div></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">PERFIL</label><div class="flex flex-wrap gap-2" id="user-perfil-container"><button type="button" onclick="toggleUserPerfil('Vendedor')" id="btn-perfil-Vendedor" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Vendedor</button><button type="button" onclick="toggleUserPerfil('Chefe de Vendas')" id="btn-perfil-Chefe de Vendas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Chefe de Vendas</button><button type="button" onclick="toggleUserPerfil('Administrador')" id="btn-perfil-Administrador" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Administrador</button></div></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">NEGÓCIO E MARCA</label><div class="flex flex-wrap gap-2" id="user-negocio-container"><button type="button" onclick="toggleUserNegocio('VN')" id="btn-negocio-VN" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">VN</button><button type="button" onclick="toggleUserNegocio('VU')" id="btn-negocio-VU" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">VU</button><button type="button" onclick="toggleUserMarca('BMW')" id="btn-marca-BMW" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 ml-4">BMW</button><button type="button" onclick="toggleUserMarca('MINI')" id="btn-marca-MINI" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">MINI</button></div></div>
                         </div>
                         <div class="pt-4 flex flex-col sm:flex-row justify-between gap-4"><button type="button" id="btn-remover-user" onclick="removerUtilizador()" class="w-full sm:w-auto bg-red-50 hover:bg-red-100 text-red-600 font-bold py-2.5 px-6 rounded-lg text-xs hidden">Remover</button><div class="w-full sm:w-auto ml-auto flex gap-3"><button type="button" onclick="cancelarEdicaoUser()" class="text-gray-500 font-bold py-2.5 text-xs">Cancelar</button><button type="submit" id="btn-guardar-user" class="w-full sm:w-auto bg-bmw text-white font-bold py-2.5 px-8 rounded-lg text-xs">Gravar</button></div></div>
                     </form>
@@ -313,15 +304,24 @@
                     <span class="text-xs text-yellow-600/80 mt-1 font-mono" id="detalhe-reserva-data">Válido até: Data</span>
                 </div>
                 
-                <div id="container-destaque-entrega" class="hidden mb-6 mt-2 destaque-entrega">
-                    <div class="bg-yellow-400 border-2 border-yellow-950 text-black px-6 py-3 rounded-full shadow-lg flex items-center gap-3">
-                        <svg class="w-6 h-6 text-yellow-950" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <span class="text-sm font-black uppercase tracking-wider" id="detalhe-estado-entrega-texto"></span>
-                    </div>
+                <div class="text-[11px] font-bold text-bmw uppercase tracking-widest mb-1" id="detalhe-estado-entrega"></div>
+                <h3 class="text-2xl font-black text-gray-800 mb-6" id="detalhe-pvp-final">PVP</h3>
+                
+                <div class="w-full max-w-sm bg-white border border-gray-100 shadow-sm rounded-xl p-5 mb-8 text-sm">
+                    <div class="flex justify-between py-1 text-gray-600"><span class="font-medium">Preço Base</span><span id="detalhe-pvb" class="font-bold text-gray-800"></span></div>
+                    <div class="flex justify-between py-1 text-gray-600"><span class="font-medium">Opcionais</span><span id="detalhe-opc" class="font-bold text-gray-800"></span></div>
+                    <div class="flex justify-between py-1 text-gray-600"><span class="font-medium">BSI/MSI</span><span id="detalhe-bsi" class="font-bold text-gray-800"></span></div>
+                    <div class="flex justify-between py-1 text-gray-600"><span class="font-medium">Ecovalor</span><span id="detalhe-eco" class="font-bold text-gray-800"></span></div>
+                    <div class="flex justify-between py-1 text-gray-600"><span class="font-medium">Leg. e Transporte</span><span id="detalhe-leg" class="font-bold text-gray-800"></span></div>
+                    <div class="flex justify-between py-1 text-gray-600 border-b border-gray-100 pb-3"><span class="font-medium">ISV</span><span id="detalhe-isv" class="font-bold text-gray-800"></span></div>
+                    
+                    <div class="flex justify-between py-1 text-gray-600 mt-2"><span class="font-medium">IVA</span><span id="detalhe-iva" class="font-bold text-gray-800"></span></div>
+                    <div class="flex justify-between py-2 text-gray-900 bg-gray-50 -mx-5 px-5"><span class="font-black">PVP</span><span id="detalhe-pvp" class="font-black"></span></div>
+                    <div class="flex justify-between py-2 text-red-600"><span class="font-bold">Desconto</span><span id="detalhe-desconto" class="font-black"></span></div>
+                    <div class="flex justify-between py-3 mt-1 border-t border-gray-200 text-lg text-bmw"><span class="font-black uppercase tracking-widest text-[11px] self-center">PVP DESC / FINAL</span><span id="detalhe-pvp-desc" class="font-black"></span></div>
                 </div>
 
-                <h3 class="text-2xl font-black text-gray-800 mb-3" id="detalhe-pvp-final">PVP</h3>
-                <p class="text-gray-500 mb-8">Poderá ver todas as fotos no repositório oficial da concessão.</p>
+                <p class="text-gray-500 mb-8 text-xs">Poderá ver todas as fotos no repositório oficial da concessão.</p>
                 
                 <div class="flex gap-4">
                     <a id="btn-ver-fotos-modal" href="#" target="_blank" class="hidden bg-gray-100 text-gray-800 hover:bg-gray-200 border border-gray-200 font-bold py-3 px-8 rounded-xl shadow-sm uppercase transition-colors text-sm tracking-widest">Ver Fotos</a>
@@ -350,7 +350,7 @@
                 <button onclick="enviarMensagemChat()" class="bg-bmw text-white p-2 rounded-full hover:bg-blue-700 focus:outline-none transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
             </div>
         </div>
-        <button onclick="toggleChat()" class="bg-bmw text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-blue-800 transition-transform hover:scale-105 focus:outline-none mt-auto self-end relative z-10"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"></path></svg></button>
+        <button onclick="toggleChat()" class="bg-bmw text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-blue-800 transition-transform hover:scale-105 focus:outline-none mt-auto self-end relative z-10"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 01-2-2h-5l-5 5v-5z"></path></svg></button>
     </div>
 
     <div id="modal-login" class="fixed inset-0 bg-slate-900/80 z-[80] hidden flex-col items-center justify-center p-4 backdrop-blur-sm"><div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm flex flex-col overflow-hidden"><div class="bg-gray-50 px-8 py-5 border-b border-gray-200 flex justify-between items-center"><h2 class="text-xl font-black text-gray-900 uppercase tracking-widest">Área Reservada</h2><button onclick="fecharLogin()" class="text-gray-400 hover:text-red-500 bg-white rounded-full p-2 border border-gray-100 shadow-sm transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><form onsubmit="fazerLogin(event)" class="p-8 flex flex-col space-y-6"><div><label class="block text-xs font-bold text-gray-500 mb-2 tracking-widest uppercase">Email Profissional</label><input type="email" id="login-email" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="nome@caetano.pt"></div><div><label class="block text-xs font-bold text-gray-500 mb-2 tracking-widest uppercase">Palavra-Passe</label><input type="password" id="login-password" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="••••••••"></div><button type="submit" class="w-full bg-bmw hover:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-md transition-colors uppercase tracking-widest text-sm">Entrar na Plataforma</button></form></div></div>
@@ -523,7 +523,7 @@
                 const matDate = new Date(carro.data_matricula); const hoje = new Date(); 
                 idade_calc = (hoje.getFullYear() - matDate.getFullYear()) * 12 + (hoje.getMonth() - matDate.getMonth()); 
                 if (idade_calc < 0) idade_calc = 0; 
-                const diffTime = hoje - matDate; idade_dias = diffTime > 0 ? Math.floor(diffTime / (1000 * 60 * 60 * 24)) : 0; 
+                const diffTime = Math.abs(hoje - matDate); idade_dias = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
             }
             return { pvp_bruto, pvp_final: (inps.pvp_desc||0), mg, idade: idade_calc, idade_dias: idade_dias, penetracao:((inps.pvb>0)?((inps.opc||0)/inps.pvb):0), desc_perc, desc_eur: desconto_eur, iva:(pvp_bruto/(1+taxa_iva)*taxa_iva), preco_minimo, mg_perc:((inps.pvb+inps.opc)>0?(mg/(inps.pvb+inps.opc)):0), s_iva:(inps.pvp_desc||0)/(1+taxa_iva) };
         }
@@ -559,20 +559,32 @@
 
         function abrirDetalheViatura(ch) {
             const c = inventario.find(x=>x.chassis===ch); if(!c) return;
-            document.getElementById('detalhe-chassis-hidden').value = ch; document.getElementById('detalhe-titulo').innerText = `${c.modelo || '-'} ${c.versao || '-'}`; document.getElementById('detalhe-matricula').innerText = c.matricula || c.chassis; document.getElementById('detalhe-pvp-final').innerText = (c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'PVP N/A';
+            document.getElementById('detalhe-chassis-hidden').value = ch; 
+            document.getElementById('detalhe-titulo').innerText = `${c.modelo || '-'} ${c.versao || '-'}`; 
+            document.getElementById('detalhe-matricula').innerText = c.matricula || c.chassis; 
+            document.getElementById('detalhe-pvp-final').innerText = (c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'PVP N/A'; 
             
-            // LOGICA DE DESTAQUE SUPERIOR
-            const containerEntrega = document.getElementById('container-destaque-entrega');
-            const textoEntrega = document.getElementById('detalhe-estado-entrega-texto');
-            if(c.estado_entrega && c.estado_entrega.trim() !== "") {
-                textoEntrega.innerText = `Previsão de Entrega: ${c.estado_entrega}`;
-                containerEntrega.classList.remove('hidden');
-            } else {
-                containerEntrega.classList.add('hidden');
-            }
+            const elEntrega = document.getElementById('detalhe-estado-entrega');
+            if(elEntrega) elEntrega.innerText = c.estado_entrega ? `Entrega: ${c.estado_entrega}` : '';
+
+            // NOVO: Preencher o breakdown de preços
+            const inps = getInps(c.inputs);
+            const stats = c.stats || calcularPrecosTempoReal(c) || {};
+            
+            document.getElementById('detalhe-pvb').innerText = formatarEuros(inps.pvb);
+            document.getElementById('detalhe-opc').innerText = formatarEuros(inps.opc);
+            document.getElementById('detalhe-bsi').innerText = formatarEuros(inps.bsi);
+            document.getElementById('detalhe-eco').innerText = formatarEuros(inps.eco);
+            document.getElementById('detalhe-leg').innerText = formatarEuros(inps.leg);
+            document.getElementById('detalhe-isv').innerText = formatarEuros(inps.isv);
+            document.getElementById('detalhe-iva').innerText = formatarEuros(stats.iva);
+            document.getElementById('detalhe-pvp').innerText = formatarEuros(stats.pvp_bruto);
+            document.getElementById('detalhe-desconto').innerText = '-' + formatarEuros(stats.desc_eur);
+            document.getElementById('detalhe-pvp-desc').innerText = formatarEuros(c.pvp_final);
 
             const bFotos = document.getElementById('btn-ver-fotos-modal');
             if(c.link_fotos && c.link_fotos.trim() !== '') { bFotos.href=c.link_fotos; bFotos.classList.remove('hidden'); bFotos.classList.add('inline-block'); } else { bFotos.classList.add('hidden'); bFotos.classList.remove('inline-block'); }
+            
             const rInfo = document.getElementById('detalhe-reserva-info'); const bReserva = document.getElementById('btn-reservar-viatura'); const bCancela = document.getElementById('btn-cancelar-reserva');
             rInfo.classList.remove('flex'); rInfo.classList.add('hidden'); bReserva.classList.add('hidden'); bCancela.classList.add('hidden');
             if (isReservado(c)) { rInfo.classList.remove('hidden'); rInfo.classList.add('flex'); document.getElementById('detalhe-reserva-user').innerText = `Por: ${c.reserva_user || 'Desconhecido'}`; document.getElementById('detalhe-reserva-data').innerText = `Válido até: ${new Date(c.reserva_expira).toLocaleString('pt-PT')}`; if (currentUser && (currentUser.perfil === 'Chefe de Vendas' || currentUser.perfil === 'Administrador')) bCancela.classList.remove('hidden'); } 
@@ -592,6 +604,7 @@
                     if (currentSortCol === 'local') { valA = getArr(a.local).join(', '); valB = getArr(b.local).join(', '); } 
                     else if (currentSortCol === 'pvp_bruto' || currentSortCol === 'pvp_final') { valA = a[currentSortCol] || 0; valB = b[currentSortCol] || 0; } 
                     else if (currentSortCol === 'data_matricula') { valA = a.data_matricula ? new Date(a.data_matricula).getTime() : 0; valB = b.data_matricula ? new Date(b.data_matricula).getTime() : 0; } 
+                    else if (currentSortCol === 'estado_entrega') { valA = (a.estado_entrega || '').toString().toLowerCase(); valB = (b.estado_entrega || '').toString().toLowerCase(); }
                     else { valA = (valA || '').toString().toLowerCase(); valB = (valB || '').toString().toLowerCase(); }
                     if (valA < valB) return currentSortAsc ? -1 : 1; if (valA > valB) return currentSortAsc ? 1 : -1; 
                 }
@@ -623,14 +636,14 @@
                 const classLeftBar = reservado ? 'bg-yellow-500' : 'bg-bmw';
                 const classPreco = reservado ? 'text-red-600' : 'text-bmw';
 
-                return `<div class="${classCard} rounded-2xl p-5 hover:shadow-xl transition-all cursor-pointer relative overflow-hidden group" onclick="abrirDetalheViatura('${c.chassis}')"><div class="absolute left-0 top-0 w-1.5 h-full ${classLeftBar} group-hover:w-2 transition-all"></div><div class="flex justify-between items-start mb-5 pl-2"><div class="pr-2"><h3 class="text-[16px] sm:text-lg font-black text-gray-900 leading-tight group-hover:text-bmw transition-colors">${modeloVersao}</h3><p class="text-[11px] text-gray-500 mt-1.5 font-medium">${matChassis} &bull; ${dispLoc} &bull; ${dispTip}</p></div><div class="flex flex-col items-end gap-2 shrink-0">${badgeStatus}${badgeIdade}</div></div><div class="mb-5 pl-2"><div class="text-3xl font-black ${classPreco} tracking-tight">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</div></div><div class="space-y-2.5 border-t border-gray-200/60 pt-4 pl-2"><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">Desconto total</span><span class="text-xs font-black text-gray-800">${formatarEuros(stats.desc_eur)}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">PVP (Novo)</span><span class="text-xs font-black text-gray-800">${formatarEuros(pvpNovoPreco)}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">BSI incluído</span><span class="text-xs font-black text-gray-800">${textoBSI}</span></div></div></div>`;
+                return `<div class="${classCard} rounded-2xl p-5 hover:shadow-xl transition-all cursor-pointer relative overflow-hidden group" onclick="abrirDetalheViatura('${c.chassis}')"><div class="absolute left-0 top-0 w-1.5 h-full ${classLeftBar} group-hover:w-2 transition-all"></div><div class="flex justify-between items-start mb-5 pl-2"><div class="pr-2"><h3 class="text-[16px] sm:text-lg font-black text-gray-900 leading-tight group-hover:text-bmw transition-colors">${modeloVersao}</h3><p class="text-[11px] text-gray-500 mt-1.5 font-medium">${matChassis} &bull; ${dispLoc} &bull; ${dispTip}</p></div><div class="flex flex-col items-end gap-2 shrink-0">${badgeStatus}${badgeIdade}</div></div><div class="mb-5 pl-2"><div class="text-3xl font-black ${classPreco} tracking-tight">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</div></div><div class="space-y-2.5 border-t border-gray-200/60 pt-4 pl-2"><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">Desconto total</span><span class="text-xs font-black text-gray-800">${formatarEuros(stats.desc_eur)}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">PVP (Novo)</span><span class="text-xs font-black text-gray-800">${formatarEuros(pvpNovoPreco)}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">BSI incluído</span><span class="text-xs font-black text-gray-800">${textoBSI}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">Entrega</span><span class="text-xs font-black text-gray-800">${c.estado_entrega || '-'}</span></div></div></div>`;
             }).join('');
             
             document.getElementById('tabela-corpo').innerHTML = dados.map(c => {
                 const dispLoc = getArr(c.local).join(', ') || 'N/A'; const dataMat = c.data_matricula ? new Date(c.data_matricula).toLocaleDateString('pt-PT') : 'N/A'; const reservado = isReservado(c);
                 const classRow = reservado ? 'bg-yellow-50 hover:bg-yellow-100' : 'hover:bg-blue-50'; const classPreco = reservado ? 'text-red-600' : 'text-bmw';
                 const tagReserva = reservado ? `<span class="bg-yellow-400 text-yellow-900 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest ml-2 border border-yellow-500">Em Negociação</span>` : '';
-                return `<tr class="${classRow} cursor-pointer border-b border-gray-50 transition-colors" onclick="abrirDetalheViatura('${c.chassis}')"><td class="px-5 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold border border-gray-200 shadow-sm">${dispLoc}</span></td><td class="px-5 py-4 font-bold text-gray-900">${c.modelo || '-'}${tagReserva}</td><td class="px-5 py-4 text-gray-600">${c.versao || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs">${c.encomenda || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs uppercase">${c.chassis || '-'}</td><td class="px-5 py-4 text-gray-800 font-mono text-xs uppercase font-semibold">${c.matricula || '-'}</td><td class="px-5 py-4 text-center text-gray-500 text-xs">${dataMat}</td><td class="px-5 py-4 text-right text-xs text-gray-400 line-through">${(c.pvp_bruto||0) > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</td><td class="px-5 py-4 text-right font-black ${classPreco} text-sm">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td></tr>`;
+                return `<tr class="${classRow} cursor-pointer border-b border-gray-50 transition-colors" onclick="abrirDetalheViatura('${c.chassis}')"><td class="px-5 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold border border-gray-200 shadow-sm">${dispLoc}</span></td><td class="px-5 py-4 font-bold text-gray-900">${c.modelo || '-'}${tagReserva}</td><td class="px-5 py-4 text-gray-600">${c.versao || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs">${c.encomenda || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs uppercase">${c.chassis || '-'}</td><td class="px-5 py-4 text-gray-800 font-mono text-xs uppercase font-semibold">${c.matricula || '-'}</td><td class="px-5 py-4 text-center text-gray-500 text-xs">${dataMat}</td><td class="px-5 py-4 text-right text-xs text-gray-400 line-through">${(c.pvp_bruto||0) > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</td><td class="px-5 py-4 text-right font-black ${classPreco} text-sm">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td><td class="px-5 py-4 text-left whitespace-nowrap cursor-pointer hover:bg-gray-200" onclick="ordenarTabela('estado_entrega')">${c.estado_entrega || '-'}</td></tr>`;
             }).join('');
         }
 
