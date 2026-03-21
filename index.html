@@ -364,7 +364,9 @@
             </div>
         </div>
         <button onclick="toggleChat()" class="bg-bmw text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-blue-800 transition-transform hover:scale-105 focus:outline-none mt-auto self-end relative z-10 overflow-hidden">
-            <img src="img/logo_agente.png" alt="Agente AI" class="w-10 h-10 object-contain" onerror="this.outerHTML='<svg class=\'w-6 h-6 text-white\' fill=\'none\' stroke=\\'currentColor\' viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\\'round\' stroke-width=\\'2\' d=\\'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 01-2-2h-5l-5 5v-5z\'></path></svg>'">
+            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M6 12a2 2 0 11-4 0 2 2 0 014 0zm8 0a2 2 0 11-4 0 2 2 0 014 0zm8 0a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
         </button>
     </div>
 
@@ -608,7 +610,7 @@
             document.getElementById('detalhe-bsi').innerText = formatarEuros(inps.bsi);
             document.getElementById('detalhe-eco').innerText = formatarEuros(inps.eco);
             document.getElementById('detalhe-leg').innerText = formatarEuros(inps.leg);
-            document.getElementById('detalhe-isv').innerText = formatarEuros(inps.isv);
+            document.getElementById('detalhe-isv').innerText = formatarEuros(stats.isv);
             document.getElementById('detalhe-iva').innerText = formatarEuros(stats.iva);
             document.getElementById('detalhe-pvp').innerText = formatarEuros(stats.pvp_bruto);
             document.getElementById('detalhe-desconto').innerText = '-' + formatarEuros(stats.desc_eur);
