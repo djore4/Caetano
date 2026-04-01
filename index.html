@@ -31,10 +31,11 @@
     <script>tailwind.config = { theme: { extend: { colors: { bmw: '#0066B1' } } } }</script>
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-800 relative pb-20 overflow-y-scroll">
+
     <header class="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16 sm:h-20">
-                <h1 class="text-xl sm:text-2xl font-bold text-bmw tracking-tight uppercase">Caetano <span class="text-gray-800 font-regular">Sales Force</span></h1>
+                <h1 class="text-xl sm:text-2xl font-bold text-bmw tracking-tight uppercase">Caetano <span class="text-gray-800 font-extrabold">Sales Force</span></h1>
                 
                 <div class="flex items-center space-x-4">
                     <div class="flex items-center">
@@ -752,7 +753,12 @@
             const isUpdate = inventario.some(x => x.chassis === originalChassis); let carro = inventario.find(x => x.chassis === originalChassis); if(!carro) { carro = { inputs: { ...templateInputs } }; inventario.unshift(carro); }
             
             const memExpira = carro.reserva_expira || null; const memUser = carro.reserva_user || null;
-            carro.chassis = novoChassis; carro.matricula = novaMatricula; carro.modelo = document.getElementById('edit-modelo').value; carro.versao = document.getElementById('edit-versao').value; carro.link_fotos = document.getElementById('edit-link_fotos').value; carro.estado_entrega = document.getElementById('edit-estado_entrega').value; carro.data_matricula = document.getElementById('edit-data_matricula').value || null; carro.encomenda = document.getElementById('edit-encomenda').value; carro.kms = document.getElementById('edit-kms').value !== "" ? parseInt(document.getElementById('edit-kms').value) : 0; carro.tipologia = [...editCarroTipologia]; carro.local = [...editCarroLocal]; carro.marca = 'BMW'; carro.estado_negocio = 'VN';
+            carro.chassis = novoChassis; carro.matricula = novaMatricula; carro.modelo = document.getElementById('edit-modelo').value; carro.versao = document.getElementById('edit-versao').value; carro.link_fotos = document.getElementById('edit-link_fotos').value; carro.estado_entrega = document.getElementById('edit-estado_entrega').value; carro.data_matricula = document.getElementById('edit-data_matricula').value || null; carro.encomenda = document.getElementById('edit-encomenda').value;
+            
+            const kmsValue = document.getElementById('edit-kms').value;
+            carro.kms = kmsValue !== "" ? parseInt(kmsValue) : null; 
+
+            carro.tipologia = [...editCarroTipologia]; carro.local = [...editCarroLocal]; carro.marca = 'BMW'; carro.estado_negocio = 'VN';
             if (!carro.inputs) carro.inputs = {...templateInputs};
             ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value); }); ['mgb','esf','pac','dem','sup'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value) / 100; });
             const statsAtuais = calcularPrecosTempoReal(carro); if(statsAtuais) carro.stats = statsAtuais;
