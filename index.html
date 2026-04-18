@@ -596,7 +596,7 @@
             document.getElementById('detalhe-bsi').innerText = formatarEuros(inps.bsi);
             document.getElementById('detalhe-eco').innerText = formatarEuros(inps.eco);
             document.getElementById('detalhe-leg').innerText = formatarEuros(inps.leg);
-            document.getElementById('detalhe-isv').innerText = formatarEuros(stats.isv);
+            document.getElementById('detalhe-isv').innerText = formatarEuros(inps.isv || 0);
             document.getElementById('detalhe-iva').innerText = formatarEuros(stats.iva);
             document.getElementById('detalhe-pvp').innerText = formatarEuros(stats.pvp_bruto);
             document.getElementById('detalhe-desconto').innerText = '-' + formatarEuros(stats.desc_eur);
