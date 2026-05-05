@@ -12,7 +12,6 @@
         @font-face { font-family: 'BMWTypeNext'; src: url('https://cdn.jsdelivr.net/gh/djore4/Caetano@main/fonts/BMWTypeNextLatin-Light.otf') format('opentype'); font-weight: 300; font-style: normal; }
         
         body { font-family: 'BMWTypeNext', 'Helvetica Neue', Arial, sans-serif; letter-spacing: -0.01em; }
-        .filter-btn.active, .user-btn.active { background-color: #0066B1; color: white; border-color: #0066B1; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .tab-content { display: none; }
@@ -87,8 +86,8 @@
             <div class="space-y-5 mb-8 bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
                 <div><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Modelo</label><div class="flex flex-wrap gap-2" id="filtro-modelo-container"></div></div>
                 <div class="flex flex-col sm:flex-row gap-6 pt-2 border-t border-gray-50">
-                    <div class="w-full sm:w-auto"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tecnologia</label><div class="flex flex-wrap gap-2" id="filtro-tipologia-container"><button onclick="setFiltro('tipologia', 'Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold">Todas</button><button onclick="setFiltro('tipologia', 'BEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">BEV</button><button onclick="setFiltro('tipologia', 'PHEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">PHEV</button><button onclick="setFiltro('tipologia', 'ICE')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">ICE</button><button onclick="setFiltro('tipologia', 'M')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">M</button></div></div>
-                    <div class="w-full sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Concessão</label><div class="flex flex-wrap gap-2" id="filtro-local-container"><button onclick="setFiltro('local', 'Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold">Todas</button><button onclick="setFiltro('local', 'Porto')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">Porto</button><button onclick="setFiltro('local', 'Gaia')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">Gaia</button><button onclick="setFiltro('local', 'Feira')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">Feira</button><button onclick="setFiltro('local', 'Aveiro')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">Aveiro</button></div></div>
+                    <div class="w-full sm:w-auto"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tecnologia</label><div class="flex flex-wrap gap-2" id="filtro-tipologia-container"><button onclick="setFiltro('tipologia', 'Todas')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-bmw text-white border-bmw">Todas</button><button onclick="setFiltro('tipologia', 'BEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">BEV</button><button onclick="setFiltro('tipologia', 'PHEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">PHEV</button><button onclick="setFiltro('tipologia', 'ICE')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">ICE</button><button onclick="setFiltro('tipologia', 'M')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">M</button></div></div>
+                    <div class="w-full sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Concessão</label><div class="flex flex-wrap gap-2" id="filtro-local-container"><button onclick="setFiltro('local', 'Todas')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-bmw text-white border-bmw">Todas</button><button onclick="setFiltro('local', 'Porto')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Porto</button><button onclick="setFiltro('local', 'Gaia')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Gaia</button><button onclick="setFiltro('local', 'Feira')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Feira</button><button onclick="setFiltro('local', 'Aveiro')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Aveiro</button></div></div>
                 </div>
                 
                 <div class="flex justify-between items-end border-t border-gray-200 pt-4"><div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest"><span id="num-resultados" class="text-bmw font-black text-sm">0</span> viaturas</div>
@@ -175,11 +174,11 @@
                     <div class="px-5 py-3 border-b border-gray-100 bg-white overflow-x-auto no-scrollbar">
                         <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Filtrar Lista por Concessão</label>
                         <div class="flex flex-wrap gap-2" id="filtro-local-admin-container">
-                            <button onclick="setFiltroLocalAdmin('Todas')" id="btn-filtro-admin-Todas" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-bmw text-white shadow-sm transition-colors">Todas</button>
-                            <button onclick="setFiltroLocalAdmin('Porto')" id="btn-filtro-admin-Porto" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 shadow-sm transition-colors">Porto</button>
-                            <button onclick="setFiltroLocalAdmin('Gaia')" id="btn-filtro-admin-Gaia" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 shadow-sm transition-colors">Gaia</button>
-                            <button onclick="setFiltroLocalAdmin('Feira')" id="btn-filtro-admin-Feira" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 shadow-sm transition-colors">Feira</button>
-                            <button onclick="setFiltroLocalAdmin('Aveiro')" id="btn-filtro-admin-Aveiro" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 shadow-sm transition-colors">Aveiro</button>
+                            <button onclick="setFiltroLocalAdmin('Todas')" id="btn-filtro-admin-Todas" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-bmw text-white border-bmw">Todas</button>
+                            <button onclick="setFiltroLocalAdmin('Porto')" id="btn-filtro-admin-Porto" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Porto</button>
+                            <button onclick="setFiltroLocalAdmin('Gaia')" id="btn-filtro-admin-Gaia" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Gaia</button>
+                            <button onclick="setFiltroLocalAdmin('Feira')" id="btn-filtro-admin-Feira" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Feira</button>
+                            <button onclick="setFiltroLocalAdmin('Aveiro')" id="btn-filtro-admin-Aveiro" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Aveiro</button>
                         </div>
                     </div>
 
@@ -542,11 +541,28 @@
         let filtros = {modelo:'Todos', local:'Todas', tipologia:'Todas'};
         
         function initModeloFiltros() { 
-            try { const c=document.getElementById('filtro-modelo-container'); c.innerHTML=`<button onclick="setFiltro('modelo','Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold">Todos</button>`; [...new Set(inventario.map(x=>x.modelo || "N/A"))].sort().forEach(m=>{ if(m !== "N/A") c.innerHTML+=`<button onclick="setFiltro('modelo','${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 hover:text-bmw hover:border-bmw">${m}</button>`; }); } catch(e) {}
+            try { 
+                const c = document.getElementById('filtro-modelo-container'); 
+                c.innerHTML = `<button onclick="setFiltro('modelo','Todos')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-bmw text-white border-bmw">Todos</button>`; 
+                [...new Set(inventario.map(x=>x.modelo || "N/A"))].sort().forEach(m => { 
+                    if(m !== "N/A") c.innerHTML += `<button onclick="setFiltro('modelo','${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">${m}</button>`; 
+                }); 
+            } catch(e) {}
         }
         
         function setFiltro(tipo, valor) { 
-            filtros[tipo] = valor; Array.from(document.getElementById(`filtro-${tipo}-container`).children).forEach(btn => { if(btn.innerText === valor || (valor === 'Todas' && btn.innerText === 'Todas') || (valor === 'Todos' && btn.innerText === 'Todos') || (valor === 'VN' && btn.innerText === 'VN') || (valor === 'VU' && btn.innerText === 'VU')) { btn.classList.add('active', 'text-white'); btn.classList.remove('bg-white', 'text-gray-600'); } else { btn.classList.remove('active', 'text-white'); btn.classList.add('bg-white', 'text-gray-600'); } }); aplicarFiltros(); 
+            filtros[tipo] = valor; 
+            Array.from(document.getElementById(`filtro-${tipo}-container`).children).forEach(btn => { 
+                const txt = btn.innerText.trim();
+                if(txt === valor || (valor === 'Todas' && txt === 'Todas') || (valor === 'Todos' && txt === 'Todos')) { 
+                    btn.classList.add('bg-bmw', 'text-white', 'border-bmw'); 
+                    btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200', 'active'); 
+                } else { 
+                    btn.classList.remove('bg-bmw', 'text-white', 'border-bmw', 'active'); 
+                    btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200'); 
+                } 
+            }); 
+            aplicarFiltros(); 
         }
         
         function aplicarFiltros() { 
@@ -682,7 +698,6 @@
             if (texto.includes('elétrico') || texto.includes('eletrico') || texto.includes('bev')) res = res.filter(c => getArr(c.tipologia).includes('BEV'));
             if (texto.includes('híbrido') || texto.includes('hibrido') || texto.includes('phev')) res = res.filter(c => getArr(c.tipologia).includes('PHEV'));
             if (texto.includes('gasoleo') || texto.includes('gasolina') || texto.includes('combustao')) res = res.filter(c => getArr(c.tipologia).includes('ICE'));
-            if (texto.includes('mini')) res = res.filter(c => c.marca === 'MINI'); else if (texto.includes('bmw')) res = res.filter(c => c.marca === 'BMW');
             const modelos = ['x1', 'x2', 'x3', 'x4', 'x5', 'x6', 'x7', 'i4', 'i5', 'ix', 'xm', 'm2', 'm3', 'm4', 'serie 1', 'série 1', 'serie 2', 'série 2', 'serie 3', 'série 3'];
             let modeloEncontrado = modelos.find(m => texto.includes(m));
             if (modeloEncontrado) { if(modeloEncontrado.includes('serie')) modeloEncontrado = modeloEncontrado.replace('serie', 'série'); res = res.filter(c => (c.modelo||"").toLowerCase().includes(modeloEncontrado) || (c.versao||"").toLowerCase().includes(modeloEncontrado)); }
@@ -700,14 +715,59 @@
         }
 
         // --- GESTÃO VN E ADMIN ---
-        let editCarroTipologia = []; let editCarroLocal = []; let editCarroMarca = 'BMW'; let editCarroEstado = 'VN'; let filtroLocalAdmin = 'Todas';
+        let editCarroTipologia = []; let editCarroLocal = []; let filtroLocalAdmin = 'Todas';
+        
+        function setFiltroLocalAdmin(val) { 
+            filtroLocalAdmin = val; 
+            ['Todas','Porto','Gaia','Feira','Aveiro'].forEach(v => { 
+                let btn = document.getElementById('btn-filtro-admin-' + v); 
+                if (btn) { 
+                    if (v === val) { 
+                        btn.classList.add('bg-bmw', 'text-white', 'border-bmw'); 
+                        btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200', 'active'); 
+                    } else { 
+                        btn.classList.remove('bg-bmw', 'text-white', 'border-bmw', 'active'); 
+                        btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200'); 
+                    } 
+                } 
+            }); 
+            renderizarListaAdmin(); 
+        }
+
         function toggleEditLocal(val){ if(!hasPerm('local', val)) { alert("Acesso Negado: Não tem permissão para este Local."); return; } if(editCarroLocal.includes(val)) editCarroLocal = editCarroLocal.filter(x => x !== val); else editCarroLocal.push(val); atualizarBotoesEditCarro(); }
         function toggleEditTipologia(val){ if(editCarroTipologia.includes(val)) editCarroTipologia = editCarroTipologia.filter(x => x !== val); else editCarroTipologia.push(val); atualizarBotoesEditCarro(); }
-        function setFiltroLocalAdmin(val) { filtroLocalAdmin = val; ['Todas','Porto','Gaia','Feira','Aveiro'].forEach(v => { let btn = document.getElementById('btn-filtro-admin-' + v); if (btn) { if (v === val) { btn.classList.add('active', 'text-white', 'bg-bmw'); btn.classList.remove('bg-white', 'text-gray-600'); } else { btn.classList.remove('active', 'text-white', 'bg-bmw'); btn.classList.add('bg-white', 'text-gray-600'); } } }); renderizarListaAdmin(); }
 
         function atualizarBotoesEditCarro() {
-            ['ICE','BEV','PHEV','M'].forEach(v => { let b = document.getElementById('btn-edit-tip-'+v); if(b) { if(editCarroTipologia.includes(v)){ b.classList.add('active','text-white','bg-bmw'); b.classList.remove('bg-white','text-gray-600'); } else { b.classList.remove('active','text-white','bg-bmw'); b.classList.add('bg-white','text-gray-600'); } } }); 
-            ['Porto','Gaia','Feira','Aveiro'].forEach(v => { let b = document.getElementById('btn-edit-loc-'+v); if(b) { if(!hasPerm('local', v)) { b.classList.add('opacity-30', 'cursor-not-allowed'); b.classList.remove('active','text-white','bg-bmw'); } else { b.classList.remove('opacity-30', 'cursor-not-allowed'); if(editCarroLocal.includes(v)){ b.classList.add('active','text-white','bg-bmw'); b.classList.remove('bg-white','text-gray-600'); } else { b.classList.remove('active','text-white','bg-bmw'); b.classList.add('bg-white','text-gray-600'); } } } }); 
+            ['ICE','BEV','PHEV','M'].forEach(v => { 
+                let b = document.getElementById('btn-edit-tip-'+v); 
+                if(b) { 
+                    if(editCarroTipologia.includes(v)){ 
+                        b.classList.add('bg-bmw','text-white','border-bmw'); 
+                        b.classList.remove('bg-white','text-gray-600','border-gray-200','active'); 
+                    } else { 
+                        b.classList.remove('bg-bmw','text-white','border-bmw','active'); 
+                        b.classList.add('bg-white','text-gray-600','border-gray-200'); 
+                    } 
+                } 
+            }); 
+            ['Porto','Gaia','Feira','Aveiro'].forEach(v => { 
+                let b = document.getElementById('btn-edit-loc-'+v); 
+                if(b) { 
+                    if(!hasPerm('local', v)) { 
+                        b.classList.add('opacity-30', 'cursor-not-allowed', 'bg-white', 'text-gray-600', 'border-gray-200'); 
+                        b.classList.remove('bg-bmw','text-white','border-bmw','active'); 
+                    } else { 
+                        b.classList.remove('opacity-30', 'cursor-not-allowed'); 
+                        if(editCarroLocal.includes(v)){ 
+                            b.classList.add('bg-bmw','text-white','border-bmw'); 
+                            b.classList.remove('bg-white','text-gray-600','border-gray-200','active'); 
+                        } else { 
+                            b.classList.remove('bg-bmw','text-white','border-bmw','active'); 
+                            b.classList.add('bg-white','text-gray-600','border-gray-200'); 
+                        } 
+                    } 
+                } 
+            }); 
         }
 
         function renderizarListaAdmin() { 
@@ -783,7 +843,33 @@
         function cancelarEdicaoUser() { document.getElementById('painel-user-form').classList.add('hidden'); document.getElementById('painel-user-form').classList.remove('flex'); document.getElementById('painel-user-vazio').classList.remove('hidden'); document.getElementById('btn-remover-user').classList.add('hidden'); }
         function tArr(arr,v) { if(v==='Todas') return arr.includes('Todas')?[]:['Todas']; let n=arr.filter(x=>x!=='Todas'); return n.includes(v)?n.filter(x=>x!==v):[...n,v]; }
         function toggleUserLocal(v){ uLoc=tArr(uLoc,v); atualizarBtnsU(); } function toggleUserPerfil(v){ uPerf=v; atualizarBtnsU(); } 
-        function atualizarBtnsU() { ['Todas','Porto','Gaia','Feira','Aveiro'].forEach(v=>{ let b=document.getElementById('btn-local-'+v); if(b) uLoc.includes(v)?b.classList.add('active','text-white'):b.classList.remove('active','text-white'); }); ['Vendedor','Chefe de Vendas','Administrador'].forEach(v=>{ let b=document.getElementById('btn-perfil-'+v); if(b) uPerf===v?b.classList.add('active','text-white'):b.classList.remove('active','text-white'); }); }
+        
+        function atualizarBtnsU() { 
+            ['Todas','Porto','Gaia','Feira','Aveiro'].forEach(v=>{ 
+                let b=document.getElementById('btn-local-'+v); 
+                if(b) {
+                    if(uLoc.includes(v)) {
+                        b.classList.add('bg-bmw','text-white','border-bmw');
+                        b.classList.remove('bg-white','text-gray-600','border-gray-200','active');
+                    } else {
+                        b.classList.remove('bg-bmw','text-white','border-bmw','active');
+                        b.classList.add('bg-white','text-gray-600','border-gray-200');
+                    }
+                }
+            }); 
+            ['Vendedor','Chefe de Vendas','Administrador'].forEach(v=>{ 
+                let b=document.getElementById('btn-perfil-'+v); 
+                if(b) {
+                    if(uPerf===v) {
+                        b.classList.add('bg-bmw','text-white','border-bmw');
+                        b.classList.remove('bg-white','text-gray-600','border-gray-200','active');
+                    } else {
+                        b.classList.remove('bg-bmw','text-white','border-bmw','active');
+                        b.classList.add('bg-white','text-gray-600','border-gray-200');
+                    }
+                }
+            }); 
+        }
 
         async function guardarUtilizador(e) {
             e.preventDefault(); const idVal = document.getElementById('user-id').value; const novoId = idVal !== "" ? parseInt(idVal) : Date.now(); 
