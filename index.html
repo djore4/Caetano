@@ -12,6 +12,14 @@
         @font-face { font-family: 'BMWTypeNext'; src: url('https://cdn.jsdelivr.net/gh/djore4/Caetano@main/fonts/BMWTypeNextLatin-Light.otf') format('opentype'); font-weight: 300; font-style: normal; }
         
         body { font-family: 'BMWTypeNext', 'Helvetica Neue', Arial, sans-serif; letter-spacing: -0.01em; }
+        
+        /* CORREÇÃO DO ERRO DAS LETRAS AQUI */
+        .filter-btn.active, .user-btn.active { 
+            background-color: #0066B1 !important; 
+            color: white !important; 
+            border-color: #0066B1 !important; 
+        }
+        
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .tab-content { display: none; }
@@ -86,8 +94,8 @@
             <div class="space-y-5 mb-8 bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
                 <div><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Modelo</label><div class="flex flex-wrap gap-2" id="filtro-modelo-container"></div></div>
                 <div class="flex flex-col sm:flex-row gap-6 pt-2 border-t border-gray-50">
-                    <div class="w-full sm:w-auto"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tecnologia</label><div class="flex flex-wrap gap-2" id="filtro-tipologia-container"><button onclick="setFiltro('tipologia', 'Todas')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-bmw text-white border-bmw">Todas</button><button onclick="setFiltro('tipologia', 'BEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">BEV</button><button onclick="setFiltro('tipologia', 'PHEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">PHEV</button><button onclick="setFiltro('tipologia', 'ICE')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">ICE</button><button onclick="setFiltro('tipologia', 'M')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">M</button></div></div>
-                    <div class="w-full sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Concessão</label><div class="flex flex-wrap gap-2" id="filtro-local-container"><button onclick="setFiltro('local', 'Todas')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-bmw text-white border-bmw">Todas</button><button onclick="setFiltro('local', 'Porto')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Porto</button><button onclick="setFiltro('local', 'Gaia')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Gaia</button><button onclick="setFiltro('local', 'Feira')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Feira</button><button onclick="setFiltro('local', 'Aveiro')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Aveiro</button></div></div>
+                    <div class="w-full sm:w-auto"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tecnologia</label><div class="flex flex-wrap gap-2" id="filtro-tipologia-container"><button onclick="setFiltro('tipologia', 'Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold">Todas</button><button onclick="setFiltro('tipologia', 'BEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">BEV</button><button onclick="setFiltro('tipologia', 'PHEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">PHEV</button><button onclick="setFiltro('tipologia', 'ICE')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">ICE</button><button onclick="setFiltro('tipologia', 'M')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">M</button></div></div>
+                    <div class="w-full sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Concessão</label><div class="flex flex-wrap gap-2" id="filtro-local-container"><button onclick="setFiltro('local', 'Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold">Todas</button><button onclick="setFiltro('local', 'Porto')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Porto</button><button onclick="setFiltro('local', 'Gaia')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Gaia</button><button onclick="setFiltro('local', 'Feira')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Feira</button><button onclick="setFiltro('local', 'Aveiro')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Aveiro</button></div></div>
                 </div>
                 
                 <div class="flex justify-between items-end border-t border-gray-200 pt-4"><div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest"><span id="num-resultados" class="text-bmw font-black text-sm">0</span> viaturas</div>
@@ -143,8 +151,8 @@
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-1">PASSWORD</label><input type="text" id="user-password" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
                         </div>
                         <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-6">
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">CONCESSÃO</label><div class="flex flex-wrap gap-2" id="user-local-container"><button type="button" onclick="toggleUserLocal('Todas')" id="btn-local-Todas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Todas</button><button type="button" onclick="toggleUserLocal('Porto')" id="btn-local-Porto" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Porto</button><button type="button" onclick="toggleUserLocal('Gaia')" id="btn-local-Gaia" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Gaia</button><button type="button" onclick="toggleUserLocal('Feira')" id="btn-local-Feira" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Feira</button><button type="button" onclick="toggleUserLocal('Aveiro')" id="btn-local-Aveiro" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Aveiro</button></div></div>
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">PERFIL</label><div class="flex flex-wrap gap-2" id="user-perfil-container"><button type="button" onclick="toggleUserPerfil('Vendedor')" id="btn-perfil-Vendedor" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Vendedor</button><button type="button" onclick="toggleUserPerfil('Chefe de Vendas')" id="btn-perfil-Chefe de Vendas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Chefe de Vendas</button><button type="button" onclick="toggleUserPerfil('Administrador')" id="btn-perfil-Administrador" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200">Administrador</button></div></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">CONCESSÃO</label><div class="flex flex-wrap gap-2" id="user-local-container"><button type="button" onclick="toggleUserLocal('Todas')" id="btn-local-Todas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Todas</button><button type="button" onclick="toggleUserLocal('Porto')" id="btn-local-Porto" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Porto</button><button type="button" onclick="toggleUserLocal('Gaia')" id="btn-local-Gaia" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Gaia</button><button type="button" onclick="toggleUserLocal('Feira')" id="btn-local-Feira" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Feira</button><button type="button" onclick="toggleUserLocal('Aveiro')" id="btn-local-Aveiro" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Aveiro</button></div></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">PERFIL</label><div class="flex flex-wrap gap-2" id="user-perfil-container"><button type="button" onclick="toggleUserPerfil('Vendedor')" id="btn-perfil-Vendedor" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Vendedor</button><button type="button" onclick="toggleUserPerfil('Chefe de Vendas')" id="btn-perfil-Chefe de Vendas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Chefe de Vendas</button><button type="button" onclick="toggleUserPerfil('Administrador')" id="btn-perfil-Administrador" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Administrador</button></div></div>
                         </div>
                         <div class="pt-4 flex flex-col sm:flex-row justify-between gap-4"><button type="button" id="btn-remover-user" onclick="removerUtilizador()" class="w-full sm:w-auto bg-red-50 hover:bg-red-100 text-red-600 font-bold py-2.5 px-6 rounded-lg text-xs hidden">Remover</button><div class="w-full sm:w-auto ml-auto flex gap-3"><button type="button" onclick="cancelarEdicaoUser()" class="text-gray-500 font-bold py-2.5 text-xs">Cancelar</button><button type="submit" id="btn-guardar-user" class="w-full sm:w-auto bg-bmw text-white font-bold py-2.5 px-8 rounded-lg text-xs">Gravar</button></div></div>
                     </form>
@@ -174,7 +182,7 @@
                     <div class="px-5 py-3 border-b border-gray-100 bg-white overflow-x-auto no-scrollbar">
                         <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Filtrar Lista por Concessão</label>
                         <div class="flex flex-wrap gap-2" id="filtro-local-admin-container">
-                            <button onclick="setFiltroLocalAdmin('Todas')" id="btn-filtro-admin-Todas" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-bmw text-white border-bmw">Todas</button>
+                            <button onclick="setFiltroLocalAdmin('Todas')" id="btn-filtro-admin-Todas" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold">Todas</button>
                             <button onclick="setFiltroLocalAdmin('Porto')" id="btn-filtro-admin-Porto" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Porto</button>
                             <button onclick="setFiltroLocalAdmin('Gaia')" id="btn-filtro-admin-Gaia" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Gaia</button>
                             <button onclick="setFiltroLocalAdmin('Feira')" id="btn-filtro-admin-Feira" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Feira</button>
@@ -543,9 +551,9 @@
         function initModeloFiltros() { 
             try { 
                 const c = document.getElementById('filtro-modelo-container'); 
-                c.innerHTML = `<button onclick="setFiltro('modelo','Todos')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-bmw text-white border-bmw">Todos</button>`; 
+                c.innerHTML = `<button onclick="setFiltro('modelo','Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">Todos</button>`; 
                 [...new Set(inventario.map(x=>x.modelo || "N/A"))].sort().forEach(m => { 
-                    if(m !== "N/A") c.innerHTML += `<button onclick="setFiltro('modelo','${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">${m}</button>`; 
+                    if(m !== "N/A") c.innerHTML += `<button onclick="setFiltro('modelo','${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">${m}</button>`; 
                 }); 
             } catch(e) {}
         }
@@ -553,13 +561,12 @@
         function setFiltro(tipo, valor) { 
             filtros[tipo] = valor; 
             Array.from(document.getElementById(`filtro-${tipo}-container`).children).forEach(btn => { 
-                const txt = btn.innerText.trim();
-                if(txt === valor || (valor === 'Todas' && txt === 'Todas') || (valor === 'Todos' && txt === 'Todos')) { 
-                    btn.classList.add('bg-bmw', 'text-white', 'border-bmw'); 
-                    btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200', 'active'); 
+                if(btn.innerText.trim() === valor || (valor === 'Todas' && btn.innerText.trim() === 'Todas') || (valor === 'Todos' && btn.innerText.trim() === 'Todos')) { 
+                    btn.classList.add('active'); 
+                    btn.classList.remove('bg-white', 'text-gray-600'); 
                 } else { 
-                    btn.classList.remove('bg-bmw', 'text-white', 'border-bmw', 'active'); 
-                    btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200'); 
+                    btn.classList.remove('active'); 
+                    btn.classList.add('bg-white', 'text-gray-600'); 
                 } 
             }); 
             aplicarFiltros(); 
@@ -723,11 +730,11 @@
                 let btn = document.getElementById('btn-filtro-admin-' + v); 
                 if (btn) { 
                     if (v === val) { 
-                        btn.classList.add('bg-bmw', 'text-white', 'border-bmw'); 
-                        btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200', 'active'); 
+                        btn.classList.add('active'); 
+                        btn.classList.remove('bg-white', 'text-gray-600'); 
                     } else { 
-                        btn.classList.remove('bg-bmw', 'text-white', 'border-bmw', 'active'); 
-                        btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200'); 
+                        btn.classList.remove('active'); 
+                        btn.classList.add('bg-white', 'text-gray-600'); 
                     } 
                 } 
             }); 
@@ -742,11 +749,11 @@
                 let b = document.getElementById('btn-edit-tip-'+v); 
                 if(b) { 
                     if(editCarroTipologia.includes(v)){ 
-                        b.classList.add('bg-bmw','text-white','border-bmw'); 
-                        b.classList.remove('bg-white','text-gray-600','border-gray-200','active'); 
+                        b.classList.add('active'); 
+                        b.classList.remove('bg-white','text-gray-600'); 
                     } else { 
-                        b.classList.remove('bg-bmw','text-white','border-bmw','active'); 
-                        b.classList.add('bg-white','text-gray-600','border-gray-200'); 
+                        b.classList.remove('active'); 
+                        b.classList.add('bg-white','text-gray-600'); 
                     } 
                 } 
             }); 
@@ -754,16 +761,16 @@
                 let b = document.getElementById('btn-edit-loc-'+v); 
                 if(b) { 
                     if(!hasPerm('local', v)) { 
-                        b.classList.add('opacity-30', 'cursor-not-allowed', 'bg-white', 'text-gray-600', 'border-gray-200'); 
-                        b.classList.remove('bg-bmw','text-white','border-bmw','active'); 
+                        b.classList.add('opacity-30', 'cursor-not-allowed', 'bg-white', 'text-gray-600'); 
+                        b.classList.remove('active'); 
                     } else { 
                         b.classList.remove('opacity-30', 'cursor-not-allowed'); 
                         if(editCarroLocal.includes(v)){ 
-                            b.classList.add('bg-bmw','text-white','border-bmw'); 
-                            b.classList.remove('bg-white','text-gray-600','border-gray-200','active'); 
+                            b.classList.add('active'); 
+                            b.classList.remove('bg-white','text-gray-600'); 
                         } else { 
-                            b.classList.remove('bg-bmw','text-white','border-bmw','active'); 
-                            b.classList.add('bg-white','text-gray-600','border-gray-200'); 
+                            b.classList.remove('active'); 
+                            b.classList.add('bg-white','text-gray-600'); 
                         } 
                     } 
                 } 
@@ -849,11 +856,11 @@
                 let b=document.getElementById('btn-local-'+v); 
                 if(b) {
                     if(uLoc.includes(v)) {
-                        b.classList.add('bg-bmw','text-white','border-bmw');
-                        b.classList.remove('bg-white','text-gray-600','border-gray-200','active');
+                        b.classList.add('active');
+                        b.classList.remove('bg-white','text-gray-600');
                     } else {
-                        b.classList.remove('bg-bmw','text-white','border-bmw','active');
-                        b.classList.add('bg-white','text-gray-600','border-gray-200');
+                        b.classList.remove('active');
+                        b.classList.add('bg-white','text-gray-600');
                     }
                 }
             }); 
@@ -861,11 +868,11 @@
                 let b=document.getElementById('btn-perfil-'+v); 
                 if(b) {
                     if(uPerf===v) {
-                        b.classList.add('bg-bmw','text-white','border-bmw');
-                        b.classList.remove('bg-white','text-gray-600','border-gray-200','active');
+                        b.classList.add('active');
+                        b.classList.remove('bg-white','text-gray-600');
                     } else {
-                        b.classList.remove('bg-bmw','text-white','border-bmw','active');
-                        b.classList.add('bg-white','text-gray-600','border-gray-200');
+                        b.classList.remove('active');
+                        b.classList.add('bg-white','text-gray-600');
                     }
                 }
             }); 
