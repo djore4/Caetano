@@ -94,8 +94,8 @@
             <div class="space-y-5 mb-8 bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
                 <div><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Modelo</label><div class="flex flex-wrap gap-2" id="filtro-modelo-container"></div></div>
                 <div class="flex flex-col sm:flex-row gap-6 pt-2 border-t border-gray-50">
-                    <div class="w-full sm:w-auto"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tecnologia</label><div class="flex flex-wrap gap-2" id="filtro-tipologia-container"><button onclick="setFiltro('tipologia', 'Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">Todas</button><button onclick="setFiltro('tipologia', 'BEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">BEV</button><button onclick="setFiltro('tipologia', 'PHEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">PHEV</button><button onclick="setFiltro('tipologia', 'ICE')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">ICE</button><button onclick="setFiltro('tipologia', 'M')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">M</button></div></div>
-                    <div class="w-full sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Concessão</label><div class="flex flex-wrap gap-2" id="filtro-local-container"><button onclick="setFiltro('local', 'Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">Todas</button><button onclick="setFiltro('local', 'Porto')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Porto</button><button onclick="setFiltro('local', 'Gaia')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Gaia</button><button onclick="setFiltro('local', 'Feira')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Feira</button><button onclick="setFiltro('local', 'Aveiro')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Aveiro</button></div></div>
+                    <div class="w-full sm:w-auto"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tecnologia</label><div class="flex flex-wrap gap-2" id="filtro-tipologia-container"><button onclick="setFiltro('tipologia', 'Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold">Todas</button><button onclick="setFiltro('tipologia', 'BEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">BEV</button><button onclick="setFiltro('tipologia', 'PHEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">PHEV</button><button onclick="setFiltro('tipologia', 'ICE')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">ICE</button><button onclick="setFiltro('tipologia', 'M')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">M</button></div></div>
+                    <div class="w-full sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Concessão</label><div class="flex flex-wrap gap-2" id="filtro-local-container"><button onclick="setFiltro('local', 'Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold">Todas</button><button onclick="setFiltro('local', 'Porto')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Porto</button><button onclick="setFiltro('local', 'Gaia')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Gaia</button><button onclick="setFiltro('local', 'Feira')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Feira</button><button onclick="setFiltro('local', 'Aveiro')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Aveiro</button></div></div>
                 </div>
                 
                 <div class="flex justify-between items-end border-t border-gray-200 pt-4"><div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest"><span id="num-resultados" class="text-bmw font-black text-sm">0</span> viaturas</div>
@@ -357,8 +357,8 @@
                 <button onclick="enviarMensagemChat()" class="bg-bmw text-white p-2 rounded-full hover:bg-blue-700 focus:outline-none transition-colors"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg></button>
             </div>
         </div>
-        <button onclick="toggleChat()" class="bg-bmw text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-blue-800 transition-transform hover:scale-105 focus:outline-none mt-auto self-end relative z-10 overflow-hidden">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 01-2-2h-5l-5 5v-5z"></path></svg>
+        <button onclick="toggleChat()" class="bg-bmw text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center hover:bg-blue-800 transition-transform hover:scale-105 focus:outline-none mt-auto self-end relative z-10">
+            <span class="text-3xl font-black block" style="margin-top: -12px;">...</span>
         </button>
     </div>
 
@@ -561,9 +561,11 @@
             Array.from(document.getElementById(`filtro-${tipo}-container`).children).forEach(btn => { 
                 const txt = btn.innerText.trim();
                 if(txt === valor || (valor === 'Todas' && txt === 'Todas') || (valor === 'Todos' && txt === 'Todos')) { 
-                    btn.classList.add('active'); 
+                    btn.classList.add('bg-bmw', 'text-white', 'border-bmw'); 
+                    btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200', 'active'); 
                 } else { 
-                    btn.classList.remove('active'); 
+                    btn.classList.remove('bg-bmw', 'text-white', 'border-bmw', 'active'); 
+                    btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200'); 
                 } 
             }); 
             aplicarFiltros(); 
@@ -732,9 +734,11 @@
                 let btn = document.getElementById('btn-filtro-admin-' + v); 
                 if (btn) { 
                     if (v === val) { 
-                        btn.classList.add('active'); 
+                        btn.classList.add('bg-bmw', 'text-white', 'border-bmw'); 
+                        btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200', 'active'); 
                     } else { 
-                        btn.classList.remove('active'); 
+                        btn.classList.remove('bg-bmw', 'text-white', 'border-bmw', 'active'); 
+                        btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200'); 
                     } 
                 } 
             }); 
@@ -749,9 +753,11 @@
                 let b = document.getElementById('btn-edit-tip-'+v); 
                 if(b) { 
                     if(editCarroTipologia.includes(v)){ 
-                        b.classList.add('active'); 
+                        b.classList.add('bg-bmw','text-white','border-bmw'); 
+                        b.classList.remove('bg-white','text-gray-600','border-gray-200','active'); 
                     } else { 
-                        b.classList.remove('active'); 
+                        b.classList.remove('bg-bmw','text-white','border-bmw','active'); 
+                        b.classList.add('bg-white','text-gray-600','border-gray-200'); 
                     } 
                 } 
             }); 
@@ -759,14 +765,16 @@
                 let b = document.getElementById('btn-edit-loc-'+v); 
                 if(b) { 
                     if(!hasPerm('local', v)) { 
-                        b.classList.add('opacity-30', 'cursor-not-allowed'); 
-                        b.classList.remove('active'); 
+                        b.classList.add('opacity-30', 'cursor-not-allowed', 'bg-white', 'text-gray-600', 'border-gray-200'); 
+                        b.classList.remove('bg-bmw','text-white','border-bmw','active'); 
                     } else { 
                         b.classList.remove('opacity-30', 'cursor-not-allowed'); 
                         if(editCarroLocal.includes(v)){ 
-                            b.classList.add('active'); 
+                            b.classList.add('bg-bmw','text-white','border-bmw'); 
+                            b.classList.remove('bg-white','text-gray-600','border-gray-200','active'); 
                         } else { 
-                            b.classList.remove('active'); 
+                            b.classList.remove('bg-bmw','text-white','border-bmw','active'); 
+                            b.classList.add('bg-white','text-gray-600','border-gray-200'); 
                         } 
                     } 
                 } 
@@ -852,9 +860,11 @@
                 let b=document.getElementById('btn-local-'+v); 
                 if(b) {
                     if(uLoc.includes(v)) {
-                        b.classList.add('active');
+                        b.classList.add('bg-bmw','text-white','border-bmw');
+                        b.classList.remove('bg-white','text-gray-600','border-gray-200','active');
                     } else {
-                        b.classList.remove('active');
+                        b.classList.remove('bg-bmw','text-white','border-bmw','active');
+                        b.classList.add('bg-white','text-gray-600','border-gray-200');
                     }
                 }
             }); 
@@ -862,9 +872,11 @@
                 let b=document.getElementById('btn-perfil-'+v); 
                 if(b) {
                     if(uPerf===v) {
-                        b.classList.add('active');
+                        b.classList.add('bg-bmw','text-white','border-bmw');
+                        b.classList.remove('bg-white','text-gray-600','border-gray-200','active');
                     } else {
-                        b.classList.remove('active');
+                        b.classList.remove('bg-bmw','text-white','border-bmw','active');
+                        b.classList.add('bg-white','text-gray-600','border-gray-200');
                     }
                 }
             }); 
