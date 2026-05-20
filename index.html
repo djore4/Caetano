@@ -72,7 +72,7 @@
             </div>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav id="main-nav-bar" class="flex w-full space-x-2 sm:space-x-6 overflow-x-auto no-scrollbar">
+            <nav id="main-nav-bar" class="flex w-full space-x-2 sm:space-x-6 overflow-x-auto no-scrollbar hidden">
                 <button onclick="mudarTab('parque')" id="tab-parque" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-bmw text-bmw uppercase tracking-widest">Parque</button>
                 <button onclick="mudarTab('especificacoes')" id="tab-especificacoes" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Especificações</button>
                 <div class="ml-auto flex space-x-2 sm:space-x-4">
@@ -84,7 +84,7 @@
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 hidden">
         <div id="loading-supabase" class="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg mb-6 flex justify-center items-center shadow-sm">
             <div class="w-5 h-5 border-2 border-bmw border-t-transparent rounded-full animate-spin mr-3"></div><span class="text-sm font-bold uppercase tracking-widest">A carregar...</span>
         </div>
@@ -182,7 +182,7 @@
                     <div class="px-5 py-3 border-b border-gray-100 bg-white overflow-x-auto no-scrollbar">
                         <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Filtrar Lista por Concessão</label>
                         <div class="flex flex-wrap gap-2" id="filtro-local-admin-container">
-                            <button onclick="setFiltroLocalAdmin('Todas')" id="btn-filtro-admin-Todas" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">Todas</button>
+                            <button onclick="setFiltroLocalAdmin('Todas')" id="btn-filtro-admin-Todas" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Todas</button>
                             <button onclick="setFiltroLocalAdmin('Porto')" id="btn-filtro-admin-Porto" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Porto</button>
                             <button onclick="setFiltroLocalAdmin('Gaia')" id="btn-filtro-admin-Gaia" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Gaia</button>
                             <button onclick="setFiltroLocalAdmin('Feira')" id="btn-filtro-admin-Feira" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Feira</button>
@@ -295,7 +295,7 @@
                     <h2 class="text-2xl sm:text-3xl font-black text-gray-900 leading-none" id="detalhe-titulo">Modelo</h2>
                     <p class="text-xs sm:text-sm text-gray-500 font-mono mt-1 uppercase" id="detalhe-matricula">Matricula</p>
                 </div>
-                <button onclick="fecharDetalheViatura()" class="text-gray-400 hover:text-red-500 bg-white rounded-full p-2 border border-gray-100 shadow-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
+                <button id="btn-fechar-modal" onclick="fecharDetalheViatura()" class="text-gray-400 hover:text-red-500 bg-white rounded-full p-2 border border-gray-100 shadow-sm"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
             </div>
             
             <div class="p-5 sm:p-10 flex flex-col items-center text-center overflow-y-auto no-scrollbar">
@@ -362,7 +362,7 @@
         </button>
     </div>
 
-    <div id="modal-login" class="fixed inset-0 bg-slate-900/80 z-[80] hidden flex-col items-center justify-center p-4 backdrop-blur-sm"><div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm flex flex-col overflow-hidden"><div class="bg-gray-50 px-8 py-5 border-b border-gray-200 flex justify-between items-center"><h2 class="text-xl font-black text-gray-900 uppercase tracking-widest">Área Reservada</h2><button onclick="fecharLogin()" class="text-gray-400 hover:text-red-500 bg-white rounded-full p-2 border border-gray-100 shadow-sm transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><form onsubmit="fazerLogin(event)" class="p-8 flex flex-col space-y-6"><div><label class="block text-xs font-bold text-gray-500 mb-2 tracking-widest uppercase">Email Profissional</label><input type="email" id="login-email" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="nome@caetano.pt"></div><div><label class="block text-xs font-bold text-gray-500 mb-2 tracking-widest uppercase">Palavra-Passe</label><input type="password" id="login-password" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="••••••••"></div><button type="submit" class="w-full bg-bmw hover:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-md transition-colors uppercase tracking-widest text-sm">Entrar na Plataforma</button></form></div></div>
+    <div id="modal-login" class="fixed inset-0 bg-slate-900/80 z-[80] hidden flex-col items-center justify-center p-4 backdrop-blur-sm"><div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm flex flex-col overflow-hidden"><div class="bg-gray-50 px-8 py-5 border-b border-gray-200 flex justify-between items-center"><h2 class="text-xl font-black text-gray-900 uppercase tracking-widest">Área Reservada</h2><button id="btn-close-login" onclick="fecharLogin()" class="text-gray-400 hover:text-red-500 bg-white rounded-full p-2 border border-gray-100 shadow-sm transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><form onsubmit="fazerLogin(event)" class="p-8 flex flex-col space-y-6"><div><label class="block text-xs font-bold text-gray-500 mb-2 tracking-widest uppercase">Email Profissional</label><input type="email" id="login-email" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="nome@caetano.pt"></div><div><label class="block text-xs font-bold text-gray-500 mb-2 tracking-widest uppercase">Palavra-Passe</label><input type="password" id="login-password" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="••••••••"></div><button type="submit" class="w-full bg-bmw hover:bg-blue-800 text-white font-bold py-4 rounded-xl shadow-md transition-colors uppercase tracking-widest text-sm">Entrar na Plataforma</button></form></div></div>
     <div id="modal-change-password" class="fixed inset-0 bg-slate-900/80 z-[90] hidden flex-col items-center justify-center p-4 backdrop-blur-sm"><div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm flex flex-col overflow-hidden"><div class="bg-gray-50 px-8 py-5 border-b border-gray-200 flex justify-between items-center"><h2 class="text-lg font-black text-gray-900 uppercase tracking-widest">Mudar Palavra-Passe</h2><button onclick="fecharMudarPassword()" class="text-gray-400 hover:text-red-500 bg-white rounded-full p-2 border border-gray-100 shadow-sm transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><form onsubmit="guardarNovaPassword(event)" class="p-8 flex flex-col space-y-5"><div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest uppercase">Nova Palavra-Passe</label><input type="password" id="new-password" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="••••••••"></div><div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest uppercase">Confirmar Palavra-Passe</label><input type="password" id="confirm-password" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="••••••••"></div><button type="submit" class="w-full bg-bmw hover:bg-blue-800 text-white font-bold py-3.5 rounded-xl shadow-md transition-colors uppercase tracking-widest text-sm mt-2">Atualizar</button></form></div></div>
 
     <script>
@@ -431,20 +431,37 @@
 
         function executarArranqueLocal() {
             document.getElementById('loading-supabase').classList.add('hidden');
-            document.getElementById('chat-widget').classList.remove('hidden'); document.getElementById('chat-widget').classList.add('flex');
-            carregarPrecosEmDireto(); initModeloFiltros(); atualizarAcessos(); aplicarFiltros();
+            carregarPrecosEmDireto(); initModeloFiltros(); 
+            atualizarAcessos(); 
+            aplicarFiltros();
             if (window.innerWidth < 768) mudarVista('cartoes'); else mudarVista('tabela');
         }
 
         // SISTEMA DE LOGIN
-        function abrirLogin() { document.getElementById('modal-login').classList.remove('hidden'); document.getElementById('modal-login').classList.add('flex'); document.getElementById('login-email').focus(); }
-        function fecharLogin() { document.getElementById('modal-login').classList.add('hidden'); document.getElementById('modal-login').classList.remove('flex'); }
+        function abrirLogin() { 
+            document.getElementById('modal-login').classList.remove('hidden'); 
+            document.getElementById('modal-login').classList.add('flex'); 
+            document.getElementById('login-email').focus(); 
+            
+            const btnClose = document.getElementById('btn-close-login');
+            if(btnClose) {
+                if(!currentUser) btnClose.classList.add('hidden');
+                else btnClose.classList.remove('hidden');
+            }
+        }
+        
+        function fecharLogin() { 
+            if(!currentUser) return; 
+            document.getElementById('modal-login').classList.add('hidden'); 
+            document.getElementById('modal-login').classList.remove('flex'); 
+        }
+        
         function fazerLogin(e) {
             e.preventDefault(); 
             try {
                 const email = document.getElementById('login-email').value.trim().toLowerCase(); const pass = document.getElementById('login-password').value.trim();
                 const user = utilizadoresDb.find(u => (u.email || '').toLowerCase() === email && String(u.password || '').trim() === pass);
-                if(user) { currentUser = user; fecharLogin(); document.getElementById('login-password').value = ''; atualizarAcessos(); registarHistorico('acesso', 'LOGIN', user.id, { nome: user.nome, email: user.email }); } 
+                if(user) { currentUser = user; document.getElementById('login-password').value = ''; atualizarAcessos(); registarHistorico('acesso', 'LOGIN', user.id, { nome: user.nome, email: user.email }); } 
                 else { alert("Acesso Negado: Email ou Palavra-passe incorretos."); }
             } catch(err) { alert("Erro de sistema no login."); }
         }
@@ -464,14 +481,42 @@
         
         function atualizarAcessos() {
             ['tab-utilizadores', 'tab-historico', 'tab-admin-vn'].forEach(id => document.getElementById(id).classList.add('hidden'));
-            if (!currentUser) { document.getElementById('btn-login-header').classList.remove('hidden'); document.getElementById('user-info-header').classList.add('hidden'); document.getElementById('user-info-header').classList.remove('flex'); return; }
-            document.getElementById('btn-login-header').classList.add('hidden'); document.getElementById('user-info-header').classList.remove('hidden'); document.getElementById('user-info-header').classList.add('flex');
-            document.getElementById('header-user-name').innerText = currentUser.nome; document.getElementById('header-user-role').innerText = currentUser.perfil;
-            if (currentUser.perfil === 'Administrador') { ['tab-utilizadores', 'tab-historico', 'tab-admin-vn'].forEach(id => document.getElementById(id).classList.remove('hidden')); } 
-            else if (currentUser.perfil === 'Chefe de Vendas') {
+            
+            const mainContent = document.getElementById('main-content');
+            const mainNavBar = document.getElementById('main-nav-bar');
+            const chatWidget = document.getElementById('chat-widget');
+            
+            if (!currentUser) { 
+                document.getElementById('btn-login-header').classList.remove('hidden'); 
+                document.getElementById('user-info-header').classList.add('hidden'); 
+                document.getElementById('user-info-header').classList.remove('flex'); 
+                
+                if(mainContent) mainContent.classList.add('hidden');
+                if(mainNavBar) mainNavBar.classList.add('hidden');
+                if(chatWidget) { chatWidget.classList.add('hidden'); chatWidget.classList.remove('flex'); }
+                
+                abrirLogin();
+                return; 
+            }
+            
+            if(mainContent) mainContent.classList.remove('hidden');
+            if(mainNavBar) mainNavBar.classList.remove('hidden');
+            if(chatWidget) { chatWidget.classList.remove('hidden'); chatWidget.classList.add('flex'); }
+            
+            fecharLogin();
+            document.getElementById('btn-login-header').classList.add('hidden'); 
+            document.getElementById('user-info-header').classList.remove('hidden'); 
+            document.getElementById('user-info-header').classList.add('flex');
+            document.getElementById('header-user-name').innerText = currentUser.nome; 
+            document.getElementById('header-user-role').innerText = currentUser.perfil;
+            
+            if (currentUser.perfil === 'Administrador') { 
+                ['tab-utilizadores', 'tab-historico', 'tab-admin-vn'].forEach(id => document.getElementById(id).classList.remove('hidden')); 
+            } else if (currentUser.perfil === 'Chefe de Vendas') {
                 document.getElementById('tab-admin-vn').classList.remove('hidden');
             }
-            renderizarListaAdmin(); if(currentUser.perfil === 'Administrador') renderizarListaUtilizadores();
+            renderizarListaAdmin(); 
+            if(currentUser.perfil === 'Administrador') renderizarListaUtilizadores();
         }
 
         function mudarTab(t) { 
