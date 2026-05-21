@@ -60,7 +60,7 @@
                                 <p id="header-user-name" class="text-xs font-black text-gray-800 leading-tight">Nome</p>
                                 <p id="header-user-role" class="text-[9px] font-bold text-bmw uppercase tracking-widest">Perfil</p>
                             </div>
-                            <button onclick="abrirMudarPassword()" class="bg-gray-50 hover:bg-gray-200 text-gray-600 p-2 rounded-full transition-colors" title="Mudar Palavra-Passe">
+                            <button id="btn-mudar-password" onclick="abrirMudarPassword()" class="bg-gray-50 hover:bg-gray-200 text-gray-600 p-2 rounded-full transition-colors" title="Mudar Palavra-Passe">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
                             </button>
                             <button onclick="fazerLogout()" class="bg-red-50 hover:bg-red-100 text-red-600 p-2 rounded-full transition-colors" title="Terminar Sessão">
@@ -182,7 +182,7 @@
                     <div class="px-5 py-3 border-b border-gray-100 bg-white overflow-x-auto no-scrollbar">
                         <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Filtrar Lista por Concessão</label>
                         <div class="flex flex-wrap gap-2" id="filtro-local-admin-container">
-                            <button onclick="setFiltroLocalAdmin('Todas')" id="btn-filtro-admin-Todas" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Todas</button>
+                            <button onclick="setFiltroLocalAdmin('Todas')" id="btn-filtro-admin-Todas" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">Todas</button>
                             <button onclick="setFiltroLocalAdmin('Porto')" id="btn-filtro-admin-Porto" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Porto</button>
                             <button onclick="setFiltroLocalAdmin('Gaia')" id="btn-filtro-admin-Gaia" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Gaia</button>
                             <button onclick="setFiltroLocalAdmin('Feira')" id="btn-filtro-admin-Feira" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Feira</button>
@@ -467,7 +467,19 @@
         }
 
         function fazerLogout() { if(confirm("Deseja terminar a sessão?")) { currentUser = null; atualizarAcessos(); mudarTab('parque'); } }
-        function abrirMudarPassword() { document.getElementById('new-password').value = ''; document.getElementById('confirm-password').value = ''; document.getElementById('modal-change-password').classList.remove('hidden'); document.getElementById('modal-change-password').classList.add('flex'); document.getElementById('new-password').focus(); }
+        
+        function abrirMudarPassword() { 
+            if (currentUser && currentUser.perfil === 'Vendedor') {
+                alert("Operação não autorizada. Solicite a alteração de palavra-passe diretamente à Administração.");
+                return;
+            }
+            document.getElementById('new-password').value = ''; 
+            document.getElementById('confirm-password').value = ''; 
+            document.getElementById('modal-change-password').classList.remove('hidden'); 
+            document.getElementById('modal-change-password').classList.add('flex'); 
+            document.getElementById('new-password').focus(); 
+        }
+        
         function fecharMudarPassword() { document.getElementById('modal-change-password').classList.add('hidden'); document.getElementById('modal-change-password').classList.remove('flex'); }
         
         async function guardarNovaPassword(e) {
@@ -509,6 +521,16 @@
             document.getElementById('user-info-header').classList.add('flex');
             document.getElementById('header-user-name').innerText = currentUser.nome; 
             document.getElementById('header-user-role').innerText = currentUser.perfil;
+            
+            // Oculta o botão de alterar password visualmente para Vendedores
+            const btnMudarPass = document.getElementById('btn-mudar-password');
+            if(btnMudarPass) {
+                if (currentUser.perfil === 'Vendedor') {
+                    btnMudarPass.classList.add('hidden');
+                } else {
+                    btnMudarPass.classList.remove('hidden');
+                }
+            }
             
             if (currentUser.perfil === 'Administrador') { 
                 ['tab-utilizadores', 'tab-historico', 'tab-admin-vn'].forEach(id => document.getElementById(id).classList.remove('hidden')); 
