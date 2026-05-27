@@ -74,7 +74,11 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav id="main-nav-bar" class="flex w-full space-x-2 sm:space-x-6 overflow-x-auto no-scrollbar hidden">
                 <button onclick="mudarTab('parque')" id="tab-parque" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-bmw text-bmw uppercase tracking-widest">Parque</button>
-                <button onclick="mudarTab('especificacoes')" id="tab-especificacoes" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Especificações</button>
+                <button onclick="mudarTab('dados-tecnicos')" id="tab-dados-tecnicos" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Dados Técnicos</button>
+                <button onclick="mudarTab('opcionais')" id="tab-opcionais" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Opcionais</button>
+                <button onclick="mudarTab('comparador-bev')" id="tab-comparador-bev" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Comparador BEV</button>
+                <button onclick="mudarTab('calculadora')" id="tab-calculadora" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Calculadora</button>
+                
                 <div class="ml-auto flex space-x-2 sm:space-x-4">
                     <button onclick="mudarTab('utilizadores')" id="tab-utilizadores" class="hidden nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Utilizadores</button>
                     <button onclick="mudarTab('historico')" id="tab-historico" class="hidden nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Histórico</button>
@@ -131,8 +135,13 @@
             </div>
         </div>
 
-        <div id="conteudo-especificacoes" class="tab-content"><div class="flex items-center justify-center h-96 bg-white rounded-2xl border border-gray-200 shadow-sm"><p class="text-gray-400 font-bold uppercase tracking-widest text-center px-4">Módulo de Especificações em Desenvolvimento</p></div></div>
+        <div id="conteudo-dados-tecnicos" class="tab-content"><div class="flex items-center justify-center h-96 bg-white rounded-2xl border border-gray-200 shadow-sm"><p class="text-gray-400 font-bold uppercase tracking-widest text-center px-4">Insere aqui o teu código dos Dados Técnicos</p></div></div>
 
+        <div id="conteudo-opcionais" class="tab-content"><div class="flex items-center justify-center h-96 bg-white rounded-2xl border border-gray-200 shadow-sm"><p class="text-gray-400 font-bold uppercase tracking-widest text-center px-4">Insere aqui o teu código dos Opcionais</p></div></div>
+
+        <div id="conteudo-comparador-bev" class="tab-content"><div class="flex items-center justify-center h-96 bg-white rounded-2xl border border-gray-200 shadow-sm"><p class="text-gray-400 font-bold uppercase tracking-widest text-center px-4">Insere aqui o teu código do Comparador BEV</p></div></div>
+
+        <div id="conteudo-calculadora" class="tab-content"><div class="flex items-center justify-center h-96 bg-white rounded-2xl border border-gray-200 shadow-sm"><p class="text-gray-400 font-bold uppercase tracking-widest text-center px-4">Insere aqui o teu código da Calculadora</p></div></div>
         <div id="conteudo-utilizadores" class="tab-content">
             <div class="flex flex-col lg:flex-row gap-6">
                 <div class="w-full lg:w-1/3 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[450px] lg:h-[750px]">
@@ -522,7 +531,6 @@
             document.getElementById('header-user-name').innerText = currentUser.nome; 
             document.getElementById('header-user-role').innerText = currentUser.perfil;
             
-            // Oculta o botão de alterar password visualmente para Vendedores
             const btnMudarPass = document.getElementById('btn-mudar-password');
             if(btnMudarPass) {
                 if (currentUser.perfil === 'Vendedor') {
@@ -616,9 +624,9 @@
         function initModeloFiltros() { 
             try { 
                 const c = document.getElementById('filtro-modelo-container'); 
-                c.innerHTML = `<button onclick="setFiltro('modelo','Todos')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-bmw text-white border-bmw">Todos</button>`; 
+                c.innerHTML = `<button onclick="setFiltro('modelo','Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">Todos</button>`; 
                 [...new Set(inventario.map(x=>x.modelo || "N/A"))].sort().forEach(m => { 
-                    if(m !== "N/A") c.innerHTML += `<button onclick="setFiltro('modelo','${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">${m}</button>`; 
+                    if(m !== "N/A") c.innerHTML += `<button onclick="setFiltro('modelo','${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">${m}</button>`; 
                 }); 
             } catch(e) {}
         }
@@ -626,13 +634,12 @@
         function setFiltro(tipo, valor) { 
             filtros[tipo] = valor; 
             Array.from(document.getElementById(`filtro-${tipo}-container`).children).forEach(btn => { 
-                const txt = btn.innerText.trim();
-                if(txt === valor || (valor === 'Todas' && txt === 'Todas') || (valor === 'Todos' && txt === 'Todos')) { 
-                    btn.classList.add('bg-bmw', 'text-white', 'border-bmw'); 
-                    btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200', 'active'); 
+                if(btn.innerText.trim() === valor || (valor === 'Todas' && btn.innerText.trim() === 'Todas') || (valor === 'Todos' && btn.innerText.trim() === 'Todos')) { 
+                    btn.classList.add('active'); 
+                    btn.classList.remove('bg-white', 'text-gray-600'); 
                 } else { 
-                    btn.classList.remove('bg-bmw', 'text-white', 'border-bmw', 'active'); 
-                    btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200'); 
+                    btn.classList.remove('active'); 
+                    btn.classList.add('bg-white', 'text-gray-600'); 
                 } 
             }); 
             aplicarFiltros(); 
@@ -801,11 +808,9 @@
                 let btn = document.getElementById('btn-filtro-admin-' + v); 
                 if (btn) { 
                     if (v === val) { 
-                        btn.classList.add('bg-bmw', 'text-white', 'border-bmw'); 
-                        btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200', 'active'); 
+                        btn.classList.add('active'); 
                     } else { 
-                        btn.classList.remove('bg-bmw', 'text-white', 'border-bmw', 'active'); 
-                        btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200'); 
+                        btn.classList.remove('active'); 
                     } 
                 } 
             }); 
@@ -820,11 +825,9 @@
                 let b = document.getElementById('btn-edit-tip-'+v); 
                 if(b) { 
                     if(editCarroTipologia.includes(v)){ 
-                        b.classList.add('bg-bmw','text-white','border-bmw'); 
-                        b.classList.remove('bg-white','text-gray-600','border-gray-200','active'); 
+                        b.classList.add('active'); 
                     } else { 
-                        b.classList.remove('bg-bmw','text-white','border-bmw','active'); 
-                        b.classList.add('bg-white','text-gray-600','border-gray-200'); 
+                        b.classList.remove('active'); 
                     } 
                 } 
             }); 
@@ -832,16 +835,14 @@
                 let b = document.getElementById('btn-edit-loc-'+v); 
                 if(b) { 
                     if(!hasPerm('local', v)) { 
-                        b.classList.add('opacity-30', 'cursor-not-allowed', 'bg-white', 'text-gray-600', 'border-gray-200'); 
-                        b.classList.remove('bg-bmw','text-white','border-bmw','active'); 
+                        b.classList.add('opacity-30', 'cursor-not-allowed'); 
+                        b.classList.remove('active'); 
                     } else { 
                         b.classList.remove('opacity-30', 'cursor-not-allowed'); 
                         if(editCarroLocal.includes(v)){ 
-                            b.classList.add('bg-bmw','text-white','border-bmw'); 
-                            b.classList.remove('bg-white','text-gray-600','border-gray-200','active'); 
+                            b.classList.add('active'); 
                         } else { 
-                            b.classList.remove('bg-bmw','text-white','border-bmw','active'); 
-                            b.classList.add('bg-white','text-gray-600','border-gray-200'); 
+                            b.classList.remove('active'); 
                         } 
                     } 
                 } 
@@ -927,11 +928,9 @@
                 let b=document.getElementById('btn-local-'+v); 
                 if(b) {
                     if(uLoc.includes(v)) {
-                        b.classList.add('bg-bmw','text-white','border-bmw');
-                        b.classList.remove('bg-white','text-gray-600','border-gray-200','active');
+                        b.classList.add('active');
                     } else {
-                        b.classList.remove('bg-bmw','text-white','border-bmw','active');
-                        b.classList.add('bg-white','text-gray-600','border-gray-200');
+                        b.classList.remove('active');
                     }
                 }
             }); 
@@ -939,11 +938,9 @@
                 let b=document.getElementById('btn-perfil-'+v); 
                 if(b) {
                     if(uPerf===v) {
-                        b.classList.add('bg-bmw','text-white','border-bmw');
-                        b.classList.remove('bg-white','text-gray-600','border-gray-200','active');
+                        b.classList.add('active');
                     } else {
-                        b.classList.remove('bg-bmw','text-white','border-bmw','active');
-                        b.classList.add('bg-white','text-gray-600','border-gray-200');
+                        b.classList.remove('active');
                     }
                 }
             }); 
