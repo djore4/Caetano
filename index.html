@@ -13,12 +13,7 @@
         
         body { font-family: 'BMWTypeNext', 'Helvetica Neue', Arial, sans-serif; letter-spacing: -0.01em; }
         
-        /* CORREÇÃO DO ERRO DAS LETRAS AQUI */
-        .filter-btn.active, .user-btn.active { 
-            background-color: #0066B1 !important; 
-            color: white !important; 
-            border-color: #0066B1 !important; 
-        }
+        .filter-btn.active, .user-btn.active { background-color: #0066B1 !important; color: white !important; border-color: #0066B1 !important; }
         
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -26,18 +21,31 @@
         .tab-content.active { display: block; }
         .calc-auto { background-color: transparent; color: #334155; font-weight: 700; border: none; outline: none;}
 
-        /* Animação para o destaque */
-        @keyframes pulse-soft {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.9; transform: scale(1.02); }
-        }
-        .destaque-entrega {
-            animation: pulse-soft 2s infinite;
-        }
+        @keyframes pulse-soft { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.9; transform: scale(1.02); } }
+        .destaque-entrega { animation: pulse-soft 2s infinite; }
+
+        /* NOVOS ESTILOS PARA OS MÓDULOS DE ESPECIFICAÇÕES */
+        .serie-btn { transition: all .15s; cursor: pointer; border: 1.5px solid #D1D5DB; background: #fff; color: #374151; font-weight: 700; }
+        .serie-btn:hover { border-color: #374151; background: #F9FAFB; }
+        .serie-btn.active { background: #1F2937; color: #fff; border-color: #1F2937; }
+        .modelo-btn { transition: all .15s; cursor: pointer; border: 1.5px solid #D1D5DB; background: #fff; color: #374151; font-weight: 700; }
+        .modelo-btn:hover { border-color: #0066B1; color: #0066B1; }
+        .modelo-btn.active { background: #1F2937; color: #fff; border-color: #1F2937; }
+        .mot-pill { transition: all .15s; cursor: pointer; border: 1.5px solid #D1D5DB; background: #fff; color: #374151; }
+        .mot-pill:hover { border-color: #0066B1; color: #0066B1; }
+        .mot-pill.active { background: #0066B1; color: #fff; border-color: #0066B1; }
+        .spec-row:nth-child(even) td { background: #F8FAFC; }
+        .spec-row:hover td { background: #EFF6FF !important; }
+        .spec-row td { transition: background .1s; }
+        @keyframes fadeSlideIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeSlideIn .2s ease both; }
+        @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
+        .shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%); background-size: 400px 100%; animation: shimmer 1.2s infinite; border-radius: 6px; }
+        .search-input:focus { outline: none; border-color: #0066B1; }
     </style>
     <script>tailwind.config = { theme: { extend: { colors: { bmw: '#0066B1' } } } }</script>
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-800 relative pb-20 overflow-y-scroll">
+<body class="min-h-screen bg-slate-50 text-slate-800 relative pb-32 overflow-y-scroll">
 
     <header class="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -74,10 +82,10 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav id="main-nav-bar" class="flex w-full space-x-2 sm:space-x-6 overflow-x-auto no-scrollbar hidden">
                 <button onclick="mudarTab('parque')" id="tab-parque" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-bmw text-bmw uppercase tracking-widest">Parque</button>
-                <button onclick="mudarTab('dados-tecnicos')" id="tab-dados-tecnicos" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Dados Técnicos</button>
+                <button onclick="mudarTab('dados')" id="tab-dados" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Dados Técnicos</button>
                 <button onclick="mudarTab('opcionais')" id="tab-opcionais" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Opcionais</button>
-                <button onclick="mudarTab('comparador-bev')" id="tab-comparador-bev" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Comparador BEV</button>
-                <button onclick="mudarTab('calculadora')" id="tab-calculadora" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Calculadora</button>
+                <button onclick="mudarTab('bev')" id="tab-bev" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Comparador BEV</button>
+                <button onclick="mudarTab('calc')" id="tab-calc" class="nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Calculadora</button>
                 
                 <div class="ml-auto flex space-x-2 sm:space-x-4">
                     <button onclick="mudarTab('utilizadores')" id="tab-utilizadores" class="hidden nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Utilizadores</button>
@@ -98,8 +106,8 @@
             <div class="space-y-5 mb-8 bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
                 <div><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Modelo</label><div class="flex flex-wrap gap-2" id="filtro-modelo-container"></div></div>
                 <div class="flex flex-col sm:flex-row gap-6 pt-2 border-t border-gray-50">
-                    <div class="w-full sm:w-auto"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tecnologia</label><div class="flex flex-wrap gap-2" id="filtro-tipologia-container"><button onclick="setFiltro('tipologia', 'Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold">Todas</button><button onclick="setFiltro('tipologia', 'BEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">BEV</button><button onclick="setFiltro('tipologia', 'PHEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">PHEV</button><button onclick="setFiltro('tipologia', 'ICE')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">ICE</button><button onclick="setFiltro('tipologia', 'M')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">M</button></div></div>
-                    <div class="w-full sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Concessão</label><div class="flex flex-wrap gap-2" id="filtro-local-container"><button onclick="setFiltro('local', 'Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold">Todas</button><button onclick="setFiltro('local', 'Porto')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Porto</button><button onclick="setFiltro('local', 'Gaia')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Gaia</button><button onclick="setFiltro('local', 'Feira')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Feira</button><button onclick="setFiltro('local', 'Aveiro')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Aveiro</button></div></div>
+                    <div class="w-full sm:w-auto"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tecnologia</label><div class="flex flex-wrap gap-2" id="filtro-tipologia-container"><button onclick="setFiltro('tipologia', 'Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Todas</button><button onclick="setFiltro('tipologia', 'BEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">BEV</button><button onclick="setFiltro('tipologia', 'PHEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">PHEV</button><button onclick="setFiltro('tipologia', 'ICE')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">ICE</button><button onclick="setFiltro('tipologia', 'M')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">M</button></div></div>
+                    <div class="w-full sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Concessão</label><div class="flex flex-wrap gap-2" id="filtro-local-container"><button onclick="setFiltro('local', 'Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Todas</button><button onclick="setFiltro('local', 'Porto')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Porto</button><button onclick="setFiltro('local', 'Gaia')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Gaia</button><button onclick="setFiltro('local', 'Feira')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Feira</button><button onclick="setFiltro('local', 'Aveiro')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Aveiro</button></div></div>
                 </div>
                 
                 <div class="flex justify-between items-end border-t border-gray-200 pt-4"><div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest"><span id="num-resultados" class="text-bmw font-black text-sm">0</span> viaturas</div>
@@ -135,13 +143,244 @@
             </div>
         </div>
 
-        <div id="conteudo-dados-tecnicos" class="tab-content"><div class="flex items-center justify-center h-96 bg-white rounded-2xl border border-gray-200 shadow-sm"><p class="text-gray-400 font-bold uppercase tracking-widest text-center px-4">Insere aqui o teu código dos Dados Técnicos</p></div></div>
+        <div id="conteudo-dados" class="tab-content">
+            
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm px-4 py-3 mb-5 flex items-center gap-3">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/BMW_logo_%28gray%29.svg" alt="BMW" class="h-7 flex-shrink-0 hidden sm:block">
+                <div class="relative flex-1">
+                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"/>
+                    </svg>
+                    <input type="text" id="pesquisa" placeholder="Inserir código ou palavra para pesquisa"
+                        oninput="pesquisar()"
+                        class="search-input w-full border border-gray-200 rounded-lg pl-9 pr-4 py-2.5 text-sm bg-gray-50">
+                </div>
+            </div>
 
-        <div id="conteudo-opcionais" class="tab-content"><div class="flex items-center justify-center h-96 bg-white rounded-2xl border border-gray-200 shadow-sm"><p class="text-gray-400 font-bold uppercase tracking-widest text-center px-4">Insere aqui o teu código dos Opcionais</p></div></div>
+            <div id="loading-state" class="flex items-center justify-center py-20 hidden">
+                <div class="w-5 h-5 border-2 border-bmw border-t-transparent rounded-full animate-spin mr-3"></div>
+                <span class="text-sm font-bold uppercase tracking-widest text-gray-400">A carregar...</span>
+            </div>
 
-        <div id="conteudo-comparador-bev" class="tab-content"><div class="flex items-center justify-center h-96 bg-white rounded-2xl border border-gray-200 shadow-sm"><p class="text-gray-400 font-bold uppercase tracking-widest text-center px-4">Insere aqui o teu código do Comparador BEV</p></div></div>
+            <div id="error-state" class="hidden bg-red-50 border border-red-200 text-red-700 px-5 py-4 rounded-xl text-sm font-medium mb-5"></div>
 
-        <div id="conteudo-calculadora" class="tab-content"><div class="flex items-center justify-center h-96 bg-white rounded-2xl border border-gray-200 shadow-sm"><p class="text-gray-400 font-bold uppercase tracking-widest text-center px-4">Insere aqui o teu código da Calculadora</p></div></div>
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm px-4 sm:px-5 py-4 mb-3">
+                <div class="flex flex-wrap gap-2" id="filtro-series"></div>
+            </div>
+
+            <div id="filtro-modelos-wrap" class="bg-white border border-gray-200 rounded-xl shadow-sm px-4 sm:px-5 py-4 mb-5 hidden fade-in">
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Outras categorias</p>
+                <div class="flex flex-wrap gap-2" id="filtro-modelos"></div>
+            </div>
+
+            <div id="passo-motorizacao" class="hidden fade-in mb-5">
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm px-4 sm:px-5 py-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-6 h-6 rounded-full bg-bmw text-white text-[10px] font-black flex items-center justify-center">2</div>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Motorização</p>
+                            <span id="modelo-label" class="text-xs text-bmw font-bold bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full"></span>
+                        </div>
+                        <button onclick="limparTudo()" class="text-[10px] font-bold text-gray-400 hover:text-red-500 uppercase tracking-widest">Limpar</button>
+                    </div>
+                    <div id="grid-motorizacoes" class="flex flex-wrap gap-2"></div>
+                </div>
+            </div>
+
+            <div id="passo-specs" class="hidden fade-in">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-6 h-6 rounded-full bg-bmw text-white text-[10px] font-black flex items-center justify-center">3</div>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Especificações</p>
+                    <span class="text-[10px] text-gray-400 hidden sm:inline">— valores a azul indicam diferenças entre motorizações</span>
+                </div>
+
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto no-scrollbar">
+                        <table id="tabela-specs" class="w-full text-sm min-w-[400px]">
+                            <thead id="tabela-thead"></thead>
+                            <tbody id="tabela-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="conteudo-opcionais" class="tab-content">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm px-4 py-3 mb-4 flex items-center gap-3">
+                <svg class="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0"/></svg>
+                <input type="text" id="op-pesquisa" placeholder="Pesquisar modelo..." oninput="opPesquisar()" class="flex-1 text-sm outline-none bg-transparent">
+            </div>
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm px-4 py-4 mb-3">
+                <div class="flex flex-wrap gap-2" id="op-filtro-series"></div>
+            </div>
+            <div id="op-filtro-modelos-wrap" class="hidden bg-white border border-gray-200 rounded-xl shadow-sm px-4 py-4 mb-4">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">Outras categorias</p>
+                <div class="flex flex-wrap gap-2" id="op-filtro-modelos"></div>
+            </div>
+            <div id="op-passo-mot" class="hidden bg-white border border-gray-200 rounded-xl shadow-sm px-4 py-4 mb-4">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-full bg-bmw text-white text-xs font-black flex items-center justify-center">2</span>
+                        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Motorização</span>
+                        <span id="op-modelo-label" class="text-xs font-bold text-bmw bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full"></span>
+                    </div>
+                    <button onclick="opLimpar()" class="text-xs text-gray-400 hover:text-red-500 font-bold">Limpar</button>
+                </div>
+                <div id="op-grid-mots" class="flex flex-wrap gap-2"></div>
+            </div>
+            <div id="op-passo-lista" class="hidden">
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="w-6 h-6 rounded-full bg-bmw text-white text-xs font-black flex items-center justify-center">3</span>
+                    <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Opcionais</span>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm px-4 py-3 mb-4 overflow-x-auto no-scrollbar">
+                    <div class="flex gap-2 flex-wrap" id="op-filtro-secoes"></div>
+                </div>
+                <div id="op-lista" class="space-y-2"></div>
+            </div>
+        </div>
+
+        <div id="conteudo-bev" class="tab-content">
+            <div class="bg-green-50 border border-green-100 rounded-xl px-4 py-3 mb-5 flex items-center gap-2">
+                <svg class="w-4 h-4 text-green-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <p class="text-xs font-bold text-green-700">Comparador exclusivo para veículos 100% elétricos. Selecione até 4 motorizações de qualquer modelo BEV.</p>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6" id="bev-slots"></div>
+
+            <div id="bev-tabela-wrap" class="hidden">
+                <div class="flex items-center justify-between mb-3">
+                    <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Comparação BEV</p>
+                    <button onclick="bevLimpar()" class="text-xs text-gray-400 hover:text-red-500 font-bold uppercase tracking-widest">Limpar tudo</button>
+                </div>
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
+                    <div class="overflow-x-auto no-scrollbar">
+                        <table class="w-full text-sm" style="min-width:400px">
+                            <thead id="bev-thead"></thead>
+                            <tbody id="bev-tbody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="conteudo-calc" class="tab-content">
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-4">
+                <div class="bg-gradient-to-r from-bmw to-blue-500 px-5 py-3 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <p class="text-xs font-black text-white uppercase tracking-widest">Tempo de carregamento</p>
+                </div>
+                <div class="p-5 space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Capacidade da bateria (kWh)</p>
+                            <div class="flex items-center gap-2">
+                                <input type="range" id="calc-bateria" min="10" max="120" value="75" step="1" oninput="calcAtualizar()" class="flex-1 accent-bmw">
+                                <span id="calc-bateria-val" class="text-base font-black text-bmw w-12 text-right">75</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Potência de carga (kW)</p>
+                            <div class="flex items-center gap-2">
+                                <input type="range" id="calc-potencia" min="1" max="350" value="11" step="0.5" oninput="calcAtualizar()" class="flex-1 accent-bmw">
+                                <span id="calc-potencia-val" class="text-base font-black text-bmw w-14 text-right">11</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Estado inicial (%)</p>
+                            <div class="flex items-center gap-2">
+                                <input type="range" id="calc-soc-ini" min="0" max="95" value="10" step="5" oninput="calcAtualizar()" class="flex-1 accent-bmw">
+                                <span id="calc-soc-ini-val" class="text-base font-black text-bmw w-10 text-right">10%</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Estado final (%)</p>
+                            <div class="flex items-center gap-2">
+                                <input type="range" id="calc-soc-fin" min="5" max="100" value="100" step="5" oninput="calcAtualizar()" class="flex-1 accent-bmw">
+                                <span id="calc-soc-fin-val" class="text-base font-black text-bmw w-10 text-right">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-100 rounded-xl px-5 py-4 flex items-center justify-between">
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Tempo estimado</p>
+                            <p id="calc-res-tempo" class="text-3xl font-black text-bmw mt-1">—</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Energia a carregar</p>
+                            <p id="calc-res-energia" class="text-xl font-black text-gray-700 mt-1">—</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-4">
+                <div class="bg-gradient-to-r from-green-500 to-green-400 px-5 py-3 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <p class="text-xs font-black text-white uppercase tracking-widest">Custo de carregamento</p>
+                </div>
+                <div class="p-5 space-y-4">
+                    <div>
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Preço por kWh (€)</p>
+                        <div class="flex items-center gap-2">
+                            <input type="range" id="calc-preco-kwh" min="0.05" max="0.60" value="0.15" step="0.01" oninput="calcAtualizar()" class="flex-1 accent-green-500">
+                            <span id="calc-preco-kwh-val" class="text-base font-black text-green-600 w-14 text-right">0,15 €</span>
+                        </div>
+                        <div class="flex justify-between text-xs text-gray-300 mt-1 px-1">
+                            <span>0,05 €</span><span>Casa (~0,15€)</span><span>Público (~0,40€)</span><span>0,60 €</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-green-50 border border-green-100 rounded-xl px-4 py-3">
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Custo total</p>
+                            <p id="calc-res-custo" class="text-2xl font-black text-green-600 mt-1">—</p>
+                        </div>
+                        <div class="bg-green-50 border border-green-100 rounded-xl px-4 py-3">
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Custo / 100 km</p>
+                            <p id="calc-res-custo-100" class="text-2xl font-black text-green-600 mt-1">—</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden mb-4">
+                <div class="bg-gradient-to-r from-purple-500 to-purple-400 px-5 py-3 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                    <p class="text-xs font-black text-white uppercase tracking-widest">Custo por viagem</p>
+                </div>
+                <div class="p-5 space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Distância (km)</p>
+                            <div class="flex items-center gap-2">
+                                <input type="range" id="calc-km" min="10" max="800" value="100" step="10" oninput="calcAtualizar()" class="flex-1 accent-purple-500">
+                                <span id="calc-km-val" class="text-base font-black text-purple-600 w-14 text-right">100</span>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Consumo (kWh/100km)</p>
+                            <div class="flex items-center gap-2">
+                                <input type="range" id="calc-consumo" min="10" max="40" value="20" step="0.5" oninput="calcAtualizar()" class="flex-1 accent-purple-500">
+                                <span id="calc-consumo-val" class="text-base font-black text-purple-600 w-14 text-right">20,0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="bg-purple-50 border border-purple-100 rounded-xl px-4 py-3">
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Energia usada</p>
+                            <p id="calc-res-viagem-energia" class="text-2xl font-black text-purple-600 mt-1">—</p>
+                        </div>
+                        <div class="bg-purple-50 border border-purple-100 rounded-xl px-4 py-3">
+                            <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Custo da viagem</p>
+                            <p id="calc-res-viagem-custo" class="text-2xl font-black text-purple-600 mt-1">—</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div id="conteudo-utilizadores" class="tab-content">
             <div class="flex flex-col lg:flex-row gap-6">
                 <div class="w-full lg:w-1/3 bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col h-[450px] lg:h-[750px]">
@@ -297,6 +536,52 @@
 
     </main>
 
+    <div id="compare-bar" class="hidden fixed bottom-0 left-0 right-0 z-30 bg-white border-t-2 border-bmw shadow-2xl px-4 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+            <div class="min-w-0">
+                <p class="text-[10px] font-black text-gray-500 uppercase tracking-widest">A ver</p>
+                <p class="text-xs font-bold text-gray-800 truncate" id="compare-bar-label"></p>
+            </div>
+            <button onclick="scrollParaTabela()" class="bg-bmw text-white text-xs font-bold px-5 py-2.5 rounded-lg uppercase tracking-widest flex-shrink-0">
+                Ver Tabela ↓
+            </button>
+        </div>
+    </div>
+
+    <div id="bev-modal" class="fixed inset-0 bg-slate-900/70 z-[75] hidden flex-col items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm flex flex-col overflow-hidden" style="max-height:85vh">
+            <div class="px-5 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <h2 id="bev-modal-titulo" class="text-sm font-black text-gray-800 uppercase tracking-widest">Escolher Modelo BEV</h2>
+                <button onclick="bevFecharModal()" class="text-gray-400 hover:text-red-500 text-lg font-bold">✕</button>
+            </div>
+            <input type="hidden" id="bev-modal-slot" value="0">
+            <input type="hidden" id="bev-modal-step" value="modelo">
+            <input type="hidden" id="bev-modal-modelo-id" value="">
+            <div class="overflow-y-auto p-3 flex-1 no-scrollbar" id="bev-modal-lista"></div>
+        </div>
+    </div>
+
+    <div id="op-modal" class="fixed inset-0 bg-slate-900/70 z-[75] hidden flex-col items-center justify-center p-4 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg flex flex-col overflow-hidden" style="max-height:85vh">
+            <div class="px-5 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+                <div>
+                    <p id="op-modal-codigo" class="text-xs font-bold text-bmw font-mono"></p>
+                    <h2 id="op-modal-nome" class="text-base font-black text-gray-800 mt-0.5"></h2>
+                </div>
+                <button onclick="opFecharModal()" class="text-gray-400 hover:text-red-500 text-xl font-bold ml-4">✕</button>
+            </div>
+            <div class="overflow-y-auto p-5 space-y-4 no-scrollbar">
+                <div id="op-modal-preco-wrap" class="hidden bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 flex items-center justify-between">
+                    <div><p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Preço c/ IVA</p><p id="op-modal-preco-iva" class="text-xl font-black text-bmw mt-0.5"></p></div>
+                    <div class="text-right"><p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Preço s/ IVA</p><p id="op-modal-preco-siva" class="text-sm font-bold text-gray-600 mt-0.5"></p></div>
+                </div>
+                <div><p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Disponibilidade</p><div id="op-modal-disponib" class="flex flex-wrap gap-2"></div></div>
+                <div id="op-modal-desc-wrap" class="hidden"><p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Descrição</p><p id="op-modal-desc" class="text-sm text-gray-700 leading-relaxed whitespace-pre-line"></p></div>
+                <div id="op-modal-regras-wrap" class="hidden"><p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Regras / Compatibilidade</p><p id="op-modal-regras" class="text-sm text-gray-500 leading-relaxed whitespace-pre-line"></p></div>
+            </div>
+        </div>
+    </div>
+
     <div id="modal-detalhe" class="fixed inset-0 bg-slate-900/70 z-[70] hidden flex-col items-center justify-center p-4 sm:p-6 backdrop-blur-sm">
         <div class="bg-white rounded-3xl shadow-2xl w-full max-w-4xl flex flex-col overflow-hidden max-h-[90vh] sm:max-h-full">
             <div class="bg-gray-50 px-6 sm:px-8 py-4 sm:py-5 border-b border-gray-200 flex justify-between items-center shrink-0">
@@ -349,7 +634,7 @@
         </div>
     </div>
 
-    <div id="chat-widget" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 hidden flex-col items-end">
+    <div id="chat-widget" class="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 hidden flex-col items-end">
         <div id="chat-window" class="absolute bottom-16 sm:bottom-20 right-0 w-[calc(100vw-2rem)] sm:w-96 bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col transition-all duration-300 origin-bottom-right opacity-0 scale-95 pointer-events-none" style="height: 450px; max-height: calc(100vh - 120px);">
             <div class="bg-bmw p-4 flex justify-between items-center text-white rounded-t-2xl">
                 <div class="flex items-center space-x-2">
@@ -375,13 +660,21 @@
     <div id="modal-change-password" class="fixed inset-0 bg-slate-900/80 z-[90] hidden flex-col items-center justify-center p-4 backdrop-blur-sm"><div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm flex flex-col overflow-hidden"><div class="bg-gray-50 px-8 py-5 border-b border-gray-200 flex justify-between items-center"><h2 class="text-lg font-black text-gray-900 uppercase tracking-widest">Mudar Palavra-Passe</h2><button onclick="fecharMudarPassword()" class="text-gray-400 hover:text-red-500 bg-white rounded-full p-2 border border-gray-100 shadow-sm transition-colors"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button></div><form onsubmit="guardarNovaPassword(event)" class="p-8 flex flex-col space-y-5"><div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest uppercase">Nova Palavra-Passe</label><input type="password" id="new-password" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="••••••••"></div><div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest uppercase">Confirmar Palavra-Passe</label><input type="password" id="confirm-password" required class="w-full border-2 border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-bmw focus:bg-blue-50/20 transition-colors" placeholder="••••••••"></div><button type="submit" class="w-full bg-bmw hover:bg-blue-800 text-white font-bold py-3.5 rounded-xl shadow-md transition-colors uppercase tracking-widest text-sm mt-2">Atualizar</button></form></div></div>
 
     <script>
+        // ── CONFIGURAÇÃO GLOBAL E LIGAÇÃO (PARQUE + SPECS) ─────────────────────
         const supabaseUrl = 'https://yifxgiwmibjaornighvt.supabase.co'; 
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpZnhnaXdtaWJqYW9ybmlnaHZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NjMxNTgsImV4cCI6MjA4NzQzOTE1OH0.XXG4TypXvwhB8EFW63zfBXq4fn03dJ4g73ty9Tzco90';
         let supabaseClient = null;
+
+        const SPEC_SUPABASE_URL = 'https://lhznwlfovoifvoxruqcj.supabase.co';
+        const SPEC_SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxoem53bGZvdm9pZnZveHJ1cWNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY5MTkzMDQsImV4cCI6MjA5MjQ5NTMwNH0.3rJYpsuFic-2Hd88ce-8f5DCZgwM5zCfYKt_gKOzhio';
+        let sb = null;
         
         try { 
             if(supabaseUrl && !supabaseUrl.includes('COLA_AQUI')) {
                 supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey); 
+            }
+            if(SPEC_SUPABASE_URL && !SPEC_SUPABASE_URL.includes('COLA_AQUI')) {
+                sb = window.supabase.createClient(SPEC_SUPABASE_URL, SPEC_SUPABASE_KEY);
             }
         } catch(e) { console.error("Erro Supabase", e); }
 
@@ -390,7 +683,6 @@
         let inventario = []; let utilizadoresDb = []; let historicoDb = []; let currentUser = null; 
         let currentSortCol = null; let currentSortAsc = true;
 
-        // FUNÇÕES ANTI-FALHAS
         function getArr(v) {
             if(!v) return [];
             if(Array.isArray(v)) return v;
@@ -416,10 +708,11 @@
             return perms.includes('Todas') || perms.includes(val);
         }
 
-        // ARRANQUE SEGURO
         window.onload = async () => { 
             mudarTab('parque'); 
             await inicializarDados(); 
+            // Iniciar a Calculadora
+            setTimeout(calcAtualizar, 100);
         };
 
         async function inicializarDados() {
@@ -446,7 +739,7 @@
             if (window.innerWidth < 768) mudarVista('cartoes'); else mudarVista('tabela');
         }
 
-        // SISTEMA DE LOGIN
+        // ── SISTEMA DE LOGIN ──────────────────────────────────────────────────
         function abrirLogin() { 
             document.getElementById('modal-login').classList.remove('hidden'); 
             document.getElementById('modal-login').classList.add('flex'); 
@@ -465,12 +758,18 @@
             document.getElementById('modal-login').classList.remove('flex'); 
         }
         
-        function fazerLogin(e) {
+        async function fazerLogin(e) {
             e.preventDefault(); 
             try {
                 const email = document.getElementById('login-email').value.trim().toLowerCase(); const pass = document.getElementById('login-password').value.trim();
                 const user = utilizadoresDb.find(u => (u.email || '').toLowerCase() === email && String(u.password || '').trim() === pass);
-                if(user) { currentUser = user; document.getElementById('login-password').value = ''; atualizarAcessos(); registarHistorico('acesso', 'LOGIN', user.id, { nome: user.nome, email: user.email }); } 
+                if(user) { 
+                    currentUser = user; 
+                    document.getElementById('login-password').value = ''; 
+                    atualizarAcessos(); 
+                    registarHistorico('acesso', 'LOGIN', user.id, { nome: user.nome, email: user.email }); 
+                    await inicializarSpecs(); // Carrega as especificações quando entra na plataforma
+                } 
                 else { alert("Acesso Negado: Email ou Palavra-passe incorretos."); }
             } catch(err) { alert("Erro de sistema no login."); }
         }
@@ -549,14 +848,31 @@
             if(currentUser.perfil === 'Administrador') renderizarListaUtilizadores();
         }
 
+        // ── NAVEGAÇÃO ENTRE ABAS ──────────────────────────────────────────────
         function mudarTab(t) { 
             if ((t === 'utilizadores' || t === 'historico' || t === 'admin-vn') && (!currentUser || currentUser.perfil === 'Vendedor')) { alert("Acesso Restrito: Por favor, inicie sessão na Área Reservada."); return; }
-            document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active')); const tgt = document.getElementById('conteudo-'+t); if(tgt) tgt.classList.add('active'); 
-            document.querySelectorAll('.nav-tab').forEach(b=>{ b.classList.remove('border-bmw','text-bmw'); b.classList.add('border-transparent','text-gray-400'); }); 
-            const bT = document.getElementById('tab-'+t); if(bT){ bT.classList.add('border-bmw','text-bmw'); bT.classList.remove('border-transparent','text-gray-400'); }
+            
+            document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active')); 
+            const tgt = document.getElementById('conteudo-'+t); 
+            if(tgt) tgt.classList.add('active'); 
+            
+            document.querySelectorAll('.nav-tab').forEach(b=>{ 
+                b.classList.remove('border-bmw','text-bmw'); 
+                b.classList.add('border-transparent','text-gray-400'); 
+            }); 
+            const bT = document.getElementById('tab-'+t); 
+            if(bT){ 
+                bT.classList.add('border-bmw','text-bmw'); 
+                bT.classList.remove('border-transparent','text-gray-400'); 
+            }
+            
+            // Lógicas específicas de abas
             if(t === 'historico') carregarHistorico();
+            if(t === 'opcionais' && opTodosModelos.length === 0) opCarregarModelos();
+            if(t === 'bev' && bevModelos.length === 0) bevCarregarModelos();
         }
 
+        // ── LÓGICA DO PARQUE (Tabela, Cartões, Filtros) ───────────────────────
         function mudarVista(v) { 
             document.getElementById('vista-tabela').style.display = v==='tabela'?'block':'none'; document.getElementById('vista-cartoes').style.display = v==='cartoes'?'grid':'none'; 
             const btnT = document.getElementById('btn-vista-tabela'); const btnC = document.getElementById('btn-vista-cartoes');
@@ -564,7 +880,6 @@
             else { btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all"; btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent border border-transparent hover:bg-gray-200"; }
         }
 
-        // ORDENAÇÃO E RESERVAS
         function ordenarTabela(col) { if (currentSortCol === col) currentSortAsc = !currentSortAsc; else { currentSortCol = col; currentSortAsc = true; } aplicarFiltros(); }
         function isReservado(carro) { if(!carro || !carro.reserva_expira) return false; return new Date(carro.reserva_expira) > new Date(); }
 
@@ -583,7 +898,6 @@
             alert("Reserva cancelada."); fecharDetalheViatura(); aplicarFiltros(); 
         }
 
-        // MATEMÁTICA E TABELA
         const taxa_iva = 0.23;
         function strParaNumero(str) { let val = (str||"").toString().replace(/\s/g, '').replace(/\./g, '').replace(',', '.'); return parseFloat(val) || 0; }
         function numeroParaStr(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
@@ -624,9 +938,9 @@
         function initModeloFiltros() { 
             try { 
                 const c = document.getElementById('filtro-modelo-container'); 
-                c.innerHTML = `<button onclick="setFiltro('modelo','Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">Todos</button>`; 
+                c.innerHTML = `<button onclick="setFiltro('modelo','Todos')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-bmw text-white border-bmw">Todos</button>`; 
                 [...new Set(inventario.map(x=>x.modelo || "N/A"))].sort().forEach(m => { 
-                    if(m !== "N/A") c.innerHTML += `<button onclick="setFiltro('modelo','${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">${m}</button>`; 
+                    if(m !== "N/A") c.innerHTML += `<button onclick="setFiltro('modelo','${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">${m}</button>`; 
                 }); 
             } catch(e) {}
         }
@@ -634,12 +948,13 @@
         function setFiltro(tipo, valor) { 
             filtros[tipo] = valor; 
             Array.from(document.getElementById(`filtro-${tipo}-container`).children).forEach(btn => { 
-                if(btn.innerText.trim() === valor || (valor === 'Todas' && btn.innerText.trim() === 'Todas') || (valor === 'Todos' && btn.innerText.trim() === 'Todos')) { 
-                    btn.classList.add('active'); 
-                    btn.classList.remove('bg-white', 'text-gray-600'); 
+                const txt = btn.innerText.trim();
+                if(txt === valor || (valor === 'Todas' && txt === 'Todas') || (valor === 'Todos' && txt === 'Todos')) { 
+                    btn.classList.add('bg-bmw', 'text-white', 'border-bmw'); 
+                    btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200', 'active'); 
                 } else { 
-                    btn.classList.remove('active'); 
-                    btn.classList.add('bg-white', 'text-gray-600'); 
+                    btn.classList.remove('bg-bmw', 'text-white', 'border-bmw', 'active'); 
+                    btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200'); 
                 } 
             }); 
             aplicarFiltros(); 
@@ -769,7 +1084,7 @@
             }).join('');
         }
 
-        // --- BOT DE INTELIGÊNCIA ARTIFICIAL ---
+        // ── BOT DE INTELIGÊNCIA ARTIFICIAL ────────────────────────────────────
         function toggleChat() { const cw = document.getElementById('chat-window'); if(cw.classList.contains('opacity-0')) { cw.classList.remove('opacity-0', 'scale-95', 'pointer-events-none'); document.getElementById('chat-input').focus(); } else { cw.classList.add('opacity-0', 'scale-95', 'pointer-events-none'); } }
         function enviarMensagemChat() {
             const inp = document.getElementById('chat-input'); const txt = inp.value.trim(); if(!txt) return; const msgs = document.getElementById('chat-messages');
@@ -799,7 +1114,7 @@
             return htmlResp;
         }
 
-        // --- GESTÃO VN E ADMIN ---
+        // ── GESTÃO VN E ADMIN ─────────────────────────────────────────────────
         let editCarroTipologia = []; let editCarroLocal = []; let filtroLocalAdmin = 'Todas';
         
         function setFiltroLocalAdmin(val) { 
@@ -914,7 +1229,7 @@
             const btn = document.getElementById('btn-gravar-db'); btn.innerHTML = "Sucesso!"; btn.classList.replace('bg-bmw', 'bg-green-500'); setTimeout(() => { btn.innerHTML = "Gravar"; btn.classList.replace('bg-green-500', 'bg-bmw'); }, 2000);
         }
 
-        // --- GESTÃO DE UTILIZADORES ---
+        // ── GESTÃO DE UTILIZADORES ────────────────────────────────────────────
         let uPerf="", uLoc=[];
         function renderizarListaUtilizadores() { document.getElementById('lista-utilizadores').innerHTML = utilizadoresDb.map(u => `<button onclick="editarUtilizador(${u.id})" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white mb-2 shadow-sm hover:border-bmw transition-colors"><div class="font-black text-sm">${u.nome}</div><div class="text-[10px] text-gray-400 mt-1 uppercase">${u.perfil}</div></button>`).join(''); }
         function prepararNovoUtilizador() { document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('form-user').reset(); document.getElementById('user-id').value=""; uPerf=""; uLoc=[]; atualizarBtnsU(); document.getElementById('btn-remover-user').classList.add('hidden'); }
@@ -984,6 +1299,492 @@
                 }).join('');
             } catch(e) {}
         }
+
+        // ════════════════════════════════════════════════════════════════════════════════
+        // MÓDULOS DE ESPECIFICAÇÕES (DADOS TÉCNICOS, OPCIONAIS, BEV E CALCULADORA)
+        // ════════════════════════════════════════════════════════════════════════════════
+        
+        const SERIES = [
+            { label: '1', match: n => /série 1|series 1|\bm135\b|\bm140\b/i.test(n) },
+            { label: '2', match: n => /série 2|series 2|\bm2\b/i.test(n) },
+            { label: '3', match: n => /série 3|series 3|\bm3\b/i.test(n) },
+            { label: '4', match: n => /série 4|series 4|\bm4\b|\bi4\b/i.test(n) },
+            { label: '5', match: n => /série 5|series 5|\bm5\b/i.test(n) },
+            { label: '7', match: n => /série 7|series 7/i.test(n) },
+            { label: 'X', match: n => /\bx1\b|\bx2\b|\bx3\b|\bx4\b|\bx5\b|\bx6\b|\bx7\b|\bxm\b|\bix\b|\bix3\b|\bix1\b|\bix2\b/i.test(n) },
+            { label: 'Z', match: n => /\bz4\b/i.test(n) },
+        ];
+
+        function getSerie(nome) {
+            for (const s of SERIES) { if (s.match(nome)) return s.label; }
+            return 'Outros';
+        }
+
+        let todosModelos = [], serieAtiva = null, modeloAtivo = null;
+        let motorizacoesDoModelo = [], motSelecionadas = [], specsCache = {};
+
+        async function inicializarSpecs() {
+            if(!sb) return;
+            const { data, error } = await sb.from('modelos').select('id, codigo, nome').order('nome');
+            if (error) { mostrarErro(error.message); return; }
+            todosModelos = data || [];
+            document.getElementById('loading-state')?.classList.add('hidden');
+            renderizarSeries(todosModelos);
+        }
+
+        function renderizarSeries(modelos) {
+            const seriesPresentes = new Set(modelos.map(m => getSerie(m.nome)));
+            const ordemSeries = ['1','2','3','4','5','7','X','Z','Outros'];
+            const cont = document.getElementById('filtro-series');
+            if(!cont) return;
+
+            let html = '';
+            ordemSeries.forEach(s => {
+                if (!seriesPresentes.has(s)) return;
+                const isActive = serieAtiva === s;
+                html += `<button class="serie-btn px-4 sm:px-6 py-2 rounded-md text-sm ${isActive ? 'active' : ''}" onclick="selecionarSerie('${s}')">${s}</button>`;
+            });
+            html += `<button class="serie-btn px-4 sm:px-6 py-2 rounded-md text-sm ${serieAtiva === 'Todos' ? 'active' : ''}" onclick="selecionarSerie('Todos')">Todos</button>`;
+            cont.innerHTML = html;
+        }
+
+        function selecionarSerie(serie) {
+            serieAtiva = serie; modeloAtivo = null; motSelecionadas = []; specsCache = {};
+            renderizarSeries(todosModelos);
+
+            const modelosDaSerie = serie === 'Todos' ? todosModelos : todosModelos.filter(m => getSerie(m.nome) === serie);
+            const wrap = document.getElementById('filtro-modelos-wrap');
+            const cont = document.getElementById('filtro-modelos');
+
+            if (modelosDaSerie.length > 0) {
+                cont.innerHTML = modelosDaSerie.map(m => `<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="mbtn-${m.id}" onclick="selecionarModelo('${m.id}', '${escapar(m.nome)}')">${m.nome}</button>`).join('');
+                wrap.classList.remove('hidden');
+            } else {
+                wrap.classList.add('hidden');
+            }
+
+            document.getElementById('passo-motorizacao').classList.add('hidden');
+            document.getElementById('passo-specs').classList.add('hidden');
+            document.getElementById('compare-bar').classList.add('hidden');
+        }
+
+        async function selecionarModelo(id, nome) {
+            modeloAtivo = { id, nome }; motSelecionadas = []; specsCache = {};
+            document.querySelectorAll('.modelo-btn').forEach(b => b.classList.remove('active'));
+            const btn = document.getElementById('mbtn-' + id);
+            if (btn) btn.classList.add('active');
+
+            document.getElementById('modelo-label').innerText = nome;
+            const passeMot = document.getElementById('passo-motorizacao');
+            passeMot.classList.remove('hidden');
+            document.getElementById('grid-motorizacoes').innerHTML = `<div class="shimmer h-9 w-24 rounded-full"></div><div class="shimmer h-9 w-32 rounded-full"></div><div class="shimmer h-9 w-20 rounded-full"></div>`;
+            document.getElementById('passo-specs').classList.add('hidden');
+            document.getElementById('compare-bar').classList.add('hidden');
+
+            const { data, error } = await sb.from('motorizacoes').select('id, codigo, nome_visual').eq('modelo_id', id).order('codigo');
+            if (error) { mostrarErro(error.message); return; }
+            motorizacoesDoModelo = data || [];
+            renderizarPills();
+            passeMot.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function renderizarPills() {
+            document.getElementById('grid-motorizacoes').innerHTML = motorizacoesDoModelo.map(m => {
+                const sel = motSelecionadas.includes(m.id);
+                return `<button class="mot-pill rounded-full px-4 py-2 text-xs font-bold shadow-sm ${sel ? 'active' : ''}" onclick="toggleMot('${m.id}')">${m.nome_visual || m.codigo}</button>`;
+            }).join('');
+        }
+
+        async function toggleMot(id) {
+            if (motSelecionadas.includes(id)) {
+                motSelecionadas = motSelecionadas.filter(x => x !== id);
+            } else {
+                if (motSelecionadas.length >= 4) { alert('Máximo de 4 motorizações para comparar.'); return; }
+                motSelecionadas.push(id);
+                if (!specsCache[id]) await carregarSpecs(id);
+            }
+            renderizarPills();
+            renderizarTabela();
+            atualizarCompareBar();
+        }
+
+        async function carregarSpecs(motId) {
+            const { data } = await sb.from('especificacoes').select('chave, valor').eq('motorizacao_id', motId);
+            if (data) {
+                specsCache[motId] = {};
+                data.forEach(r => { specsCache[motId][r.chave] = r.valor; });
+            }
+        }
+
+        function renderizarTabela() {
+            const passo = document.getElementById('passo-specs');
+            if (motSelecionadas.length === 0) { passo.classList.add('hidden'); return; }
+            passo.classList.remove('hidden');
+
+            const motsInfo = motSelecionadas.map(id => motorizacoesDoModelo.find(m => m.id === id) || { id, nome_visual: id, codigo: id });
+            const todasChaves = [];
+            motSelecionadas.forEach(id => {
+                if (specsCache[id]) Object.keys(specsCache[id]).forEach(k => { if (!todasChaves.includes(k)) todasChaves.push(k); });
+            });
+
+            const colW = Math.floor(58 / motsInfo.length);
+
+            document.getElementById('tabela-thead').innerHTML = `<tr class="border-b-2 border-gray-100"><th class="px-4 sm:px-5 py-4 text-left text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 sticky left-0 z-10" style="width:42%">Especificação</th>${motsInfo.map(m => `<th class="px-3 sm:px-5 py-4 text-left bg-gray-50 border-l border-gray-100" style="width:${colW}%"><p class="text-xs font-black text-bmw leading-tight">${m.nome_visual || m.codigo}</p><p class="text-[10px] text-gray-400 font-mono mt-0.5">${m.codigo}</p></th>`).join('')}</tr>`;
+
+            if (todasChaves.length === 0) {
+                document.getElementById('tabela-tbody').innerHTML = `<tr><td colspan="${1 + motsInfo.length}" class="text-center text-sm text-gray-400 py-12">Sem especificações.</td></tr>`;
+                return;
+            }
+
+            document.getElementById('tabela-tbody').innerHTML = todasChaves.map((chave, i) => {
+                const valores = motsInfo.map(m => { return specsCache[m.id]?.[chave] ?? '—'; });
+                const todosIguais = valores.every(v => v === valores[0]);
+                return `<tr class="spec-row border-b border-gray-100"><td class="px-4 sm:px-5 py-3 text-xs font-medium text-gray-600 leading-snug sticky left-0 bg-inherit">${chave}</td>${valores.map(v => `<td class="px-3 sm:px-5 py-3 text-xs font-bold border-l border-gray-100 leading-snug ${v === '—' ? 'text-gray-300' : (!todosIguais ? 'text-bmw' : 'text-gray-800')}">${v}</td>`).join('')}</tr>`;
+            }).join('');
+
+            passo.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function pesquisar() {
+            const q = document.getElementById('pesquisa').value.toLowerCase().trim();
+            const wrap = document.getElementById('filtro-modelos-wrap');
+            const cont = document.getElementById('filtro-modelos');
+
+            if (!q) { wrap.classList.add('hidden'); serieAtiva = null; renderizarSeries(todosModelos); return; }
+            const filtrados = todosModelos.filter(m => m.nome.toLowerCase().includes(q) || m.codigo.toLowerCase().includes(q));
+            serieAtiva = null; renderizarSeries(todosModelos);
+
+            if (filtrados.length === 0) {
+                cont.innerHTML = '<p class="text-xs text-gray-400 font-bold py-2">Nenhum modelo encontrado.</p>';
+            } else {
+                cont.innerHTML = filtrados.map(m => `<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="mbtn-${m.id}" onclick="selecionarModelo('${m.id}', '${escapar(m.nome)}')">${m.nome}</button>`).join('');
+            }
+            wrap.classList.remove('hidden');
+        }
+
+        function atualizarCompareBar() {
+            const bar = document.getElementById('compare-bar');
+            if (motSelecionadas.length > 0) {
+                bar.classList.remove('hidden');
+                document.getElementById('compare-bar-label').innerText = motSelecionadas.map(id => motorizacoesDoModelo.find(m => m.id === id)?.nome_visual || id).join(' · ');
+            } else {
+                bar.classList.add('hidden');
+            }
+        }
+
+        function scrollParaTabela() { document.getElementById('passo-specs')?.scrollIntoView({ behavior: 'smooth' }); }
+        function limparTudo() { motSelecionadas = []; specsCache = {}; renderizarPills(); renderizarTabela(); atualizarCompareBar(); }
+        function mostrarErro(msg) { document.getElementById('loading-state')?.classList.add('hidden'); const el = document.getElementById('error-state'); el.classList.remove('hidden'); el.innerText = '⚠️ ' + msg; }
+        function escapar(s) { return (s||'').replace(/'/g, "\\'"); }
+
+        // ── TAB OPCIONAIS ─────────────────────────────────────────────────────
+        let opTodosModelos=[], opSerieAtiva=null, opModeloAtivo=null, opMotAtiva=null;
+        let opTodasMots=[], opTodosOpcionais=[], opSecaoAtiva='Todas';
+
+        const OP_SERIES=[
+            {label:'1',fn:n=>/série 1|series 1|m135|m140/i.test(n)},
+            {label:'2',fn:n=>/série 2|series 2|\bm2\b/i.test(n)},
+            {label:'3',fn:n=>/série 3|series 3|\bm3\b/i.test(n)},
+            {label:'4',fn:n=>/série 4|series 4|\bm4\b|\bi4\b/i.test(n)},
+            {label:'5',fn:n=>/série 5|series 5|\bm5\b/i.test(n)},
+            {label:'7',fn:n=>/série 7|series 7/i.test(n)},
+            {label:'X',fn:n=>/\bx1\b|\bx2\b|\bx3\b|\bx4\b|\bx5\b|\bx6\b|\bx7\b|\bxm\b|\bix\b|\bix3\b/i.test(n)},
+            {label:'Z',fn:n=>/\bz4\b/i.test(n)},
+        ];
+        function opGetSerie(n){for(const s of OP_SERIES)if(s.fn(n))return s.label;return 'Outros';}
+
+        async function opCarregarModelos(){
+            if(!sb) return;
+            const{data}=await sb.from('op_modelos').select('id,codigo,nome').order('nome');
+            opTodosModelos=data||[];
+            opRenderSeries();
+        }
+        function opRenderSeries(lista){
+            lista=lista||opTodosModelos;
+            const p=new Set(lista.map(m=>opGetSerie(m.nome)));
+            const ord=['1','2','3','4','5','7','X','Z','Outros'];
+            document.getElementById('op-filtro-series').innerHTML=
+                ord.filter(s=>p.has(s)).map(s=>`<button class="serie-btn px-5 py-2 rounded-md text-sm ${opSerieAtiva===s?'active':''}" onclick="opClicarSerie('${s}')">${s}</button>`).join('');
+        }
+        function opClicarSerie(serie){
+            opSerieAtiva=serie; opModeloAtivo=null; opMotAtiva=null;
+            opRenderSeries();
+            const modelos=opTodosModelos.filter(m=>opGetSerie(m.nome)===serie);
+            document.getElementById('op-filtro-modelos').innerHTML=modelos.map(m=>`<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="op-mb-${m.id}" onclick="opClicarModelo('${m.id}','${escapar(m.nome)}')">${m.nome}</button>`).join('');
+            document.getElementById('op-filtro-modelos-wrap').classList.remove('hidden');
+            document.getElementById('op-passo-mot').classList.add('hidden');
+            document.getElementById('op-passo-lista').classList.add('hidden');
+        }
+        async function opClicarModelo(id,nome){
+            opModeloAtivo={id,nome}; opMotAtiva=null;
+            document.querySelectorAll('[id^="op-mb-"]').forEach(b=>b.classList.remove('active'));
+            document.getElementById('op-mb-'+id)?.classList.add('active');
+            document.getElementById('op-modelo-label').innerText=nome;
+            document.getElementById('op-grid-mots').innerHTML='<span class="text-xs text-gray-400">A carregar...</span>';
+            document.getElementById('op-passo-mot').classList.remove('hidden');
+            document.getElementById('op-passo-lista').classList.add('hidden');
+            const{data}=await sb.from('op_motorizacoes').select('id,nome').eq('modelo_id',id).order('col_index');
+            opTodasMots=(data||[]).filter(m=>!m.nome.includes('Recomendado')&&!m.nome.includes('IVA')&&!m.nome.includes('PVP')&&m.nome.trim()!=='');
+            opRenderMots();
+        }
+        function opRenderMots(){
+            document.getElementById('op-grid-mots').innerHTML=opTodasMots.map(m=>`<button class="mot-pill rounded-full px-4 py-2 text-xs font-bold ${opMotAtiva===m.id?'active':''}" onclick="opClicarMot('${m.id}','${escapar(m.nome)}')">${m.nome}</button>`).join('');
+        }
+        async function opClicarMot(id,nome){
+            opMotAtiva=id; opRenderMots();
+            document.getElementById('op-passo-lista').classList.remove('hidden');
+            document.getElementById('op-lista').innerHTML='<p class="text-xs text-gray-400 py-4 text-center">A carregar opcionais...</p>';
+            let allData=[],from=0;
+            while(true){
+                const{data}=await sb.from('op_disponibilidade').select('tipo,op_opcionais(id,codigo,nome,preco_iva,preco_siva,descricao,regras,op_secoes(nome))').eq('motorizacao_id',id).range(from,from+999);
+                if(!data||data.length===0)break;
+                allData=allData.concat(data);
+                if(data.length<1000)break;
+                from+=1000;
+            }
+            opTodosOpcionais=allData.map(d=>({...d.op_opcionais,secao:d.op_opcionais?.op_secoes?.nome||'Outros',tipo:d.tipo}));
+            opSecaoAtiva='Todas'; opRenderSecoes(); opRenderLista();
+        }
+        function opRenderSecoes(){
+            const raw=[...new Set(opTodosOpcionais.map(o=>o.secao).filter(Boolean))];
+            raw.sort((a,b)=>{const na=parseFloat(a.match(/^[\d.]+/)?.[0]||'999'),nb=parseFloat(b.match(/^[\d.]+/)?.[0]||'999');return na-nb;});
+            const secoes=['Todas',...raw];
+            document.getElementById('op-filtro-secoes').innerHTML=secoes.map(s=>`<button class="serie-btn px-4 py-1.5 rounded-md text-xs ${opSecaoAtiva===s?'active':''}" onclick="opFiltrarSecao('${escapar(s)}')">${s}</button>`).join('');
+        }
+        function opFiltrarSecao(secao){opSecaoAtiva=secao;opRenderSecoes();opRenderLista();}
+        function opRenderLista(){
+            const lista=opSecaoAtiva==='Todas'?opTodosOpcionais:opTodosOpcionais.filter(o=>o.secao===opSecaoAtiva);
+            if(lista.length===0){document.getElementById('op-lista').innerHTML='<p class="text-xs text-gray-400 py-8 text-center font-bold">Nenhum opcional encontrado.</p>';return;}
+            const badge=tipo=>tipo==='serie'?'<span class="px-2 py-0.5 rounded-full text-xs font-black bg-gray-800 text-white">◼ Série</span>':tipo==='opcional'?'<span class="px-2 py-0.5 rounded-full text-xs font-black bg-blue-100 text-bmw border border-blue-200">◻ Opcional</span>':'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-gray-100 text-gray-400">N/D</span>';
+            document.getElementById('op-lista').innerHTML=lista.map(o=>
+                `<div class="bg-white border border-gray-200 rounded-xl px-4 py-3 flex items-center justify-between gap-3 cursor-pointer hover:border-bmw hover:shadow-sm transition-all" onclick="opAbrirModal('${o.id}')">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 mb-0.5 flex-wrap"><span class="text-xs font-black text-bmw font-mono">${o.codigo}</span>${badge(o.tipo)}${o.preco_iva>0?`<span class="text-xs font-bold text-gray-600">${Number(o.preco_iva).toLocaleString('pt-PT',{minimumFractionDigits:2})} €</span>`:(o.preco_iva===0?'<span class="text-xs font-bold text-green-600">Grátis</span>':'')}</div>
+                        <p class="text-sm font-bold text-gray-800 truncate">${o.nome}</p>
+                        ${o.secao?`<p class="text-xs text-gray-400 mt-0.5">${o.secao}</p>`:''}
+                    </div>
+                    <svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </div>`
+            ).join('');
+        }
+        async function opAbrirModal(id){
+            const op=opTodosOpcionais.find(o=>o.id===id);if(!op)return;
+            const{data:dispData}=await sb.from('op_disponibilidade').select('tipo,op_motorizacoes(nome)').eq('opcional_id',id);
+            document.getElementById('op-modal-codigo').innerText=op.codigo;
+            document.getElementById('op-modal-nome').innerText=op.nome;
+            const pw=document.getElementById('op-modal-preco-wrap');
+            if(op.preco_iva!==null&&op.preco_iva!==undefined){pw.classList.remove('hidden');document.getElementById('op-modal-preco-iva').innerText=op.preco_iva===0?'Grátis (série)':Number(op.preco_iva).toLocaleString('pt-PT',{minimumFractionDigits:2})+' €';document.getElementById('op-modal-preco-siva').innerText=op.preco_siva?Number(op.preco_siva).toLocaleString('pt-PT',{minimumFractionDigits:2})+' €':'';}else{pw.classList.add('hidden');}
+            document.getElementById('op-modal-disponib').innerHTML=(dispData||[]).map(d=>{const t=d.tipo,n=d.op_motorizacoes?.nome||'';const cls=t==='serie'?'bg-gray-800 text-white':t==='opcional'?'bg-blue-100 text-bmw border border-blue-200':'bg-gray-100 text-gray-400';const sym=t==='serie'?'◼':t==='opcional'?'◻':'—';return`<div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg ${cls}"><span class="text-xs font-black">${sym}</span><span class="text-xs font-bold">${n}</span></div>`;}).join('')||'<p class="text-xs text-gray-400">Sem dados.</p>';
+            const dw=document.getElementById('op-modal-desc-wrap');op.descricao?(dw.classList.remove('hidden'),document.getElementById('op-modal-desc').innerText=op.descricao):dw.classList.add('hidden');
+            const rw=document.getElementById('op-modal-regras-wrap');op.regras?(rw.classList.remove('hidden'),document.getElementById('op-modal-regras').innerText=op.regras):rw.classList.add('hidden');
+            document.body.classList.add('overflow-hidden');
+            document.getElementById('op-modal').classList.remove('hidden');document.getElementById('op-modal').classList.add('flex');
+        }
+        function opFecharModal(){document.body.classList.remove('overflow-hidden');document.getElementById('op-modal').classList.add('hidden');document.getElementById('op-modal').classList.remove('flex');}
+        function opLimpar(){opMotAtiva=null;opRenderMots();document.getElementById('op-passo-lista').classList.add('hidden');}
+        function opPesquisar(){
+            const q=document.getElementById('op-pesquisa').value.toLowerCase().trim();
+            if(!q){document.getElementById('op-filtro-modelos-wrap').classList.add('hidden');opSerieAtiva=null;opRenderSeries();return;}
+            const f=opTodosModelos.filter(m=>m.nome.toLowerCase().includes(q)||m.codigo.toLowerCase().includes(q));
+            opSerieAtiva=null;opRenderSeries();
+            document.getElementById('op-filtro-modelos').innerHTML=f.length===0?'<p class="text-xs text-gray-400">Nenhum resultado.</p>':f.map(m=>`<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="op-mb-${m.id}" onclick="opClicarModelo('${m.id}','${escapar(m.nome)}')">${m.nome}</button>`).join('');
+            document.getElementById('op-filtro-modelos-wrap').classList.remove('hidden');
+        }
+
+        // ── TAB COMPARADOR BEV ────────────────────────────────────────────────
+        let bevModelos=[], bevSlots=[null,null,null,null];
+
+        const BEV_CHAVES = [
+            {label:'Código Modelo',          key:'Código Modelo'},
+            {label:'Potência (cv)',           keys:['Potência combinada comunicada, cv','Potência do sistema motor (acumulado), cv','Potência do sistema motor (acumulado) 30 min, cv']},
+            {label:'0-100 km/h (seg)',        keys:['0-100 km/h, seg.','0-100Km/h, seg.','0-100 km/h (arranque 1-ft), s']},
+            {label:'Velocidade Máxima (km/h)',keys:['Velocidade máxima, km/h','Velocidade máxima em modo puramente elétrico, km/h','Velocidade Máxima']},
+            {label:'Tração',                  keys:['Tração','Tracção']},
+            {label:'Autonomia (km)',          keys:['Autonomia (km)','Autonomia WLTP (km)','Alcance/Autonomia (WLTP), km','Alcance (WLTP), km']},
+            {label:'Consumo (kWh/100km)',     keys:['Consumo (kWh/100km)','Consumo combinado de energia (WLTP), kWh/100 km','Consumo de energia combinado (WLTP), kWh/100 km']},
+            {label:'Bateria líquida (kWh)',   keys:['Capacidade líquida da bateria de alta tensão, kWh']},
+            {label:'Bateria bruta (kWh)',     keys:['Bateria de Alta Tensão - Capacidade energética (bruta), kWh']},
+            {label:'Carga DC máx (kW)',       keys:['Potência máxima de carregamento DC, kW','Capacidade maxima de carga DC, kW']},
+            {label:'Carga AC série (kW)',     keys:['Capacidade maxima de carga AC standard, kW']},
+            {label:'Carga AC opcional (kW)',  keys:['Capacidade maxima de carga AC alta, kW','Capacidade maxima de carga AC alta (opcional), kW']},
+            {label:'0-100% AC 1',             keys:['Tempo de carregamento AC 1 (0-100%), h']},
+            {label:'0-100% AC 2',             keys:['Tempo de carregamento AC 2 (0-100%), h']},
+            {label:'0-100% AC 3',             keys:['Tempo de carregamento AC 3 (0-100%), h']},
+            {label:'0-100% AC 4',             keys:['Tempo de carregamento AC 4 (0-100%), h']},
+            {label:'10-80% DC 1',             keys:['Tempo de carregamento DC 1 (10-80%), h']},
+            {label:'10-80% DC 2',             keys:['Tempo de carregamento DC 2 (10-80%), h']},
+            {label:'10-80% DC 3',             keys:['Tempo de carregamento DC 3 (10-80%), h']},
+            {label:'10-80% DC 4',             keys:['Tempo de carregamento DC 4 (10-80%), h']},
+        ];
+
+        async function bevCarregarModelos(){
+            if(!sb) return;
+            const{data}=await sb.from('modelos').select('id,codigo,nome').order('nome');
+            bevModelos=(data||[]).filter(m=>/\bi4\b|\bix\b|\bix3\b|\bx1\b.*elé|\bx2\b.*elé|elétric|100%|bev/i.test(m.nome)||
+                /^BMW i|\bi4|\biX|\biX3/i.test(m.nome)||
+                ['G26BEV','NA5','I20'].some(c=>m.codigo.toUpperCase()===c));
+            if(bevModelos.length===0){
+                const{data:specData}=await sb.from('especificacoes').select('motorizacao_id').eq('chave','Capacidade líquida da bateria de alta tensão, kWh').limit(100);
+                if(specData&&specData.length>0){ bevModelos=(data||[]); }
+            }
+            bevRenderSlots();
+        }
+
+        function bevRenderSlots(){
+            document.getElementById('bev-slots').innerHTML=bevSlots.map((slot,i)=>{
+                if(!slot) return `<div class="bg-white border-2 border-dashed border-gray-200 rounded-xl p-4 flex flex-col items-center justify-center min-h-36 gap-2 cursor-pointer hover:border-green-400 transition-colors" onclick="bevAbrirModal(${i})"><div class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-300 text-2xl">+</div><p class="text-xs font-bold text-gray-400 uppercase text-center">Adicionar BEV</p></div>`;
+                if(!slot.motId) return `<div class="bg-white border-2 border-green-300 rounded-xl p-4 flex flex-col min-h-36 gap-2"><div class="flex justify-between"><p class="text-xs font-black text-gray-800 flex-1">${slot.modeloNome}</p><button onclick="bevLimparSlot(${i})" class="text-gray-300 hover:text-red-400 ml-1">✕</button></div><p class="text-xs font-bold text-gray-400 uppercase mt-1">Escolha a motorização:</p><div class="flex flex-col gap-1 overflow-y-auto no-scrollbar flex-1 mt-1" id="bev-slot-mots-${i}"><p class="text-xs text-gray-400">A carregar...</p></div></div>`;
+                return `<div class="bg-white border-2 border-green-500 rounded-xl p-4 flex flex-col min-h-36 gap-2"><div class="flex justify-between"><div class="flex-1"><p class="text-xs font-black text-gray-800">${slot.modeloNome}</p><p class="text-xs font-bold text-green-600 mt-1">${slot.motNome}</p></div><button onclick="bevLimparSlot(${i})" class="text-gray-300 hover:text-red-400 ml-1">✕</button></div><div class="mt-auto flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span><span class="text-xs font-bold text-green-600 uppercase">Pronto</span></div></div>`;
+            }).join('');
+            bevSlots.forEach((s,i)=>{if(s&&!s.motId)bevCarregarMotsSlot(i,s.modeloId);});
+            bevRenderTabela();
+        }
+
+        async function bevCarregarMotsSlot(i,modeloId){
+            const{data}=await sb.from('motorizacoes').select('id,codigo,nome_visual').eq('modelo_id',modeloId).order('codigo');
+            const cont=document.getElementById('bev-slot-mots-'+i);if(!cont)return;
+            cont.innerHTML=(data||[]).map(m=>`<button class="text-left px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-bold text-gray-700 hover:border-green-400 hover:text-green-600 transition-colors" onclick="bevEscolherMot(${i},'${m.id}','${escapar(m.nome_visual||m.codigo)}')">${m.nome_visual||m.codigo}</button>`).join('');
+        }
+
+        async function bevEscolherMot(i,motId,motNome){
+            bevSlots[i].motId=motId; bevSlots[i].motNome=motNome;
+            const{data}=await sb.from('especificacoes').select('chave,valor').eq('motorizacao_id',motId);
+            bevSlots[i].specs={}; (data||[]).forEach(r=>{bevSlots[i].specs[r.chave]=r.valor;});
+            bevRenderSlots();
+        }
+
+        function bevAbrirModal(i){
+            document.getElementById('bev-modal-slot').value=i;
+            document.getElementById('bev-modal-step').value='modelo';
+            document.getElementById('bev-modal-titulo').innerText='Escolher Modelo BEV';
+            sb.from('modelos').select('id,codigo,nome').order('nome').then(({data})=>{
+                const todos=data||[];
+                const bevLista=todos.filter(m=>/\bi4\b|\bix\b|\biX\b|bev|i4|iX/i.test(m.nome)||['G26BEV','NA5','I20','U10','U11','G60','G61','G70'].some(c=>m.codigo.toUpperCase()===c));
+                const lista=bevLista.length>0?bevLista:todos;
+                document.getElementById('bev-modal-lista').innerHTML=lista.map(m=>`<button class="w-full text-left px-4 py-3 rounded-xl border border-gray-100 hover:border-green-400 hover:bg-green-50 transition-colors mb-1" onclick="bevEscolherModelo('${m.id}','${escapar(m.nome)}')"><p class="text-sm font-black text-gray-800">${m.nome}</p><p class="text-xs text-gray-400 font-mono">${m.codigo}</p></button>`).join('');
+            });
+            document.body.classList.add('overflow-hidden');
+            document.getElementById('bev-modal').classList.remove('hidden');document.getElementById('bev-modal').classList.add('flex');
+        }
+
+        async function bevEscolherModelo(modeloId,modeloNome){
+            const i=parseInt(document.getElementById('bev-modal-slot').value);
+            bevSlots[i]={modeloId,modeloNome,motId:null,motNome:null,specs:{}};
+            document.getElementById('bev-modal-titulo').innerText='Escolher Motorização';
+            const{data}=await sb.from('motorizacoes').select('id,codigo,nome_visual').eq('modelo_id',modeloId).order('codigo');
+            document.getElementById('bev-modal-lista').innerHTML=(data||[]).map(m=>`<button class="w-full text-left px-4 py-3 rounded-xl border border-gray-100 hover:border-green-400 hover:bg-green-50 transition-colors mb-1" onclick="bevEscolherMotModal('${m.id}','${escapar(m.nome_visual||m.codigo)}')"><p class="text-sm font-black text-gray-800">${m.nome_visual||m.codigo}</p><p class="text-xs text-gray-400 font-mono">${m.codigo}</p></button>`).join('');
+        }
+
+        async function bevEscolherMotModal(motId,motNome){
+            const i=parseInt(document.getElementById('bev-modal-slot').value);
+            bevSlots[i].motId=motId; bevSlots[i].motNome=motNome;
+            const{data}=await sb.from('especificacoes').select('chave,valor').eq('motorizacao_id',motId);
+            bevSlots[i].specs={}; (data||[]).forEach(r=>{bevSlots[i].specs[r.chave]=r.valor;});
+            bevFecharModal(); bevRenderSlots();
+        }
+
+        function bevFecharModal(){document.body.classList.remove('overflow-hidden');document.getElementById('bev-modal').classList.add('hidden');document.getElementById('bev-modal').classList.remove('flex');}
+        function bevLimparSlot(i){bevSlots[i]=null;bevRenderSlots();}
+        function bevLimpar(){bevSlots=[null,null,null,null];bevRenderSlots();}
+
+        function bevGetVal(specs,chaveConfig){
+            if(chaveConfig.key) return specs[chaveConfig.key]??'—';
+            for(const k of (chaveConfig.keys||[])){if(specs[k]!=null&&specs[k]!=='')return specs[k];}
+            return '—';
+        }
+
+        function bevRenderTabela(){
+            const wrap=document.getElementById('bev-tabela-wrap');
+            const completos=bevSlots.filter(s=>s&&s.motId);
+            if(completos.length<2){wrap.classList.add('hidden');return;}
+            wrap.classList.remove('hidden');
+            const cw=Math.floor(58/completos.length);
+
+            const acVariacoes={}, dcVariacoes={};
+            completos.forEach(s=>{
+                [1,2,3,4].forEach(n=>{
+                    const acKey=`Variação de carregamento AC ${n}`;
+                    const dcKey=`Variação de carregamento DC ${n}`;
+                    if(s.specs[acKey]) acVariacoes[n]=s.specs[acKey];
+                    if(s.specs[dcKey]) dcVariacoes[n]=s.specs[dcKey];
+                });
+            });
+
+            const CHAVES_DINAMICAS = [
+                {label:'Potência (cv)', keys:['Potência combinada comunicada, cv','Potência do sistema motor (acumulado), cv','Potência do sistema motor (acumulado) 30 min, cv']},
+                {label:'0-100 km/h (seg)', keys:['0-100 km/h, seg.','0-100Km/h, seg.','0-100 km/h (arranque 1-ft), s']},
+                {label:'Velocidade Máxima (km/h)', keys:['Velocidade máxima, km/h','Velocidade máxima em modo puramente elétrico, km/h','Velocidade Máxima']},
+                {label:'Tração', keys:['Tração','Tracção']},
+                {label:'Autonomia WLTP (km)', keys:['Alcance/Autonomia (WLTP), km','Alcance (WLTP), km','Autonomia (km)','Autonomia WLTP (km)']},
+                {label:'Consumo (kWh/100km)', keys:['Consumo combinado de energia (WLTP), kWh/100 km','Consumo de energia combinado (WLTP), kWh/100 km','Consumo (kWh/100km)']},
+                {label:'Bateria líquida (kWh)', keys:['Capacidade líquida da bateria de alta tensão, kWh']},
+                {label:'Bateria bruta (kWh)', keys:['Bateria de Alta Tensão - Capacidade energética (bruta), kWh']},
+                {label:'Carga DC máx (kW)', keys:['Potência máxima de carregamento DC, kW','Capacidade maxima de carga DC, kW']},
+                {label:'Carga AC série (kW)', keys:['Capacidade maxima de carga AC standard, kW']},
+                {label:'Carga AC opcional (kW)', keys:['Capacidade maxima de carga AC alta, kW','Capacidade maxima de carga AC alta (opcional), kW']},
+                ...Object.entries(acVariacoes).map(([n,v])=>({label:`0-100% ${v.replace('AC charging with ','AC ').replace(/\(.*\)/,'').trim()}`, keys:[`Tempo de carregamento AC ${n} (0-100%), h`]})),
+                ...Object.entries(dcVariacoes).map(([n,v])=>({label:`10-80% ${v.replace('DC charging with ','DC ').replace(/EVSE limitation/,'').trim()}`, keys:[`Tempo de carregamento DC ${n} (10-80%), h`]})),
+            ];
+
+            document.getElementById('bev-thead').innerHTML=`<tr class="border-b-2 border-gray-100"><th class="px-4 py-3 text-left text-xs font-black text-gray-400 uppercase bg-gray-50" style="width:42%">Especificação</th>${completos.map(s=>`<th class="px-3 py-3 text-left bg-gray-50 border-l border-gray-100" style="width:${cw}%"><p class="text-xs font-black text-green-700 leading-tight">${s.modeloNome}</p><p class="text-xs font-bold text-gray-500 mt-0.5">${s.motNome}</p></th>`).join('')}</tr>`;
+
+            document.getElementById('bev-tbody').innerHTML=CHAVES_DINAMICAS.map(ch=>{
+                const vals=completos.map(s=>bevGetVal(s.specs,ch));
+                const ig=vals.every(v=>v===vals[0]);
+                return`<tr class="border-b border-gray-100 hover:bg-green-50/30 transition-colors"><td class="px-4 py-2.5 text-xs text-gray-600">${ch.label}</td>${vals.map(v=>`<td class="px-3 py-2.5 text-xs font-bold border-l border-gray-100 ${v==='—'?'text-gray-300':ig?'text-gray-800':'text-green-700'}">${v}</td>`).join('')}</tr>`;
+            }).join('');
+        }
+
+        // ── TAB CALCULADORA ───────────────────────────────────────────────────
+        function calcFmt(n, dec=2) { return n.toLocaleString('pt-PT', {minimumFractionDigits: dec, maximumFractionDigits: dec}); }
+        function calcFormatarTempo(horas) {
+            if (isNaN(horas) || horas <= 0) return '—';
+            const h = Math.floor(horas);
+            const m = Math.round((horas - h) * 60);
+            if (h === 0) return `${m} min`;
+            if (m === 0) return `${h}h`;
+            return `${h}h ${m}min`;
+        }
+        function calcAtualizar() {
+            const bateria   = parseFloat(document.getElementById('calc-bateria').value);
+            const potencia  = parseFloat(document.getElementById('calc-potencia').value);
+            const socIni    = parseFloat(document.getElementById('calc-soc-ini').value);
+            const socFin    = parseFloat(document.getElementById('calc-soc-fin').value);
+            const precoKwh  = parseFloat(document.getElementById('calc-preco-kwh').value);
+            const km        = parseFloat(document.getElementById('calc-km').value);
+            const consumo   = parseFloat(document.getElementById('calc-consumo').value);
+
+            document.getElementById('calc-bateria-val').innerText    = calcFmt(bateria, 0);
+            document.getElementById('calc-potencia-val').innerText   = calcFmt(potencia, 1);
+            document.getElementById('calc-soc-ini-val').innerText    = socIni + '%';
+            document.getElementById('calc-soc-fin-val').innerText    = socFin + '%';
+            document.getElementById('calc-preco-kwh-val').innerText  = calcFmt(precoKwh) + ' €';
+            document.getElementById('calc-km-val').innerText         = calcFmt(km, 0);
+            document.getElementById('calc-consumo-val').innerText    = calcFmt(consumo, 1);
+
+            if (socFin <= socIni) {
+                document.getElementById('calc-res-tempo').innerText   = 'Inválido';
+                document.getElementById('calc-res-energia').innerText = '—';
+                return;
+            }
+
+            const energiaCarregar = bateria * (socFin - socIni) / 100;
+            const horasCarga      = energiaCarregar / potencia;
+            document.getElementById('calc-res-tempo').innerText   = calcFormatarTempo(horasCarga);
+            document.getElementById('calc-res-energia').innerText = calcFmt(energiaCarregar, 1) + ' kWh';
+
+            const custoCarga     = energiaCarregar * precoKwh;
+            const autonomiaTotal = (bateria / consumo) * 100;
+            const custoPor100km  = autonomiaTotal > 0 ? (custoCarga / autonomiaTotal) * 100 : 0;
+            document.getElementById('calc-res-custo').innerText     = calcFmt(custoCarga) + ' €';
+            document.getElementById('calc-res-custo-100').innerText = calcFmt(custoPor100km) + ' €';
+
+            const energiaViagem  = (consumo / 100) * km;
+            const custoViagem    = energiaViagem * precoKwh;
+            document.getElementById('calc-res-viagem-energia').innerText = calcFmt(energiaViagem, 1) + ' kWh';
+            document.getElementById('calc-res-viagem-custo').innerText   = calcFmt(custoViagem) + ' €';
+        }
+
     </script>
 </body>
 </html>
