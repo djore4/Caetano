@@ -1,0 +1,12 @@
+-- ============================================================================
+-- 03 · (FINAL) Remover a coluna de password em texto simples
+-- ----------------------------------------------------------------------------
+-- Depois desta migração, public.utilizadores passa a ser apenas uma tabela de
+-- PERFIS (nome, email, perfil, local) — sem qualquer segredo. A autenticação
+-- vive inteiramente no Supabase Auth.
+--
+-- ⚠️  Executar SÓ depois de confirmar em produção que o login via
+--     signInWithPassword funciona e que a app carrega os dados autenticada.
+--     É irreversível (a password em texto simples é apagada).
+-- ============================================================================
+alter table public.utilizadores drop column if exists password;
