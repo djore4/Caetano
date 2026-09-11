@@ -396,7 +396,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-1">NOME</label><input type="text" id="user-nome" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-1">EMAIL</label><input type="email" id="user-email" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
-                            <div><label class="block text-[10px] font-bold text-gray-500 mb-1">PASSWORD</label><input type="text" id="user-password" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ACESSO</label><input type="text" id="user-password" disabled placeholder="Gerido no Supabase Auth" class="w-full border border-gray-200 bg-gray-50 text-gray-400 rounded-lg px-3 py-2 text-sm outline-none cursor-not-allowed"><p class="text-[9px] text-gray-400 mt-1">A palavra-passe deixou de ser gerida aqui.</p></div>
                         </div>
                         <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-6">
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-2">CONCESSÃO</label><div class="flex flex-wrap gap-2" id="user-local-container"><button type="button" onclick="toggleUserLocal('Todas')" id="btn-local-Todas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Todas</button><button type="button" onclick="toggleUserLocal('Porto')" id="btn-local-Porto" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Porto</button><button type="button" onclick="toggleUserLocal('Gaia')" id="btn-local-Gaia" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Gaia</button><button type="button" onclick="toggleUserLocal('Feira')" id="btn-local-Feira" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Feira</button><button type="button" onclick="toggleUserLocal('Aveiro')" id="btn-local-Aveiro" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Aveiro</button></div></div>
@@ -661,7 +661,10 @@
 
     <script>
         // ── CONFIGURAÇÃO GLOBAL E LIGAÇÃO (PARQUE + SPECS) ─────────────────────
-        const supabaseUrl = 'https://yifxgiwmibjaornighvt.supabase.co'; 
+        // SEGURANÇA: a chave anon é pública por design. A proteção real dos dados
+        // vive no Supabase (RLS): o acesso às tabelas exige sessão autenticada
+        // (Supabase Auth). O login deixou de ser uma comparação em JavaScript.
+        const supabaseUrl = 'https://yifxgiwmibjaornighvt.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlpZnhnaXdtaWJqYW9ybmlnaHZ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE4NjMxNTgsImV4cCI6MjA4NzQzOTE1OH0.XXG4TypXvwhB8EFW63zfBXq4fn03dJ4g73ty9Tzco90';
         let supabaseClient = null;
 
@@ -717,18 +720,43 @@
 
         async function inicializarDados() {
             if(!supabaseClient) { mostrarAviso("Sem ligação. Modo local."); executarArranqueLocal(); return; }
-            try {
-                const { data: vData } = await supabaseClient.from('viaturas').select('*');
-                if (vData) inventario = vData; 
-                const { data: uData } = await supabaseClient.from('utilizadores').select('*');
-                if (uData && uData.length > 0) { 
-                    utilizadoresDb = uData; 
-                    if(!utilizadoresDb.find(u => u.email === 'admin@caetano.pt')) utilizadoresDb.push({ id: 999, nome: 'Admin Segurança', email: 'admin@caetano.pt', password: 'admin', perfil: 'Administrador', local: ['Todas'], negocio: ['VN'], marca: ['BMW'] });
-                } else { utilizadoresDb = [{ id: 999, nome: 'Admin Principal', email: 'admin@caetano.pt', password: 'admin', perfil: 'Administrador', local: ['Todas'], negocio: ['VN'], marca: ['BMW'] }]; }
-            } catch(e) { console.error("Erro rede:", e); }
             document.getElementById('loading-supabase').classList.add('hidden');
+            // Os dados protegidos (viaturas, utilizadores) só carregam após autenticação.
+            // Restaurar sessão existente para não obrigar a novo login após refresh.
+            try {
+                const { data: { session } } = await supabaseClient.auth.getSession();
+                if (session && session.user) { await estabelecerSessao(session.user); return; }
+            } catch(e) { console.error("Erro sessão:", e); }
             executarArranqueLocal();
+        }
+
+        // Carrega os dados protegidos. Só funciona com sessão autenticada (RLS).
+        async function carregarDados() {
+            try {
+                const { data: vData, error: vErr } = await supabaseClient.from('viaturas').select('*');
+                if (vErr) { console.error("Erro viaturas:", vErr.message); }
+                if (vData) inventario = vData;
+                const { data: uData } = await supabaseClient.from('utilizadores').select('*');
+                if (uData) utilizadoresDb = uData;
+            } catch(e) { console.error("Erro rede:", e); }
+        }
+
+        // Estabelece a sessão da app a partir de um utilizador autenticado no Supabase Auth,
+        // resolvendo o perfil (permissões/local) a partir da tabela de perfis 'utilizadores'.
+        async function estabelecerSessao(authUser) {
+            await carregarDados();
+            const email = (authUser.email || '').toLowerCase();
+            let perfil = utilizadoresDb.find(u => (u.email || '').toLowerCase() === email);
+            if (!perfil) {
+                // Sessão válida sem perfil definido: acesso mínimo até a Administração associar um perfil.
+                perfil = { id: null, nome: authUser.email, email: authUser.email, perfil: 'Vendedor', local: [], negocio: ['VN'], marca: ['BMW'] };
+            }
+            currentUser = perfil;
+            atualizarAcessos();
+            aplicarFiltros();
+            try { await registarHistorico('acesso', 'LOGIN', currentUser.id, { nome: currentUser.nome, email: currentUser.email }); } catch(e) {}
             try { await carregarHistorico(); } catch(e) {}
+            try { await inicializarSpecs(); } catch(e) {}
         }
 
         function executarArranqueLocal() {
@@ -759,22 +787,24 @@
         }
         
         async function fazerLogin(e) {
-            e.preventDefault(); 
+            e.preventDefault();
+            if(!supabaseClient) { alert("Sem ligação ao servidor."); return; }
+            const email = document.getElementById('login-email').value.trim().toLowerCase();
+            const pass = document.getElementById('login-password').value;
             try {
-                const email = document.getElementById('login-email').value.trim().toLowerCase(); const pass = document.getElementById('login-password').value.trim();
-                const user = utilizadoresDb.find(u => (u.email || '').toLowerCase() === email && String(u.password || '').trim() === pass);
-                if(user) { 
-                    currentUser = user; 
-                    document.getElementById('login-password').value = ''; 
-                    atualizarAcessos(); 
-                    registarHistorico('acesso', 'LOGIN', user.id, { nome: user.nome, email: user.email }); 
-                    await inicializarSpecs(); // Carrega as especificações quando entra na plataforma
-                } 
-                else { alert("Acesso Negado: Email ou Palavra-passe incorretos."); }
-            } catch(err) { alert("Erro de sistema no login."); }
+                const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password: pass });
+                document.getElementById('login-password').value = '';
+                if (error || !data || !data.session) { alert("Acesso Negado: Email ou Palavra-passe incorretos."); return; }
+                await estabelecerSessao(data.user);
+            } catch(err) { console.error(err); alert("Erro de sistema no login."); }
         }
 
-        function fazerLogout() { if(confirm("Deseja terminar a sessão?")) { currentUser = null; atualizarAcessos(); mudarTab('parque'); } }
+        async function fazerLogout() {
+            if(!confirm("Deseja terminar a sessão?")) return;
+            try { if(supabaseClient) await supabaseClient.auth.signOut(); } catch(e) {}
+            currentUser = null; inventario = []; utilizadoresDb = [];
+            atualizarAcessos(); mudarTab('parque');
+        }
         
         function abrirMudarPassword() { 
             if (currentUser && currentUser.perfil === 'Vendedor') {
@@ -793,9 +823,11 @@
         async function guardarNovaPassword(e) {
             e.preventDefault(); const nova = document.getElementById('new-password').value; const conf = document.getElementById('confirm-password').value;
             if (nova !== conf) { alert("Erro: As palavras-passe não coincidem."); return; }
-            if (!currentUser) return;
-            currentUser.password = nova; const idx = utilizadoresDb.findIndex(u => u.id === currentUser.id); if (idx !== -1) utilizadoresDb[idx].password = nova;
-            if (supabaseClient) { const { error } = await supabaseClient.from('utilizadores').upsert(currentUser); if (error) return; await registarHistorico('utilizadores', 'ATUALIZAR', currentUser.id, { acao: 'Alteração de password', email: currentUser.email }); }
+            if (nova.length < 8) { alert("A palavra-passe deve ter pelo menos 8 caracteres."); return; }
+            if (!currentUser || !supabaseClient) return;
+            const { error } = await supabaseClient.auth.updateUser({ password: nova });
+            if (error) { alert("Erro ao atualizar a palavra-passe: " + error.message); return; }
+            try { await registarHistorico('utilizadores', 'ATUALIZAR', currentUser.id, { acao: 'Alteração de password', email: currentUser.email }); } catch(e) {}
             fecharMudarPassword(); alert("Palavra-passe alterada com sucesso!");
         }
         
@@ -1233,7 +1265,7 @@
         let uPerf="", uLoc=[];
         function renderizarListaUtilizadores() { document.getElementById('lista-utilizadores').innerHTML = utilizadoresDb.map(u => `<button onclick="editarUtilizador(${u.id})" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white mb-2 shadow-sm hover:border-bmw transition-colors"><div class="font-black text-sm">${u.nome}</div><div class="text-[10px] text-gray-400 mt-1 uppercase">${u.perfil}</div></button>`).join(''); }
         function prepararNovoUtilizador() { document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('form-user').reset(); document.getElementById('user-id').value=""; uPerf=""; uLoc=[]; atualizarBtnsU(); document.getElementById('btn-remover-user').classList.add('hidden'); }
-        function editarUtilizador(id) { const u = utilizadoresDb.find(x=>x.id===id); document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('user-id').value = u.id; document.getElementById('user-nome').value = u.nome; document.getElementById('user-email').value = u.email; document.getElementById('user-password').value = u.password || ""; uPerf = u.perfil; uLoc = [...getArr(u.local)]; atualizarBtnsU(); document.getElementById('btn-remover-user').classList.remove('hidden'); }
+        function editarUtilizador(id) { const u = utilizadoresDb.find(x=>x.id===id); document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('user-id').value = u.id; document.getElementById('user-nome').value = u.nome; document.getElementById('user-email').value = u.email; uPerf = u.perfil; uLoc = [...getArr(u.local)]; atualizarBtnsU(); document.getElementById('btn-remover-user').classList.remove('hidden'); }
         function cancelarEdicaoUser() { document.getElementById('painel-user-form').classList.add('hidden'); document.getElementById('painel-user-form').classList.remove('flex'); document.getElementById('painel-user-vazio').classList.remove('hidden'); document.getElementById('btn-remover-user').classList.add('hidden'); }
         function tArr(arr,v) { if(v==='Todas') return arr.includes('Todas')?[]:['Todas']; let n=arr.filter(x=>x!=='Todas'); return n.includes(v)?n.filter(x=>x!==v):[...n,v]; }
         function toggleUserLocal(v){ uLoc=tArr(uLoc,v); atualizarBtnsU(); } function toggleUserPerfil(v){ uPerf=v; atualizarBtnsU(); } 
@@ -1262,9 +1294,8 @@
         }
 
         async function guardarUtilizador(e) {
-            e.preventDefault(); const idVal = document.getElementById('user-id').value; const novoId = idVal !== "" ? parseInt(idVal) : Date.now(); 
-            const pwdDigitada = document.getElementById('user-password').value.trim(); if (!pwdDigitada) { alert("A palavra-passe é obrigatória."); return; }
-            const userObj = { id: novoId, nome: document.getElementById('user-nome').value, email: document.getElementById('user-email').value, password: pwdDigitada, local: uLoc, perfil: uPerf, negocio: ['VN'], marca: ['BMW'] };
+            e.preventDefault(); const idVal = document.getElementById('user-id').value; const novoId = idVal !== "" ? parseInt(idVal) : Date.now();
+            const userObj = { id: novoId, nome: document.getElementById('user-nome').value, email: (document.getElementById('user-email').value || '').trim().toLowerCase(), local: uLoc, perfil: uPerf, negocio: ['VN'], marca: ['BMW'] };
             const isUpdate = idVal !== ""; if(isUpdate) utilizadoresDb[utilizadoresDb.findIndex(x=>x.id===parseInt(idVal))] = userObj; else utilizadoresDb.push(userObj);
             if(supabaseClient) { const { error } = await supabaseClient.from('utilizadores').upsert(userObj); if(error) { mostrarAviso("Erro ao gravar utilizador: " + error.message); return; } await registarHistorico('utilizadores', isUpdate ? 'ATUALIZAR' : 'CRIAR', userObj.id, { email: userObj.email }); }
             renderizarListaUtilizadores(); cancelarEdicaoUser(); alert(isUpdate ? "Atualizado com sucesso!" : "Utilizador criado!");
