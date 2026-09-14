@@ -1295,11 +1295,36 @@
         }
 
         async function guardarUtilizador(e) {
-            e.preventDefault(); const idVal = document.getElementById('user-id').value; const novoId = idVal !== "" ? parseInt(idVal) : Date.now();
-            const userObj = { id: novoId, nome: document.getElementById('user-nome').value, email: (document.getElementById('user-email').value || '').trim().toLowerCase(), local: uLoc, perfil: uPerf, negocio: ['VN'], marca: ['BMW'] };
-            const isUpdate = idVal !== ""; if(isUpdate) utilizadoresDb[utilizadoresDb.findIndex(x=>x.id===parseInt(idVal))] = userObj; else utilizadoresDb.push(userObj);
-            if(supabaseClient) { const { error } = await supabaseClient.from('utilizadores').upsert(userObj); if(error) { mostrarAviso("Erro ao gravar utilizador: " + error.message); return; } await registarHistorico('utilizadores', isUpdate ? 'ATUALIZAR' : 'CRIAR', userObj.id, { email: userObj.email }); }
-            renderizarListaUtilizadores(); cancelarEdicaoUser(); alert(isUpdate ? "Atualizado com sucesso!" : "Utilizador criado!");
+            e.preventDefault();
+            const idVal = document.getElementById('user-id').value;
+            const isUpdate = idVal !== "";
+            const payload = {
+                id: isUpdate ? parseInt(idVal) : undefined,
+                nome: document.getElementById('user-nome').value.trim(),
+                email: (document.getElementById('user-email').value || '').trim().toLowerCase(),
+                local: uLoc, perfil: uPerf, negocio: ['VN'], marca: ['BMW']
+            };
+            if (!payload.nome || !payload.email || !payload.perfil) { alert("Preencha nome, email e perfil."); return; }
+            if (!supabaseClient) { alert("Sem ligação ao servidor."); return; }
+
+            // A criação/atualização do login vive numa Edge Function (usa a service_role
+            // no servidor). Cria a conta Supabase Auth se ainda não existir e grava o perfil.
+            const { data, error } = await supabaseClient.functions.invoke('sf-gestao-utilizadores', { body: payload });
+            if (error) { mostrarAviso("Erro ao gravar utilizador: " + (error.message || error)); return; }
+            if (data && data.error) { mostrarAviso(data.error); return; }
+
+            try { await registarHistorico('utilizadores', isUpdate ? 'ATUALIZAR' : 'CRIAR', payload.id || null, { email: payload.email }); } catch(e) {}
+            await carregarDados();
+            renderizarListaUtilizadores();
+            cancelarEdicaoUser();
+
+            if (data && data.tempPassword) {
+                alert("Utilizador criado com sucesso!\n\nPalavra-passe temporária de acesso:\n\n    " + data.tempPassword + "\n\nEntregue-a a " + payload.nome + ". Deve alterá-la no primeiro acesso (botão de mudar palavra-passe).");
+            } else if (data && data.jaTinhaConta) {
+                alert("Perfil guardado.\n\nEsta pessoa já tinha conta de acesso (usada noutra aplicação) — mantém as credenciais atuais, não é preciso password nova.");
+            } else {
+                alert("Guardado com sucesso!");
+            }
         }
 
         async function removerUtilizador() {
