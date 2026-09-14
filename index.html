@@ -752,8 +752,9 @@
                 perfil = { id: null, nome: authUser.email, email: authUser.email, perfil: 'Vendedor', local: [], negocio: ['VN'], marca: ['BMW'] };
             }
             currentUser = perfil;
-            atualizarAcessos();
-            aplicarFiltros();
+            // Pipeline completo de render: calcula os preços de venda (carregarPrecosEmDireto),
+            // constrói os filtros de modelo, aplica acessos e filtros e escolhe a vista.
+            executarArranqueLocal();
             try { await registarHistorico('acesso', 'LOGIN', currentUser.id, { nome: currentUser.nome, email: currentUser.email }); } catch(e) {}
             try { await carregarHistorico(); } catch(e) {}
             try { await inicializarSpecs(); } catch(e) {}
