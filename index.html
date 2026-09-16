@@ -91,6 +91,7 @@
                     <button onclick="mudarTab('utilizadores')" id="tab-utilizadores" class="hidden nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Utilizadores</button>
                     <button onclick="mudarTab('historico')" id="tab-historico" class="hidden nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Histórico</button>
                     <button onclick="mudarTab('admin-vn')" id="tab-admin-vn" class="hidden nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Gestão VN</button>
+                    <button onclick="mudarTab('vendidos')" id="tab-vendidos" class="hidden nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Vendidos</button>
                 </div>
             </nav>
         </div>
@@ -524,7 +525,7 @@
                         </div>
 
                         <div class="pt-6 flex flex-col sm:flex-row justify-between items-center gap-4 pb-8">
-                            <button type="button" id="btn-remover-viatura" onclick="removerViatura()" class="hidden w-full sm:w-auto bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 font-bold py-4 px-8 rounded-xl transition-colors focus:outline-none text-xs uppercase tracking-widest">Eliminar Viatura</button>
+                            <button type="button" id="btn-remover-viatura" onclick="removerViatura()" class="hidden w-full sm:w-auto bg-green-50 hover:bg-green-100 text-green-700 border border-green-200 font-bold py-4 px-8 rounded-xl transition-colors focus:outline-none text-xs uppercase tracking-widest">Marcar como Vendida</button>
                             <div class="w-full sm:w-auto ml-auto flex justify-end">
                                 <button type="submit" id="btn-gravar-db" class="w-full sm:w-auto bg-bmw text-white font-bold py-4 px-12 rounded-xl shadow-lg uppercase tracking-widest hover:bg-blue-800 transition-colors">Gravar</button>
                             </div>
@@ -579,6 +580,36 @@
                 <div id="op-modal-desc-wrap" class="hidden"><p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Descrição</p><p id="op-modal-desc" class="text-sm text-gray-700 leading-relaxed whitespace-pre-line"></p></div>
                 <div id="op-modal-regras-wrap" class="hidden"><p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Regras / Compatibilidade</p><p id="op-modal-regras" class="text-sm text-gray-500 leading-relaxed whitespace-pre-line"></p></div>
             </div>
+        </div>
+    </div>
+
+    <div id="conteudo-vendidos" class="tab-content">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div class="flex items-end justify-between mb-4 flex-wrap gap-3">
+                <div>
+                    <h2 class="text-2xl font-black text-gray-900">Viaturas Vendidas</h2>
+                    <p class="text-sm text-gray-500 mt-1">Arquivo imutável — dados e preço cristalizados no momento da venda.</p>
+                </div>
+                <input type="text" id="vendidos-pesquisa" oninput="renderizarVendidas()" placeholder="Pesquisar (modelo, matrícula, chassis, encomenda)..." class="w-full sm:w-96 border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-bmw">
+            </div>
+            <div class="bg-white border border-gray-100 rounded-xl shadow-sm overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead class="bg-gray-50 text-gray-500 uppercase text-[10px] tracking-widest">
+                        <tr>
+                            <th class="text-left font-bold px-4 py-3">Data Venda</th>
+                            <th class="text-left font-bold px-4 py-3">Modelo</th>
+                            <th class="text-left font-bold px-4 py-3">Matrícula</th>
+                            <th class="text-left font-bold px-4 py-3">Chassis</th>
+                            <th class="text-left font-bold px-4 py-3">Encomenda</th>
+                            <th class="text-left font-bold px-4 py-3">Concessão</th>
+                            <th class="text-right font-bold px-4 py-3">Preço Final</th>
+                            <th class="text-left font-bold px-4 py-3">Vendido por</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vendidos-corpo"></tbody>
+                </table>
+            </div>
+            <p id="vendidos-vazio" class="hidden text-xs text-gray-400 font-bold uppercase tracking-widest text-center py-10">Nenhuma viatura vendida registada.</p>
         </div>
     </div>
 
@@ -683,7 +714,7 @@
 
         const templateInputs = { pvb: 0, opc: 0, bsi: 0, eco: 4.20, leg: 1550, isv: 0, mgb: 0, esf: 0, pac: 0, dem: 0, sup: 0, pvp_desc: 0, depreciacoes: 0 };
         
-        let inventario = []; let utilizadoresDb = []; let historicoDb = []; let currentUser = null; 
+        let inventario = []; let utilizadoresDb = []; let historicoDb = []; let vendidasDb = []; let currentUser = null;
         let currentSortCol = null; let currentSortAsc = true;
 
         function getArr(v) {
@@ -833,8 +864,8 @@
         }
         
         function atualizarAcessos() {
-            ['tab-utilizadores', 'tab-historico', 'tab-admin-vn'].forEach(id => document.getElementById(id).classList.add('hidden'));
-            
+            ['tab-utilizadores', 'tab-historico', 'tab-admin-vn', 'tab-vendidos'].forEach(id => document.getElementById(id).classList.add('hidden'));
+
             const mainContent = document.getElementById('main-content');
             const mainNavBar = document.getElementById('main-nav-bar');
             const chatWidget = document.getElementById('chat-widget');
@@ -872,10 +903,11 @@
                 }
             }
             
-            if (currentUser.perfil === 'Administrador') { 
-                ['tab-utilizadores', 'tab-historico', 'tab-admin-vn'].forEach(id => document.getElementById(id).classList.remove('hidden')); 
+            if (currentUser.perfil === 'Administrador') {
+                ['tab-utilizadores', 'tab-historico', 'tab-admin-vn', 'tab-vendidos'].forEach(id => document.getElementById(id).classList.remove('hidden'));
             } else if (currentUser.perfil === 'Chefe de Vendas') {
                 document.getElementById('tab-admin-vn').classList.remove('hidden');
+                document.getElementById('tab-vendidos').classList.remove('hidden');
             }
             renderizarListaAdmin(); 
             if(currentUser.perfil === 'Administrador') renderizarListaUtilizadores();
@@ -883,7 +915,7 @@
 
         // ── NAVEGAÇÃO ENTRE ABAS ──────────────────────────────────────────────
         function mudarTab(t) { 
-            if ((t === 'utilizadores' || t === 'historico' || t === 'admin-vn') && (!currentUser || currentUser.perfil === 'Vendedor')) { alert("Acesso Restrito: Por favor, inicie sessão na Área Reservada."); return; }
+            if ((t === 'utilizadores' || t === 'historico' || t === 'admin-vn' || t === 'vendidos') && (!currentUser || currentUser.perfil === 'Vendedor')) { alert("Acesso Restrito: Por favor, inicie sessão na Área Reservada."); return; }
             
             document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active')); 
             const tgt = document.getElementById('conteudo-'+t); 
@@ -901,6 +933,7 @@
             
             // Lógicas específicas de abas
             if(t === 'historico') carregarHistorico();
+            if(t === 'vendidos') carregarVendidas();
             if(t === 'opcionais' && opTodosModelos.length === 0) opCarregarModelos();
             if(t === 'bev' && bevModelos.length === 0) bevCarregarModelos();
         }
@@ -1208,6 +1241,44 @@
             } catch(err) {}
         }
 
+        async function carregarVendidas() {
+            if(!supabaseClient) return;
+            try {
+                const { data, error } = await supabaseClient.from('viaturas_vendidas').select('*').order('data_venda', { ascending: false });
+                if(error) { console.error('Erro vendidas:', error.message); }
+                if(data) vendidasDb = data;
+            } catch(e) { console.error(e); }
+            renderizarVendidas();
+        }
+
+        function renderizarVendidas() {
+            const corpo = document.getElementById('vendidos-corpo'); const vazio = document.getElementById('vendidos-vazio');
+            if(!corpo) return;
+            let dados = vendidasDb || [];
+            if(currentUser && currentUser.perfil === 'Chefe de Vendas' && !getArr(currentUser.local).includes('Todas')) {
+                dados = dados.filter(v => getArr(currentUser.local).some(l => getArr(v.local).includes(l)));
+            }
+            const q = (document.getElementById('vendidos-pesquisa')?.value || '').toLowerCase().trim();
+            if(q) dados = dados.filter(v => [v.modelo, v.versao, v.matricula, v.chassis, v.encomenda].some(x => (x||'').toString().toLowerCase().includes(q)));
+            if(dados.length === 0) { corpo.innerHTML = ''; vazio.classList.remove('hidden'); return; }
+            vazio.classList.add('hidden');
+            corpo.innerHTML = dados.map(v => {
+                const dt = v.data_venda ? new Date(v.data_venda).toLocaleDateString('pt-PT') : '-';
+                const preco = (v.preco_final !== null && v.preco_final !== undefined) ? Number(v.preco_final).toLocaleString('pt-PT', { style: 'currency', currency: 'EUR' }) : '-';
+                const loc = getArr(v.local).join(', ') || '-';
+                return `<tr class="border-t border-gray-100 hover:bg-gray-50">
+                    <td class="px-4 py-3 text-gray-500 whitespace-nowrap">${dt}</td>
+                    <td class="px-4 py-3 font-bold text-gray-800">${(v.modelo||'-')} ${(v.versao||'')}</td>
+                    <td class="px-4 py-3 font-mono text-gray-700">${v.matricula||'-'}</td>
+                    <td class="px-4 py-3 font-mono text-gray-500 text-xs">${v.chassis||'-'}</td>
+                    <td class="px-4 py-3 text-gray-600">${v.encomenda||'-'}</td>
+                    <td class="px-4 py-3 text-gray-600">${loc}</td>
+                    <td class="px-4 py-3 text-right font-black text-bmw whitespace-nowrap">${preco}</td>
+                    <td class="px-4 py-3 text-gray-500">${v.vendido_por||'-'}</td>
+                </tr>`;
+            }).join('');
+        }
+
         function prepararNovaViatura() { document.getElementById('form-precos').reset(); document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('edit-original-chassis').value = ""; editCarroTipologia = []; editCarroLocal = []; document.getElementById('edit-kms').value = ""; if(currentUser && currentUser.perfil !== 'Administrador' && !getArr(currentUser.local).includes('Todas') && getArr(currentUser.local).length > 0) { editCarroLocal = [...getArr(currentUser.local)]; } atualizarBotoesEditCarro(); document.getElementById('btn-remover-viatura').classList.add('hidden'); ['idade','penetracao','pvp-bruto','iva','desc-perc','desc-eur','preco-min','s-iva','mg','mg-perc'].forEach(id => { if(document.getElementById('auto-'+id)) document.getElementById('auto-'+id).value = "--"; }); }
         
         function abrirEdicao(ch) {
@@ -1221,11 +1292,34 @@
 
         async function removerViatura() {
             const chassis = document.getElementById('edit-original-chassis').value; if(!chassis) return;
-            if(confirm("Tem a certeza que deseja eliminar permanentemente esta viatura?")) {
-                inventario = inventario.filter(x => x.chassis !== chassis);
-                if(supabaseClient) { const { error } = await supabaseClient.from('viaturas').delete().eq('chassis', chassis); if(error) { mostrarAviso("Erro ao eliminar: " + error.message); return; } await registarHistorico('viaturas', 'ELIMINAR', chassis, { apagado_por: currentUser.email }); }
-                carregarPrecosEmDireto(); initModeloFiltros(); aplicarFiltros(); renderizarListaAdmin(); prepararNovaViatura(); alert("Viatura eliminada.");
+            const carro = inventario.find(x => x.chassis === chassis); if(!carro) return;
+            if(!confirm("Marcar esta viatura como VENDIDA?\n\nOs dados e o preço atuais ficam arquivados na secção \"Vendidos\" e a viatura sai do parque ativo.")) return;
+
+            // Cristaliza o preço/estatísticas no momento da venda
+            const s = (typeof calcularPrecosTempoReal === 'function' ? calcularPrecosTempoReal(carro) : null) || {};
+            const registoVenda = {
+                chassis: carro.chassis, matricula: carro.matricula || null, modelo: carro.modelo || null, versao: carro.versao || null,
+                encomenda: carro.encomenda || null, estado_entrega: carro.estado_entrega || null, estado_negocio: carro.estado_negocio || null,
+                data_matricula: carro.data_matricula || null, tipologia: getArr(carro.tipologia), local: getArr(carro.local), marca: getArr(carro.marca),
+                kms: carro.kms || null, observacoes: carro.observacoes || null, link_fotos: carro.link_fotos || null,
+                inputs: getInps(carro.inputs), stats: s,
+                preco_final: (s.pvp_final !== undefined && s.pvp_final !== null) ? s.pvp_final : null,
+                data_venda: new Date().toISOString(),
+                vendido_por: currentUser ? currentUser.nome : null
+            };
+
+            if(supabaseClient) {
+                const { error: eIns } = await supabaseClient.from('viaturas_vendidas').insert(registoVenda);
+                if(eIns) { mostrarAviso("Erro ao arquivar venda: " + eIns.message); return; }
+                const { error: eDel } = await supabaseClient.from('viaturas').delete().eq('chassis', chassis);
+                if(eDel) { mostrarAviso("Arquivada, mas erro ao remover do parque: " + eDel.message); return; }
+                await registarHistorico('viaturas', 'VENDIDA', chassis, { vendido_por: currentUser.email, preco_final: registoVenda.preco_final });
             }
+
+            inventario = inventario.filter(x => x.chassis !== chassis);
+            vendidasDb.unshift(registoVenda);
+            carregarPrecosEmDireto(); initModeloFiltros(); aplicarFiltros(); renderizarListaAdmin(); renderizarVendidas(); prepararNovaViatura();
+            alert("Viatura marcada como vendida e arquivada em \"Vendidos\".");
         }
 
         async function guardarPrecos(e) {
