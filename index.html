@@ -604,6 +604,7 @@
                             <th class="text-left font-bold px-4 py-3">Concessão</th>
                             <th class="text-right font-bold px-4 py-3">Preço Final</th>
                             <th class="text-left font-bold px-4 py-3">Vendido por</th>
+                            <th class="text-right font-bold px-4 py-3">Ação</th>
                         </tr>
                     </thead>
                     <tbody id="vendidos-corpo"></tbody>
@@ -1275,8 +1276,32 @@
                     <td class="px-4 py-3 text-gray-600">${loc}</td>
                     <td class="px-4 py-3 text-right font-black text-bmw whitespace-nowrap">${preco}</td>
                     <td class="px-4 py-3 text-gray-500">${v.vendido_por||'-'}</td>
+                    <td class="px-4 py-3 text-right whitespace-nowrap"><button onclick="reporViatura(${v.id})" class="bg-gray-50 hover:bg-bmw hover:text-white text-gray-600 border border-gray-200 hover:border-bmw font-bold py-1.5 px-3 rounded-md transition-colors text-[10px] uppercase tracking-widest">Repor</button></td>
                 </tr>`;
             }).join('');
+        }
+
+        async function reporViatura(id) {
+            const v = vendidasDb.find(x => x.id === id); if(!v) return;
+            if(!confirm(`Repor a viatura ${v.modelo||''} (${v.matricula||v.chassis}) no parque ativo?\n\nSai da secção "Vendidos".`)) return;
+            const carro = {
+                chassis: v.chassis, matricula: v.matricula, modelo: v.modelo, versao: v.versao,
+                estado_entrega: v.estado_entrega, data_matricula: v.data_matricula, encomenda: v.encomenda,
+                tipologia: v.tipologia, local: v.local, link_fotos: v.link_fotos, inputs: v.inputs,
+                stats: v.stats, marca: v.marca, estado_negocio: v.estado_negocio,
+                observacoes: v.observacoes, kms: v.kms, reserva_expira: null, reserva_user: null
+            };
+            if(supabaseClient) {
+                const { error: eIns } = await supabaseClient.from('viaturas').upsert(carro, { onConflict: 'chassis' });
+                if(eIns) { mostrarAviso("Erro ao repor no parque: " + eIns.message); return; }
+                const { error: eDel } = await supabaseClient.from('viaturas_vendidas').delete().eq('id', id);
+                if(eDel) { mostrarAviso("Reposta, mas erro ao remover do arquivo: " + eDel.message); return; }
+                try { await registarHistorico('viaturas', 'REPOR', v.chassis, { reposto_por: currentUser.email }); } catch(e) {}
+            }
+            vendidasDb = vendidasDb.filter(x => x.id !== id);
+            await carregarDados();
+            carregarPrecosEmDireto(); initModeloFiltros(); aplicarFiltros(); renderizarListaAdmin(); renderizarVendidas();
+            alert("Viatura reposta no parque.");
         }
 
         function prepararNovaViatura() { document.getElementById('form-precos').reset(); document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('edit-original-chassis').value = ""; editCarroTipologia = []; editCarroLocal = []; document.getElementById('edit-kms').value = ""; if(currentUser && currentUser.perfil !== 'Administrador' && !getArr(currentUser.local).includes('Todas') && getArr(currentUser.local).length > 0) { editCarroLocal = [...getArr(currentUser.local)]; } atualizarBotoesEditCarro(); document.getElementById('btn-remover-viatura').classList.add('hidden'); ['idade','penetracao','pvp-bruto','iva','desc-perc','desc-eur','preco-min','s-iva','mg','mg-perc'].forEach(id => { if(document.getElementById('auto-'+id)) document.getElementById('auto-'+id).value = "--"; }); }
