@@ -671,12 +671,12 @@
             <div class="bg-bmw p-4 flex justify-between items-center text-white rounded-t-2xl">
                 <div class="flex items-center space-x-2">
                     <div class="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse"></div>
-                    <div><h3 class="font-bold text-sm leading-none">Assistente Parque</h3><span class="text-[10px] text-blue-200">IA de Procura Rápida</span></div>
+                    <div><h3 class="font-bold text-sm leading-none">Assistente Caetano</h3><span class="text-[10px] text-blue-200">Comercial &amp; Produto · IA</span></div>
                 </div>
                 <button onclick="toggleChat()" class="text-white hover:text-blue-200 focus:outline-none"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg></button>
             </div>
             <div id="chat-messages" class="flex-1 p-4 overflow-y-auto bg-gray-50 flex flex-col space-y-4 text-sm no-scrollbar scroll-smooth">
-                <div class="flex items-start"><div class="bg-white border border-gray-200 text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] shadow-sm leading-relaxed">Olá! Sou o Assistente da Caetano.<br><br>Consigo pesquisar instantaneamente no nosso parque (sempre com o <b>PVP real do momento</b>).<br><br>Ex: <i>"Temos algum X1 elétrico abaixo dos 55000?"</i> ou <i>"Mostra-me híbridos no Porto"</i>.</div></div>
+                <div class="flex items-start"><div class="bg-white border border-gray-200 text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[85%] shadow-sm leading-relaxed">Olá! Sou o Assistente da Caetano. Conheço o nosso parque (sempre com o <b>PVP real do momento</b>) e ajudo a discutir as viaturas em termos <b>comerciais</b> e de <b>produto</b>.<br><br>Ex: <i>"Que argumentos tenho para vender o iX face a um X5?"</i>, <i>"Que elétrico no Porto recomendas para um cliente que faz 100km/dia?"</i> ou <i>"Compara o X1 com o X2 do nosso stock"</i>.</div></div>
             </div>
             <div class="p-3 bg-white border-t border-gray-100 flex items-center space-x-2 rounded-b-2xl">
                 <input type="text" id="chat-input" onkeypress="if(event.key === 'Enter') enviarMensagemChat()" placeholder="Escreva o que procura..." class="flex-1 bg-gray-100 border-transparent focus:bg-white focus:border-bmw focus:ring-1 focus:ring-bmw rounded-full px-4 py-2 text-sm outline-none transition-colors">
@@ -1153,10 +1153,63 @@
 
         // ── BOT DE INTELIGÊNCIA ARTIFICIAL ────────────────────────────────────
         function toggleChat() { const cw = document.getElementById('chat-window'); if(cw.classList.contains('opacity-0')) { cw.classList.remove('opacity-0', 'scale-95', 'pointer-events-none'); document.getElementById('chat-input').focus(); } else { cw.classList.add('opacity-0', 'scale-95', 'pointer-events-none'); } }
-        function enviarMensagemChat() {
-            const inp = document.getElementById('chat-input'); const txt = inp.value.trim(); if(!txt) return; const msgs = document.getElementById('chat-messages');
-            msgs.innerHTML += `<div class="flex items-start justify-end mt-4"><div class="bg-blue-50 border border-blue-100 text-blue-900 p-3 rounded-2xl rounded-tr-none max-w-[85%] shadow-sm leading-relaxed">${txt}</div></div>`; inp.value = ''; msgs.scrollTop = msgs.scrollHeight;
-            setTimeout(() => { const resposta = processarMensagemBot(txt); msgs.innerHTML += `<div class="flex items-start mt-4"><div class="bg-white border border-gray-200 text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[90%] shadow-sm leading-relaxed text-xs">${resposta}</div></div>`; msgs.scrollTop = msgs.scrollHeight; }, 600);
+        let chatHistory = [];
+
+        function formatarMsgBot(t) {
+            let h = (t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+            h = h.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            h = h.replace(/^\s*[-*]\s+(.*)$/gm, '• $1');
+            return h.replace(/\n/g, '<br>');
+        }
+
+        // Contexto do parque (apenas PVP — sem margens/custos) para ancorar o assistente.
+        function construirContextoParque() {
+            if(!inventario || !inventario.length) return 'Parque vazio ou ainda não carregado.';
+            const linhas = inventario.map(c => {
+                const tip = getArr(c.tipologia).join('/') || '-';
+                const loc = getArr(c.local).join(',') || '-';
+                const marca = getArr(c.marca).join('/') || 'BMW';
+                const pvp = (c.pvp_final != null) ? Math.round(c.pvp_final) + '€' : 's/ preço';
+                const res = isReservado(c) ? ' [EM NEGOCIAÇÃO]' : '';
+                return `- ${marca} ${c.modelo || '-'} ${c.versao || ''} | ${tip} | ${loc} | PVP ${pvp} | mat ${c.matricula || '-'} | enc ${c.encomenda || '-'}${res}`;
+            });
+            return `Total: ${inventario.length} viaturas no parque.\n` + linhas.join('\n');
+        }
+
+        function bolhaBot(html) {
+            return `<div class="flex items-start mt-4"><div class="bg-white border border-gray-200 text-gray-700 p-3 rounded-2xl rounded-tl-none max-w-[90%] shadow-sm leading-relaxed text-xs">${html}</div></div>`;
+        }
+
+        async function enviarMensagemChat() {
+            const inp = document.getElementById('chat-input'); const txt = inp.value.trim(); if(!txt) return;
+            const msgs = document.getElementById('chat-messages');
+            msgs.innerHTML += `<div class="flex items-start justify-end mt-4"><div class="bg-blue-50 border border-blue-100 text-blue-900 p-3 rounded-2xl rounded-tr-none max-w-[85%] shadow-sm leading-relaxed">${txt.replace(/</g,'&lt;')}</div></div>`;
+            inp.value = ''; msgs.scrollTop = msgs.scrollHeight;
+            chatHistory.push({ role: 'user', content: txt });
+
+            const tid = 'typing-' + Date.now();
+            msgs.innerHTML += `<div id="${tid}" class="flex items-start mt-4"><div class="bg-white border border-gray-200 text-gray-400 p-3 rounded-2xl rounded-tl-none shadow-sm text-xs italic">A pensar…</div></div>`;
+            msgs.scrollTop = msgs.scrollHeight;
+
+            try {
+                if(!supabaseClient) throw new Error('sem ligação');
+                const { data, error } = await supabaseClient.functions.invoke('sf-assistente', {
+                    body: { messages: chatHistory.slice(-12), context: construirContextoParque() }
+                });
+                document.getElementById(tid)?.remove();
+                if(error || !data || data.error) {
+                    msgs.innerHTML += bolhaBot(processarMensagemBot(txt));
+                    msgs.scrollTop = msgs.scrollHeight; return;
+                }
+                const resposta = data.resposta || 'Sem resposta.';
+                chatHistory.push({ role: 'assistant', content: resposta });
+                msgs.innerHTML += bolhaBot(formatarMsgBot(resposta));
+                msgs.scrollTop = msgs.scrollHeight;
+            } catch(e) {
+                document.getElementById(tid)?.remove();
+                msgs.innerHTML += bolhaBot(processarMensagemBot(txt));
+                msgs.scrollTop = msgs.scrollHeight;
+            }
         }
         function processarMensagemBot(msg) {
             const texto = msg.toLowerCase(); let res = [...inventario];
