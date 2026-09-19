@@ -42,6 +42,11 @@
         @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
         .shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%); background-size: 400px 100%; animation: shimmer 1.2s infinite; border-radius: 6px; }
         .search-input:focus { outline: none; border-color: #0066B1; }
+
+        /* Freeze panes: o cabeçalho de colunas da tabela do Parque fica sempre
+           visível enquanto se percorre a lista (a altura do painel é ajustada
+           por JS para preencher o ecrã por baixo do topo fixo). */
+        #parque-scroll thead th { position: sticky; top: 0; z-index: 10; background: #F9FAFB; box-shadow: inset 0 -1px 0 #E5E7EB; }
     </style>
     <script>tailwind.config = { theme: { extend: { colors: { bmw: '#0066B1' } } } }</script>
 </head>
@@ -53,8 +58,12 @@
                 <h1 class="text-xl sm:text-2xl font-bold text-bmw tracking-tight uppercase">Caetano <span class="text-gray-800 font-extrabold">Sales Force</span></h1>
                 
                 <div class="flex items-center space-x-4">
-                    <div class="flex items-center">
+                    <div class="flex items-center gap-2 sm:gap-3">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/BMW_logo_%28gray%29.svg" alt="BMW" class="h-8 sm:h-11">
+                        <div class="hidden sm:flex items-center gap-2 pl-2 sm:pl-3 border-l border-gray-200" title="BMW Motorrad">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/BMW_logo_%28gray%29.svg" alt="BMW Motorrad" class="h-9">
+                            <span class="leading-[0.95] font-black text-gray-900 tracking-tight text-xs sm:text-sm">BMW<br>MOTORRAD</span>
+                        </div>
                     </div>
                     
                     <div class="pl-4 sm:pl-6 border-l border-gray-200 flex items-center">
@@ -122,7 +131,7 @@
             <div id="dados-viaturas">
                 <div id="vista-cartoes" class="hidden grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
                 <div id="vista-tabela" class="block bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden w-full">
-                    <div class="overflow-x-auto no-scrollbar w-full">
+                    <div id="parque-scroll" class="overflow-auto w-full rounded-lg">
                         <table class="min-w-full divide-y divide-gray-100">
                             <thead class="bg-gray-50 text-[10px] font-bold text-gray-500 uppercase tracking-widest select-none">
                                 <tr>
@@ -940,6 +949,7 @@
             if(t === 'vendidos') carregarVendidas();
             if(t === 'opcionais' && opTodosModelos.length === 0) opCarregarModelos();
             if(t === 'bev' && bevModelos.length === 0) bevCarregarModelos();
+            if(t === 'parque') setTimeout(ajustarAlturaParque, 0);
         }
 
         // ── LÓGICA DO PARQUE (Tabela, Cartões, Filtros) ───────────────────────
@@ -948,6 +958,7 @@
             const btnT = document.getElementById('btn-vista-tabela'); const btnC = document.getElementById('btn-vista-cartoes');
             if(v === 'tabela') { btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all"; btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent border border-transparent hover:bg-gray-200"; } 
             else { btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all"; btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent border border-transparent hover:bg-gray-200"; }
+            ajustarAlturaParque();
         }
 
         function ordenarTabela(col) { if (currentSortCol === col) currentSortAsc = !currentSortAsc; else { currentSortCol = col; currentSortAsc = true; } aplicarFiltros(); }
@@ -1154,7 +1165,20 @@
                 const dispMarca = getArr(c.marca).join(', ') || 'BMW';
                 return `<tr class="${classRow} cursor-pointer border-b border-gray-50 transition-colors" onclick="abrirDetalheViatura('${c.chassis}')"><td class="px-5 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold border border-gray-200 shadow-sm">${dispLoc}</span></td><td class="px-5 py-4 text-gray-700 font-semibold whitespace-nowrap">${dispMarca}</td><td class="px-5 py-4 font-bold text-gray-900 whitespace-nowrap">${c.modelo || '-'}${tagReserva}</td><td class="px-5 py-4 text-gray-600">${c.versao || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs">${c.encomenda || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs uppercase">${c.chassis || '-'}</td><td class="px-5 py-4 text-gray-800 font-mono text-xs uppercase font-semibold">${c.matricula || '-'}</td><td class="px-5 py-4 text-center text-gray-500 text-xs">${dataMat}</td><td class="px-5 py-4 text-right text-xs text-gray-400 line-through whitespace-nowrap">${(c.pvp_bruto||0) > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</td><td class="px-5 py-4 text-right font-black ${classPreco} text-sm whitespace-nowrap">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td></tr>`;
             }).join('');
+            ajustarAlturaParque();
         }
+
+        // Ajusta a altura do painel da tabela do Parque para preencher o ecrã
+        // por baixo do topo fixo, mantendo o cabeçalho de colunas sempre visível
+        // (freeze panes). Só atua quando a vista de tabela está visível.
+        function ajustarAlturaParque() {
+            const wrap = document.getElementById('parque-scroll');
+            if (!wrap || wrap.offsetParent === null) return;
+            const top = wrap.getBoundingClientRect().top;
+            const alturaDisp = window.innerHeight - top - 16;
+            wrap.style.maxHeight = Math.max(240, alturaDisp) + 'px';
+        }
+        window.addEventListener('resize', ajustarAlturaParque);
 
         // ── BOT DE INTELIGÊNCIA ARTIFICIAL ────────────────────────────────────
         function toggleChat() { const cw = document.getElementById('chat-window'); if(cw.classList.contains('opacity-0')) { cw.classList.remove('opacity-0', 'scale-95', 'pointer-events-none'); document.getElementById('chat-input').focus(); } else { cw.classList.add('opacity-0', 'scale-95', 'pointer-events-none'); } }
