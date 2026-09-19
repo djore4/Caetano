@@ -42,6 +42,11 @@
         @keyframes shimmer { 0% { background-position: -400px 0; } 100% { background-position: 400px 0; } }
         .shimmer { background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%); background-size: 400px 100%; animation: shimmer 1.2s infinite; border-radius: 6px; }
         .search-input:focus { outline: none; border-color: #0066B1; }
+
+        /* Freeze panes: o cabeçalho de colunas da tabela do Parque fica sempre
+           visível enquanto se percorre a lista (a altura do painel é ajustada
+           por JS para preencher o ecrã por baixo do topo fixo). */
+        #parque-scroll thead th { position: sticky; top: 0; z-index: 10; background: #F9FAFB; box-shadow: inset 0 -1px 0 #E5E7EB; }
     </style>
     <script>tailwind.config = { theme: { extend: { colors: { bmw: '#0066B1' } } } }</script>
 </head>
@@ -53,8 +58,12 @@
                 <h1 class="text-xl sm:text-2xl font-bold text-bmw tracking-tight uppercase">Caetano <span class="text-gray-800 font-extrabold">Sales Force</span></h1>
                 
                 <div class="flex items-center space-x-4">
-                    <div class="flex items-center">
+                    <div class="flex items-center gap-2 sm:gap-3">
                         <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/BMW_logo_%28gray%29.svg" alt="BMW" class="h-8 sm:h-11">
+                        <div class="hidden sm:flex items-center gap-2 pl-2 sm:pl-3 border-l border-gray-200" title="BMW Motorrad">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/BMW_logo_%28gray%29.svg" alt="BMW Motorrad" class="h-9">
+                            <span class="leading-[0.95] font-black text-gray-900 tracking-tight text-xs sm:text-sm">BMW<br>MOTORRAD</span>
+                        </div>
                     </div>
                     
                     <div class="pl-4 sm:pl-6 border-l border-gray-200 flex items-center">
@@ -122,7 +131,7 @@
             <div id="dados-viaturas">
                 <div id="vista-cartoes" class="hidden grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
                 <div id="vista-tabela" class="block bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden w-full">
-                    <div class="overflow-x-auto no-scrollbar w-full">
+                    <div id="parque-scroll" class="overflow-auto w-full rounded-lg">
                         <table class="min-w-full divide-y divide-gray-100">
                             <thead class="bg-gray-50 text-[10px] font-bold text-gray-500 uppercase tracking-widest select-none">
                                 <tr>
@@ -463,7 +472,7 @@
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">MATRÍCULA</label><input type="text" id="edit-matricula" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none uppercase focus:border-bmw"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">DATA MATRÍCULA</label><input type="date" id="edit-data_matricula" onchange="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw text-gray-600"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">QUILÓMETROS</label><input type="number" id="edit-kms" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw" placeholder="Ex: 0"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">MODELO</label><input type="text" id="edit-modelo" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">MODELO</label><select id="edit-modelo" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw bg-white"><option value="">Selecionar modelo…</option></select></div>
                                 <div class="col-span-1 md:col-span-2"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">VERSÃO</label><input type="text" id="edit-versao" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">ESTADO ENTREGA</label><input type="text" id="edit-estado_entrega" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw" placeholder="Ex: Imediata"></div>
                             </div>
@@ -940,6 +949,7 @@
             if(t === 'vendidos') carregarVendidas();
             if(t === 'opcionais' && opTodosModelos.length === 0) opCarregarModelos();
             if(t === 'bev' && bevModelos.length === 0) bevCarregarModelos();
+            if(t === 'parque') setTimeout(ajustarAlturaParque, 0);
         }
 
         // ── LÓGICA DO PARQUE (Tabela, Cartões, Filtros) ───────────────────────
@@ -948,6 +958,7 @@
             const btnT = document.getElementById('btn-vista-tabela'); const btnC = document.getElementById('btn-vista-cartoes');
             if(v === 'tabela') { btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all"; btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent border border-transparent hover:bg-gray-200"; } 
             else { btnC.className = "px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all"; btnT.className = "px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all hover:text-gray-800 bg-transparent border border-transparent hover:bg-gray-200"; }
+            ajustarAlturaParque();
         }
 
         function ordenarTabela(col) { if (currentSortCol === col) currentSortAsc = !currentSortAsc; else { currentSortCol = col; currentSortAsc = true; } aplicarFiltros(); }
@@ -972,7 +983,7 @@
         function strParaNumero(str) { let val = (str||"").toString().replace(/\s/g, '').replace(/\./g, '').replace(',', '.'); return parseFloat(val) || 0; }
         function numeroParaStr(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
         function numeroParaStrPerc(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 0, maximumFractionDigits: 2}); }
-        function formatarEuros(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €'; }
+        function formatarEuros(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €'; }
         function formatarPerc(num) { return ((num||0)*100).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %'; }
 
         function calcularPrecosTempoReal(carro) {
@@ -1150,11 +1161,24 @@
             document.getElementById('tabela-corpo').innerHTML = dados.map(c => {
                 const dispLoc = getArr(c.local).join(', ') || 'N/A'; const dataMat = c.data_matricula ? new Date(c.data_matricula).toLocaleDateString('pt-PT') : 'N/A'; const reservado = isReservado(c);
                 const classRow = reservado ? 'bg-yellow-50 hover:bg-yellow-100' : 'hover:bg-blue-50'; const classPreco = reservado ? 'text-red-600' : 'text-bmw';
-                const tagReserva = reservado ? `<span class="bg-yellow-400 text-yellow-900 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest ml-2 border border-yellow-500">Em Negociação</span>` : '';
+                const tagReserva = reservado ? `<span class="inline-block whitespace-nowrap align-middle bg-yellow-400 text-yellow-900 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest ml-2 border border-yellow-500">Em Negociação</span>` : '';
                 const dispMarca = getArr(c.marca).join(', ') || 'BMW';
-                return `<tr class="${classRow} cursor-pointer border-b border-gray-50 transition-colors" onclick="abrirDetalheViatura('${c.chassis}')"><td class="px-5 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold border border-gray-200 shadow-sm">${dispLoc}</span></td><td class="px-5 py-4 text-gray-700 font-semibold whitespace-nowrap">${dispMarca}</td><td class="px-5 py-4 font-bold text-gray-900">${c.modelo || '-'}${tagReserva}</td><td class="px-5 py-4 text-gray-600">${c.versao || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs">${c.encomenda || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs uppercase">${c.chassis || '-'}</td><td class="px-5 py-4 text-gray-800 font-mono text-xs uppercase font-semibold">${c.matricula || '-'}</td><td class="px-5 py-4 text-center text-gray-500 text-xs">${dataMat}</td><td class="px-5 py-4 text-right text-xs text-gray-400 line-through">${(c.pvp_bruto||0) > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</td><td class="px-5 py-4 text-right font-black ${classPreco} text-sm">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td></tr>`;
+                return `<tr class="${classRow} cursor-pointer border-b border-gray-50 transition-colors" onclick="abrirDetalheViatura('${c.chassis}')"><td class="px-5 py-4 text-center"><span class="px-2 py-1 rounded bg-gray-100 text-gray-600 text-[10px] font-bold border border-gray-200 shadow-sm">${dispLoc}</span></td><td class="px-5 py-4 text-gray-700 font-semibold whitespace-nowrap">${dispMarca}</td><td class="px-5 py-4 font-bold text-gray-900 whitespace-nowrap">${c.modelo || '-'}${tagReserva}</td><td class="px-5 py-4 text-gray-600">${c.versao || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs">${c.encomenda || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs uppercase">${c.chassis || '-'}</td><td class="px-5 py-4 text-gray-800 font-mono text-xs uppercase font-semibold">${c.matricula || '-'}</td><td class="px-5 py-4 text-center text-gray-500 text-xs">${dataMat}</td><td class="px-5 py-4 text-right text-xs text-gray-400 line-through whitespace-nowrap">${(c.pvp_bruto||0) > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</td><td class="px-5 py-4 text-right font-black ${classPreco} text-sm whitespace-nowrap">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td></tr>`;
             }).join('');
+            ajustarAlturaParque();
         }
+
+        // Ajusta a altura do painel da tabela do Parque para preencher o ecrã
+        // por baixo do topo fixo, mantendo o cabeçalho de colunas sempre visível
+        // (freeze panes). Só atua quando a vista de tabela está visível.
+        function ajustarAlturaParque() {
+            const wrap = document.getElementById('parque-scroll');
+            if (!wrap || wrap.offsetParent === null) return;
+            const top = wrap.getBoundingClientRect().top;
+            const alturaDisp = window.innerHeight - top - 16;
+            wrap.style.maxHeight = Math.max(240, alturaDisp) + 'px';
+        }
+        window.addEventListener('resize', ajustarAlturaParque);
 
         // ── BOT DE INTELIGÊNCIA ARTIFICIAL ────────────────────────────────────
         function toggleChat() { const cw = document.getElementById('chat-window'); if(cw.classList.contains('opacity-0')) { cw.classList.remove('opacity-0', 'scale-95', 'pointer-events-none'); document.getElementById('chat-input').focus(); } else { cw.classList.add('opacity-0', 'scale-95', 'pointer-events-none'); } }
@@ -1367,11 +1391,29 @@
             alert("Viatura reposta no parque.");
         }
 
-        function prepararNovaViatura() { document.getElementById('form-precos').reset(); document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('edit-original-chassis').value = ""; editCarroTipologia = []; editCarroLocal = []; editCarroMarca = 'BMW'; document.getElementById('edit-kms').value = ""; if(currentUser && currentUser.perfil !== 'Administrador' && !getArr(currentUser.local).includes('Todas') && getArr(currentUser.local).length > 0) { editCarroLocal = [...getArr(currentUser.local)]; } atualizarBotoesEditCarro(); document.getElementById('btn-remover-viatura').classList.add('hidden'); ['idade','penetracao','pvp-bruto','iva','desc-perc','desc-eur','preco-min','s-iva','mg','mg-perc'].forEach(id => { if(document.getElementById('auto-'+id)) document.getElementById('auto-'+id).value = "--"; }); }
+        // Lista canónica de linhas de modelo BMW (garante X4/X5/X6/X7 e restantes,
+        // mesmo que ainda não existam no parque). É unida aos modelos já presentes
+        // no inventário para nunca perder um valor gravado.
+        const MODELOS_CANONICOS = ['Série 1','Série 2','Série 3','Série 4','Série 5','Série 6','Série 7','Série 8','X1','X2','X3','X4','X5','X6','X7','XM','Z4','i4','i5','i7','iX','iX1','iX2','iX3','M2','M3','M4','M5','M8','M'];
+        function popularDropdownModelos(selecionado) {
+            const sel = document.getElementById('edit-modelo');
+            if (!sel) return;
+            const vistos = new Set(); const lista = [];
+            const push = (v) => { const t = (v || '').toString().trim(); if (!t) return; const k = t.toLowerCase(); if (vistos.has(k)) return; vistos.add(k); lista.push(t); };
+            MODELOS_CANONICOS.forEach(push);
+            try { (inventario || []).forEach(c => push(c.modelo)); } catch (e) {}
+            push(selecionado);
+            sel.innerHTML = '';
+            const opt0 = document.createElement('option'); opt0.value = ''; opt0.textContent = 'Selecionar modelo…'; sel.appendChild(opt0);
+            lista.forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; sel.appendChild(o); });
+            sel.value = selecionado || '';
+        }
+
+        function prepararNovaViatura() { document.getElementById('form-precos').reset(); popularDropdownModelos(''); document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('edit-original-chassis').value = ""; editCarroTipologia = []; editCarroLocal = []; editCarroMarca = 'BMW'; document.getElementById('edit-kms').value = ""; if(currentUser && currentUser.perfil !== 'Administrador' && !getArr(currentUser.local).includes('Todas') && getArr(currentUser.local).length > 0) { editCarroLocal = [...getArr(currentUser.local)]; } atualizarBotoesEditCarro(); document.getElementById('btn-remover-viatura').classList.add('hidden'); ['idade','penetracao','pvp-bruto','iva','desc-perc','desc-eur','preco-min','s-iva','mg','mg-perc'].forEach(id => { if(document.getElementById('auto-'+id)) document.getElementById('auto-'+id).value = "--"; }); }
         
         function abrirEdicao(ch) {
             const carro = inventario.find(x => x.chassis === ch); 
-            document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('admin-titulo-carro').innerText = `${carro.modelo || '-'} ${carro.versao || '-'}`; document.getElementById('admin-matricula').innerText = `Matrícula: ${carro.matricula || 'N/A'}`; document.getElementById('edit-original-chassis').value = carro.chassis; document.getElementById('edit-chassis').value = carro.chassis; document.getElementById('edit-matricula').value = carro.matricula || ''; document.getElementById('edit-modelo').value = carro.modelo || ''; document.getElementById('edit-versao').value = carro.versao || ''; document.getElementById('edit-link_fotos').value = carro.link_fotos || ''; document.getElementById('edit-estado_entrega').value = carro.estado_entrega || ''; document.getElementById('edit-encomenda').value = carro.encomenda || ''; document.getElementById('edit-data_matricula').value = carro.data_matricula || ''; document.getElementById('edit-kms').value = carro.kms || '';
+            document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('admin-titulo-carro').innerText = `${carro.modelo || '-'} ${carro.versao || '-'}`; document.getElementById('admin-matricula').innerText = `Matrícula: ${carro.matricula || 'N/A'}`; document.getElementById('edit-original-chassis').value = carro.chassis; document.getElementById('edit-chassis').value = carro.chassis; document.getElementById('edit-matricula').value = carro.matricula || ''; popularDropdownModelos(carro.modelo || ''); document.getElementById('edit-versao').value = carro.versao || ''; document.getElementById('edit-link_fotos').value = carro.link_fotos || ''; document.getElementById('edit-estado_entrega').value = carro.estado_entrega || ''; document.getElementById('edit-encomenda').value = carro.encomenda || ''; document.getElementById('edit-data_matricula').value = carro.data_matricula || ''; document.getElementById('edit-kms').value = carro.kms || '';
             editCarroTipologia = [...getArr(carro.tipologia)]; editCarroLocal = [...getArr(carro.local)]; editCarroMarca = getArr(carro.marca)[0] || 'BMW'; atualizarBotoesEditCarro();
             const si = getInps(carro.inputs);
             ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc'].forEach(k => document.getElementById('edit-'+k).value=numeroParaStr(si[k])); ['mgb','esf','pac','dem','sup'].forEach(k => document.getElementById('edit-'+k).value=numeroParaStrPerc(si[k]*100)); 
