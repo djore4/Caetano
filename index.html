@@ -476,6 +476,12 @@
                                 <div class="col-span-1 md:col-span-2"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">VERSÃO</label><input type="text" id="edit-versao" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">ESTADO ENTREGA</label><input type="text" id="edit-estado_entrega" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw" placeholder="Ex: Imediata"></div>
                             </div>
+                            <div id="painel-periodos30" class="hidden mb-4 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <div><label class="block text-[9px] font-bold text-blue-500 uppercase tracking-widest">Dias desde matrícula</label><p id="p30-dias" class="text-lg font-black text-gray-800">--</p></div>
+                                <div><label class="block text-[9px] font-bold text-blue-500 uppercase tracking-widest">Períodos de 30 dias</label><p id="p30-periodos" class="text-lg font-black text-bmw">--</p></div>
+                                <div><label class="block text-[9px] font-bold text-blue-500 uppercase tracking-widest">Próximo escalão em</label><p id="p30-faltam" class="text-lg font-black text-gray-800">--</p></div>
+                                <div><label class="block text-[9px] font-bold text-blue-500 uppercase tracking-widest">Data próximo escalão</label><p id="p30-data" class="text-lg font-black text-gray-800">--</p></div>
+                            </div>
                             <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">MARCA</label><div class="flex flex-wrap gap-2" id="edit-marca-container"><button type="button" onclick="setEditMarca('BMW')" id="btn-edit-marca-BMW" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">BMW</button><button type="button" onclick="setEditMarca('BMW Motorrad')" id="btn-edit-marca-BMW Motorrad" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">BMW Motorrad</button></div></div>
                             <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">TECNOLOGIA</label><div class="flex flex-wrap gap-2" id="edit-tipologia-container"><button type="button" onclick="toggleEditTipologia('ICE')" id="btn-edit-tip-ICE" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">ICE</button><button type="button" onclick="toggleEditTipologia('BEV')" id="btn-edit-tip-BEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">BEV</button><button type="button" onclick="toggleEditTipologia('PHEV')" id="btn-edit-tip-PHEV" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">PHEV</button><button type="button" onclick="toggleEditTipologia('M')" id="btn-edit-tip-M" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">M</button></div></div>
                             <div class="mb-4"><label class="block text-[10px] font-bold text-gray-500 mb-2 tracking-widest">LOCALIZAÇÃO (Multi-seleção)</label><div class="flex flex-wrap gap-2" id="edit-local-container"><button type="button" onclick="toggleEditLocal('Porto')" id="btn-edit-loc-Porto" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">Porto</button><button type="button" onclick="toggleEditLocal('Gaia')" id="btn-edit-loc-Gaia" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">Gaia</button><button type="button" onclick="toggleEditLocal('Feira')" id="btn-edit-loc-Feira" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">Feira</button><button type="button" onclick="toggleEditLocal('Aveiro')" id="btn-edit-loc-Aveiro" class="filter-btn border px-4 py-2 rounded-lg text-xs font-bold bg-white text-gray-600 transition-colors">Aveiro</button></div></div>
@@ -495,7 +501,7 @@
                                 </div>
                             </div>
                             <div class="bg-gray-50 p-4 border-t border-gray-200 grid grid-cols-2 lg:grid-cols-4 gap-4">
-                                <div><label class="block text-[9px] font-bold text-slate-400 uppercase">Idade (Meses)</label><input type="text" readonly id="auto-idade" class="w-full text-base outline-none calc-auto"></div>
+                                <div><label class="block text-[9px] font-bold text-slate-400 uppercase">Idade (Blocos 30 dias)</label><input type="text" readonly id="auto-idade" class="w-full text-base outline-none calc-auto"></div>
                                 <div><label class="block text-[9px] font-bold text-slate-400 uppercase">Penetração Opc.</label><input type="text" readonly id="auto-penetracao" class="w-full text-base outline-none calc-auto"></div>
                                 <div><label class="block text-[9px] font-bold text-slate-600 uppercase">PVP Bruto (C/ IVA)</label><input type="text" readonly id="auto-pvp-bruto" class="w-full text-base outline-none calc-auto font-black"></div>
                                 <div><label class="block text-[9px] font-bold text-slate-400 uppercase">IVA Aportado</label><input type="text" readonly id="auto-iva" class="w-full text-base outline-none calc-auto"></div>
@@ -533,6 +539,22 @@
                                 <div><label class="block text-[9px] font-bold text-slate-500 uppercase">S/ IVA PVP (€)</label><input type="text" readonly id="auto-s-iva" class="w-full text-base outline-none calc-auto"></div>
                                 <div><label class="block text-[10px] font-black text-green-700 uppercase">Margem Real (€)</label><input type="text" readonly id="auto-mg" class="w-full text-xl font-black outline-none calc-auto"></div>
                                 <div><label class="block text-[10px] font-black text-green-700 uppercase">Margem Real (%)</label><input type="text" readonly id="auto-mg-perc" class="w-full text-xl font-black outline-none calc-auto"></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-blue-200 rounded-xl overflow-hidden shadow-sm">
+                            <div class="p-6">
+                                <h3 class="text-xs font-bold text-bmw uppercase tracking-widest mb-1">4. Apoio da Marca (Blocos 30 dias)</h3>
+                                <p class="text-[10px] text-gray-400 mb-4">Valor total dividido em 6 blocos de 30 dias. Cada bloco completo desde a matrícula soma 1/6 do total. Informativo: não altera a Margem Real acima.</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div><label class="block text-[10px] font-bold text-gray-500 mb-1">APOIO MARCA TOTAL (€)</label><input type="text" id="edit-apoio_total" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-3 text-base outline-none focus:border-bmw"></div>
+                                </div>
+                            </div>
+                            <div class="bg-blue-50 p-4 border-t border-blue-100 grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <div><label class="block text-[9px] font-bold text-blue-500 uppercase">Por Bloco 30d (€)</label><input type="text" readonly id="auto-apoio-bloco" class="w-full text-base outline-none calc-auto"></div>
+                                <div><label class="block text-[9px] font-bold text-blue-500 uppercase">Apoio Atual (€)</label><input type="text" readonly id="auto-apoio-atual" class="w-full text-base outline-none calc-auto font-black text-blue-700"></div>
+                                <div><label class="block text-[9px] font-bold text-blue-500 uppercase">No Próximo Bloco (€)</label><input type="text" readonly id="auto-apoio-prox" class="w-full text-base outline-none calc-auto"></div>
+                                <div><label class="block text-[9px] font-bold text-blue-500 uppercase">Margem c/ Apoio (€)</label><input type="text" readonly id="auto-mg-apoio" class="w-full text-base outline-none calc-auto font-black"></div>
                             </div>
                         </div>
 
@@ -725,7 +747,7 @@
             }
         } catch(e) { console.error("Erro Supabase", e); }
 
-        const templateInputs = { pvb: 0, opc: 0, bsi: 0, eco: 4.20, leg: 1550, isv: 0, mgb: 0, esf: 0, pac: 0, dem: 0, sup: 0, pvp_desc: 0, depreciacoes: 0 };
+        const templateInputs = { pvb: 0, opc: 0, bsi: 0, eco: 4.20, leg: 1550, isv: 0, mgb: 0, esf: 0, pac: 0, dem: 0, sup: 0, pvp_desc: 0, depreciacoes: 0, apoio_total: 0 };
         
         let inventario = []; let utilizadoresDb = []; let historicoDb = []; let vendidasDb = []; let currentUser = null;
         let currentSortCol = null; let currentSortAsc = true;
@@ -999,6 +1021,42 @@
         function formatarEuros(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €'; }
         function formatarPerc(num) { return ((num||0)*100).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %'; }
 
+        // Apoio da marca sobe a cada 30 dias desde a data de matrícula.
+        // Dias contados em UTC para evitar desvios de fuso/hora de verão.
+        function calcularPeriodos30(dataMatricula) {
+            if (!dataMatricula) return null;
+            const [a, m, d] = String(dataMatricula).slice(0, 10).split('-').map(Number);
+            if (!a || !m || !d) return null;
+            const matUTC = Date.UTC(a, m - 1, d);
+            const h = new Date(); const hojeUTC = Date.UTC(h.getFullYear(), h.getMonth(), h.getDate());
+            const dias = Math.floor((hojeUTC - matUTC) / 86400000);
+            if (dias < 0) return { dias, periodos: 0, faltam: -dias, proxima: new Date(matUTC), futura: true };
+            const periodos = Math.floor(dias / 30);
+            const faltam = 30 - (dias % 30);
+            return { dias, periodos, faltam, proxima: new Date(matUTC + (periodos + 1) * 30 * 86400000), futura: false };
+        }
+
+        const APOIO_BLOCOS = 6;
+        function calcularApoioMarca(total, dataMatricula) {
+            const t = total || 0; const bloco = t / APOIO_BLOCOS;
+            const p = calcularPeriodos30(dataMatricula);
+            const blocos = p && !p.futura ? Math.min(p.periodos, APOIO_BLOCOS) : 0;
+            return { bloco, blocos, atual: bloco * blocos, proximo: bloco * Math.min(blocos + 1, APOIO_BLOCOS), maximo: blocos >= APOIO_BLOCOS };
+        }
+
+        function renderPeriodos30(dataMatricula) {
+            const painel = document.getElementById('painel-periodos30'); if (!painel) return;
+            const p = calcularPeriodos30(dataMatricula);
+            if (!p) { painel.classList.add('hidden'); return; }
+            painel.classList.remove('hidden');
+            const dataStr = p.proxima.toLocaleDateString('pt-PT', { timeZone: 'UTC' });
+            document.getElementById('p30-dias').innerText = p.futura ? 'Data futura' : p.dias;
+            document.getElementById('p30-periodos').innerText = p.periodos;
+            document.getElementById('p30-faltam').innerText = p.faltam === 1 ? '1 dia' : `${p.faltam} dias`;
+            document.getElementById('p30-faltam').className = 'text-lg font-black ' + (p.faltam <= 5 ? 'text-orange-600' : 'text-gray-800');
+            document.getElementById('p30-data').innerText = dataStr;
+        }
+
         function calcularPrecosTempoReal(carro) {
             const inps = getInps(carro.inputs);
             const base_tributavel = (inps.pvb||0) + (inps.opc||0) + (inps.bsi||0) + (inps.eco||0) + (inps.leg||0) + (inps.isv||0);
@@ -1010,10 +1068,8 @@
             
             let idade_calc = 0; let idade_dias = 0;
             if (carro.data_matricula) { 
-                const matDate = new Date(carro.data_matricula); const hoje = new Date(); 
-                idade_calc = (hoje.getFullYear() - matDate.getFullYear()) * 12 + (hoje.getMonth() - matDate.getMonth()); 
-                if (idade_calc < 0) idade_calc = 0; 
-                const diffTime = hoje - matDate; idade_dias = diffTime > 0 ? Math.floor(diffTime / (1000 * 60 * 60 * 24)) : 0; 
+                const p30 = calcularPeriodos30(carro.data_matricula);
+                if (p30) { idade_dias = Math.max(p30.dias, 0); idade_calc = p30.periodos; }
             }
             return { pvp_bruto, pvp_final: (inps.pvp_desc||0), mg, idade: idade_calc, idade_dias: idade_dias, penetracao:((inps.pvb>0)?((inps.opc||0)/inps.pvb):0), desc_perc, desc_eur: desconto_eur, iva:(pvp_bruto/(1+taxa_iva)*taxa_iva), preco_minimo, mg_perc:((inps.pvb+inps.opc)>0?(mg/(inps.pvb+inps.opc)):0), s_iva:(inps.pvp_desc||0)/(1+taxa_iva) };
         }
@@ -1021,9 +1077,12 @@
         function carregarPrecosEmDireto() { inventario.forEach(c => { const s = calcularPrecosTempoReal(c); if(s){ c.pvp_bruto = s.pvp_bruto; c.pvp_final = s.pvp_final; c.stats = s; } }); }
 
         function recalcularPreview() {
-            const m = { pvb: strParaNumero(document.getElementById('edit-pvb').value), opc: strParaNumero(document.getElementById('edit-opc').value), bsi: strParaNumero(document.getElementById('edit-bsi').value), eco: strParaNumero(document.getElementById('edit-eco').value), leg: strParaNumero(document.getElementById('edit-leg').value), isv: strParaNumero(document.getElementById('edit-isv').value), mgb: strParaNumero(document.getElementById('edit-mgb').value)/100, esf: strParaNumero(document.getElementById('edit-esf').value)/100, pac: strParaNumero(document.getElementById('edit-pac').value)/100, dem: strParaNumero(document.getElementById('edit-dem').value)/100, sup: strParaNumero(document.getElementById('edit-sup').value)/100, depreciacoes: strParaNumero(document.getElementById('edit-depreciacoes').value), pvp_desc: strParaNumero(document.getElementById('edit-pvp_desc').value) };
-            const dt_mat = document.getElementById('edit-data_matricula').value; const stats = calcularPrecosTempoReal({inputs: m, data_matricula: dt_mat}); if(!stats) return;
+            const m = { pvb: strParaNumero(document.getElementById('edit-pvb').value), opc: strParaNumero(document.getElementById('edit-opc').value), bsi: strParaNumero(document.getElementById('edit-bsi').value), eco: strParaNumero(document.getElementById('edit-eco').value), leg: strParaNumero(document.getElementById('edit-leg').value), isv: strParaNumero(document.getElementById('edit-isv').value), mgb: strParaNumero(document.getElementById('edit-mgb').value)/100, esf: strParaNumero(document.getElementById('edit-esf').value)/100, pac: strParaNumero(document.getElementById('edit-pac').value)/100, dem: strParaNumero(document.getElementById('edit-dem').value)/100, sup: strParaNumero(document.getElementById('edit-sup').value)/100, depreciacoes: strParaNumero(document.getElementById('edit-depreciacoes').value), pvp_desc: strParaNumero(document.getElementById('edit-pvp_desc').value), apoio_total: strParaNumero(document.getElementById('edit-apoio_total').value) };
+            const dt_mat = document.getElementById('edit-data_matricula').value; const stats = calcularPrecosTempoReal({inputs: m, data_matricula: dt_mat}); renderPeriodos30(dt_mat); if(!stats) return;
             document.getElementById('auto-idade').value = stats.idade; document.getElementById('auto-penetracao').value = formatarPerc(stats.penetracao); document.getElementById('auto-pvp-bruto').value = formatarEuros(stats.pvp_bruto); document.getElementById('auto-iva').value = formatarEuros(stats.iva); document.getElementById('auto-desc-perc').value = formatarPerc(stats.desc_perc); document.getElementById('auto-desc-eur').value = formatarEuros(stats.desc_eur); document.getElementById('auto-preco-min').value = formatarEuros(stats.pvp_bruto); document.getElementById('auto-s-iva').value = formatarEuros(stats.s_iva); document.getElementById('auto-mg-perc').value = formatarPerc(stats.mg_perc);
+            const ap = calcularApoioMarca(m.apoio_total, dt_mat);
+            document.getElementById('auto-apoio-bloco').value = formatarEuros(ap.bloco); document.getElementById('auto-apoio-atual').value = `${formatarEuros(ap.atual)} (${ap.blocos}/${APOIO_BLOCOS})`; document.getElementById('auto-apoio-prox').value = ap.maximo ? 'Máximo atingido' : formatarEuros(ap.proximo);
+            const mgApEl = document.getElementById('auto-mg-apoio'); const mgAp = stats.mg + ap.atual; mgApEl.value = formatarEuros(mgAp); mgApEl.className = "w-full text-base font-black outline-none calc-auto " + (mgAp < 0 ? "text-red-600" : "text-green-700");
             const mgEl = document.getElementById('auto-mg'); mgEl.value = formatarEuros(stats.mg); mgEl.className = stats.mg < 0 ? "w-full text-xl font-black outline-none calc-auto text-red-600" : "w-full text-xl font-black outline-none calc-auto text-green-700";
         }
 
@@ -1331,6 +1390,12 @@
             }); 
         }
 
+        function badgePeriodos30(dataMatricula) {
+            const p = calcularPeriodos30(dataMatricula); if (!p || p.futura) return '';
+            const cor = p.faltam <= 5 ? 'bg-orange-100 text-orange-700' : 'bg-blue-50 text-bmw';
+            return `<span class="text-[10px] font-bold px-2 py-0.5 rounded ${cor} whitespace-nowrap" title="${p.dias} dias desde matrícula · próximo escalão em ${p.faltam} dias">${p.periodos}×30d · faltam ${p.faltam}d</span>`;
+        }
+
         function renderizarListaAdmin() { 
             try {
                 const loc = filtroLocalAdmin; let dados = inventario;
@@ -1338,7 +1403,7 @@
                 dados = dados.filter(c => { const arrLoc = getArr(c.local); return loc === 'Todas' || arrLoc.includes(loc); });
                 const cont = document.getElementById('lista-admin-viaturas');
                 if(dados.length === 0) { cont.innerHTML = '<p class="text-xs text-gray-400 font-bold uppercase tracking-widest text-center py-10">Nenhuma viatura autorizada/encontrada.</p>'; return; }
-                cont.innerHTML = dados.map(c=>`<button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white hover:border-bmw hover:shadow-md transition-all mb-2"><div class="font-black text-sm text-gray-800">${c.modelo || '-'} ${c.versao || '-'}</div><div class="text-[10px] text-gray-400 mt-1 uppercase">${c.matricula||c.chassis}</div></button>`).join(''); 
+                cont.innerHTML = dados.map(c=>`<button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white hover:border-bmw hover:shadow-md transition-all mb-2"><div class="font-black text-sm text-gray-800">${c.modelo || '-'} ${c.versao || '-'}</div><div class="flex items-center justify-between gap-2 mt-1"><div class="text-[10px] text-gray-400 uppercase">${c.matricula||c.chassis}</div>${badgePeriodos30(c.data_matricula)}</div></button>`).join(''); 
             } catch(err) {}
         }
 
@@ -1435,14 +1500,14 @@
             }
         }
 
-        function prepararNovaViatura() { document.getElementById('form-precos').reset(); atualizarCampoModelo('BMW', ''); document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('edit-original-chassis').value = ""; editCarroTipologia = []; editCarroLocal = []; editCarroMarca = 'BMW'; document.getElementById('edit-kms').value = ""; if(currentUser && currentUser.perfil !== 'Administrador' && !getArr(currentUser.local).includes('Todas') && getArr(currentUser.local).length > 0) { editCarroLocal = [...getArr(currentUser.local)]; } atualizarBotoesEditCarro(); document.getElementById('btn-remover-viatura').classList.add('hidden'); ['idade','penetracao','pvp-bruto','iva','desc-perc','desc-eur','preco-min','s-iva','mg','mg-perc'].forEach(id => { if(document.getElementById('auto-'+id)) document.getElementById('auto-'+id).value = "--"; }); }
+        function prepararNovaViatura() { document.getElementById('form-precos').reset(); atualizarCampoModelo('BMW', ''); document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('edit-original-chassis').value = ""; editCarroTipologia = []; editCarroLocal = []; editCarroMarca = 'BMW'; document.getElementById('edit-kms').value = ""; if(currentUser && currentUser.perfil !== 'Administrador' && !getArr(currentUser.local).includes('Todas') && getArr(currentUser.local).length > 0) { editCarroLocal = [...getArr(currentUser.local)]; } atualizarBotoesEditCarro(); document.getElementById('btn-remover-viatura').classList.add('hidden'); renderPeriodos30(null); ['idade','penetracao','pvp-bruto','iva','desc-perc','desc-eur','preco-min','s-iva','mg','mg-perc','apoio-bloco','apoio-atual','apoio-prox','mg-apoio'].forEach(id => { if(document.getElementById('auto-'+id)) document.getElementById('auto-'+id).value = "--"; }); }
         
         function abrirEdicao(ch) {
             const carro = inventario.find(x => x.chassis === ch); 
             document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('admin-titulo-carro').innerText = `${carro.modelo || '-'} ${carro.versao || '-'}`; document.getElementById('admin-matricula').innerText = `Matrícula: ${carro.matricula || 'N/A'}`; document.getElementById('edit-original-chassis').value = carro.chassis; document.getElementById('edit-chassis').value = carro.chassis; document.getElementById('edit-matricula').value = carro.matricula || ''; document.getElementById('edit-versao').value = carro.versao || ''; document.getElementById('edit-link_fotos').value = carro.link_fotos || ''; document.getElementById('edit-estado_entrega').value = carro.estado_entrega || ''; document.getElementById('edit-encomenda').value = carro.encomenda || ''; document.getElementById('edit-data_matricula').value = carro.data_matricula || ''; document.getElementById('edit-kms').value = carro.kms || '';
             editCarroTipologia = [...getArr(carro.tipologia)]; editCarroLocal = [...getArr(carro.local)]; editCarroMarca = getArr(carro.marca)[0] || 'BMW'; atualizarBotoesEditCarro(); atualizarCampoModelo(editCarroMarca, carro.modelo || '');
             const si = getInps(carro.inputs);
-            ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc'].forEach(k => document.getElementById('edit-'+k).value=numeroParaStr(si[k])); ['mgb','esf','pac','dem','sup'].forEach(k => document.getElementById('edit-'+k).value=numeroParaStrPerc(si[k]*100)); 
+            ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc','apoio_total'].forEach(k => document.getElementById('edit-'+k).value=numeroParaStr(si[k])); ['mgb','esf','pac','dem','sup'].forEach(k => document.getElementById('edit-'+k).value=numeroParaStrPerc(si[k]*100)); 
             document.getElementById('btn-remover-viatura').classList.remove('hidden'); recalcularPreview();
         }
 
@@ -1497,7 +1562,7 @@
 
             carro.tipologia = [...editCarroTipologia]; carro.local = [...editCarroLocal]; carro.marca = [editCarroMarca]; carro.estado_negocio = 'VN';
             if (!carro.inputs) carro.inputs = {...templateInputs};
-            ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value); }); ['mgb','esf','pac','dem','sup'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value) / 100; });
+            ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc','apoio_total'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value); }); ['mgb','esf','pac','dem','sup'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value) / 100; });
             const statsAtuais = calcularPrecosTempoReal(carro); if(statsAtuais) carro.stats = statsAtuais;
 
             const payloadSupabase = { chassis: carro.chassis, matricula: carro.matricula, modelo: carro.modelo, versao: carro.versao, estado_entrega: carro.estado_entrega, data_matricula: carro.data_matricula, encomenda: carro.encomenda, kms: carro.kms, tipologia: carro.tipologia, local: carro.local, link_fotos: carro.link_fotos, marca: carro.marca, estado_negocio: carro.estado_negocio, inputs: carro.inputs, stats: carro.stats, reserva_expira: memExpira, reserva_user: memUser };
