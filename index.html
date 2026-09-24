@@ -818,7 +818,7 @@
             let perfil = utilizadoresDb.find(u => (u.email || '').toLowerCase() === email);
             if (!perfil) {
                 // Sessão válida sem perfil definido: acesso mínimo até a Administração associar um perfil.
-                perfil = { id: null, nome: authUser.email, email: authUser.email, perfil: 'Vendedor', local: [], negocio: ['VN'], marca: ['BMW'] };
+                perfil = { id: null, nome: authUser.email, email: authUser.email, perfil: 'Vendedor', local: [], negocio: ['VD'], marca: ['BMW'] };
             }
             currentUser = perfil;
             // Pipeline completo de render: calcula os preços de venda (carregarPrecosEmDireto),
@@ -1006,7 +1006,7 @@
         }
 
         const taxa_iva = 0.23;
-        // Tipo de negócio da viatura: VD (demonstração) ou VU (usada). Registos antigos ('VN' ou vazio) contam como VD.
+        // Tipo de negócio da viatura: VD (demonstração) ou VU (usada). Valor vazio conta como VD.
         const TIPOS_NEGOCIO = ['VD','VU'];
         function tipoNegocio(c) { return (c && c.estado_negocio === 'VU') ? 'VU' : 'VD'; }
         function badgeNegocio(c) { const t = tipoNegocio(c); return `<span class="inline-block text-[9px] font-black px-1.5 py-0.5 rounded border ${t === 'VU' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-blue-50 text-bmw border-blue-100'}">${t}</span>`; }
@@ -1627,7 +1627,7 @@
                 id: isUpdate ? parseInt(idVal) : undefined,
                 nome: document.getElementById('user-nome').value.trim(),
                 email: (document.getElementById('user-email').value || '').trim().toLowerCase(),
-                local: uLoc, perfil: uPerf, negocio: ['VN'], marca: ['BMW']
+                local: uLoc, perfil: uPerf, negocio: ['VD'], marca: ['BMW']
             };
             if (!payload.nome || !payload.email || !payload.perfil) { alert("Preencha nome, email e perfil."); return; }
             if (!supabaseClient) { alert("Sem ligação ao servidor."); return; }
