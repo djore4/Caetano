@@ -500,11 +500,9 @@
                                     <div><label class="block text-[10px] font-bold text-gray-500 mb-1">ISV</label><input type="text" id="edit-isv" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
                                 </div>
                             </div>
-                            <div class="bg-gray-50 p-4 border-t border-gray-200 grid grid-cols-2 lg:grid-cols-4 gap-4">
-                                <div><label class="block text-[9px] font-bold text-slate-400 uppercase">Idade (Blocos 30 dias)</label><input type="text" readonly id="auto-idade" class="w-full text-base outline-none calc-auto"></div>
+                            <div class="bg-gray-50 p-4 border-t border-gray-200 grid grid-cols-2 gap-4">
                                 <div><label class="block text-[9px] font-bold text-slate-400 uppercase">Penetração Opc.</label><input type="text" readonly id="auto-penetracao" class="w-full text-base outline-none calc-auto"></div>
                                 <div><label class="block text-[9px] font-bold text-slate-600 uppercase">PVP Bruto (C/ IVA)</label><input type="text" readonly id="auto-pvp-bruto" class="w-full text-base outline-none calc-auto font-black"></div>
-                                <div><label class="block text-[9px] font-bold text-slate-400 uppercase">IVA Aportado</label><input type="text" readonly id="auto-iva" class="w-full text-base outline-none calc-auto"></div>
                             </div>
                         </div>
 
@@ -539,22 +537,6 @@
                                 <div><label class="block text-[9px] font-bold text-slate-500 uppercase">S/ IVA PVP (€)</label><input type="text" readonly id="auto-s-iva" class="w-full text-base outline-none calc-auto"></div>
                                 <div><label class="block text-[10px] font-black text-green-700 uppercase">Margem Real (€)</label><input type="text" readonly id="auto-mg" class="w-full text-xl font-black outline-none calc-auto"></div>
                                 <div><label class="block text-[10px] font-black text-green-700 uppercase">Margem Real (%)</label><input type="text" readonly id="auto-mg-perc" class="w-full text-xl font-black outline-none calc-auto"></div>
-                            </div>
-                        </div>
-
-                        <div class="bg-white border border-blue-200 rounded-xl overflow-hidden shadow-sm">
-                            <div class="p-6">
-                                <h3 class="text-xs font-bold text-bmw uppercase tracking-widest mb-1">4. Apoio da Marca (Blocos 30 dias)</h3>
-                                <p class="text-[10px] text-gray-400 mb-4">Valor total dividido em 6 blocos de 30 dias. Cada bloco completo desde a matrícula soma 1/6 do total. Informativo: não altera a Margem Real acima.</p>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div><label class="block text-[10px] font-bold text-gray-500 mb-1">APOIO MARCA TOTAL (€)</label><input type="text" id="edit-apoio_total" oninput="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-3 text-base outline-none focus:border-bmw"></div>
-                                </div>
-                            </div>
-                            <div class="bg-blue-50 p-4 border-t border-blue-100 grid grid-cols-2 md:grid-cols-4 gap-4">
-                                <div><label class="block text-[9px] font-bold text-blue-500 uppercase">Por Bloco 30d (€)</label><input type="text" readonly id="auto-apoio-bloco" class="w-full text-base outline-none calc-auto"></div>
-                                <div><label class="block text-[9px] font-bold text-blue-500 uppercase">Apoio Atual (€)</label><input type="text" readonly id="auto-apoio-atual" class="w-full text-base outline-none calc-auto font-black text-blue-700"></div>
-                                <div><label class="block text-[9px] font-bold text-blue-500 uppercase">No Próximo Bloco (€)</label><input type="text" readonly id="auto-apoio-prox" class="w-full text-base outline-none calc-auto"></div>
-                                <div><label class="block text-[9px] font-bold text-blue-500 uppercase">Margem c/ Apoio (€)</label><input type="text" readonly id="auto-mg-apoio" class="w-full text-base outline-none calc-auto font-black"></div>
                             </div>
                         </div>
 
@@ -747,7 +729,7 @@
             }
         } catch(e) { console.error("Erro Supabase", e); }
 
-        const templateInputs = { pvb: 0, opc: 0, bsi: 0, eco: 4.20, leg: 1550, isv: 0, mgb: 0, esf: 0, pac: 0, dem: 0, sup: 0, pvp_desc: 0, depreciacoes: 0, apoio_total: 0 };
+        const templateInputs = { pvb: 0, opc: 0, bsi: 0, eco: 4.20, leg: 1550, isv: 0, mgb: 0, esf: 0, pac: 0, dem: 0, sup: 0, pvp_desc: 0, depreciacoes: 0 };
         
         let inventario = []; let utilizadoresDb = []; let historicoDb = []; let vendidasDb = []; let currentUser = null;
         let currentSortCol = null; let currentSortAsc = true;
@@ -1036,13 +1018,6 @@
             return { dias, periodos, faltam, proxima: new Date(matUTC + (periodos + 1) * 30 * 86400000), futura: false };
         }
 
-        const APOIO_BLOCOS = 6;
-        function calcularApoioMarca(total, dataMatricula) {
-            const t = total || 0; const bloco = t / APOIO_BLOCOS;
-            const p = calcularPeriodos30(dataMatricula);
-            const blocos = p && !p.futura ? Math.min(p.periodos, APOIO_BLOCOS) : 0;
-            return { bloco, blocos, atual: bloco * blocos, proximo: bloco * Math.min(blocos + 1, APOIO_BLOCOS), maximo: blocos >= APOIO_BLOCOS };
-        }
 
         function renderPeriodos30(dataMatricula) {
             const painel = document.getElementById('painel-periodos30'); if (!painel) return;
@@ -1077,12 +1052,9 @@
         function carregarPrecosEmDireto() { inventario.forEach(c => { const s = calcularPrecosTempoReal(c); if(s){ c.pvp_bruto = s.pvp_bruto; c.pvp_final = s.pvp_final; c.stats = s; } }); }
 
         function recalcularPreview() {
-            const m = { pvb: strParaNumero(document.getElementById('edit-pvb').value), opc: strParaNumero(document.getElementById('edit-opc').value), bsi: strParaNumero(document.getElementById('edit-bsi').value), eco: strParaNumero(document.getElementById('edit-eco').value), leg: strParaNumero(document.getElementById('edit-leg').value), isv: strParaNumero(document.getElementById('edit-isv').value), mgb: strParaNumero(document.getElementById('edit-mgb').value)/100, esf: strParaNumero(document.getElementById('edit-esf').value)/100, pac: strParaNumero(document.getElementById('edit-pac').value)/100, dem: strParaNumero(document.getElementById('edit-dem').value)/100, sup: strParaNumero(document.getElementById('edit-sup').value)/100, depreciacoes: strParaNumero(document.getElementById('edit-depreciacoes').value), pvp_desc: strParaNumero(document.getElementById('edit-pvp_desc').value), apoio_total: strParaNumero(document.getElementById('edit-apoio_total').value) };
+            const m = { pvb: strParaNumero(document.getElementById('edit-pvb').value), opc: strParaNumero(document.getElementById('edit-opc').value), bsi: strParaNumero(document.getElementById('edit-bsi').value), eco: strParaNumero(document.getElementById('edit-eco').value), leg: strParaNumero(document.getElementById('edit-leg').value), isv: strParaNumero(document.getElementById('edit-isv').value), mgb: strParaNumero(document.getElementById('edit-mgb').value)/100, esf: strParaNumero(document.getElementById('edit-esf').value)/100, pac: strParaNumero(document.getElementById('edit-pac').value)/100, dem: strParaNumero(document.getElementById('edit-dem').value)/100, sup: strParaNumero(document.getElementById('edit-sup').value)/100, depreciacoes: strParaNumero(document.getElementById('edit-depreciacoes').value), pvp_desc: strParaNumero(document.getElementById('edit-pvp_desc').value) };
             const dt_mat = document.getElementById('edit-data_matricula').value; const stats = calcularPrecosTempoReal({inputs: m, data_matricula: dt_mat}); renderPeriodos30(dt_mat); if(!stats) return;
-            document.getElementById('auto-idade').value = stats.idade; document.getElementById('auto-penetracao').value = formatarPerc(stats.penetracao); document.getElementById('auto-pvp-bruto').value = formatarEuros(stats.pvp_bruto); document.getElementById('auto-iva').value = formatarEuros(stats.iva); document.getElementById('auto-desc-perc').value = formatarPerc(stats.desc_perc); document.getElementById('auto-desc-eur').value = formatarEuros(stats.desc_eur); document.getElementById('auto-preco-min').value = formatarEuros(stats.pvp_bruto); document.getElementById('auto-s-iva').value = formatarEuros(stats.s_iva); document.getElementById('auto-mg-perc').value = formatarPerc(stats.mg_perc);
-            const ap = calcularApoioMarca(m.apoio_total, dt_mat);
-            document.getElementById('auto-apoio-bloco').value = formatarEuros(ap.bloco); document.getElementById('auto-apoio-atual').value = `${formatarEuros(ap.atual)} (${ap.blocos}/${APOIO_BLOCOS})`; document.getElementById('auto-apoio-prox').value = ap.maximo ? 'Máximo atingido' : formatarEuros(ap.proximo);
-            const mgApEl = document.getElementById('auto-mg-apoio'); const mgAp = stats.mg + ap.atual; mgApEl.value = formatarEuros(mgAp); mgApEl.className = "w-full text-base font-black outline-none calc-auto " + (mgAp < 0 ? "text-red-600" : "text-green-700");
+            document.getElementById('auto-penetracao').value = formatarPerc(stats.penetracao); document.getElementById('auto-pvp-bruto').value = formatarEuros(stats.pvp_bruto); document.getElementById('auto-desc-perc').value = formatarPerc(stats.desc_perc); document.getElementById('auto-desc-eur').value = formatarEuros(stats.desc_eur); document.getElementById('auto-preco-min').value = formatarEuros(stats.preco_minimo); document.getElementById('auto-s-iva').value = formatarEuros(stats.s_iva); document.getElementById('auto-mg-perc').value = formatarPerc(stats.mg_perc);
             const mgEl = document.getElementById('auto-mg'); mgEl.value = formatarEuros(stats.mg); mgEl.className = stats.mg < 0 ? "w-full text-xl font-black outline-none calc-auto text-red-600" : "w-full text-xl font-black outline-none calc-auto text-green-700";
         }
 
@@ -1500,14 +1472,14 @@
             }
         }
 
-        function prepararNovaViatura() { document.getElementById('form-precos').reset(); atualizarCampoModelo('BMW', ''); document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('edit-original-chassis').value = ""; editCarroTipologia = []; editCarroLocal = []; editCarroMarca = 'BMW'; document.getElementById('edit-kms').value = ""; if(currentUser && currentUser.perfil !== 'Administrador' && !getArr(currentUser.local).includes('Todas') && getArr(currentUser.local).length > 0) { editCarroLocal = [...getArr(currentUser.local)]; } atualizarBotoesEditCarro(); document.getElementById('btn-remover-viatura').classList.add('hidden'); renderPeriodos30(null); ['idade','penetracao','pvp-bruto','iva','desc-perc','desc-eur','preco-min','s-iva','mg','mg-perc','apoio-bloco','apoio-atual','apoio-prox','mg-apoio'].forEach(id => { if(document.getElementById('auto-'+id)) document.getElementById('auto-'+id).value = "--"; }); }
+        function prepararNovaViatura() { document.getElementById('form-precos').reset(); atualizarCampoModelo('BMW', ''); document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('edit-original-chassis').value = ""; editCarroTipologia = []; editCarroLocal = []; editCarroMarca = 'BMW'; document.getElementById('edit-kms').value = ""; if(currentUser && currentUser.perfil !== 'Administrador' && !getArr(currentUser.local).includes('Todas') && getArr(currentUser.local).length > 0) { editCarroLocal = [...getArr(currentUser.local)]; } atualizarBotoesEditCarro(); document.getElementById('btn-remover-viatura').classList.add('hidden'); renderPeriodos30(null); ['penetracao','pvp-bruto','desc-perc','desc-eur','preco-min','s-iva','mg','mg-perc'].forEach(id => { if(document.getElementById('auto-'+id)) document.getElementById('auto-'+id).value = "--"; }); }
         
         function abrirEdicao(ch) {
             const carro = inventario.find(x => x.chassis === ch); 
             document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('admin-titulo-carro').innerText = `${carro.modelo || '-'} ${carro.versao || '-'}`; document.getElementById('admin-matricula').innerText = `Matrícula: ${carro.matricula || 'N/A'}`; document.getElementById('edit-original-chassis').value = carro.chassis; document.getElementById('edit-chassis').value = carro.chassis; document.getElementById('edit-matricula').value = carro.matricula || ''; document.getElementById('edit-versao').value = carro.versao || ''; document.getElementById('edit-link_fotos').value = carro.link_fotos || ''; document.getElementById('edit-estado_entrega').value = carro.estado_entrega || ''; document.getElementById('edit-encomenda').value = carro.encomenda || ''; document.getElementById('edit-data_matricula').value = carro.data_matricula || ''; document.getElementById('edit-kms').value = carro.kms || '';
             editCarroTipologia = [...getArr(carro.tipologia)]; editCarroLocal = [...getArr(carro.local)]; editCarroMarca = getArr(carro.marca)[0] || 'BMW'; atualizarBotoesEditCarro(); atualizarCampoModelo(editCarroMarca, carro.modelo || '');
             const si = getInps(carro.inputs);
-            ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc','apoio_total'].forEach(k => document.getElementById('edit-'+k).value=numeroParaStr(si[k])); ['mgb','esf','pac','dem','sup'].forEach(k => document.getElementById('edit-'+k).value=numeroParaStrPerc(si[k]*100)); 
+            ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc'].forEach(k => document.getElementById('edit-'+k).value=numeroParaStr(si[k])); ['mgb','esf','pac','dem','sup'].forEach(k => document.getElementById('edit-'+k).value=numeroParaStrPerc(si[k]*100)); 
             document.getElementById('btn-remover-viatura').classList.remove('hidden'); recalcularPreview();
         }
 
@@ -1562,7 +1534,7 @@
 
             carro.tipologia = [...editCarroTipologia]; carro.local = [...editCarroLocal]; carro.marca = [editCarroMarca]; carro.estado_negocio = 'VN';
             if (!carro.inputs) carro.inputs = {...templateInputs};
-            ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc','apoio_total'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value); }); ['mgb','esf','pac','dem','sup'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value) / 100; });
+            ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value); }); ['mgb','esf','pac','dem','sup'].forEach(k => { carro.inputs[k] = strParaNumero(document.getElementById('edit-'+k).value) / 100; });
             const statsAtuais = calcularPrecosTempoReal(carro); if(statsAtuais) carro.stats = statsAtuais;
 
             const payloadSupabase = { chassis: carro.chassis, matricula: carro.matricula, modelo: carro.modelo, versao: carro.versao, estado_entrega: carro.estado_entrega, data_matricula: carro.data_matricula, encomenda: carro.encomenda, kms: carro.kms, tipologia: carro.tipologia, local: carro.local, link_fotos: carro.link_fotos, marca: carro.marca, estado_negocio: carro.estado_negocio, inputs: carro.inputs, stats: carro.stats, reserva_expira: memExpira, reserva_user: memUser };
