@@ -467,9 +467,9 @@
                             <h3 class="text-xs font-bold text-gray-800 uppercase mb-4 tracking-widest">0. Identificação da Viatura</h3>
 
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">ENCOMENDA</label><input type="text" id="edit-encomenda" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">CHASSIS</label><input type="text" id="edit-chassis" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none uppercase focus:border-bmw"></div>
-                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">MATRÍCULA</label><input type="text" id="edit-matricula" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none uppercase focus:border-bmw"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">ENCOMENDA <span class="text-red-500">*</span></label><input type="text" id="edit-encomenda" class="campo-obrig w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">CHASSIS <span class="text-red-500">*</span></label><input type="text" id="edit-chassis" class="campo-obrig w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none uppercase focus:border-bmw"></div>
+                                <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">MATRÍCULA <span class="text-red-500">*</span></label><input type="text" id="edit-matricula" onblur="this.value = fmtMatricula(this.value.trim())" class="campo-obrig w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none uppercase focus:border-bmw"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">DATA MATRÍCULA</label><input type="date" id="edit-data_matricula" onchange="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw text-gray-600"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">QUILÓMETROS</label><input type="number" id="edit-kms" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw" placeholder="Ex: 0"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">MODELO</label><div id="edit-modelo-holder"><select id="edit-modelo" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw bg-white"><option value="">Selecionar modelo…</option></select></div></div>
@@ -984,6 +984,9 @@
         }
 
         const taxa_iva = 0.23;
+        function fmtChassis(ch) { const v = (ch || '').toString().trim(); return v.length > 7 ? v.slice(-7) : v; }
+        function normalizarMatricula(m) { const v = (m || '').toString().toUpperCase().replace(/[^A-Z0-9]/g, ''); return v.length === 6 ? `${v.slice(0,2)}-${v.slice(2,4)}-${v.slice(4,6)}` : (m || '').toString().trim().toUpperCase(); }
+        function fmtMatricula(m) { return m ? normalizarMatricula(m) : m; }
         function strParaNumero(str) { let val = (str||"").toString().replace(/\s/g, '').replace(/\./g, '').replace(',', '.'); return parseFloat(val) || 0; }
         function numeroParaStr(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}); }
         function numeroParaStrPerc(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 0, maximumFractionDigits: 2}); }
@@ -1099,7 +1102,7 @@
             const c = inventario.find(x=>x.chassis===ch); if(!c) return;
             document.getElementById('detalhe-chassis-hidden').value = ch; 
             document.getElementById('detalhe-titulo').innerText = `${c.modelo || '-'} ${c.versao || '-'}`; 
-            document.getElementById('detalhe-matricula').innerText = c.matricula || c.chassis; 
+            document.getElementById('detalhe-matricula').innerText = fmtMatricula(c.matricula) || fmtChassis(c.chassis); 
             
             const containerEntrega = document.getElementById('container-destaque-entrega');
             const estiloEntrega = document.getElementById('estilo-destaque-entrega');
@@ -1180,7 +1183,7 @@
             document.getElementById('vista-cartoes').innerHTML = dados.map(c => {
                 const inps = getInps(c.inputs); const stats = c.stats || calcularPrecosTempoReal(c) || {};
                 const dispLoc = getArr(c.local).join(', ') || 'N/A'; const dispTip = getArr(c.tipologia).join(', ') || 'N/A'; const dispMarca = getArr(c.marca).join(', ') || 'BMW';
-                const reservado = isReservado(c); const matChassis = c.matricula || c.chassis || '-'; const modeloVersao = `${c.modelo || '-'} ${c.versao || '-'}`;
+                const reservado = isReservado(c); const matChassis = fmtMatricula(c.matricula) || fmtChassis(c.chassis) || '-'; const modeloVersao = `${c.modelo || '-'} ${c.versao || '-'}`;
                 const dataMatCartao = c.data_matricula ? new Date(c.data_matricula).toLocaleDateString('pt-PT') : 'S/ Matrícula';
                 
                 const textoBSI = (inps.bsi < 0) ? 'Não' : 'Sim';
@@ -1207,7 +1210,7 @@
                 const classRow = reservado ? 'bg-yellow-50 hover:bg-yellow-100' : 'hover:bg-blue-50'; const classPreco = reservado ? 'text-red-600' : 'text-bmw';
                 const tagReserva = reservado ? `<span class="inline-block whitespace-nowrap align-middle bg-yellow-400 text-yellow-900 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest ml-2 border border-yellow-500">Em Negociação</span>` : '';
                 const dispMarca = getArr(c.marca).join(', ') || 'BMW';
-                return `<tr class="${classRow} cursor-pointer border-b border-gray-50 transition-colors" onclick="abrirDetalheViatura('${c.chassis}')"><td class="px-5 py-4 text-center whitespace-nowrap">${chipsLocal(c)}</td><td class="px-5 py-4 text-gray-700 font-semibold whitespace-nowrap">${dispMarca}</td><td class="px-5 py-4 font-bold text-gray-900 whitespace-nowrap">${c.modelo || '-'}${tagReserva}</td><td class="px-5 py-4 text-gray-600">${c.versao || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs">${c.encomenda || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs uppercase">${c.chassis || '-'}</td><td class="px-5 py-4 text-gray-800 font-mono text-xs uppercase font-semibold">${c.matricula || '-'}</td><td class="px-5 py-4 text-center text-gray-500 text-xs">${dataMat}</td><td class="px-5 py-4 text-right text-xs text-gray-400 line-through whitespace-nowrap">${(c.pvp_bruto||0) > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</td><td class="px-5 py-4 text-right font-black ${classPreco} text-sm whitespace-nowrap">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td></tr>`;
+                return `<tr class="${classRow} cursor-pointer border-b border-gray-50 transition-colors" onclick="abrirDetalheViatura('${c.chassis}')"><td class="px-5 py-4 text-center whitespace-nowrap">${chipsLocal(c)}</td><td class="px-5 py-4 text-gray-700 font-semibold whitespace-nowrap">${dispMarca}</td><td class="px-5 py-4 font-bold text-gray-900 whitespace-nowrap">${c.modelo || '-'}${tagReserva}</td><td class="px-5 py-4 text-gray-600">${c.versao || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs">${c.encomenda || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs uppercase">${fmtChassis(c.chassis) || '-'}</td><td class="px-5 py-4 text-gray-800 font-mono text-xs uppercase font-semibold">${fmtMatricula(c.matricula) || '-'}</td><td class="px-5 py-4 text-center text-gray-500 text-xs">${dataMat}</td><td class="px-5 py-4 text-right text-xs text-gray-400 line-through whitespace-nowrap">${(c.pvp_bruto||0) > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</td><td class="px-5 py-4 text-right font-black ${classPreco} text-sm whitespace-nowrap">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td></tr>`;
             }).join('');
             ajustarAlturaParque();
         }
@@ -1244,7 +1247,7 @@
                 const marca = getArr(c.marca).join('/') || 'BMW';
                 const pvp = (c.pvp_final != null) ? Math.round(c.pvp_final) + '€' : 's/ preço';
                 const res = isReservado(c) ? ' [EM NEGOCIAÇÃO]' : '';
-                return `- ${marca} ${c.modelo || '-'} ${c.versao || ''} | ${tip} | ${loc} | PVP ${pvp} | mat ${c.matricula || '-'} | enc ${c.encomenda || '-'}${res}`;
+                return `- ${marca} ${c.modelo || '-'} ${c.versao || ''} | ${tip} | ${loc} | PVP ${pvp} | mat ${fmtMatricula(c.matricula) || '-'} | enc ${c.encomenda || '-'}${res}`;
             });
             return `Total: ${inventario.length} viaturas no parque.\n` + linhas.join('\n');
         }
@@ -1301,7 +1304,7 @@
             res.sort((a,b) => (a.pvp_final||0) - (b.pvp_final||0));
             res.slice(0, 3).forEach(c => {
                 const vReservado = isReservado(c); const badge = vReservado ? `<span class="bg-yellow-400 text-yellow-900 text-[8px] font-black px-1 py-0.5 rounded ml-1 uppercase">Em Negociação</span>` : ''; const lStr = getArr(c.local).join(',') || 'N/A';
-                htmlResp += `<div class="mb-3 border-l-2 border-bmw pl-2"><p class="font-black text-gray-800 leading-tight">${c.modelo || '-'} ${c.versao || '-'} ${badge}</p><p class="text-[10px] text-gray-500 font-mono">${c.matricula||c.chassis} | ${lStr}</p><p class="text-sm font-black text-bmw mt-0.5">${formatarEuros(c.pvp_final)}</p><button onclick="abrirDetalheViatura('${c.chassis}')" class="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline mt-1">Ver Ficha</button></div>`;
+                htmlResp += `<div class="mb-3 border-l-2 border-bmw pl-2"><p class="font-black text-gray-800 leading-tight">${c.modelo || '-'} ${c.versao || '-'} ${badge}</p><p class="text-[10px] text-gray-500 font-mono">${fmtMatricula(c.matricula)||fmtChassis(c.chassis)} | ${lStr}</p><p class="text-sm font-black text-bmw mt-0.5">${formatarEuros(c.pvp_final)}</p><button onclick="abrirDetalheViatura('${c.chassis}')" class="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline mt-1">Ver Ficha</button></div>`;
             });
             if (res.length > 3) htmlResp += `<p class="text-[9px] text-gray-400 italic mt-2 border-t border-gray-100 pt-2">Mostrando os 3 resultados mais baratos.</p>`;
             return htmlResp;
@@ -1375,7 +1378,7 @@
                 dados = dados.filter(c => { const arrLoc = getArr(c.local); return loc === 'Todas' || arrLoc.includes(loc); });
                 const cont = document.getElementById('lista-admin-viaturas');
                 if(dados.length === 0) { cont.innerHTML = '<p class="text-xs text-gray-400 font-bold uppercase tracking-widest text-center py-10">Nenhuma viatura autorizada/encontrada.</p>'; return; }
-                cont.innerHTML = dados.map(c=>`<button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white hover:border-bmw hover:shadow-md transition-all mb-2"><div class="font-black text-sm text-gray-800">${c.modelo || '-'} ${c.versao || '-'}</div><div class="flex items-center justify-between gap-2 mt-1"><div class="text-[10px] text-gray-400 uppercase">${c.matricula||c.chassis}</div>${badgePeriodos30(c.data_matricula)}</div></button>`).join(''); 
+                cont.innerHTML = dados.map(c=>`<button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white hover:border-bmw hover:shadow-md transition-all mb-2"><div class="font-black text-sm text-gray-800">${c.modelo || '-'} ${c.versao || '-'}</div><div class="flex items-center justify-between gap-2 mt-1"><div class="text-[10px] text-gray-400 uppercase">${fmtMatricula(c.matricula)||fmtChassis(c.chassis)}</div>${badgePeriodos30(c.data_matricula)}</div></button>`).join(''); 
             } catch(err) {}
         }
 
@@ -1397,7 +1400,7 @@
                 dados = dados.filter(v => getArr(currentUser.local).some(l => getArr(v.local).includes(l)));
             }
             const q = (document.getElementById('vendidos-pesquisa')?.value || '').toLowerCase().trim();
-            if(q) dados = dados.filter(v => [v.modelo, v.versao, v.matricula, v.chassis, v.encomenda].some(x => (x||'').toString().toLowerCase().includes(q)));
+            if(q) dados = dados.filter(v => [v.modelo, v.versao, v.matricula, fmtMatricula(v.matricula), v.chassis, v.encomenda].some(x => (x||'').toString().toLowerCase().includes(q)));
             if(dados.length === 0) { corpo.innerHTML = ''; vazio.classList.remove('hidden'); return; }
             vazio.classList.add('hidden');
             corpo.innerHTML = dados.map(v => {
@@ -1407,8 +1410,8 @@
                 return `<tr class="border-t border-gray-100 hover:bg-gray-50">
                     <td class="px-4 py-3 text-gray-500 whitespace-nowrap">${dt}</td>
                     <td class="px-4 py-3 font-bold text-gray-800">${(v.modelo||'-')} ${(v.versao||'')}</td>
-                    <td class="px-4 py-3 font-mono text-gray-700">${v.matricula||'-'}</td>
-                    <td class="px-4 py-3 font-mono text-gray-500 text-xs">${v.chassis||'-'}</td>
+                    <td class="px-4 py-3 font-mono text-gray-700">${fmtMatricula(v.matricula)||'-'}</td>
+                    <td class="px-4 py-3 font-mono text-gray-500 text-xs">${fmtChassis(v.chassis)||'-'}</td>
                     <td class="px-4 py-3 text-gray-600">${v.encomenda||'-'}</td>
                     <td class="px-4 py-3 text-gray-600">${loc}</td>
                     <td class="px-4 py-3 text-right font-black text-bmw whitespace-nowrap">${preco}</td>
@@ -1420,7 +1423,7 @@
 
         async function reporViatura(id) {
             const v = vendidasDb.find(x => x.id === id); if(!v) return;
-            if(!confirm(`Repor a viatura ${v.modelo||''} (${v.matricula||v.chassis}) no parque ativo?\n\nSai da secção "Vendidos".`)) return;
+            if(!confirm(`Repor a viatura ${v.modelo||''} (${fmtMatricula(v.matricula)||fmtChassis(v.chassis)}) no parque ativo?\n\nSai da secção "Vendidos".`)) return;
             const carro = {
                 chassis: v.chassis, matricula: v.matricula, modelo: v.modelo, versao: v.versao,
                 estado_entrega: v.estado_entrega, data_matricula: v.data_matricula, encomenda: v.encomenda,
@@ -1472,11 +1475,11 @@
             }
         }
 
-        function prepararNovaViatura() { document.getElementById('form-precos').reset(); atualizarCampoModelo('BMW', ''); document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('edit-original-chassis').value = ""; editCarroTipologia = []; editCarroLocal = []; editCarroMarca = 'BMW'; document.getElementById('edit-kms').value = ""; if(currentUser && currentUser.perfil !== 'Administrador' && !getArr(currentUser.local).includes('Todas') && getArr(currentUser.local).length > 0) { editCarroLocal = [...getArr(currentUser.local)]; } atualizarBotoesEditCarro(); document.getElementById('btn-remover-viatura').classList.add('hidden'); renderPeriodos30(null); ['penetracao','pvp-bruto','desc-perc','desc-eur','preco-min','s-iva','mg','mg-perc'].forEach(id => { if(document.getElementById('auto-'+id)) document.getElementById('auto-'+id).value = "--"; }); }
+        function prepararNovaViatura() { document.getElementById('form-precos').reset(); document.querySelectorAll('.campo-obrig').forEach(el => el.classList.remove('border-red-500')); atualizarCampoModelo('BMW', ''); document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('edit-original-chassis').value = ""; editCarroTipologia = []; editCarroLocal = []; editCarroMarca = 'BMW'; document.getElementById('edit-kms').value = ""; if(currentUser && currentUser.perfil !== 'Administrador' && !getArr(currentUser.local).includes('Todas') && getArr(currentUser.local).length > 0) { editCarroLocal = [...getArr(currentUser.local)]; } atualizarBotoesEditCarro(); document.getElementById('btn-remover-viatura').classList.add('hidden'); renderPeriodos30(null); ['penetracao','pvp-bruto','desc-perc','desc-eur','preco-min','s-iva','mg','mg-perc'].forEach(id => { if(document.getElementById('auto-'+id)) document.getElementById('auto-'+id).value = "--"; }); }
         
-        function abrirEdicao(ch) {
+        function abrirEdicao(ch) { document.querySelectorAll('.campo-obrig').forEach(el => el.classList.remove('border-red-500'));
             const carro = inventario.find(x => x.chassis === ch); 
-            document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('admin-titulo-carro').innerText = `${carro.modelo || '-'} ${carro.versao || '-'}`; document.getElementById('admin-matricula').innerText = `Matrícula: ${carro.matricula || 'N/A'}`; document.getElementById('edit-original-chassis').value = carro.chassis; document.getElementById('edit-chassis').value = carro.chassis; document.getElementById('edit-matricula').value = carro.matricula || ''; document.getElementById('edit-versao').value = carro.versao || ''; document.getElementById('edit-link_fotos').value = carro.link_fotos || ''; document.getElementById('edit-estado_entrega').value = carro.estado_entrega || ''; document.getElementById('edit-encomenda').value = carro.encomenda || ''; document.getElementById('edit-data_matricula').value = carro.data_matricula || ''; document.getElementById('edit-kms').value = carro.kms || '';
+            document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('admin-titulo-carro').innerText = `${carro.modelo || '-'} ${carro.versao || '-'}`; document.getElementById('admin-matricula').innerText = `Matrícula: ${fmtMatricula(carro.matricula) || 'N/A'}`; document.getElementById('edit-original-chassis').value = carro.chassis; document.getElementById('edit-chassis').value = carro.chassis; document.getElementById('edit-matricula').value = fmtMatricula(carro.matricula) || ''; document.getElementById('edit-versao').value = carro.versao || ''; document.getElementById('edit-link_fotos').value = carro.link_fotos || ''; document.getElementById('edit-estado_entrega').value = carro.estado_entrega || ''; document.getElementById('edit-encomenda').value = carro.encomenda || ''; document.getElementById('edit-data_matricula').value = carro.data_matricula || ''; document.getElementById('edit-kms').value = carro.kms || '';
             editCarroTipologia = [...getArr(carro.tipologia)]; editCarroLocal = [...getArr(carro.local)]; editCarroMarca = getArr(carro.marca)[0] || 'BMW'; atualizarBotoesEditCarro(); atualizarCampoModelo(editCarroMarca, carro.modelo || '');
             const si = getInps(carro.inputs);
             ['pvb','opc','bsi','eco','leg','isv','depreciacoes','pvp_desc'].forEach(k => document.getElementById('edit-'+k).value=numeroParaStr(si[k])); ['mgb','esf','pac','dem','sup'].forEach(k => document.getElementById('edit-'+k).value=numeroParaStrPerc(si[k]*100)); 
@@ -1519,11 +1522,16 @@
             e.preventDefault(); 
             if(!editCarroLocal.some(l => hasPerm('local', l)) && editCarroLocal.length > 0) { alert("Operação Cancelada: Não tem permissões nestas Localizações."); return; }
             const originalChassis = document.getElementById('edit-original-chassis').value; const novoChassis = document.getElementById('edit-chassis').value.trim().toUpperCase();
-            if(!novoChassis) { alert("O Chassis é obrigatório."); return; }
-            const novaMatricula = document.getElementById('edit-matricula').value.trim().toUpperCase();
+            const obrig = [['edit-encomenda','Encomenda'],['edit-chassis','Chassis'],['edit-matricula','Matrícula']];
+            const emFalta = obrig.filter(([id]) => !document.getElementById(id).value.trim());
+            obrig.forEach(([id]) => document.getElementById(id).classList.toggle('border-red-500', emFalta.some(([f]) => f === id)));
+            if(emFalta.length) { alert(`Preenchimento obrigatório em falta:\n\n- ${emFalta.map(([,n]) => n).join('\n- ')}\n\nA viatura não foi gravada.`); document.getElementById(emFalta[0][0]).focus(); return; }
+            const novaMatricula = normalizarMatricula(document.getElementById('edit-matricula').value);
+            if(!/^[A-Z0-9]{2}-[A-Z0-9]{2}-[A-Z0-9]{2}$/.test(novaMatricula)) { document.getElementById('edit-matricula').classList.add('border-red-500'); alert(`Matrícula inválida: "${novaMatricula}".\n\nFormato esperado: AA-00-BB (6 caracteres).`); document.getElementById('edit-matricula').focus(); return; }
+            document.getElementById('edit-matricula').value = novaMatricula;
             const chassisDuplicado = inventario.find(x => x.chassis.toUpperCase() === novoChassis && x.chassis !== originalChassis);
             if(chassisDuplicado) { alert(`O chassis ${novoChassis} já existe no sistema.`); return; }
-            if(novaMatricula) { const matriculaDuplicada = inventario.find(x => (x.matricula || "").toUpperCase() === novaMatricula && x.chassis !== originalChassis); if(matriculaDuplicada) { alert(`A matrícula ${novaMatricula} já está associada ao chassis ${matriculaDuplicada.chassis}.`); return; } }
+            if(novaMatricula) { const matriculaDuplicada = inventario.find(x => normalizarMatricula(x.matricula) === novaMatricula && x.chassis !== originalChassis); if(matriculaDuplicada) { alert(`A matrícula ${novaMatricula} já está associada ao chassis ${fmtChassis(matriculaDuplicada.chassis)}.`); return; } }
             const isUpdate = inventario.some(x => x.chassis === originalChassis); let carro = inventario.find(x => x.chassis === originalChassis); if(!carro) { carro = { inputs: { ...templateInputs } }; inventario.unshift(carro); }
             
             const memExpira = carro.reserva_expira || null; const memUser = carro.reserva_user || null;
