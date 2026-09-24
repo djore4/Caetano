@@ -99,7 +99,7 @@
                 <div class="ml-auto flex space-x-2 sm:space-x-4">
                     <button onclick="mudarTab('utilizadores')" id="tab-utilizadores" class="hidden nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Utilizadores</button>
                     <button onclick="mudarTab('historico')" id="tab-historico" class="hidden nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Histórico</button>
-                    <button onclick="mudarTab('admin-vn')" id="tab-admin-vn" class="hidden nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Gestão VN</button>
+                    <button onclick="mudarTab('admin-vd')" id="tab-admin-vd" class="hidden nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Gestão VD</button>
                     <button onclick="mudarTab('admin-vu')" id="tab-admin-vu" class="hidden nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Gestão VU</button>
                     <button onclick="mudarTab('vendidos')" id="tab-vendidos" class="hidden nav-tab px-1 py-3 text-sm font-bold border-b-2 transition-colors whitespace-nowrap border-transparent text-gray-400 hover:text-gray-600 uppercase tracking-widest">Vendidos</button>
                 </div>
@@ -448,15 +448,15 @@
             <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-10 text-center">
                 <h2 class="font-black text-gray-800 text-lg uppercase tracking-widest">Gestão VU</h2>
                 <p class="text-sm text-gray-500 mt-2">Módulo de gestão de viaturas usadas em desenvolvimento.</p>
-                <p class="text-xs text-gray-400 mt-1">Por agora, as VU podem ser inseridas na Gestão VN escolhendo o tipo "VU · Usada".</p>
+                <p class="text-xs text-gray-400 mt-1">Por agora, as VU podem ser inseridas na Gestão VD escolhendo o tipo "VU · Usada".</p>
             </div>
         </div>
 
-        <div id="conteudo-admin-vn" class="tab-content">
+        <div id="conteudo-admin-vd" class="tab-content">
             <div class="flex flex-col xl:flex-row gap-6">
                 <div class="w-full xl:w-1/3 bg-white border border-gray-200 rounded-xl shadow-sm flex flex-col h-[700px]">
                     <div class="p-5 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
-                        <h2 class="font-black text-gray-800 text-lg uppercase tracking-widest">Inventário VN</h2>
+                        <h2 class="font-black text-gray-800 text-lg uppercase tracking-widest">Inventário VD</h2>
                     </div>
                     
                     <div class="px-5 py-3 border-b border-gray-100 bg-white overflow-x-auto no-scrollbar">
@@ -902,7 +902,7 @@
         }
         
         function atualizarAcessos() {
-            ['tab-utilizadores', 'tab-historico', 'tab-admin-vn', 'tab-admin-vu', 'tab-vendidos'].forEach(id => document.getElementById(id).classList.add('hidden'));
+            ['tab-utilizadores', 'tab-historico', 'tab-admin-vd', 'tab-admin-vu', 'tab-vendidos'].forEach(id => document.getElementById(id).classList.add('hidden'));
 
             const mainContent = document.getElementById('main-content');
             const mainNavBar = document.getElementById('main-nav-bar');
@@ -942,9 +942,9 @@
             }
             
             if (currentUser.perfil === 'Administrador') {
-                ['tab-utilizadores', 'tab-historico', 'tab-admin-vn', 'tab-admin-vu', 'tab-vendidos'].forEach(id => document.getElementById(id).classList.remove('hidden'));
+                ['tab-utilizadores', 'tab-historico', 'tab-admin-vd', 'tab-admin-vu', 'tab-vendidos'].forEach(id => document.getElementById(id).classList.remove('hidden'));
             } else if (currentUser.perfil === 'Chefe de Vendas') {
-                document.getElementById('tab-admin-vn').classList.remove('hidden');
+                document.getElementById('tab-admin-vd').classList.remove('hidden');
                 document.getElementById('tab-admin-vu').classList.remove('hidden');
                 document.getElementById('tab-vendidos').classList.remove('hidden');
             }
@@ -954,7 +954,7 @@
 
         // ── NAVEGAÇÃO ENTRE ABAS ──────────────────────────────────────────────
         function mudarTab(t) { 
-            if ((t === 'utilizadores' || t === 'historico' || t === 'admin-vn' || t === 'admin-vu' || t === 'vendidos') && (!currentUser || currentUser.perfil === 'Vendedor')) { alert("Acesso Restrito: Por favor, inicie sessão na Área Reservada."); return; }
+            if ((t === 'utilizadores' || t === 'historico' || t === 'admin-vd' || t === 'admin-vu' || t === 'vendidos') && (!currentUser || currentUser.perfil === 'Vendedor')) { alert("Acesso Restrito: Por favor, inicie sessão na Área Reservada."); return; }
             
             document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active')); 
             const tgt = document.getElementById('conteudo-'+t); 
@@ -1337,7 +1337,7 @@
             return htmlResp;
         }
 
-        // ── GESTÃO VN E ADMIN ─────────────────────────────────────────────────
+        // ── GESTÃO VD E ADMIN ─────────────────────────────────────────────────
         let editCarroTipologia = []; let editCarroLocal = []; let editCarroMarca = 'BMW'; let editCarroNegocio = 'VD'; let filtroLocalAdmin = 'Todas';
         
         function setFiltroLocalAdmin(val) { 
@@ -1445,14 +1445,15 @@
                     <td class="px-4 py-3 text-gray-600">${loc}</td>
                     <td class="px-4 py-3 text-right font-black text-bmw whitespace-nowrap">${preco}</td>
                     <td class="px-4 py-3 text-gray-500">${v.vendido_por||'-'}</td>
-                    <td class="px-4 py-3 text-right whitespace-nowrap"><button onclick="reporViatura(${v.id})" class="bg-gray-50 hover:bg-bmw hover:text-white text-gray-600 border border-gray-200 hover:border-bmw font-bold py-1.5 px-3 rounded-md transition-colors text-[10px] uppercase tracking-widest">Repor</button></td>
+                    <td class="px-4 py-3 text-right whitespace-nowrap"><button onclick="reporViatura(${v.id})" class="bg-gray-50 hover:bg-bmw hover:text-white text-gray-600 border border-gray-200 hover:border-bmw font-bold py-1.5 px-3 rounded-md transition-colors text-[10px] uppercase tracking-widest">Recuperar Viatura</button></td>
                 </tr>`;
             }).join('');
         }
 
         async function reporViatura(id) {
             const v = vendidasDb.find(x => x.id === id); if(!v) return;
-            if(!confirm(`Repor a viatura ${v.modelo||''} (${fmtMatricula(v.matricula)||fmtChassis(v.chassis)}) no parque ativo?\n\nSai da secção "Vendidos".`)) return;
+            if(inventario.some(x => x.chassis === v.chassis)) { alert(`Já existe no parque uma viatura com o chassis ${fmtChassis(v.chassis)}.\n\nNão é possível recuperar sem sobrepor esse registo.`); return; }
+            if(!confirm(`Recuperar a viatura ${v.modelo||''} (${fmtMatricula(v.matricula)||fmtChassis(v.chassis)}) para o parque ativo?\n\nSai da secção "Vendidos".`)) return;
             const carro = {
                 chassis: v.chassis, matricula: v.matricula, modelo: v.modelo, versao: v.versao,
                 estado_entrega: v.estado_entrega, data_matricula: v.data_matricula, encomenda: v.encomenda,
@@ -1462,15 +1463,15 @@
             };
             if(supabaseClient) {
                 const { error: eIns } = await supabaseClient.from('viaturas').upsert(carro, { onConflict: 'chassis' });
-                if(eIns) { mostrarAviso("Erro ao repor no parque: " + eIns.message); return; }
+                if(eIns) { mostrarAviso("Erro ao recuperar para o parque: " + eIns.message); return; }
                 const { error: eDel } = await supabaseClient.from('viaturas_vendidas').delete().eq('id', id);
-                if(eDel) { mostrarAviso("Reposta, mas erro ao remover do arquivo: " + eDel.message); return; }
+                if(eDel) { mostrarAviso("Recuperada, mas erro ao remover do arquivo: " + eDel.message); return; }
                 try { await registarHistorico('viaturas', 'REPOR', v.chassis, { reposto_por: currentUser.email }); } catch(e) {}
             }
             vendidasDb = vendidasDb.filter(x => x.id !== id);
             await carregarDados();
             carregarPrecosEmDireto(); initModeloFiltros(); aplicarFiltros(); renderizarListaAdmin(); renderizarVendidas();
-            alert("Viatura reposta no parque.");
+            alert("Viatura recuperada para o parque.");
         }
 
         // Linhas de modelo BMW (marca BMW): Série 1 a 8, X1 a X7 e Z4.
