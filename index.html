@@ -236,23 +236,25 @@
                 <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Outras categorias</p>
                 <div class="flex flex-wrap gap-2" id="op-filtro-modelos"></div>
             </div>
-            <div id="op-passo-mot" class="hidden bg-white border border-gray-200 rounded-xl shadow-sm px-4 py-4 mb-4">
-                <div class="flex items-center justify-between mb-3">
-                    <div class="flex items-center gap-2">
-                        <span class="w-6 h-6 rounded-full bg-bmw text-white text-xs font-black flex items-center justify-center">2</span>
-                        <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Motorização</span>
-                        <span id="op-modelo-label" class="text-xs font-bold text-bmw bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full"></span>
+            <div id="op-passo-mot" class="hidden fade-in mb-5">
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm px-4 sm:px-5 py-4">
+                    <div class="flex items-center justify-between mb-3">
+                        <div class="flex items-center gap-3">
+                            <div class="w-6 h-6 rounded-full bg-bmw text-white text-[10px] font-black flex items-center justify-center">2</div>
+                            <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Motorização</p>
+                            <span id="op-modelo-label" class="text-xs text-bmw font-bold bg-blue-50 border border-blue-100 px-2 py-0.5 rounded-full"></span>
+                        </div>
+                        <button onclick="opLimpar()" class="text-[10px] font-bold text-gray-400 hover:text-red-500 uppercase tracking-widest">Limpar</button>
                     </div>
-                    <button onclick="opLimpar()" class="text-xs text-gray-400 hover:text-red-500 font-bold">Limpar</button>
+                    <div id="op-grid-mots" class="flex flex-wrap gap-2"></div>
                 </div>
-                <div id="op-grid-mots" class="flex flex-wrap gap-2"></div>
             </div>
-            <div id="op-passo-lista" class="hidden">
-                <div class="flex items-center gap-2 mb-3">
-                    <span class="w-6 h-6 rounded-full bg-bmw text-white text-xs font-black flex items-center justify-center">3</span>
-                    <span class="text-xs font-bold text-gray-500 uppercase tracking-widest">Opcionais</span>
+            <div id="op-passo-lista" class="hidden fade-in">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-6 h-6 rounded-full bg-bmw text-white text-[10px] font-black flex items-center justify-center">3</div>
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Opcionais</p>
                 </div>
-                <div class="bg-white border border-gray-200 rounded-xl shadow-sm px-4 py-3 mb-4 overflow-x-auto no-scrollbar">
+                <div class="bg-white border border-gray-200 rounded-xl shadow-sm px-4 sm:px-5 py-4 mb-3 overflow-x-auto no-scrollbar">
                     <div class="flex gap-2 flex-wrap" id="op-filtro-secoes"></div>
                 </div>
                 <div id="op-lista" class="space-y-2"></div>
@@ -1863,12 +1865,13 @@
             const p=new Set(lista.map(m=>opGetSerie(m.nome)));
             const ord=['1','2','3','4','5','7','X','Z','Outros'];
             document.getElementById('op-filtro-series').innerHTML=
-                ord.filter(s=>p.has(s)).map(s=>`<button class="serie-btn px-5 py-2 rounded-md text-sm ${opSerieAtiva===s?'active':''}" onclick="opClicarSerie('${s}')">${s}</button>`).join('');
+                ord.filter(s=>p.has(s)).map(s=>`<button class="serie-btn px-4 sm:px-6 py-2 rounded-md text-sm ${opSerieAtiva===s?'active':''}" onclick="opClicarSerie('${s}')">${s}</button>`).join('')
+                +`<button class="serie-btn px-4 sm:px-6 py-2 rounded-md text-sm ${opSerieAtiva==='Todos'?'active':''}" onclick="opClicarSerie('Todos')">Todos</button>`;
         }
         function opClicarSerie(serie){
             opSerieAtiva=serie; opModeloAtivo=null; opMotAtiva=null;
             opRenderSeries();
-            const modelos=opTodosModelos.filter(m=>opGetSerie(m.nome)===serie);
+            const modelos=serie==='Todos'?opTodosModelos:opTodosModelos.filter(m=>opGetSerie(m.nome)===serie);
             document.getElementById('op-filtro-modelos').innerHTML=modelos.map(m=>`<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="op-mb-${m.id}" onclick="opClicarModelo('${m.id}','${escapar(m.nome)}')">${m.nome}</button>`).join('');
             document.getElementById('op-filtro-modelos-wrap').classList.remove('hidden');
             document.getElementById('op-passo-mot').classList.add('hidden');
@@ -1879,7 +1882,7 @@
             document.querySelectorAll('[id^="op-mb-"]').forEach(b=>b.classList.remove('active'));
             document.getElementById('op-mb-'+id)?.classList.add('active');
             document.getElementById('op-modelo-label').innerText=nome;
-            document.getElementById('op-grid-mots').innerHTML='<span class="text-xs text-gray-400">A carregar...</span>';
+            document.getElementById('op-grid-mots').innerHTML='<div class="shimmer h-9 w-24 rounded-full"></div><div class="shimmer h-9 w-32 rounded-full"></div><div class="shimmer h-9 w-20 rounded-full"></div>';
             document.getElementById('op-passo-mot').classList.remove('hidden');
             document.getElementById('op-passo-lista').classList.add('hidden');
             const{data}=await sb.from('op_motorizacoes').select('id,nome').eq('modelo_id',id).order('col_index');
@@ -1887,7 +1890,7 @@
             opRenderMots();
         }
         function opRenderMots(){
-            document.getElementById('op-grid-mots').innerHTML=opTodasMots.map(m=>`<button class="mot-pill rounded-full px-4 py-2 text-xs font-bold ${opMotAtiva===m.id?'active':''}" onclick="opClicarMot('${m.id}','${escapar(m.nome)}')">${m.nome}</button>`).join('');
+            document.getElementById('op-grid-mots').innerHTML=opTodasMots.map(m=>`<button class="mot-pill rounded-full px-4 py-2 text-xs font-bold shadow-sm ${opMotAtiva===m.id?'active':''}" onclick="opClicarMot('${m.id}','${escapar(m.nome)}')">${m.nome}</button>`).join('');
         }
         async function opClicarMot(id,nome){
             opMotAtiva=id; opRenderMots();
@@ -1946,7 +1949,7 @@
             if(!q){document.getElementById('op-filtro-modelos-wrap').classList.add('hidden');opSerieAtiva=null;opRenderSeries();return;}
             const f=opTodosModelos.filter(m=>m.nome.toLowerCase().includes(q)||m.codigo.toLowerCase().includes(q));
             opSerieAtiva=null;opRenderSeries();
-            document.getElementById('op-filtro-modelos').innerHTML=f.length===0?'<p class="text-xs text-gray-400">Nenhum resultado.</p>':f.map(m=>`<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="op-mb-${m.id}" onclick="opClicarModelo('${m.id}','${escapar(m.nome)}')">${m.nome}</button>`).join('');
+            document.getElementById('op-filtro-modelos').innerHTML=f.length===0?'<p class="text-xs text-gray-400 font-bold py-2">Nenhum modelo encontrado.</p>':f.map(m=>`<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="op-mb-${m.id}" onclick="opClicarModelo('${m.id}','${escapar(m.nome)}')">${m.nome}</button>`).join('');
             document.getElementById('op-filtro-modelos-wrap').classList.remove('hidden');
         }
 
