@@ -47,6 +47,7 @@
         /* Freeze panes: o cabeçalho de colunas da tabela do Parque fica sempre
            visível enquanto se percorre a lista (a altura do painel é ajustada
            por JS para preencher o ecrã por baixo do topo fixo). */
+        @media (max-width: 767px) { .parque-filtros-corpo:not(.aberto) { display: none; } }
         #parque-scroll thead th { position: sticky; top: 0; z-index: 10; background: #F9FAFB; box-shadow: inset 0 -1px 0 #E5E7EB; }
     </style>
     <script>tailwind.config = { theme: { extend: { colors: { bmw: '#0066B1' } } } }</script>
@@ -115,8 +116,13 @@
         <div id="aviso-supabase" class="bg-red-50 border border-red-200 text-red-800 px-4 py-4 rounded-lg mb-6 hidden shadow-sm flex-col"></div>
 
         <div id="conteudo-parque" class="tab-content active">
-            <div class="space-y-5 mb-8 bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
-                <div class="flex flex-col sm:flex-row gap-6">
+            <div class="space-y-5 mb-4 md:mb-8 bg-white p-4 md:p-5 rounded-xl border border-gray-100 shadow-sm">
+                <button type="button" onclick="toggleFiltrosParque()" class="md:hidden w-full flex items-center justify-between text-[11px] font-bold text-gray-600 uppercase tracking-widest">
+                    <span>Filtros <span id="filtros-ativos-badge" class="hidden ml-1 bg-bmw text-white rounded-full px-2 py-0.5 text-[10px]"></span></span>
+                    <svg id="filtros-chevron" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div id="parque-filtros-corpo" class="parque-filtros-corpo space-y-5">
+                <div class="flex flex-col sm:flex-row sm:flex-wrap gap-4 sm:gap-6">
                     <div class="w-full sm:w-auto"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tipo de Viatura</label><div class="flex flex-wrap gap-2" id="filtro-negocio-container"><button onclick="setFiltro('negocio', 'Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Todos</button><button onclick="setFiltro('negocio', 'VD')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">VD</button><button onclick="setFiltro('negocio', 'VU')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">VU</button></div></div>
                     <div class="w-full sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Marca</label><div class="flex flex-wrap gap-2" id="filtro-marca-container"><button onclick="setFiltro('marca', 'Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Todas</button><button onclick="setFiltro('marca', 'BMW')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">BMW</button><button onclick="setFiltro('marca', 'BMW Motorrad')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">BMW Motorrad</button></div></div>
                     <div class="w-full sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tecnologia</label><div class="flex flex-wrap gap-2" id="filtro-tipologia-container"><button onclick="setFiltro('tipologia', 'Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Todas</button><button onclick="setFiltro('tipologia', 'BEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">BEV</button><button onclick="setFiltro('tipologia', 'PHEV')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">PHEV</button><button onclick="setFiltro('tipologia', 'ICE')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">ICE</button><button onclick="setFiltro('tipologia', 'M')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">M</button></div></div>
@@ -124,8 +130,9 @@
                     <div class="w-full sm:w-auto sm:border-l sm:border-gray-200 sm:pl-6"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Fiscalidade</label><label class="inline-flex items-center gap-2 border border-gray-200 bg-white px-3 py-1.5 rounded-md text-[11px] font-bold text-gray-600 cursor-pointer hover:border-bmw hover:text-bmw select-none"><input type="checkbox" id="filtro-iva-dedutivel" onchange="filtros.iva = this.checked; aplicarFiltros()" class="accent-[#0066B1] w-3.5 h-3.5">IVA dedutível</label></div>
                 </div>
                 <div class="pt-3 border-t border-gray-50"><label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Modelo</label><div class="flex flex-wrap gap-2" id="filtro-modelo-container"></div></div>
+                </div>
 
-                <div class="flex justify-between items-end border-t border-gray-200 pt-4"><div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest"><span id="num-resultados" class="text-bmw font-black text-sm">0</span> viaturas</div>
+                <div class="flex justify-between items-center md:items-end border-t border-gray-200 pt-3 md:pt-4"><div class="text-[11px] font-bold text-gray-400 uppercase tracking-widest"><span id="num-resultados" class="text-bmw font-black text-sm">0</span> viaturas</div>
                     <div class="flex bg-gray-100 p-1 rounded-lg border border-gray-200 shadow-inner">
                         <button onclick="mudarVista('tabela')" id="btn-vista-tabela" class="px-4 py-1.5 text-xs font-bold rounded-md bg-white shadow-sm text-bmw uppercase transition-all">Tabela</button>
                         <button onclick="mudarVista('cartoes')" id="btn-vista-cartoes" class="px-4 py-1.5 text-xs font-bold rounded-md text-gray-500 uppercase transition-all bg-transparent border border-transparent hover:bg-gray-200 hover:text-gray-800">Cartões</button>
@@ -1096,7 +1103,7 @@
             try { 
                 const c = document.getElementById('filtro-modelo-container'); 
                 c.innerHTML = `<button onclick="setFiltro('modelo','Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Todos</button>`; 
-                [...new Set(inventario.map(x=>x.modelo || "N/A"))].sort().forEach(m => { 
+                [...new Set(inventario.map(x=>(x.modelo || "N/A").trim()))].sort().forEach(m => { 
                     if(m !== "N/A") c.innerHTML += `<button onclick="setFiltro('modelo','${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">${m}</button>`; 
                 }); 
             } catch(e) {}
@@ -1115,9 +1122,9 @@
             try {
                 const res = inventario.filter(c => {
                     const arrLoc = getArr(c.local); const arrTip = getArr(c.tipologia); const arrMarca = getArr(c.marca);
-                    return (filtros.modelo==='Todos' || c.modelo===filtros.modelo) && (filtros.local==='Todas' || arrLoc.includes(filtros.local)) && (filtros.tipologia==='Todas' || arrTip.includes(filtros.tipologia)) && (filtros.marca==='Todas' || arrMarca.includes(filtros.marca)) && (filtros.negocio==='Todos' || tipoNegocio(c)===filtros.negocio) && (!filtros.iva || c.iva_dedutivel === true);
+                    return (filtros.modelo==='Todos' || (c.modelo||'').trim()===filtros.modelo) && (filtros.local==='Todas' || arrLoc.includes(filtros.local)) && (filtros.tipologia==='Todas' || arrTip.includes(filtros.tipologia)) && (filtros.marca==='Todas' || arrMarca.includes(filtros.marca)) && (filtros.negocio==='Todos' || tipoNegocio(c)===filtros.negocio) && (!filtros.iva || c.iva_dedutivel === true);
                 }); 
-                document.getElementById('num-resultados').innerText = res.length; renderizar(res); 
+                document.getElementById('num-resultados').innerText = res.length; atualizarBadgeFiltros(); renderizar(res); 
             } catch (err) {}
         }
 
@@ -1245,9 +1252,26 @@
         function ajustarAlturaParque() {
             const wrap = document.getElementById('parque-scroll');
             if (!wrap || wrap.offsetParent === null) return;
+            if (window.innerWidth < 768) {
+                // Telemóvel: a tabela ocupa o ecrã inteiro abaixo do topo fixo (a página faz scroll até ela),
+                // em vez de ficar presa numa caixa pequena por baixo dos filtros.
+                const topo = document.querySelector('header').getBoundingClientRect().height;
+                wrap.style.maxHeight = (window.innerHeight - topo - 16) + 'px';
+                return;
+            }
             const top = wrap.getBoundingClientRect().top;
             const alturaDisp = window.innerHeight - top - 16;
             wrap.style.maxHeight = Math.max(240, alturaDisp) + 'px';
+        }
+        function toggleFiltrosParque() {
+            const aberto = document.getElementById('parque-filtros-corpo').classList.toggle('aberto');
+            document.getElementById('filtros-chevron').style.transform = aberto ? 'rotate(180deg)' : '';
+            ajustarAlturaParque();
+        }
+        function atualizarBadgeFiltros() {
+            const n = ['modelo','negocio'].filter(k => filtros[k] !== 'Todos').length + ['local','tipologia','marca'].filter(k => filtros[k] !== 'Todas').length + (filtros.iva ? 1 : 0);
+            const b = document.getElementById('filtros-ativos-badge'); if(!b) return;
+            b.innerText = n; b.classList.toggle('hidden', n === 0);
         }
         window.addEventListener('resize', ajustarAlturaParque);
 
@@ -1562,7 +1586,7 @@
             const isUpdate = inventario.some(x => x.chassis === originalChassis); let carro = inventario.find(x => x.chassis === originalChassis); if(!carro) { carro = { inputs: { ...templateInputs } }; inventario.unshift(carro); }
             
             const memExpira = carro.reserva_expira || null; const memUser = carro.reserva_user || null;
-            carro.chassis = novoChassis; carro.matricula = novaMatricula; carro.modelo = document.getElementById('edit-modelo').value; carro.versao = document.getElementById('edit-versao').value; carro.link_fotos = document.getElementById('edit-link_fotos').value; carro.estado_entrega = document.getElementById('edit-estado_entrega').value; carro.data_matricula = document.getElementById('edit-data_matricula').value || null; carro.encomenda = document.getElementById('edit-encomenda').value;
+            carro.chassis = novoChassis; carro.matricula = novaMatricula; carro.modelo = document.getElementById('edit-modelo').value.trim(); carro.versao = document.getElementById('edit-versao').value; carro.link_fotos = document.getElementById('edit-link_fotos').value; carro.estado_entrega = document.getElementById('edit-estado_entrega').value; carro.data_matricula = document.getElementById('edit-data_matricula').value || null; carro.encomenda = document.getElementById('edit-encomenda').value;
             
             const kmsValue = document.getElementById('edit-kms').value;
             carro.kms = kmsValue !== "" ? parseInt(kmsValue) : null; 
