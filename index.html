@@ -14,6 +14,7 @@
         body { font-family: 'BMWTypeNext', 'Helvetica Neue', Arial, sans-serif; letter-spacing: -0.01em; }
         
         .filter-btn.active, .user-btn.active { background-color: #0066B1 !important; color: white !important; border-color: #0066B1 !important; }
+        .filter-btn.active:hover, .user-btn.active:hover { background-color: #00528E !important; color: white !important; border-color: #00528E !important; }
         
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -1092,7 +1093,7 @@
         function initModeloFiltros() { 
             try { 
                 const c = document.getElementById('filtro-modelo-container'); 
-                c.innerHTML = `<button onclick="setFiltro('modelo','Todos')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-bmw text-white border-bmw">Todos</button>`; 
+                c.innerHTML = `<button onclick="setFiltro('modelo','Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Todos</button>`; 
                 [...new Set(inventario.map(x=>x.modelo || "N/A"))].sort().forEach(m => { 
                     if(m !== "N/A") c.innerHTML += `<button onclick="setFiltro('modelo','${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">${m}</button>`; 
                 }); 
@@ -1103,13 +1104,7 @@
             filtros[tipo] = valor; 
             Array.from(document.getElementById(`filtro-${tipo}-container`).children).forEach(btn => { 
                 const txt = btn.innerText.trim();
-                if(txt === valor || (valor === 'Todas' && txt === 'Todas') || (valor === 'Todos' && txt === 'Todos')) { 
-                    btn.classList.add('bg-bmw', 'text-white', 'border-bmw'); 
-                    btn.classList.remove('bg-white', 'text-gray-600', 'border-gray-200', 'active'); 
-                } else { 
-                    btn.classList.remove('bg-bmw', 'text-white', 'border-bmw', 'active'); 
-                    btn.classList.add('bg-white', 'text-gray-600', 'border-gray-200'); 
-                } 
+                btn.classList.toggle('active', txt === valor); 
             }); 
             aplicarFiltros(); 
         }
