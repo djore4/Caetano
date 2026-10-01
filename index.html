@@ -1471,10 +1471,10 @@
             alert("Viatura recuperada para o parque.");
         }
 
-        // Linhas de modelo BMW (marca BMW): Série 1 a 8, X1 a X7 e Z4.
-        // Os modelos "i" (iX, i4, …) e "M" (M3, XM, …) são VERSÕES destas linhas,
-        // não linhas próprias — vão no campo VERSÃO, não aqui.
-        const MODELOS_BMW = ['Série 1','Série 2','Série 3','Série 4','Série 5','Série 6','Série 7','Série 8','X1','X2','X3','X4','X5','X6','X7','Z4'];
+        // Linhas de modelo BMW (marca BMW): Série 1 a 8, X1 a X7, Z4 e iX.
+        // Os restantes modelos "i" (i4, i5, …) e "M" (M3, XM, …) são VERSÕES destas
+        // linhas, não linhas próprias — vão no campo VERSÃO, não aqui.
+        const MODELOS_BMW = ['Série 1','Série 2','Série 3','Série 4','Série 5','Série 6','Série 7','Série 8','X1','X2','X3','X4','X5','X6','X7','Z4','iX'];
         // Constrói o campo MODELO consoante a marca: dropdown fechada (BMW) ou
         // texto livre (BMW Motorrad, por agora). Preserva o valor atual.
         function atualizarCampoModelo(marca, valor) {
