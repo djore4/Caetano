@@ -28,7 +28,31 @@ O modelo mantém o **login partilhado** atual; muda apenas onde a password é ve
 | 4 | Confirmar app a funcionar (logado) | — | Testar login, parque, reservas, gestão VN, histórico. |
 | 5 | Remover a coluna password | `03_drop_password_column.sql` | Só depois do passo 4. Irreversível. |
 
+## Ronda 2 — RLS por perfil (`06_rls_por_perfil.sql`)
+O `01_enable_rls.sql` fechou o acesso anónimo mas deixou **qualquer sessão autenticada** com
+acesso total (incl. promover-se a Administrador em `utilizadores`, e contas do CRM/Trading Lab
+do mesmo projeto). A migration `06` faz o servidor aplicar as mesmas regras que a interface já
+aplica (Vendedor só lê; Chefe de Vendas gere viaturas/vendidas; Administrador gere tudo e lê o
+histórico; quem não tem linha em `utilizadores` não vê nada). Não altera preços nem a lógica de
+concessões (continua no cliente — Fase 2).
+
+Ordem de deploy:
+1. Correr o pré-requisito do cabeçalho do `06` (contas Auth sem perfil → ficam sem acesso).
+2. Desligar o signup público em Authentication > Providers > Email ("Allow new users to sign up").
+3. Publicar o `index.html` novo (conta sem perfil é recusada com mensagem clara).
+4. Aplicar `06_rls_por_perfil.sql` (rollback: `06_rollback.sql`).
+5. Fazer deploy das Edge Functions `sf-assistente` e `sf-gestao-utilizadores`
+   (opcionais: secrets `ASSISTENTE_MAX_POR_HORA`, `ASSISTENTE_MAX_CONTEXTO`).
+6. Testar, com um utilizador de cada perfil: login, parque, detalhe, reserva, edição, vendida/recuperar,
+   histórico, criar utilizador, assistente.
+
+Testes: `npm test` (preços/permissões/HTML vs. baseline + XSS + sessão) e `tests/rls/run.sh`.
+
 ## Ainda em aberto (não incluído aqui)
+- **Margens/custos** (`inputs`, `stats`) continuam visíveis no browser a todos os perfis que leem
+  `viaturas`: separar em tabela/view com RLS próprio (altera o modelo de dados).
+- **Restrição por concessão no servidor** para Chefe de Vendas (hoje só no cliente).
+- **Operações atómicas** (venda, reposição, mudança de chassis) e **auditoria no servidor**.
 - **Rotação das 6 passwords legacy** (podem já ter sido lidas). Incident-response manual.
 - **Fase 2 — contas individuais**: substituir `utilizadores` pelo sistema `app_users`/
   `app_roles` já existente, e refinar as políticas RLS por perfil/local. Devolve

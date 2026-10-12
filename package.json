@@ -1,0 +1,8 @@
+{
+  "name": "caetano-sales-force",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "test:rls": "tests/rls/run.sh"
+  }
+}

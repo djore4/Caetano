@@ -827,8 +827,13 @@
             const email = (authUser.email || '').toLowerCase();
             let perfil = utilizadoresDb.find(u => (u.email || '').toLowerCase() === email);
             if (!perfil) {
-                // Sessão válida sem perfil definido: acesso mínimo até a Administração associar um perfil.
-                perfil = { id: null, nome: authUser.email, email: authUser.email, perfil: 'Vendedor', local: [], negocio: ['VD'], marca: ['BMW'] };
+                // Conta autenticada mas sem perfil na plataforma (ex.: conta de outra aplicação do
+                // mesmo projeto, ou utilizador revogado): sem acesso. O servidor (RLS) também o recusa.
+                try { await supabaseClient.auth.signOut(); } catch(e) {}
+                currentUser = null; inventario = []; utilizadoresDb = [];
+                executarArranqueLocal();
+                alert("Acesso Negado: esta conta não tem acesso à plataforma. Contacte a Administração.");
+                return;
             }
             currentUser = perfil;
             // Pipeline completo de render: calcula os preços de venda (carregarPrecosEmDireto),
