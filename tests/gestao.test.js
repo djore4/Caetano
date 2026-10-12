@@ -6,6 +6,7 @@ const vm = require('vm');
 const { carregarApp } = require('./harness');
 const { FIXTURE_VIATURAS, FIXTURE_UTILIZADORES } = require('./snapshot');
 
+const J = JSON.stringify;
 const ADMIN = FIXTURE_UTILIZADORES[0], CHEFE = FIXTURE_UTILIZADORES[1], VEND = FIXTURE_UTILIZADORES[2];
 
 // cliente Supabase falso que regista as escritas
@@ -151,4 +152,27 @@ test('vendida pela janela de edição continua a funcionar e fecha a janela', as
   await app.run('removerViatura()');
   assert.ok(log.some(l => l[0] === 'insert' && l[1] === 'viaturas_vendidas'));
   assert.ok(app.el('modal-edicao').classList.contains('hidden'));
+});
+
+test('PVP na lista da Gestão = input "PVP desc / final" (mesmo sem preços calculados em memória)', () => {
+  const { app } = nova(ADMIN);
+  // simula viaturas acabadas de vir da BD: sem pvp_final calculado
+  app.run(`inventario = ${J(FIXTURE_VIATURAS.map(c => ({ ...c })))}; currentUser = ${J(ADMIN)};`);
+  assert.equal(app.run('inventario[0].pvp_final'), undefined);
+  app.run('renderizarListaAdmin()');
+  const html = app.el('lista-admin-viaturas').innerHTML;
+  const pvp = n => app.run(`formatarEuros(${n})`);
+  const celulas = [...html.matchAll(/font-black text-bmw whitespace-nowrap">([^<]*)</g)].map(m => m[1]);   // célula PVP de cada linha
+  assert.deepEqual(celulas, [pvp(52000), pvp(71000), 'N/A', 'N/A']);       // objeto, string JSON, 0 e sem inputs
+});
+
+test('recarregar as viaturas da BD recalcula os preços (Parque e Gestão)', async () => {
+  const rows = () => JSON.parse(J(FIXTURE_VIATURAS));
+  const app = carregarApp({ supabaseClient: { ...fake([ADMIN], []), from: t => (t === 'viaturas' ? { select: () => ({ then: r => r({ data: rows(), error: null }) }) } : fake([ADMIN], []).from(t)) } });
+  app.run(`currentUser = ${J(ADMIN)}`);
+  await app.run('carregarDados()');
+  assert.equal(app.run('inventario[0].pvp_final'), 52000);
+  assert.equal(app.run('inventario[1].pvp_final'), 71000);
+  app.run('renderizarListaAdmin()');
+  assert.ok(app.el('lista-admin-viaturas').innerHTML.includes(app.run('formatarEuros(52000)')));
 });
