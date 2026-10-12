@@ -758,6 +758,13 @@
         let inventario = []; let utilizadoresDb = []; let historicoDb = []; let vendidasDb = []; let currentUser = null;
         let currentSortCol = null; let currentSortAsc = true;
 
+        // ── SEGURANÇA: escape de dados antes de os injetar em HTML ─────────────
+        // esc(): texto/atributos HTML. escapar(): valor dentro de '...' num onclick="" (JS + HTML).
+        // urlSegura(): só http(s); qualquer outro esquema (javascript:, data:) é descartado.
+        function esc(v) { return (v == null ? '' : String(v)).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
+        function escapar(v) { return esc((v == null ? '' : String(v)).replace(/\\/g, '\\\\').replace(/'/g, "\\'").replace(/\r/g, '\\r').replace(/\n/g, '\\n').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029')); }
+        function urlSegura(u) { try { const x = new URL(String(u || '').trim()); return (x.protocol === 'https:' || x.protocol === 'http:') ? x.href : ''; } catch(e) { return ''; } }
+
         function getArr(v) {
             if(!v) return [];
             if(Array.isArray(v)) return v;
@@ -772,7 +779,7 @@
 
         function mostrarAviso(msg) {
             const el = document.getElementById('aviso-supabase');
-            el.innerHTML = `<div class="flex items-center gap-3"><span class="text-sm font-bold text-red-700">Aviso:</span><span class="text-sm text-red-600">${msg}</span></div>`;
+            el.innerHTML = `<div class="flex items-center gap-3"><span class="text-sm font-bold text-red-700">Aviso:</span><span class="text-sm text-red-600">${esc(msg)}</span></div>`;
             el.classList.remove('hidden'); el.classList.add('flex');
         }
 
@@ -1030,7 +1037,7 @@
         function chipsLocal(carro) {
             const arr = getArr(carro.local);
             if (!arr.length) return `<span class="inline-block px-2 py-1 rounded bg-gray-100 text-gray-500 text-[10px] font-bold border border-gray-200 shadow-sm">N/A</span>`;
-            return arr.map(l => `<span class="inline-block px-2 py-1 rounded text-[10px] font-bold border shadow-sm whitespace-nowrap ${corLocal(l)}">${l}</span>`).join(' ');
+            return arr.map(l => `<span class="inline-block px-2 py-1 rounded text-[10px] font-bold border shadow-sm whitespace-nowrap ${corLocal(l)}">${esc(l)}</span>`).join(' ');
         }
         function formatarEuros(num) { return (num||0).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' €'; }
         function formatarPerc(num) { return ((num||0)*100).toLocaleString('pt-PT', {minimumFractionDigits: 2, maximumFractionDigits: 2}) + ' %'; }
@@ -1097,7 +1104,7 @@
                 const c = document.getElementById('filtro-modelo-container'); 
                 c.innerHTML = `<button onclick="setFiltro('modelo','Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Todos</button>`; 
                 [...new Set(inventario.map(x=>x.modelo || "N/A"))].sort().forEach(m => { 
-                    if(m !== "N/A") c.innerHTML += `<button onclick="setFiltro('modelo','${m}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">${m}</button>`; 
+                    if(m !== "N/A") c.innerHTML += `<button onclick="setFiltro('modelo','${escapar(m)}')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">${esc(m)}</button>`; 
                 }); 
             } catch(e) {}
         }
@@ -1163,7 +1170,7 @@
             document.getElementById('detalhe-pvp-desc').innerText = formatarEuros(c.pvp_final);
 
             const bFotos = document.getElementById('btn-ver-fotos-modal');
-            if(c.link_fotos && c.link_fotos.trim() !== '') { bFotos.href=c.link_fotos; bFotos.classList.remove('hidden'); bFotos.classList.add('inline-block'); } else { bFotos.classList.add('hidden'); bFotos.classList.remove('inline-block'); }
+            if(urlSegura(c.link_fotos)) { bFotos.href=urlSegura(c.link_fotos); bFotos.classList.remove('hidden'); bFotos.classList.add('inline-block'); } else { bFotos.classList.add('hidden'); bFotos.classList.remove('inline-block'); }
             
             const rInfo = document.getElementById('detalhe-reserva-info'); const bReserva = document.getElementById('btn-reservar-viatura'); const bCancela = document.getElementById('btn-cancelar-reserva');
             rInfo.classList.remove('flex'); rInfo.classList.add('hidden'); bReserva.classList.add('hidden'); bCancela.classList.add('hidden');
@@ -1226,7 +1233,7 @@
                 const classLeftBar = reservado ? 'bg-yellow-500' : 'bg-bmw';
                 const classPreco = reservado ? 'text-red-600' : 'text-bmw';
 
-                return `<div class="${classCard} rounded-2xl p-5 hover:shadow-xl transition-all cursor-pointer relative overflow-hidden group" onclick="abrirDetalheViatura('${c.chassis}')"><div class="absolute left-0 top-0 w-1.5 h-full ${classLeftBar} group-hover:w-2 transition-all"></div><div class="flex justify-between items-start mb-5 pl-2"><div class="pr-2"><h3 class="text-[16px] sm:text-lg font-black text-gray-900 leading-tight group-hover:text-bmw transition-colors">${modeloVersao}</h3><p class="text-[11px] text-gray-500 mt-1.5 font-medium">${badgeNegocio(c)} ${dispMarca} &bull; ${matChassis} &bull; ${dispLoc} &bull; ${dispTip} &bull; ${dataMatCartao}</p></div><div class="flex flex-col items-end gap-2 shrink-0">${badgeStatus}${badgeIdade}</div></div><div class="mb-5 pl-2"><div class="text-3xl font-black ${classPreco} tracking-tight">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</div></div><div class="space-y-2.5 border-t border-gray-200/60 pt-4 pl-2"><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">Desconto total</span><span class="text-xs font-black text-gray-800">${formatarEuros(stats.desc_eur)}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">PVP (Novo)</span><span class="text-xs font-black text-gray-800">${formatarEuros(pvpNovoPreco)}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">BSI incluído</span><span class="text-xs font-black text-gray-800">${textoBSI}</span></div></div></div>`;
+                return `<div class="${classCard} rounded-2xl p-5 hover:shadow-xl transition-all cursor-pointer relative overflow-hidden group" onclick="abrirDetalheViatura('${escapar(c.chassis)}')"><div class="absolute left-0 top-0 w-1.5 h-full ${classLeftBar} group-hover:w-2 transition-all"></div><div class="flex justify-between items-start mb-5 pl-2"><div class="pr-2"><h3 class="text-[16px] sm:text-lg font-black text-gray-900 leading-tight group-hover:text-bmw transition-colors">${esc(modeloVersao)}</h3><p class="text-[11px] text-gray-500 mt-1.5 font-medium">${badgeNegocio(c)} ${esc(dispMarca)} &bull; ${esc(matChassis)} &bull; ${esc(dispLoc)} &bull; ${esc(dispTip)} &bull; ${esc(dataMatCartao)}</p></div><div class="flex flex-col items-end gap-2 shrink-0">${badgeStatus}${badgeIdade}</div></div><div class="mb-5 pl-2"><div class="text-3xl font-black ${classPreco} tracking-tight">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</div></div><div class="space-y-2.5 border-t border-gray-200/60 pt-4 pl-2"><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">Desconto total</span><span class="text-xs font-black text-gray-800">${formatarEuros(stats.desc_eur)}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">PVP (Novo)</span><span class="text-xs font-black text-gray-800">${formatarEuros(pvpNovoPreco)}</span></div><div class="flex justify-between items-center"><span class="text-[11px] text-gray-500 font-bold uppercase tracking-widest">BSI incluído</span><span class="text-xs font-black text-gray-800">${textoBSI}</span></div></div></div>`;
             }).join('');
             
             document.getElementById('tabela-corpo').innerHTML = dados.map(c => {
@@ -1234,7 +1241,7 @@
                 const classRow = reservado ? 'bg-yellow-50 hover:bg-yellow-100' : 'hover:bg-blue-50'; const classPreco = reservado ? 'text-red-600' : 'text-bmw';
                 const tagReserva = reservado ? `<span class="inline-block whitespace-nowrap align-middle bg-yellow-400 text-yellow-900 text-[8px] font-black px-1.5 py-0.5 rounded uppercase tracking-widest ml-2 border border-yellow-500">Em Negociação</span>` : '';
                 const dispMarca = getArr(c.marca).join(', ') || 'BMW';
-                return `<tr class="${classRow} cursor-pointer border-b border-gray-50 transition-colors" onclick="abrirDetalheViatura('${c.chassis}')"><td class="px-5 py-4 text-center whitespace-nowrap">${chipsLocal(c)}</td><td class="px-5 py-4 text-center whitespace-nowrap">${badgeNegocio(c)}${c.iva_dedutivel ? ' <span class="inline-block text-[9px] font-black px-1.5 py-0.5 rounded border bg-green-50 text-green-700 border-green-200" title="IVA dedutível">IVA</span>' : ''}</td><td class="px-5 py-4 text-gray-700 font-semibold whitespace-nowrap">${dispMarca}</td><td class="px-5 py-4 font-bold text-gray-900 whitespace-nowrap">${c.modelo || '-'}${tagReserva}</td><td class="px-5 py-4 text-gray-600">${c.versao || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs">${c.encomenda || '-'}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs uppercase">${fmtChassis(c.chassis) || '-'}</td><td class="px-5 py-4 text-gray-800 font-mono text-xs uppercase font-semibold">${fmtMatricula(c.matricula) || '-'}</td><td class="px-5 py-4 text-center text-gray-500 text-xs">${dataMat}</td><td class="px-5 py-4 text-right text-xs text-gray-400 line-through whitespace-nowrap">${(c.pvp_bruto||0) > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</td><td class="px-5 py-4 text-right font-black ${classPreco} text-sm whitespace-nowrap">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td></tr>`;
+                return `<tr class="${classRow} cursor-pointer border-b border-gray-50 transition-colors" onclick="abrirDetalheViatura('${escapar(c.chassis)}')"><td class="px-5 py-4 text-center whitespace-nowrap">${chipsLocal(c)}</td><td class="px-5 py-4 text-center whitespace-nowrap">${badgeNegocio(c)}${c.iva_dedutivel ? ' <span class="inline-block text-[9px] font-black px-1.5 py-0.5 rounded border bg-green-50 text-green-700 border-green-200" title="IVA dedutível">IVA</span>' : ''}</td><td class="px-5 py-4 text-gray-700 font-semibold whitespace-nowrap">${esc(dispMarca)}</td><td class="px-5 py-4 font-bold text-gray-900 whitespace-nowrap">${esc(c.modelo || '-')}${tagReserva}</td><td class="px-5 py-4 text-gray-600">${esc(c.versao || '-')}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs">${esc(c.encomenda || '-')}</td><td class="px-5 py-4 text-gray-500 font-mono text-xs uppercase">${esc(fmtChassis(c.chassis) || '-')}</td><td class="px-5 py-4 text-gray-800 font-mono text-xs uppercase font-semibold">${esc(fmtMatricula(c.matricula) || '-')}</td><td class="px-5 py-4 text-center text-gray-500 text-xs">${dataMat}</td><td class="px-5 py-4 text-right text-xs text-gray-400 line-through whitespace-nowrap">${(c.pvp_bruto||0) > 0 ? formatarEuros(c.pvp_bruto) : 'N/A'}</td><td class="px-5 py-4 text-right font-black ${classPreco} text-sm whitespace-nowrap">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td></tr>`;
             }).join('');
             ajustarAlturaParque();
         }
@@ -1328,7 +1335,7 @@
             res.sort((a,b) => (a.pvp_final||0) - (b.pvp_final||0));
             res.slice(0, 3).forEach(c => {
                 const vReservado = isReservado(c); const badge = vReservado ? `<span class="bg-yellow-400 text-yellow-900 text-[8px] font-black px-1 py-0.5 rounded ml-1 uppercase">Em Negociação</span>` : ''; const lStr = getArr(c.local).join(',') || 'N/A';
-                htmlResp += `<div class="mb-3 border-l-2 border-bmw pl-2"><p class="font-black text-gray-800 leading-tight">${c.modelo || '-'} ${c.versao || '-'} ${badge}</p><p class="text-[10px] text-gray-500 font-mono">${fmtMatricula(c.matricula)||fmtChassis(c.chassis)} | ${lStr}</p><p class="text-sm font-black text-bmw mt-0.5">${formatarEuros(c.pvp_final)}</p><button onclick="abrirDetalheViatura('${c.chassis}')" class="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline mt-1">Ver Ficha</button></div>`;
+                htmlResp += `<div class="mb-3 border-l-2 border-bmw pl-2"><p class="font-black text-gray-800 leading-tight">${esc(c.modelo || '-')} ${esc(c.versao || '-')} ${badge}</p><p class="text-[10px] text-gray-500 font-mono">${esc(fmtMatricula(c.matricula)||fmtChassis(c.chassis))} | ${esc(lStr)}</p><p class="text-sm font-black text-bmw mt-0.5">${formatarEuros(c.pvp_final)}</p><button onclick="abrirDetalheViatura('${escapar(c.chassis)}')" class="text-[10px] font-bold text-blue-600 hover:text-blue-800 underline mt-1">Ver Ficha</button></div>`;
             });
             if (res.length > 3) htmlResp += `<p class="text-[9px] text-gray-400 italic mt-2 border-t border-gray-100 pt-2">Mostrando os 3 resultados mais baratos.</p>`;
             return htmlResp;
@@ -1404,7 +1411,7 @@
                 dados = dados.filter(c => { const arrLoc = getArr(c.local); return loc === 'Todas' || arrLoc.includes(loc); });
                 const cont = document.getElementById('lista-admin-viaturas');
                 if(dados.length === 0) { cont.innerHTML = '<p class="text-xs text-gray-400 font-bold uppercase tracking-widest text-center py-10">Nenhuma viatura autorizada/encontrada.</p>'; return; }
-                cont.innerHTML = dados.map(c=>`<button onclick="abrirEdicao('${c.chassis}')" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white hover:border-bmw hover:shadow-md transition-all mb-2"><div class="font-black text-sm text-gray-800">${c.modelo || '-'} ${c.versao || '-'}</div><div class="flex items-center justify-between gap-2 mt-1"><div class="text-[10px] text-gray-400 uppercase">${badgeNegocio(c)} ${fmtMatricula(c.matricula)||fmtChassis(c.chassis)}</div>${badgePeriodos30(c.data_matricula)}</div></button>`).join(''); 
+                cont.innerHTML = dados.map(c=>`<button onclick="abrirEdicao('${escapar(c.chassis)}')" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white hover:border-bmw hover:shadow-md transition-all mb-2"><div class="font-black text-sm text-gray-800">${esc(c.modelo || '-')} ${esc(c.versao || '-')}</div><div class="flex items-center justify-between gap-2 mt-1"><div class="text-[10px] text-gray-400 uppercase">${badgeNegocio(c)} ${esc(fmtMatricula(c.matricula)||fmtChassis(c.chassis))}</div>${badgePeriodos30(c.data_matricula)}</div></button>`).join(''); 
             } catch(err) {}
         }
 
@@ -1435,14 +1442,14 @@
                 const loc = getArr(v.local).join(', ') || '-';
                 return `<tr class="border-t border-gray-100 hover:bg-gray-50">
                     <td class="px-4 py-3 text-gray-500 whitespace-nowrap">${dt}</td>
-                    <td class="px-4 py-3 font-bold text-gray-800">${(v.modelo||'-')} ${(v.versao||'')}</td>
-                    <td class="px-4 py-3 font-mono text-gray-700">${fmtMatricula(v.matricula)||'-'}</td>
-                    <td class="px-4 py-3 font-mono text-gray-500 text-xs">${fmtChassis(v.chassis)||'-'}</td>
-                    <td class="px-4 py-3 text-gray-600">${v.encomenda||'-'}</td>
-                    <td class="px-4 py-3 text-gray-600">${loc}</td>
+                    <td class="px-4 py-3 font-bold text-gray-800">${esc((v.modelo||'-') + ' ' + (v.versao||''))}</td>
+                    <td class="px-4 py-3 font-mono text-gray-700">${esc(fmtMatricula(v.matricula)||'-')}</td>
+                    <td class="px-4 py-3 font-mono text-gray-500 text-xs">${esc(fmtChassis(v.chassis)||'-')}</td>
+                    <td class="px-4 py-3 text-gray-600">${esc(v.encomenda||'-')}</td>
+                    <td class="px-4 py-3 text-gray-600">${esc(loc)}</td>
                     <td class="px-4 py-3 text-right font-black text-bmw whitespace-nowrap">${preco}</td>
-                    <td class="px-4 py-3 text-gray-500">${v.vendido_por||'-'}</td>
-                    <td class="px-4 py-3 text-right whitespace-nowrap"><button onclick="reporViatura(${v.id})" class="bg-gray-50 hover:bg-bmw hover:text-white text-gray-600 border border-gray-200 hover:border-bmw font-bold py-1.5 px-3 rounded-md transition-colors text-[10px] uppercase tracking-widest">Recuperar Viatura</button></td>
+                    <td class="px-4 py-3 text-gray-500">${esc(v.vendido_por||'-')}</td>
+                    <td class="px-4 py-3 text-right whitespace-nowrap"><button onclick="reporViatura(${Number(v.id)})" class="bg-gray-50 hover:bg-bmw hover:text-white text-gray-600 border border-gray-200 hover:border-bmw font-bold py-1.5 px-3 rounded-md transition-colors text-[10px] uppercase tracking-widest">Recuperar Viatura</button></td>
                 </tr>`;
             }).join('');
         }
@@ -1586,7 +1593,7 @@
 
         // ── GESTÃO DE UTILIZADORES ────────────────────────────────────────────
         let uPerf="", uLoc=[];
-        function renderizarListaUtilizadores() { document.getElementById('lista-utilizadores').innerHTML = utilizadoresDb.map(u => `<button onclick="editarUtilizador(${u.id})" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white mb-2 shadow-sm hover:border-bmw transition-colors"><div class="font-black text-sm">${u.nome}</div><div class="text-[10px] text-gray-400 mt-1 uppercase">${u.perfil}</div></button>`).join(''); }
+        function renderizarListaUtilizadores() { document.getElementById('lista-utilizadores').innerHTML = utilizadoresDb.map(u => `<button onclick="editarUtilizador(${Number(u.id)})" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white mb-2 shadow-sm hover:border-bmw transition-colors"><div class="font-black text-sm">${esc(u.nome)}</div><div class="text-[10px] text-gray-400 mt-1 uppercase">${esc(u.perfil)}</div></button>`).join(''); }
         function prepararNovoUtilizador() { document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('form-user').reset(); document.getElementById('user-id').value=""; uPerf=""; uLoc=[]; atualizarBtnsU(); document.getElementById('btn-remover-user').classList.add('hidden'); }
         function editarUtilizador(id) { const u = utilizadoresDb.find(x=>x.id===id); document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('user-id').value = u.id; document.getElementById('user-nome').value = u.nome; document.getElementById('user-email').value = u.email; uPerf = u.perfil; uLoc = [...getArr(u.local)]; atualizarBtnsU(); document.getElementById('btn-remover-user').classList.remove('hidden'); }
         function cancelarEdicaoUser() { document.getElementById('painel-user-form').classList.add('hidden'); document.getElementById('painel-user-form').classList.remove('flex'); document.getElementById('painel-user-vazio').classList.remove('hidden'); document.getElementById('btn-remover-user').classList.add('hidden'); }
@@ -1674,7 +1681,7 @@
                 container.innerHTML = historicoDb.map(h => {
                     const dt = h.data_hora ? new Date(h.data_hora).toLocaleString('pt-PT') : 'N/A';
                     let cor = h.acao === 'CRIAR' ? 'text-green-600 bg-green-50 border-green-200' : (h.acao === 'ELIMINAR' ? 'text-red-600 bg-red-50 border-red-200' : (h.acao === 'LOGIN' ? 'text-purple-600 bg-purple-50 border-purple-200' : 'text-blue-600 bg-blue-50 border-blue-200'));
-                    return `<div class="flex justify-between p-4 bg-white rounded-xl border border-gray-100 shadow-sm"><div><div class="flex items-center gap-3 mb-1"><span class="px-2 py-1 rounded text-[9px] font-black border ${cor}">${h.acao}</span><span class="text-xs font-black text-gray-800 uppercase tracking-widest">${h.tabela}</span></div><div class="text-xs font-medium text-gray-500 mt-2">ID: <span class="font-mono font-bold text-gray-700">${h.registo_id}</span></div></div><div class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">${dt}</div></div>`;
+                    return `<div class="flex justify-between p-4 bg-white rounded-xl border border-gray-100 shadow-sm"><div><div class="flex items-center gap-3 mb-1"><span class="px-2 py-1 rounded text-[9px] font-black border ${cor}">${esc(h.acao)}</span><span class="text-xs font-black text-gray-800 uppercase tracking-widest">${esc(h.tabela)}</span></div><div class="text-xs font-medium text-gray-500 mt-2">ID: <span class="font-mono font-bold text-gray-700">${esc(h.registo_id)}</span></div></div><div class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">${dt}</div></div>`;
                 }).join('');
             } catch(e) {}
         }
@@ -1736,7 +1743,7 @@
             const cont = document.getElementById('filtro-modelos');
 
             if (modelosDaSerie.length > 0) {
-                cont.innerHTML = modelosDaSerie.map(m => `<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="mbtn-${m.id}" onclick="selecionarModelo('${m.id}', '${escapar(m.nome)}')">${m.nome}</button>`).join('');
+                cont.innerHTML = modelosDaSerie.map(m => `<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="mbtn-${esc(m.id)}" onclick="selecionarModelo('${escapar(m.id)}', '${escapar(m.nome)}')">${esc(m.nome)}</button>`).join('');
                 wrap.classList.remove('hidden');
             } else {
                 wrap.classList.add('hidden');
@@ -1770,7 +1777,7 @@
         function renderizarPills() {
             document.getElementById('grid-motorizacoes').innerHTML = motorizacoesDoModelo.map(m => {
                 const sel = motSelecionadas.includes(m.id);
-                return `<button class="mot-pill rounded-full px-4 py-2 text-xs font-bold shadow-sm ${sel ? 'active' : ''}" onclick="toggleMot('${m.id}')">${m.nome_visual || m.codigo}</button>`;
+                return `<button class="mot-pill rounded-full px-4 py-2 text-xs font-bold shadow-sm ${sel ? 'active' : ''}" onclick="toggleMot('${escapar(m.id)}')">${esc(m.nome_visual || m.codigo)}</button>`;
             }).join('');
         }
 
@@ -1808,7 +1815,7 @@
 
             const colW = Math.floor(58 / motsInfo.length);
 
-            document.getElementById('tabela-thead').innerHTML = `<tr class="border-b-2 border-gray-100"><th class="px-4 sm:px-5 py-4 text-left text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 sticky left-0 z-10" style="width:42%">Especificação</th>${motsInfo.map(m => `<th class="px-3 sm:px-5 py-4 text-left bg-gray-50 border-l border-gray-100" style="width:${colW}%"><p class="text-xs font-black text-bmw leading-tight">${m.nome_visual || m.codigo}</p><p class="text-[10px] text-gray-400 font-mono mt-0.5">${m.codigo}</p></th>`).join('')}</tr>`;
+            document.getElementById('tabela-thead').innerHTML = `<tr class="border-b-2 border-gray-100"><th class="px-4 sm:px-5 py-4 text-left text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 sticky left-0 z-10" style="width:42%">Especificação</th>${motsInfo.map(m => `<th class="px-3 sm:px-5 py-4 text-left bg-gray-50 border-l border-gray-100" style="width:${colW}%"><p class="text-xs font-black text-bmw leading-tight">${esc(m.nome_visual || m.codigo)}</p><p class="text-[10px] text-gray-400 font-mono mt-0.5">${esc(m.codigo)}</p></th>`).join('')}</tr>`;
 
             if (todasChaves.length === 0) {
                 document.getElementById('tabela-tbody').innerHTML = `<tr><td colspan="${1 + motsInfo.length}" class="text-center text-sm text-gray-400 py-12">Sem especificações.</td></tr>`;
@@ -1818,7 +1825,7 @@
             document.getElementById('tabela-tbody').innerHTML = todasChaves.map((chave, i) => {
                 const valores = motsInfo.map(m => { return specsCache[m.id]?.[chave] ?? '—'; });
                 const todosIguais = valores.every(v => v === valores[0]);
-                return `<tr class="spec-row border-b border-gray-100"><td class="px-4 sm:px-5 py-3 text-xs font-medium text-gray-600 leading-snug sticky left-0 bg-inherit">${chave}</td>${valores.map(v => `<td class="px-3 sm:px-5 py-3 text-xs font-bold border-l border-gray-100 leading-snug ${v === '—' ? 'text-gray-300' : (!todosIguais ? 'text-bmw' : 'text-gray-800')}">${v}</td>`).join('')}</tr>`;
+                return `<tr class="spec-row border-b border-gray-100"><td class="px-4 sm:px-5 py-3 text-xs font-medium text-gray-600 leading-snug sticky left-0 bg-inherit">${esc(chave)}</td>${valores.map(v => `<td class="px-3 sm:px-5 py-3 text-xs font-bold border-l border-gray-100 leading-snug ${v === '—' ? 'text-gray-300' : (!todosIguais ? 'text-bmw' : 'text-gray-800')}">${esc(v)}</td>`).join('')}</tr>`;
             }).join('');
 
             passo.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -1836,7 +1843,7 @@
             if (filtrados.length === 0) {
                 cont.innerHTML = '<p class="text-xs text-gray-400 font-bold py-2">Nenhum modelo encontrado.</p>';
             } else {
-                cont.innerHTML = filtrados.map(m => `<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="mbtn-${m.id}" onclick="selecionarModelo('${m.id}', '${escapar(m.nome)}')">${m.nome}</button>`).join('');
+                cont.innerHTML = filtrados.map(m => `<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="mbtn-${esc(m.id)}" onclick="selecionarModelo('${escapar(m.id)}', '${escapar(m.nome)}')">${esc(m.nome)}</button>`).join('');
             }
             wrap.classList.remove('hidden');
         }
@@ -1854,7 +1861,6 @@
         function scrollParaTabela() { document.getElementById('passo-specs')?.scrollIntoView({ behavior: 'smooth' }); }
         function limparTudo() { motSelecionadas = []; specsCache = {}; renderizarPills(); renderizarTabela(); atualizarCompareBar(); }
         function mostrarErro(msg) { document.getElementById('loading-state')?.classList.add('hidden'); const el = document.getElementById('error-state'); el.classList.remove('hidden'); el.innerText = '⚠️ ' + msg; }
-        function escapar(s) { return (s||'').replace(/'/g, "\\'"); }
 
         // ── TAB OPCIONAIS ─────────────────────────────────────────────────────
         let opTodosModelos=[], opSerieAtiva=null, opModeloAtivo=null, opMotAtiva=null;
@@ -1890,7 +1896,7 @@
             opSerieAtiva=serie; opModeloAtivo=null; opMotAtiva=null;
             opRenderSeries();
             const modelos=serie==='Todos'?opTodosModelos:opTodosModelos.filter(m=>opGetSerie(m.nome)===serie);
-            document.getElementById('op-filtro-modelos').innerHTML=modelos.map(m=>`<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="op-mb-${m.id}" onclick="opClicarModelo('${m.id}','${escapar(m.nome)}')">${m.nome}</button>`).join('');
+            document.getElementById('op-filtro-modelos').innerHTML=modelos.map(m=>`<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="op-mb-${esc(m.id)}" onclick="opClicarModelo('${escapar(m.id)}','${escapar(m.nome)}')">${esc(m.nome)}</button>`).join('');
             document.getElementById('op-filtro-modelos-wrap').classList.remove('hidden');
             document.getElementById('op-passo-mot').classList.add('hidden');
             document.getElementById('op-passo-lista').classList.add('hidden');
@@ -1908,7 +1914,7 @@
             opRenderMots();
         }
         function opRenderMots(){
-            document.getElementById('op-grid-mots').innerHTML=opTodasMots.map(m=>`<button class="mot-pill rounded-full px-4 py-2 text-xs font-bold shadow-sm ${opMotAtiva===m.id?'active':''}" onclick="opClicarMot('${m.id}','${escapar(m.nome)}')">${m.nome}</button>`).join('');
+            document.getElementById('op-grid-mots').innerHTML=opTodasMots.map(m=>`<button class="mot-pill rounded-full px-4 py-2 text-xs font-bold shadow-sm ${opMotAtiva===m.id?'active':''}" onclick="opClicarMot('${escapar(m.id)}','${escapar(m.nome)}')">${esc(m.nome)}</button>`).join('');
         }
         async function opClicarMot(id,nome){
             opMotAtiva=id; opRenderMots();
@@ -1929,7 +1935,7 @@
             const raw=[...new Set(opTodosOpcionais.map(o=>o.secao).filter(Boolean))];
             raw.sort((a,b)=>{const na=parseFloat(a.match(/^[\d.]+/)?.[0]||'999'),nb=parseFloat(b.match(/^[\d.]+/)?.[0]||'999');return na-nb;});
             const secoes=['Todas',...raw];
-            document.getElementById('op-filtro-secoes').innerHTML=secoes.map(s=>`<button class="serie-btn px-4 py-1.5 rounded-md text-xs ${opSecaoAtiva===s?'active':''}" onclick="opFiltrarSecao('${escapar(s)}')">${s}</button>`).join('');
+            document.getElementById('op-filtro-secoes').innerHTML=secoes.map(s=>`<button class="serie-btn px-4 py-1.5 rounded-md text-xs ${opSecaoAtiva===s?'active':''}" onclick="opFiltrarSecao('${escapar(s)}')">${esc(s)}</button>`).join('');
         }
         function opFiltrarSecao(secao){opSecaoAtiva=secao;opRenderSecoes();opRenderLista();}
         function opRenderLista(){
@@ -1937,11 +1943,11 @@
             if(lista.length===0){document.getElementById('op-lista').innerHTML='<p class="text-xs text-gray-400 py-8 text-center font-bold">Nenhum opcional encontrado.</p>';return;}
             const badge=tipo=>tipo==='serie'?'<span class="px-2 py-0.5 rounded-full text-xs font-black bg-gray-800 text-white">◼ Série</span>':tipo==='opcional'?'<span class="px-2 py-0.5 rounded-full text-xs font-black bg-blue-100 text-bmw border border-blue-200">◻ Opcional</span>':'<span class="px-2 py-0.5 rounded-full text-xs font-bold bg-gray-100 text-gray-400">N/D</span>';
             document.getElementById('op-lista').innerHTML=lista.map(o=>
-                `<div class="bg-white border border-gray-200 rounded-xl px-4 py-3 flex items-center justify-between gap-3 cursor-pointer hover:border-bmw hover:shadow-sm transition-all" onclick="opAbrirModal('${o.id}')">
+                `<div class="bg-white border border-gray-200 rounded-xl px-4 py-3 flex items-center justify-between gap-3 cursor-pointer hover:border-bmw hover:shadow-sm transition-all" onclick="opAbrirModal('${escapar(o.id)}')">
                     <div class="flex-1 min-w-0">
-                        <div class="flex items-center gap-2 mb-0.5 flex-wrap"><span class="text-xs font-black text-bmw font-mono">${o.codigo}</span>${badge(o.tipo)}${o.preco_iva>0?`<span class="text-xs font-bold text-gray-600">${Number(o.preco_iva).toLocaleString('pt-PT',{minimumFractionDigits:2})} €</span>`:(o.preco_iva===0?'<span class="text-xs font-bold text-green-600">Grátis</span>':'')}</div>
-                        <p class="text-sm font-bold text-gray-800 truncate">${o.nome}</p>
-                        ${o.secao?`<p class="text-xs text-gray-400 mt-0.5">${o.secao}</p>`:''}
+                        <div class="flex items-center gap-2 mb-0.5 flex-wrap"><span class="text-xs font-black text-bmw font-mono">${esc(o.codigo)}</span>${badge(o.tipo)}${o.preco_iva>0?`<span class="text-xs font-bold text-gray-600">${Number(o.preco_iva).toLocaleString('pt-PT',{minimumFractionDigits:2})} €</span>`:(o.preco_iva===0?'<span class="text-xs font-bold text-green-600">Grátis</span>':'')}</div>
+                        <p class="text-sm font-bold text-gray-800 truncate">${esc(o.nome)}</p>
+                        ${o.secao?`<p class="text-xs text-gray-400 mt-0.5">${esc(o.secao)}</p>`:''}
                     </div>
                     <svg class="w-4 h-4 text-gray-300 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                 </div>`
@@ -1954,7 +1960,7 @@
             document.getElementById('op-modal-nome').innerText=op.nome;
             const pw=document.getElementById('op-modal-preco-wrap');
             if(op.preco_iva!==null&&op.preco_iva!==undefined){pw.classList.remove('hidden');document.getElementById('op-modal-preco-iva').innerText=op.preco_iva===0?'Grátis (série)':Number(op.preco_iva).toLocaleString('pt-PT',{minimumFractionDigits:2})+' €';document.getElementById('op-modal-preco-siva').innerText=op.preco_siva?Number(op.preco_siva).toLocaleString('pt-PT',{minimumFractionDigits:2})+' €':'';}else{pw.classList.add('hidden');}
-            document.getElementById('op-modal-disponib').innerHTML=(dispData||[]).map(d=>{const t=d.tipo,n=d.op_motorizacoes?.nome||'';const cls=t==='serie'?'bg-gray-800 text-white':t==='opcional'?'bg-blue-100 text-bmw border border-blue-200':'bg-gray-100 text-gray-400';const sym=t==='serie'?'◼':t==='opcional'?'◻':'—';return`<div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg ${cls}"><span class="text-xs font-black">${sym}</span><span class="text-xs font-bold">${n}</span></div>`;}).join('')||'<p class="text-xs text-gray-400">Sem dados.</p>';
+            document.getElementById('op-modal-disponib').innerHTML=(dispData||[]).map(d=>{const t=d.tipo,n=d.op_motorizacoes?.nome||'';const cls=t==='serie'?'bg-gray-800 text-white':t==='opcional'?'bg-blue-100 text-bmw border border-blue-200':'bg-gray-100 text-gray-400';const sym=t==='serie'?'◼':t==='opcional'?'◻':'—';return`<div class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg ${cls}"><span class="text-xs font-black">${sym}</span><span class="text-xs font-bold">${esc(n)}</span></div>`;}).join('')||'<p class="text-xs text-gray-400">Sem dados.</p>';
             const dw=document.getElementById('op-modal-desc-wrap');op.descricao?(dw.classList.remove('hidden'),document.getElementById('op-modal-desc').innerText=op.descricao):dw.classList.add('hidden');
             const rw=document.getElementById('op-modal-regras-wrap');op.regras?(rw.classList.remove('hidden'),document.getElementById('op-modal-regras').innerText=op.regras):rw.classList.add('hidden');
             document.body.classList.add('overflow-hidden');
@@ -1967,7 +1973,7 @@
             if(!q){document.getElementById('op-filtro-modelos-wrap').classList.add('hidden');opSerieAtiva=null;opRenderSeries();return;}
             const f=opTodosModelos.filter(m=>m.nome.toLowerCase().includes(q)||m.codigo.toLowerCase().includes(q));
             opSerieAtiva=null;opRenderSeries();
-            document.getElementById('op-filtro-modelos').innerHTML=f.length===0?'<p class="text-xs text-gray-400 font-bold py-2">Nenhum modelo encontrado.</p>':f.map(m=>`<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="op-mb-${m.id}" onclick="opClicarModelo('${m.id}','${escapar(m.nome)}')">${m.nome}</button>`).join('');
+            document.getElementById('op-filtro-modelos').innerHTML=f.length===0?'<p class="text-xs text-gray-400 font-bold py-2">Nenhum modelo encontrado.</p>':f.map(m=>`<button class="modelo-btn px-4 py-2 rounded-md text-xs" id="op-mb-${esc(m.id)}" onclick="opClicarModelo('${escapar(m.id)}','${escapar(m.nome)}')">${esc(m.nome)}</button>`).join('');
             document.getElementById('op-filtro-modelos-wrap').classList.remove('hidden');
         }
 
@@ -2013,8 +2019,8 @@
         function bevRenderSlots(){
             document.getElementById('bev-slots').innerHTML=bevSlots.map((slot,i)=>{
                 if(!slot) return `<div class="bg-white border-2 border-dashed border-gray-200 rounded-xl p-4 flex flex-col items-center justify-center min-h-36 gap-2 cursor-pointer hover:border-green-400 transition-colors" onclick="bevAbrirModal(${i})"><div class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center text-gray-300 text-2xl">+</div><p class="text-xs font-bold text-gray-400 uppercase text-center">Adicionar BEV</p></div>`;
-                if(!slot.motId) return `<div class="bg-white border-2 border-green-300 rounded-xl p-4 flex flex-col min-h-36 gap-2"><div class="flex justify-between"><p class="text-xs font-black text-gray-800 flex-1">${slot.modeloNome}</p><button onclick="bevLimparSlot(${i})" class="text-gray-300 hover:text-red-400 ml-1">✕</button></div><p class="text-xs font-bold text-gray-400 uppercase mt-1">Escolha a motorização:</p><div class="flex flex-col gap-1 overflow-y-auto no-scrollbar flex-1 mt-1" id="bev-slot-mots-${i}"><p class="text-xs text-gray-400">A carregar...</p></div></div>`;
-                return `<div class="bg-white border-2 border-green-500 rounded-xl p-4 flex flex-col min-h-36 gap-2"><div class="flex justify-between"><div class="flex-1"><p class="text-xs font-black text-gray-800">${slot.modeloNome}</p><p class="text-xs font-bold text-green-600 mt-1">${slot.motNome}</p></div><button onclick="bevLimparSlot(${i})" class="text-gray-300 hover:text-red-400 ml-1">✕</button></div><div class="mt-auto flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span><span class="text-xs font-bold text-green-600 uppercase">Pronto</span></div></div>`;
+                if(!slot.motId) return `<div class="bg-white border-2 border-green-300 rounded-xl p-4 flex flex-col min-h-36 gap-2"><div class="flex justify-between"><p class="text-xs font-black text-gray-800 flex-1">${esc(slot.modeloNome)}</p><button onclick="bevLimparSlot(${i})" class="text-gray-300 hover:text-red-400 ml-1">✕</button></div><p class="text-xs font-bold text-gray-400 uppercase mt-1">Escolha a motorização:</p><div class="flex flex-col gap-1 overflow-y-auto no-scrollbar flex-1 mt-1" id="bev-slot-mots-${i}"><p class="text-xs text-gray-400">A carregar...</p></div></div>`;
+                return `<div class="bg-white border-2 border-green-500 rounded-xl p-4 flex flex-col min-h-36 gap-2"><div class="flex justify-between"><div class="flex-1"><p class="text-xs font-black text-gray-800">${esc(slot.modeloNome)}</p><p class="text-xs font-bold text-green-600 mt-1">${esc(slot.motNome)}</p></div><button onclick="bevLimparSlot(${i})" class="text-gray-300 hover:text-red-400 ml-1">✕</button></div><div class="mt-auto flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-500 inline-block"></span><span class="text-xs font-bold text-green-600 uppercase">Pronto</span></div></div>`;
             }).join('');
             bevSlots.forEach((s,i)=>{if(s&&!s.motId)bevCarregarMotsSlot(i,s.modeloId);});
             bevRenderTabela();
@@ -2023,7 +2029,7 @@
         async function bevCarregarMotsSlot(i,modeloId){
             const{data}=await sb.from('motorizacoes').select('id,codigo,nome_visual').eq('modelo_id',modeloId).order('codigo');
             const cont=document.getElementById('bev-slot-mots-'+i);if(!cont)return;
-            cont.innerHTML=(data||[]).map(m=>`<button class="text-left px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-bold text-gray-700 hover:border-green-400 hover:text-green-600 transition-colors" onclick="bevEscolherMot(${i},'${m.id}','${escapar(m.nome_visual||m.codigo)}')">${m.nome_visual||m.codigo}</button>`).join('');
+            cont.innerHTML=(data||[]).map(m=>`<button class="text-left px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-bold text-gray-700 hover:border-green-400 hover:text-green-600 transition-colors" onclick="bevEscolherMot(${i},'${escapar(m.id)}','${escapar(m.nome_visual||m.codigo)}')">${esc(m.nome_visual||m.codigo)}</button>`).join('');
         }
 
         async function bevEscolherMot(i,motId,motNome){
@@ -2041,7 +2047,7 @@
                 const todos=data||[];
                 const bevLista=todos.filter(m=>/\bi4\b|\bix\b|\biX\b|bev|i4|iX/i.test(m.nome)||['G26BEV','NA5','I20','U10','U11','G60','G61','G70'].some(c=>m.codigo.toUpperCase()===c));
                 const lista=bevLista.length>0?bevLista:todos;
-                document.getElementById('bev-modal-lista').innerHTML=lista.map(m=>`<button class="w-full text-left px-4 py-3 rounded-xl border border-gray-100 hover:border-green-400 hover:bg-green-50 transition-colors mb-1" onclick="bevEscolherModelo('${m.id}','${escapar(m.nome)}')"><p class="text-sm font-black text-gray-800">${m.nome}</p><p class="text-xs text-gray-400 font-mono">${m.codigo}</p></button>`).join('');
+                document.getElementById('bev-modal-lista').innerHTML=lista.map(m=>`<button class="w-full text-left px-4 py-3 rounded-xl border border-gray-100 hover:border-green-400 hover:bg-green-50 transition-colors mb-1" onclick="bevEscolherModelo('${escapar(m.id)}','${escapar(m.nome)}')"><p class="text-sm font-black text-gray-800">${esc(m.nome)}</p><p class="text-xs text-gray-400 font-mono">${esc(m.codigo)}</p></button>`).join('');
             });
             document.body.classList.add('overflow-hidden');
             document.getElementById('bev-modal').classList.remove('hidden');document.getElementById('bev-modal').classList.add('flex');
@@ -2052,7 +2058,7 @@
             bevSlots[i]={modeloId,modeloNome,motId:null,motNome:null,specs:{}};
             document.getElementById('bev-modal-titulo').innerText='Escolher Motorização';
             const{data}=await sb.from('motorizacoes').select('id,codigo,nome_visual').eq('modelo_id',modeloId).order('codigo');
-            document.getElementById('bev-modal-lista').innerHTML=(data||[]).map(m=>`<button class="w-full text-left px-4 py-3 rounded-xl border border-gray-100 hover:border-green-400 hover:bg-green-50 transition-colors mb-1" onclick="bevEscolherMotModal('${m.id}','${escapar(m.nome_visual||m.codigo)}')"><p class="text-sm font-black text-gray-800">${m.nome_visual||m.codigo}</p><p class="text-xs text-gray-400 font-mono">${m.codigo}</p></button>`).join('');
+            document.getElementById('bev-modal-lista').innerHTML=(data||[]).map(m=>`<button class="w-full text-left px-4 py-3 rounded-xl border border-gray-100 hover:border-green-400 hover:bg-green-50 transition-colors mb-1" onclick="bevEscolherMotModal('${escapar(m.id)}','${escapar(m.nome_visual||m.codigo)}')"><p class="text-sm font-black text-gray-800">${esc(m.nome_visual||m.codigo)}</p><p class="text-xs text-gray-400 font-mono">${esc(m.codigo)}</p></button>`).join('');
         }
 
         async function bevEscolherMotModal(motId,motNome){
@@ -2106,12 +2112,12 @@
                 ...Object.entries(dcVariacoes).map(([n,v])=>({label:`10-80% ${v.replace('DC charging with ','DC ').replace(/EVSE limitation/,'').trim()}`, keys:[`Tempo de carregamento DC ${n} (10-80%), h`]})),
             ];
 
-            document.getElementById('bev-thead').innerHTML=`<tr class="border-b-2 border-gray-100"><th class="px-4 py-3 text-left text-xs font-black text-gray-400 uppercase bg-gray-50" style="width:42%">Especificação</th>${completos.map(s=>`<th class="px-3 py-3 text-left bg-gray-50 border-l border-gray-100" style="width:${cw}%"><p class="text-xs font-black text-green-700 leading-tight">${s.modeloNome}</p><p class="text-xs font-bold text-gray-500 mt-0.5">${s.motNome}</p></th>`).join('')}</tr>`;
+            document.getElementById('bev-thead').innerHTML=`<tr class="border-b-2 border-gray-100"><th class="px-4 py-3 text-left text-xs font-black text-gray-400 uppercase bg-gray-50" style="width:42%">Especificação</th>${completos.map(s=>`<th class="px-3 py-3 text-left bg-gray-50 border-l border-gray-100" style="width:${cw}%"><p class="text-xs font-black text-green-700 leading-tight">${esc(s.modeloNome)}</p><p class="text-xs font-bold text-gray-500 mt-0.5">${esc(s.motNome)}</p></th>`).join('')}</tr>`;
 
             document.getElementById('bev-tbody').innerHTML=CHAVES_DINAMICAS.map(ch=>{
                 const vals=completos.map(s=>bevGetVal(s.specs,ch));
                 const ig=vals.every(v=>v===vals[0]);
-                return`<tr class="border-b border-gray-100 hover:bg-green-50/30 transition-colors"><td class="px-4 py-2.5 text-xs text-gray-600">${ch.label}</td>${vals.map(v=>`<td class="px-3 py-2.5 text-xs font-bold border-l border-gray-100 ${v==='—'?'text-gray-300':ig?'text-gray-800':'text-green-700'}">${v}</td>`).join('')}</tr>`;
+                return`<tr class="border-b border-gray-100 hover:bg-green-50/30 transition-colors"><td class="px-4 py-2.5 text-xs text-gray-600">${esc(ch.label)}</td>${vals.map(v=>`<td class="px-3 py-2.5 text-xs font-bold border-l border-gray-100 ${v==='—'?'text-gray-300':ig?'text-gray-800':'text-green-700'}">${esc(v)}</td>`).join('')}</tr>`;
             }).join('');
         }
 

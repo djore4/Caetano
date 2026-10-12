@@ -44,7 +44,7 @@ function carregarApp(opts = {}) {
   const alertas = [];
   const sandbox = {
     document, console, Date, Math, JSON, parseInt, parseFloat, isNaN, Number, String, Array, Object, Set, RegExp, Promise,
-    setTimeout: () => 0,
+    setTimeout: () => 0, URL,
     alert: m => alertas.push(m), confirm: () => true,
     window: {
       innerWidth: 1280, innerHeight: 800, addEventListener() {},
