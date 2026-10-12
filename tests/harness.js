@@ -24,7 +24,7 @@ function criarElemento() {
       contains: c => classes.has(c),
       replace: () => {},
     },
-    appendChild() {}, focus() {}, scrollIntoView() {}, remove() {}, setAttribute() {},
+    appendChild() {}, addEventListener() {}, reset() {}, focus() {}, scrollIntoView() {}, remove() {}, setAttribute() {},
     getBoundingClientRect: () => ({ top: 0 }),
     querySelector: () => criarElemento(), querySelectorAll: () => [],
     offsetParent: {},
@@ -35,11 +35,12 @@ function criarElemento() {
 function carregarApp(opts = {}) {
   const html = fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
   const elementos = {};
+  const listeners = {};
   const document = {
     getElementById: id => (elementos[id] ||= Object.assign(criarElemento(), { id })),
     createElement: () => criarElemento(),
     querySelectorAll: () => [],
-    body: criarElemento(),
+    body: criarElemento(), addEventListener(t, f) { (listeners[t] ||= []).push(f); },
   };
   const alertas = [];
   const sandbox = {
@@ -56,7 +57,7 @@ function carregarApp(opts = {}) {
   const ctx = vm.createContext(sandbox);
   vm.runInContext(extrairScript(html), ctx, { filename: 'index.html' });
   return {
-    ctx, elementos, alertas,
+    ctx, elementos, alertas, listeners,
     run: codigo => vm.runInContext(codigo, ctx),
     el: id => elementos[id],
   };
