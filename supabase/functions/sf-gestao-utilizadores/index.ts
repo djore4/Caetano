@@ -14,6 +14,8 @@ const cors = {
 
 const PERFIS = ["Vendedor", "Chefe de Vendas", "Administrador"];
 const LOCAIS = ["Todas", "Porto", "Gaia", "Feira", "Aveiro"];
+const NEGOCIOS = ["VD", "VU"];
+const MARCAS = ["BMW", "BMW Motorrad"];
 
 function json(status: number, body: unknown) {
   return new Response(JSON.stringify(body), {
@@ -65,6 +67,14 @@ Deno.serve(async (req) => {
       return json(400, { error: "Concessao invalida." });
     }
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json(400, { error: "Email invalido." });
+    // Camada tipo (VD/VU) x marca: Administrador acede sempre a tudo; os restantes ao que for indicado.
+    const negocioIn = Array.isArray(body.negocio) ? body.negocio : [];
+    const marcaIn = Array.isArray(body.marca) ? body.marca : [];
+    if (!negocioIn.every((v: unknown) => typeof v === "string" && NEGOCIOS.includes(v))) return json(400, { error: "Tipo de viatura invalido." });
+    if (!marcaIn.every((v: unknown) => typeof v === "string" && MARCAS.includes(v))) return json(400, { error: "Marca invalida." });
+    const negocio = perfil === "Administrador" ? NEGOCIOS : negocioIn;
+    const marca = perfil === "Administrador" ? MARCAS : marcaIn;
+    if (!negocio.length || !marca.length) return json(400, { error: "Indique pelo menos um tipo de viatura e uma marca." });
 
     let jaTinhaConta = false;
     let tempPassword: string | null = null;
@@ -92,8 +102,8 @@ Deno.serve(async (req) => {
       email,
       perfil,
       local,
-      negocio: Array.isArray(body.negocio) ? body.negocio : ["VN"],
-      marca: Array.isArray(body.marca) ? body.marca : ["BMW"],
+      negocio,
+      marca,
     };
     const { error: upErr } = await admin.from("utilizadores").upsert(profile);
     if (upErr) return json(400, { error: "Erro ao gravar o perfil: " + upErr.message });

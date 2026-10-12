@@ -4,11 +4,12 @@
 set -u
 cd "$(dirname "$0")"
 DB=${DB:-rlstest}; PSQL="psql -X -q -v ON_ERROR_STOP=1 -d $DB"
-MODO=${1:-../../security/06_rls_por_perfil.sql}
+MODO=${1:-completo}     # antes (só 01) | 06 | completo (01+06+08)
 dropdb --if-exists $DB >/dev/null 2>&1; createdb $DB
 $PSQL -f 00_shim.sql >/dev/null; $PSQL -f 01_dados.sql >/dev/null
 $PSQL -f ../../security/01_enable_rls.sql >/dev/null          # estado atual de produção
-[ "$MODO" != "antes" ] && $PSQL -f "$MODO" >/dev/null
+[ "$MODO" != "antes" ] && $PSQL -f ../../security/06_rls_por_perfil.sql >/dev/null
+[ "$MODO" = "completo" ] && $PSQL -f ../../security/08_rls_tipo_marca.sql >/dev/null
 
 PASS=0; FAIL=0
 # q <email|anon> "<sql que devolve 1 valor>" -> imprime o valor ("ERRO" se a query falhar)
@@ -35,9 +36,9 @@ for U in admin@x.pt chefe@x.pt vend@x.pt crm@x.pt anon; do
     admin@x.pt) P=Administrador;; chefe@x.pt) P=Chefe;; vend@x.pt) P=Vendedor;; *) P=$U;;
   esac
   case $P in
-    Administrador) v=2 vd=1 ut=3 hi=1 w=1 ;;
-    Chefe)         v=2 vd=1 ut=1 hi=0 w=1 ;;
-    Vendedor)      v=2 vd=0 ut=1 hi=0 w=0 ;;
+    Administrador) v=3 vd=1 ut=8 hi=1 w=1 ;;
+    Chefe)         v=3 vd=1 ut=1 hi=0 w=1 ;;
+    Vendedor)      v=3 vd=0 ut=1 hi=0 w=0 ;;
     *)             v=0 vd=0 ut=0 hi=0 w=0 ;;
   esac
   [ $U = anon ] && { v=ERRO; vd=ERRO; ut=ERRO; hi=ERRO; }
@@ -72,4 +73,39 @@ done
 chk "vendedor vê o seu perfil"  Vendedor "$(q vend@x.pt "select perfil from public.utilizadores where email='vend@x.pt';")"
 chk "vendedor não vê o do admin" 0 "$(q vend@x.pt "select count(*) from public.utilizadores where email='admin@x.pt';")"
 chk "email com maiúsculas"      Chefe\ de\ Vendas "$(q CHEFE@X.pt "select public.sf_perfil();" | sed 's/Chefede/Chefe de /')"
+
+if [ "$MODO" = completo ]; then
+  # --- camada tipo (VD/VU) x marca ---
+  V="select count(*) from public.viaturas"
+  chk "VD+BMW vê só a CH1"                 1     "$(q vd@x.pt "$V;")"
+  chk "VD+BMW não vê VU nem Motorrad"      0     "$(q vd@x.pt "$V where chassis in ('CH2','CH3');")"
+  chk "Chefe VU vê só a CH2"               1     "$(q vu@x.pt "$V;")"
+  chk "Chefe VU edita a CH2"               1     "$(q vu@x.pt "$(n "update public.viaturas set reserva_user='t' where chassis='CH2'")")"
+  chk "Chefe VU não edita a CH1 (VD)"      0     "$(q vu@x.pt "$(n "update public.viaturas set reserva_user='t' where chassis='CH1'")")"
+  chk "Chefe VU não apaga a CH1 (VD)"      0     "$(q vu@x.pt "$(n "delete from public.viaturas where chassis='CH1'")")"
+  chk "Chefe VU não cria VD"               ERRO  "$(q vu@x.pt "$(n "insert into public.viaturas(chassis,modelo,estado_negocio,marca) values ('N1','Z4','VD','[\"BMW\"]')")")"
+  chk "Chefe VU cria VU Motorrad"          1     "$(q vu@x.pt "$(n "insert into public.viaturas(chassis,modelo,estado_negocio,marca) values ('N2','R','VU','[\"BMW Motorrad\"]')")")"
+  chk "Chefe VU não move a CH2 para VD"    ERRO  "$(q vu@x.pt "$(n "update public.viaturas set estado_negocio='VD' where chassis='CH2'")")"
+  chk "perfil sem tipo/marca não vê nada"  0     "$(q nulo@x.pt "$V;")"
+  chk "'Todas' vê tudo"                    3     "$(q todas@x.pt "$V;")"
+  chk "Administrador vê tudo"              3     "$(q admin@x.pt "$V;")"
+  chk "Chefe VD vê a vendida VD"           1     "$(q chefevd@x.pt "select count(*) from public.viaturas_vendidas;")"
+  chk "Chefe VU não vê a vendida VD"       0     "$(q vu@x.pt "select count(*) from public.viaturas_vendidas;")"
+  chk "Chefe VD não arquiva viatura Motorrad" ERRO "$(q chefevd@x.pt "$(n "insert into public.viaturas_vendidas(chassis,estado_negocio,marca) values ('Z','VD','[\"BMW Motorrad\"]')")")"
+  # tolerância de formatos: marca escalar, vazia ou nula; tipo nulo = VD
+  chk "marca em texto escalar"             t     "$(q vd@x.pt "select public.sf_pode_ver('VD','\"BMW\"'::jsonb);")"
+  chk "marca vazia conta como BMW"         t     "$(q vd@x.pt "select public.sf_pode_ver('VD','[]'::jsonb);")"
+  chk "marca nula conta como BMW"          t     "$(q vd@x.pt "select public.sf_pode_ver(null, null);")"
+  chk "VU recusado a quem só tem VD"       f     "$(q vd@x.pt "select public.sf_pode_ver('VU','[\"BMW\"]'::jsonb);")"
+  chk "conta sem perfil nunca pode"        f     "$(q crm@x.pt "select public.sf_pode_ver('VD','[\"BMW\"]'::jsonb);")"
+  chk "anon não executa a função"          ERRO  "$(q anon "select public.sf_pode_ver('VD','[]'::jsonb);")"
+  # 07: backfill dá acesso completo aos utilizadores existentes (inclui legado ['VN'])
+  $PSQL -c "update public.utilizadores set negocio='[\"VN\"]', marca='[\"BMW\"]' where email='vend@x.pt'" >/dev/null
+  $PSQL -f ../../security/07_perfis_tipo_marca.sql >/dev/null
+  chk "07 dá acesso completo ao legado"    "[\"VD\",\"VU\"]|[\"BMW\",\"BMWMotorrad\"]" "$(psql -X -q -t -A -d $DB -c "select negocio::text||'|'||marca::text from public.utilizadores where email='vend@x.pt'" | tr -d ' ')"
+  chk "07 não deixa ninguém sem camada"    0     "$(psql -X -q -t -A -d $DB -c "select count(*) from public.utilizadores where negocio is null or marca is null" | tr -d ' ')"
+  # rollback do 08 volta ao comportamento do 06 (vendedor VD+BMW volta a ver tudo)
+  $PSQL -f ../../security/08_rollback.sql >/dev/null
+  chk "rollback 08: sem camada, vê tudo"   3     "$(q vd@x.pt "$V;")"
+fi
 echo "RLS: $PASS passaram, $FAIL falharam"; [ $FAIL = 0 ]
