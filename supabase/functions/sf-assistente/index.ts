@@ -6,6 +6,14 @@
 // para recolher informação de produto e de concorrência (modelos rivais, specs,
 // preços indicativos de mercado). A pesquisa corre na infraestrutura da Anthropic.
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "jsr:@supabase/supabase-js@2";
+
+// Limites defensivos (configuráveis por secret). O cliente envia as últimas 12 mensagens
+// e o parque completo como contexto; os tetos estão acima do uso normal.
+const MAX_MENSAGENS = 12;
+const MAX_CHARS_MENSAGEM = 4000;
+const MAX_CHARS_CONTEXTO = Number(Deno.env.get("ASSISTENTE_MAX_CONTEXTO") ?? 250000);
+const MAX_POR_HORA = Number(Deno.env.get("ASSISTENTE_MAX_POR_HORA") ?? 60);
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -86,7 +94,25 @@ Deno.serve(async (req) => {
 
   try {
     const apiKey = Deno.env.get("ANTHROPIC_API_KEY") ?? "";
-    if (!apiKey) return json({ error: "ANTHROPIC_API_KEY nao configurada como secret." }, 500);
+    if (!apiKey) return json({ error: "Assistente indisponivel." }, 500);
+
+    // ── Autenticação: só utilizadores com perfil na plataforma ──────────────────
+    // A chave anon é pública e também é um JWT válido; por isso não basta o verify_jwt.
+    // Exige-se uma sessão de utilizador real E uma linha em public.utilizadores.
+    const jwt = (req.headers.get("Authorization") || "").replace(/^Bearer\s+/i, "");
+    if (!jwt) return json({ error: "Sem sessao." }, 401);
+    const admin = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });
+    const { data: caller, error: callerErr } = await admin.auth.getUser(jwt);
+    const email = caller?.user?.email?.toLowerCase();
+    if (callerErr || !email) return json({ error: "Sessao invalida." }, 401);
+    const { data: perfil } = await admin.from("utilizadores").select("id").eq("email", email).limit(1);
+    if (!perfil?.length) return json({ error: "Sem permissao." }, 403);
+
+    // ── Quota por utilizador (tabela assistente_uso, ver security/06) ───────────
+    const desde = new Date(Date.now() - 3600_000).toISOString();
+    const { count } = await admin.from("assistente_uso").select("*", { count: "exact", head: true }).eq("email", email).gte("criado_em", desde);
+    if ((count ?? 0) >= MAX_POR_HORA) return json({ error: "Limite de utilizacao atingido. Tenta mais tarde." }, 429);
+    await admin.from("assistente_uso").insert({ email });
 
     const body = await req.json().catch(() => ({}));
     const { messages, context } = body ?? {};
@@ -94,18 +120,22 @@ Deno.serve(async (req) => {
     const convo = Array.isArray(messages)
       ? messages
           .filter((m) => m && (m.role === "user" || m.role === "assistant") && typeof m.content === "string")
-          .map((m) => ({ role: m.role, content: m.content }))
+          .slice(-MAX_MENSAGENS)
+          .map((m) => ({ role: m.role, content: m.content.slice(0, MAX_CHARS_MENSAGEM) }))
       : [];
     if (!convo.length || convo[convo.length - 1].role !== "user") {
       return json({ error: "Pedido invalido: falta a mensagem do utilizador." }, 400);
     }
 
-    const ctx = (typeof context === "string" && context.trim()) ? context.trim() : "Sem dados do parque nesta chamada.";
+    const ctx = (typeof context === "string" && context.trim()) ? context.trim().slice(0, MAX_CHARS_CONTEXTO) : "Sem dados do parque nesta chamada.";
     const system = `${PERSONA}\n\n## Parque atual (fonte de verdade — apenas PVP, sem margens)\n${ctx}`;
 
     const resposta = await responderComPesquisa(system, convo, apiKey);
     return json({ resposta: resposta || "Nao consegui responder agora. Tenta reformular." });
   } catch (error) {
-    return json({ error: (error as Error).message }, 400);
+    // Detalhe só nos logs do servidor; o cliente recebe uma mensagem genérica
+    // (o front-end cai no assistente local quando recebe erro).
+    console.error("sf-assistente:", (error as Error).message);
+    return json({ error: "Nao foi possivel responder agora." }, 502);
   }
 });

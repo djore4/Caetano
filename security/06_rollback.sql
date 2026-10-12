@@ -1,0 +1,25 @@
+-- Repõe o estado do 01_enable_rls.sql (qualquer autenticado lê/escreve). Só para emergência.
+begin;
+drop policy if exists sf_viaturas_select on public.viaturas;
+drop policy if exists sf_viaturas_insert on public.viaturas;
+drop policy if exists sf_viaturas_update on public.viaturas;
+drop policy if exists sf_viaturas_delete on public.viaturas;
+drop policy if exists sf_vendidas_all on public.viaturas_vendidas;
+drop policy if exists sf_utilizadores_select on public.utilizadores;
+drop policy if exists sf_utilizadores_insert on public.utilizadores;
+drop policy if exists sf_utilizadores_update on public.utilizadores;
+drop policy if exists sf_utilizadores_delete on public.utilizadores;
+drop policy if exists sf_historico_insert on public.historico;
+drop policy if exists sf_historico_select on public.historico;
+drop policy if exists sf_locais_select on public.locais;
+drop policy if exists sf_locais_write on public.locais;
+drop policy if exists sf_precos_inputs_select on public.precos_inputs;
+drop policy if exists sf_precos_inputs_write on public.precos_inputs;
+create policy "auth_rw_viaturas"          on public.viaturas          for all to authenticated using (true) with check (true);
+create policy "auth_rw_viaturas_vendidas" on public.viaturas_vendidas for all to authenticated using (true) with check (true);
+create policy "auth_rw_historico"         on public.historico         for all to authenticated using (true) with check (true);
+create policy "auth_rw_locais"            on public.locais            for all to authenticated using (true) with check (true);
+create policy "auth_rw_precos_inputs"     on public.precos_inputs     for all to authenticated using (true) with check (true);
+create policy "auth_rw_utilizadores"      on public.utilizadores      for all to authenticated using (true) with check (true);
+grant all on public.viaturas, public.viaturas_vendidas, public.historico, public.locais, public.precos_inputs, public.utilizadores to anon;
+commit;

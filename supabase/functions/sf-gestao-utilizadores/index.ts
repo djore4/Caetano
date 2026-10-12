@@ -12,6 +12,9 @@ const cors = {
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
+const PERFIS = ["Vendedor", "Chefe de Vendas", "Administrador"];
+const LOCAIS = ["Todas", "Porto", "Gaia", "Feira", "Aveiro"];
+
 function json(status: number, body: unknown) {
   return new Response(JSON.stringify(body), {
     status,
@@ -56,6 +59,12 @@ Deno.serve(async (req) => {
     if (!nome || !email || !perfil) {
       return json(400, { error: "Nome, email e perfil sao obrigatorios." });
     }
+    // Só os perfis e concessões que a aplicação conhece (evita perfis arbitrários).
+    if (!PERFIS.includes(perfil)) return json(400, { error: "Perfil invalido." });
+    if (!local.every((l: unknown) => typeof l === "string" && LOCAIS.includes(l))) {
+      return json(400, { error: "Concessao invalida." });
+    }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return json(400, { error: "Email invalido." });
 
     let jaTinhaConta = false;
     let tempPassword: string | null = null;
