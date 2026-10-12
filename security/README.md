@@ -48,6 +48,20 @@ Ordem de deploy:
 
 Testes: `npm test` (preços/permissões/HTML vs. baseline + XSS + sessão) e `tests/rls/run.sh`.
 
+## Ronda 3 — camada Tipo (VD/VU) x Marca (BMW / BMW Motorrad) nos perfis
+Cada utilizador passa a ter, além da concessão, os **tipos** e as **marcas** a que acede (Utilizadores >
+perfil). Quem não os tem **não vê nem gere** essas viaturas (Parque, Gestão, Vendidos, assistente);
+o Administrador vê sempre tudo. O servidor aplica a mesma regra (`08`).
+
+Ordem de deploy (importa — os perfis atuais têm valores antigos fixos em `negocio`/`marca`):
+1. `07_perfis_tipo_marca.sql` — **primeiro**. Dá a todos os utilizadores existentes acesso completo
+   (é o que veem hoje) e é inofensivo para a app antiga. Depois a Administração restringe por pessoa.
+2. Publicar o `index.html` novo + deploy da Edge Function `sf-gestao-utilizadores`.
+3. Restringir os perfis em Utilizadores e confirmar o que cada um vê.
+4. `08_rls_tipo_marca.sql` — só depois (requer o `06`). Rollback: `08_rollback.sql`.
+
+Testes do servidor: `tests/rls/run.sh` (107 verificações, inclui a camada tipo/marca e o backfill do 07).
+
 ## Ainda em aberto (não incluído aqui)
 - **Margens/custos** (`inputs`, `stats`) continuam visíveis no browser a todos os perfis que leem
   `viaturas`: separar em tabela/view com RLS próprio (altera o modelo de dados).

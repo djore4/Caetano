@@ -13,8 +13,8 @@ grant execute on function auth.jwt(), auth.uid() to anon, authenticated, service
 create table auth.users (id uuid primary key default gen_random_uuid(), email text unique);
 
 create table public.utilizadores (id bigint primary key, nome text, email text unique, perfil text, local jsonb, negocio jsonb, marca jsonb, password text);
-create table public.viaturas (chassis text primary key, matricula text, modelo text, versao text, local jsonb, inputs jsonb, stats jsonb, reserva_expira timestamptz, reserva_user text, iva_dedutivel boolean not null default false);
-create table public.viaturas_vendidas (id bigint generated always as identity primary key, chassis text, modelo text, preco_final numeric, local jsonb, inputs jsonb);
+create table public.viaturas (chassis text primary key, matricula text, modelo text, versao text, local jsonb, estado_negocio text, marca jsonb, inputs jsonb, stats jsonb, reserva_expira timestamptz, reserva_user text, iva_dedutivel boolean not null default false);
+create table public.viaturas_vendidas (id bigint generated always as identity primary key, chassis text, modelo text, preco_final numeric, local jsonb, estado_negocio text, marca jsonb, inputs jsonb);
 create table public.historico (id bigint generated always as identity primary key, tabela text, acao text, registo_id text, detalhes jsonb, data_hora timestamptz default now());
 create table public.locais (id bigint generated always as identity primary key, nome text);
 create table public.precos_inputs (id bigint generated always as identity primary key, dados jsonb);

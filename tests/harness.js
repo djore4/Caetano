@@ -40,15 +40,18 @@ function carregarApp(opts = {}) {
     getElementById: id => (elementos[id] ||= Object.assign(criarElemento(), { id })),
     createElement: () => criarElemento(),
     querySelectorAll: () => [],
-    body: criarElemento(), addEventListener(t, f) { (listeners[t] ||= []).push(f); },
+    body: criarElemento(), documentElement: criarElemento(), addEventListener(t, f) { (listeners[t] ||= []).push(f); },
   };
+  const armazem = Object.assign({}, opts.localStorage || {});
+  const localStorage = { getItem: k => (k in armazem ? armazem[k] : null), setItem: (k, v) => { armazem[k] = String(v); }, removeItem: k => { delete armazem[k]; } };
   const alertas = [];
   const sandbox = {
     document, console, Date, Math, JSON, parseInt, parseFloat, isNaN, Number, String, Array, Object, Set, RegExp, Promise,
-    setTimeout: () => 0, URL,
+    setTimeout: () => 0, URL, localStorage,
     alert: m => alertas.push(m), confirm: () => true,
     window: {
-      innerWidth: 1280, innerHeight: 800, addEventListener() {},
+      innerWidth: 1280, innerHeight: 800, addEventListener() {}, localStorage,
+      matchMedia: () => ({ matches: !!opts.sistemaEscuro, addEventListener() {} }),
       supabase: { createClient: () => opts.supabaseClient || null },
     },
     navigator: {},
@@ -57,7 +60,7 @@ function carregarApp(opts = {}) {
   const ctx = vm.createContext(sandbox);
   vm.runInContext(extrairScript(html), ctx, { filename: 'index.html' });
   return {
-    ctx, elementos, alertas, listeners,
+    ctx, elementos, alertas, listeners, armazem,
     run: codigo => vm.runInContext(codigo, ctx),
     el: id => elementos[id],
   };

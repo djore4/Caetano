@@ -30,9 +30,9 @@ const FIXTURE_VENDIDAS = [
 ];
 
 const FIXTURE_UTILIZADORES = [
-  { id: 1, nome: 'Admin Um', email: 'admin@x.pt', perfil: 'Administrador', local: ['Todas'] },
-  { id: 2, nome: 'Chefe Porto', email: 'chefe@x.pt', perfil: 'Chefe de Vendas', local: ['Porto'] },
-  { id: 3, nome: 'Vendedor Gaia', email: 'vend@x.pt', perfil: 'Vendedor', local: ['Gaia'] },
+  { id: 1, nome: 'Admin Um', email: 'admin@x.pt', perfil: 'Administrador', local: ['Todas'], negocio: ['VD', 'VU'], marca: ['BMW', 'BMW Motorrad'] },
+  { id: 2, nome: 'Chefe Porto', email: 'chefe@x.pt', perfil: 'Chefe de Vendas', local: ['Porto'], negocio: ['VD', 'VU'], marca: ['BMW', 'BMW Motorrad'] },
+  { id: 3, nome: 'Vendedor Gaia', email: 'vend@x.pt', perfil: 'Vendedor', local: ['Gaia'], negocio: ['VD', 'VU'], marca: ['BMW', 'BMW Motorrad'] },
 ];
 
 const FIXTURE_HISTORICO = [
