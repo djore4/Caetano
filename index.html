@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caetano Sales Force</title>
+    <script>
+        // Tema (claro/escuro/automático) aplicado antes de pintar a página, para não piscar.
+        (function () { try { var t = localStorage.getItem('sf-tema'); var escuro = t === 'escuro' || (t !== 'claro' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches); if (escuro) { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } } catch (e) {} })();
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -50,6 +54,85 @@
         #admin-scroll thead th:last-child { right: 0; z-index: 12; }
         #admin-scroll tbody td:last-child { position: sticky; right: 0; background: inherit; box-shadow: inset 1px 0 0 #E5E7EB; }
         #parque-scroll thead th, #admin-scroll thead th { position: sticky; top: 0; z-index: 10; background: #F9FAFB; box-shadow: inset 0 -1px 0 #E5E7EB; }
+
+        /* ── Tema escuro ─────────────────────────────────────────────────────────
+           Camada por cima das classes Tailwind existentes (ativada por <html class="dark">).
+           Superfícies: base #0f1419 · cartão #171d25 · realce #1d2530 · borda #2a3340. */
+        .tema-btn { transition: all .15s; }
+        .tema-btn[aria-pressed="true"] { background: #fff; color: #0066B1; box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+        html.dark { color-scheme: dark; }
+        html.dark body { background: #0f1419; color: #e8edf3; }
+        html.dark .bg-white { background-color: #171d25; }
+        html.dark .bg-slate-50, html.dark .bg-gray-50 { background-color: #1b222c; }
+        html.dark .bg-gray-100 { background-color: #232c38; }
+        html.dark .bg-gray-200 { background-color: #2d3745; }
+        html.dark .bg-gray-800 { background-color: #3a4656; }
+        html.dark .bg-blue-50, html.dark .bg-blue-50\/20 { background-color: rgba(0,102,177,.18); }
+        html.dark .bg-blue-100 { background-color: rgba(0,102,177,.28); }
+        html.dark .bg-green-50, html.dark .bg-green-50\/30 { background-color: rgba(34,197,94,.14); }
+        html.dark .bg-green-100 { background-color: rgba(34,197,94,.22); }
+        html.dark .bg-red-50 { background-color: rgba(239,68,68,.14); }
+        html.dark .bg-red-100 { background-color: rgba(239,68,68,.22); }
+        html.dark .bg-yellow-50 { background-color: rgba(250,204,21,.10); }
+        html.dark .bg-yellow-100 { background-color: rgba(250,204,21,.18); }
+        html.dark .bg-amber-50 { background-color: rgba(245,158,11,.14); }
+        html.dark .bg-purple-50 { background-color: rgba(168,85,247,.14); }
+        html.dark .bg-emerald-100 { background-color: rgba(16,185,129,.22); }
+        html.dark .bg-fuchsia-100 { background-color: rgba(217,70,239,.22); }
+        html.dark .bg-amber-100 { background-color: rgba(245,158,11,.22); }
+        html.dark .bg-orange-100 { background-color: rgba(249,115,22,.22); }
+        html.dark .text-emerald-700, html.dark .text-emerald-800 { color: #6ee7b7; }
+        html.dark .text-amber-800 { color: #fcd34d; }
+        html.dark .text-fuchsia-700, html.dark .text-fuchsia-800 { color: #f0abfc; }
+        html.dark .text-orange-600, html.dark .text-orange-700 { color: #fdba74; }
+        html.dark .border-emerald-200 { border-color: rgba(16,185,129,.4); }
+        html.dark .border-fuchsia-200 { border-color: rgba(217,70,239,.4); }
+        html.dark .hover\:bg-gray-50:hover { background-color: #1f2833; }
+        html.dark .hover\:bg-gray-100:hover { background-color: #232c38; }
+        html.dark .hover\:bg-gray-200:hover { background-color: #2d3745; }
+        html.dark .hover\:bg-blue-50:hover { background-color: rgba(0,102,177,.2); }
+        html.dark .hover\:bg-yellow-100:hover { background-color: rgba(250,204,21,.18); }
+        html.dark .hover\:bg-green-100:hover { background-color: rgba(34,197,94,.24); }
+        html.dark .hover\:bg-red-100:hover { background-color: rgba(239,68,68,.24); }
+        html.dark .text-gray-900, html.dark .text-gray-800, html.dark .text-slate-800 { color: #e8edf3; }
+        html.dark .text-gray-700, html.dark .text-gray-600, html.dark .text-slate-600 { color: #c4cdd8; }
+        html.dark .text-gray-500, html.dark .text-slate-500 { color: #9aa6b4; }
+        html.dark .text-gray-400, html.dark .text-slate-400 { color: #8a96a5; }
+        html.dark .text-gray-300 { color: #66717f; }
+        html.dark .text-bmw, html.dark .text-blue-600, html.dark .text-blue-700, html.dark .text-blue-800, html.dark .text-blue-900 { color: #5eb0ee; }
+        html.dark .text-green-600, html.dark .text-green-700, html.dark .text-green-800 { color: #4ade80; }
+        html.dark .text-red-600, html.dark .text-red-700, html.dark .text-red-800, html.dark .text-red-500, html.dark .text-red-400 { color: #f87171; }
+        html.dark .text-yellow-600, html.dark .text-yellow-700, html.dark .text-yellow-800, html.dark .text-amber-700 { color: #fbbf24; }
+        html.dark .text-purple-600 { color: #c084fc; }
+        html.dark .hover\:text-gray-800:hover { color: #fff; }
+        html.dark .hover\:text-bmw:hover { color: #5eb0ee; }
+        html.dark .border-gray-50, html.dark .border-gray-100, html.dark .border-gray-200, html.dark .border-gray-300, html.dark .border-gray-200\/60, html.dark .divide-gray-100 > * + * { border-color: #2a3340; }
+        html.dark .border-blue-100, html.dark .border-blue-200 { border-color: rgba(0,102,177,.45); }
+        html.dark .border-green-100, html.dark .border-green-200, html.dark .border-green-300 { border-color: rgba(34,197,94,.4); }
+        html.dark .border-red-200, html.dark .border-red-300 { border-color: rgba(239,68,68,.4); }
+        html.dark .border-purple-100 { border-color: rgba(168,85,247,.4); }
+        html.dark .border-amber-200 { border-color: rgba(245,158,11,.4); }
+        html.dark .shadow-sm, html.dark .shadow-md, html.dark .shadow-lg, html.dark .shadow-xl, html.dark .shadow-2xl { --tw-shadow-color: rgba(0,0,0,.5); }
+        html.dark input, html.dark select, html.dark textarea { background-color: #11171d; color: #e8edf3; border-color: #2f3a48; }
+        html.dark input::placeholder, html.dark textarea::placeholder { color: #66717f; }
+        html.dark input:disabled { background-color: #1b222c; color: #66717f; }
+        html.dark .calc-auto { background-color: transparent; color: #c4cdd8; }
+        html.dark .filter-btn:not(.active), html.dark .user-btn:not(.active) { background-color: #171d25; color: #c4cdd8; border-color: #2f3a48; }
+        html.dark .serie-btn, html.dark .modelo-btn, html.dark .mot-pill { background: #171d25; color: #c4cdd8; border-color: #2f3a48; }
+        html.dark .serie-btn:hover, html.dark .modelo-btn:hover, html.dark .mot-pill:hover { background: #1f2833; border-color: #5eb0ee; color: #5eb0ee; }
+        html.dark .serie-btn.active, html.dark .modelo-btn.active { background: #0066B1; color: #fff; border-color: #0066B1; }
+        html.dark .mot-pill.active { background: #0066B1; color: #fff; border-color: #0066B1; }
+        html.dark .spec-row:nth-child(even) td { background: #1b222c; }
+        html.dark .spec-row:hover td { background: rgba(0,102,177,.2) !important; }
+        html.dark .shimmer { background: linear-gradient(90deg, #1b222c 25%, #232c38 50%, #1b222c 75%); background-size: 400px 100%; }
+        html.dark #parque-scroll thead th, html.dark #admin-scroll thead th { background: #1b222c; box-shadow: inset 0 -1px 0 #2a3340; }
+        html.dark #admin-scroll tbody td:last-child { box-shadow: inset 1px 0 0 #2a3340; background-color: #171d25; }
+        html.dark #admin-scroll tbody tr:hover td:last-child { background-color: #1c2733; }
+        html.dark #admin-scroll tbody tr.row-reservada td:last-child { background-color: #26261d; }
+        html.dark #admin-scroll tbody tr.row-reservada:hover td:last-child { background-color: #2e2d20; }
+        html.dark .tema-btn { color: #c4cdd8; }
+        html.dark .tema-btn[aria-pressed="true"] { background: #2d3745; color: #fff; box-shadow: none; }
+        html.dark img[alt^="BMW"] { filter: brightness(1.25); }
     </style>
     <script>tailwind.config = { theme: { extend: { colors: { bmw: '#0066B1' } } } }</script>
 </head>
@@ -80,9 +163,37 @@
                                 <p id="header-user-name" class="text-xs font-black text-gray-800 leading-tight">Nome</p>
                                 <p id="header-user-role" class="text-[9px] font-bold text-bmw uppercase tracking-widest">Perfil</p>
                             </div>
-                            <button id="btn-mudar-password" onclick="abrirMudarPassword()" class="bg-gray-50 hover:bg-gray-200 text-gray-600 p-2 rounded-full transition-colors" title="Mudar Palavra-Passe">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
-                            </button>
+                            <div class="relative" id="menu-perfil-wrap">
+                                <button id="btn-menu-perfil" type="button" onclick="toggleMenuPerfil(event)" aria-haspopup="true" aria-expanded="false" aria-controls="menu-perfil" title="Perfil e preferências" class="flex items-center gap-2 rounded-full pl-1 pr-2 py-1 hover:bg-gray-100 transition-colors focus:outline-none focus-visible:ring-2 ring-bmw">
+                                    <span id="menu-avatar" class="w-9 h-9 rounded-full bg-bmw text-white text-xs font-black flex items-center justify-center select-none" aria-hidden="true">?</span>
+                                    <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"></path></svg>
+                                </button>
+                                <div id="menu-perfil" role="menu" aria-label="Menu de perfil" class="hidden absolute right-0 top-full mt-2 w-80 max-w-[92vw] bg-white border border-gray-200 rounded-2xl shadow-2xl z-40 overflow-hidden text-left">
+                                    <div class="px-5 py-4 bg-gray-50 border-b border-gray-100 flex items-center gap-3">
+                                        <span id="menu-avatar-grande" class="w-12 h-12 rounded-full bg-bmw text-white text-base font-black flex items-center justify-center shrink-0" aria-hidden="true">?</span>
+                                        <div class="min-w-0"><p id="menu-nome" class="text-sm font-black text-gray-900 truncate"></p><p id="menu-email" class="text-xs text-gray-500 truncate"></p></div>
+                                    </div>
+                                    <div class="px-5 py-4 border-b border-gray-100">
+                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Perfil de acesso</p>
+                                        <dl class="space-y-2.5 text-xs" id="menu-acesso"></dl>
+                                    </div>
+                                    <div class="px-5 py-4 border-b border-gray-100">
+                                        <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-3">Aparência</p>
+                                        <div class="grid grid-cols-3 gap-1 p-1 bg-gray-100 rounded-lg" role="group" aria-label="Tema">
+                                            <button type="button" id="btn-tema-claro" onclick="definirTema('claro')" aria-pressed="false" class="tema-btn text-[11px] font-bold py-1.5 rounded-md text-gray-600">☀ Claro</button>
+                                            <button type="button" id="btn-tema-escuro" onclick="definirTema('escuro')" aria-pressed="false" class="tema-btn text-[11px] font-bold py-1.5 rounded-md text-gray-600">☾ Escuro</button>
+                                            <button type="button" id="btn-tema-sistema" onclick="definirTema('sistema')" aria-pressed="false" class="tema-btn text-[11px] font-bold py-1.5 rounded-md text-gray-600">Auto</button>
+                                        </div>
+                                    </div>
+                                    <div class="px-3 py-2">
+                                        <button id="btn-mudar-password" type="button" role="menuitem" onclick="fecharMenuPerfil(); abrirMudarPassword()" class="w-full flex items-center gap-3 px-2 py-2.5 rounded-lg hover:bg-gray-100 text-left text-sm font-bold text-gray-700 transition-colors">
+                                            <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
+                                            Alterar palavra-passe
+                                        </button>
+                                        <p id="menu-pass-nota" class="hidden px-2 py-2 text-[11px] text-gray-500 leading-snug">A alteração da palavra-passe é feita pela Administração. Contacte-a se precisar de uma nova.</p>
+                                    </div>
+                                </div>
+                            </div>
                             <button onclick="fazerLogout()" class="bg-red-50 hover:bg-red-100 text-red-600 p-2 rounded-full transition-colors" title="Terminar Sessão">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
                             </button>
@@ -497,12 +608,10 @@
                     <thead class="bg-gray-50 text-gray-500 uppercase text-[10px] tracking-widest">
                         <tr>
                             <th class="text-center font-bold px-3 py-3">Concessão</th>
-                            <th class="text-center font-bold px-3 py-3">Tipo</th>
-                            <th class="text-left font-bold px-3 py-3">Marca</th>
+                            <th class="text-left font-bold px-3 py-3">Tipo / Marca</th>
                             <th class="text-left font-bold px-3 py-3">Modelo</th>
                             <th class="text-left font-bold px-3 py-3">Versão</th>
-                            <th class="text-left font-bold px-3 py-3">Encomenda</th>
-                            <th class="text-left font-bold px-3 py-3">Chassis</th>
+                            <th class="text-left font-bold px-3 py-3">Encomenda / Chassis</th>
                             <th class="text-left font-bold px-3 py-3">Matrícula</th>
                             <th class="text-left font-bold px-3 py-3">Escalão 30d</th>
                             <th class="text-right font-bold px-3 py-3">PVP</th>
@@ -820,6 +929,64 @@
             return typeof v === 'object' ? v : {...templateInputs};
         }
 
+        // ── TEMA (claro / escuro / automático) ───────────────────────────────────
+        function temaGuardado() { try { const t = localStorage.getItem('sf-tema'); return (t === 'claro' || t === 'escuro') ? t : 'sistema'; } catch(e) { return 'sistema'; } }
+        function temaEfetivo(pref) {
+            if (pref === 'claro' || pref === 'escuro') return pref;
+            try { return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'escuro' : 'claro'; } catch(e) { return 'claro'; }
+        }
+        function aplicarTema(pref) {
+            const escuro = temaEfetivo(pref) === 'escuro';
+            const raiz = document.documentElement;
+            raiz.classList.toggle('dark', escuro); raiz.style.colorScheme = escuro ? 'dark' : 'light';
+            ['claro', 'escuro', 'sistema'].forEach(t => { const b = document.getElementById('btn-tema-' + t); if (b) b.setAttribute('aria-pressed', t === pref ? 'true' : 'false'); });
+        }
+        function definirTema(pref) {
+            try { if (pref === 'sistema') localStorage.removeItem('sf-tema'); else localStorage.setItem('sf-tema', pref); } catch(e) {}
+            aplicarTema(pref);
+        }
+        try { if (window.matchMedia) window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { if (temaGuardado() === 'sistema') aplicarTema('sistema'); }); } catch(e) {}
+
+        // ── MENU DE PERFIL ───────────────────────────────────────────────────────
+        function iniciaisDe(nome) { const p = (nome || '').trim().split(/\s+/).filter(Boolean); if (!p.length) return '?'; return ((p[0][0] || '') + (p.length > 1 ? p[p.length - 1][0] : '')).toUpperCase(); }
+        // Valores a que o utilizador tem acesso numa dimensão (Administrador / 'Todas' = tudo).
+        function valoresAcesso(tipo, todos) {
+            if (!currentUser) return [];
+            if (currentUser.perfil === 'Administrador') return todos;
+            const perms = getArr(currentUser[tipo]);
+            return perms.includes('Todas') ? todos : todos.filter(v => perms.includes(v));
+        }
+        function renderMenuPerfil() {
+            if (!currentUser) return;
+            const chips = (lista, vazio) => lista.length ? lista.map(v => `<span class="inline-block px-2 py-0.5 rounded-md bg-blue-50 text-bmw border border-blue-100 text-[11px] font-bold">${esc(v)}</span>`).join(' ') : `<span class="text-gray-400">${vazio}</span>`;
+            const todasLocais = ['Porto', 'Gaia', 'Feira', 'Aveiro'];
+            const linha = (rotulo, html) => `<div class="flex items-start justify-between gap-3"><dt class="text-gray-500 font-bold shrink-0">${rotulo}</dt><dd class="flex flex-wrap justify-end gap-1 text-right">${html}</dd></div>`;
+            const ini = iniciaisDe(currentUser.nome);
+            document.getElementById('menu-avatar').innerText = ini; document.getElementById('menu-avatar-grande').innerText = ini;
+            document.getElementById('menu-nome').innerText = currentUser.nome || ''; document.getElementById('menu-email').innerText = currentUser.email || '';
+            document.getElementById('menu-acesso').innerHTML =
+                linha('Perfil', `<span class="inline-block px-2 py-0.5 rounded-md bg-bmw text-white text-[11px] font-black uppercase tracking-wide">${esc(currentUser.perfil)}</span>`) +
+                linha('Concessões', chips(valoresAcesso('local', todasLocais), 'Nenhuma')) +
+                linha('Tipo de viatura', chips(valoresAcesso('negocio', TIPOS_NEGOCIO), 'Nenhum')) +
+                linha('Marca', chips(valoresAcesso('marca', MARCAS), 'Nenhuma'));
+            const nota = document.getElementById('menu-pass-nota'); if (nota) nota.classList.toggle('hidden', currentUser.perfil !== 'Vendedor');
+            aplicarTema(temaGuardado());
+        }
+        function menuPerfilAberto() { const m = document.getElementById('menu-perfil'); return !!m && !m.classList.contains('hidden'); }
+        function abrirMenuPerfil() {
+            renderMenuPerfil();
+            document.getElementById('menu-perfil').classList.remove('hidden');
+            document.getElementById('btn-menu-perfil').setAttribute('aria-expanded', 'true');
+        }
+        function fecharMenuPerfil(devolverFoco) {
+            const m = document.getElementById('menu-perfil'); if (!m || m.classList.contains('hidden')) return;
+            m.classList.add('hidden');
+            const b = document.getElementById('btn-menu-perfil'); b.setAttribute('aria-expanded', 'false'); if (devolverFoco) b.focus();
+        }
+        function toggleMenuPerfil(e) { if (e) e.stopPropagation(); if (menuPerfilAberto()) fecharMenuPerfil(); else abrirMenuPerfil(); }
+        document.addEventListener('click', e => { if (menuPerfilAberto()) { const w = document.getElementById('menu-perfil-wrap'); if (!w || !(w.contains && w.contains(e.target))) fecharMenuPerfil(); } });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') fecharMenuPerfil(true); });
+
         function mostrarAviso(msg) {
             const el = document.getElementById('aviso-supabase');
             el.innerHTML = `<div class="flex items-center gap-3"><span class="text-sm font-bold text-red-700">Aviso:</span><span class="text-sm text-red-600">${esc(msg)}</span></div>`;
@@ -968,6 +1135,7 @@
             const chatWidget = document.getElementById('chat-widget');
             
             if (!currentUser) { 
+                fecharMenuPerfil();
                 document.getElementById('btn-login-header').classList.remove('hidden'); 
                 document.getElementById('user-info-header').classList.add('hidden'); 
                 document.getElementById('user-info-header').classList.remove('flex'); 
@@ -990,6 +1158,7 @@
             document.getElementById('user-info-header').classList.add('flex');
             document.getElementById('header-user-name').innerText = currentUser.nome; 
             document.getElementById('header-user-role').innerText = currentUser.perfil;
+            renderMenuPerfil();
             
             const btnMudarPass = document.getElementById('btn-mudar-password');
             if(btnMudarPass) {
@@ -1489,7 +1658,7 @@
                 if(q) dados = dados.filter(c => [c.modelo, c.versao, c.matricula, fmtMatricula(c.matricula), c.chassis, c.encomenda].some(x => (x||'').toString().toLowerCase().includes(q)));
                 const cont = document.getElementById('lista-admin-viaturas');
                 const num = document.getElementById('admin-num-resultados'); if(num) num.innerText = dados.length;
-                if(dados.length === 0) { cont.innerHTML = '<tr><td colspan="12" class="text-xs text-gray-400 font-bold uppercase tracking-widest text-center py-10">Nenhuma viatura autorizada/encontrada.</td></tr>'; return; }
+                if(dados.length === 0) { cont.innerHTML = '<tr><td colspan="10" class="text-xs text-gray-400 font-bold uppercase tracking-widest text-center py-10">Nenhuma viatura autorizada/encontrada.</td></tr>'; return; }
                 cont.innerHTML = dados.map(c => {
                     const stats = c.stats || calcularPrecosTempoReal(c) || {};
                     const reservado = isReservado(c);
@@ -1497,7 +1666,7 @@
                     const mg = stats.mg;
                     const mgHtml = (mg === undefined || mg === null || isNaN(mg)) ? '<span class="text-gray-300">-</span>' : `<span class="font-black ${mg < 0 ? 'text-red-600' : 'text-green-700'}">${formatarEuros(mg)}</span>`;
                     const rotulo = `${c.modelo || '-'} ${c.versao || ''} ${fmtMatricula(c.matricula) || fmtChassis(c.chassis) || ''}`.trim();
-                    return `<tr class="${reservado ? 'bg-yellow-50 hover:bg-yellow-100' : 'bg-white hover:bg-blue-50'} border-t border-gray-100 transition-colors"><td class="px-3 py-3 text-center whitespace-nowrap">${chipsLocal(c)}</td><td class="px-3 py-3 text-center whitespace-nowrap">${badgeNegocio(c)}${c.iva_dedutivel ? ' <span class="inline-block text-[9px] font-black px-1.5 py-0.5 rounded border bg-green-50 text-green-700 border-green-200" title="IVA dedutível">IVA</span>' : ''}</td><td class="px-3 py-3 text-gray-700 font-semibold whitespace-nowrap">${esc(marcasDe(c).join(', '))}</td><td class="px-3 py-3 font-bold text-gray-900 whitespace-nowrap">${esc(c.modelo || '-')}${tag}</td><td class="px-3 py-3 text-gray-600">${esc(c.versao || '-')}</td><td class="px-3 py-3 text-gray-500 font-mono text-xs">${esc(c.encomenda || '-')}</td><td class="px-3 py-3 text-gray-500 font-mono text-xs uppercase">${esc(fmtChassis(c.chassis) || '-')}</td><td class="px-3 py-3 text-gray-800 font-mono text-xs uppercase font-semibold whitespace-nowrap">${esc(fmtMatricula(c.matricula) || '-')}</td><td class="px-3 py-3">${badgePeriodos30(c.data_matricula)}</td><td class="px-3 py-3 text-right font-black text-bmw whitespace-nowrap">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td><td class="px-3 py-3 text-right whitespace-nowrap text-xs">${mgHtml}</td><td class="px-3 py-3 text-right whitespace-nowrap"><button type="button" onclick="abrirEdicaoModal('${escapar(c.chassis)}')" aria-label="Editar ${esc(rotulo)}" class="bg-white hover:bg-bmw hover:text-white text-gray-600 border border-gray-200 hover:border-bmw font-bold py-1.5 px-3 rounded-md transition-colors text-[10px] uppercase tracking-widest">Editar</button> <button type="button" onclick="arquivarViatura('${escapar(c.chassis)}')" aria-label="Marcar como vendida e arquivar ${esc(rotulo)}" class="bg-green-50 hover:bg-green-600 hover:text-white text-green-700 border border-green-200 font-bold py-1.5 px-3 rounded-md transition-colors text-[10px] uppercase tracking-widest">Vendida</button></td></tr>`;
+                    return `<tr class="${reservado ? 'row-reservada bg-yellow-50 hover:bg-yellow-100' : 'bg-white hover:bg-blue-50'} border-t border-gray-100 transition-colors"><td class="px-3 py-3 text-center whitespace-nowrap">${chipsLocal(c)}</td><td class="px-3 py-3 whitespace-nowrap">${badgeNegocio(c)}${c.iva_dedutivel ? ' <span class="inline-block text-[9px] font-black px-1.5 py-0.5 rounded border bg-green-50 text-green-700 border-green-200" title="IVA dedutível">IVA</span>' : ''}<div class="text-[11px] text-gray-700 font-semibold mt-1">${esc(marcasDe(c).join(', '))}</div></td><td class="px-3 py-3 font-bold text-gray-900 whitespace-nowrap">${esc(c.modelo || '-')}${tag}</td><td class="px-3 py-3 text-gray-600">${esc(c.versao || '-')}</td><td class="px-3 py-3 font-mono text-xs whitespace-nowrap"><div class="text-gray-700">${esc(c.encomenda || '-')}</div><div class="text-gray-400 uppercase mt-0.5">${esc(fmtChassis(c.chassis) || '-')}</div></td><td class="px-3 py-3 text-gray-800 font-mono text-xs uppercase font-semibold whitespace-nowrap">${esc(fmtMatricula(c.matricula) || '-')}</td><td class="px-3 py-3">${badgePeriodos30(c.data_matricula)}</td><td class="px-3 py-3 text-right font-black text-bmw whitespace-nowrap">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td><td class="px-3 py-3 text-right whitespace-nowrap text-xs">${mgHtml}</td><td class="px-3 py-3 text-right whitespace-nowrap"><button type="button" onclick="abrirEdicaoModal('${escapar(c.chassis)}')" aria-label="Editar ${esc(rotulo)}" class="bg-white hover:bg-bmw hover:text-white text-gray-600 border border-gray-200 hover:border-bmw font-bold py-1.5 px-3 rounded-md transition-colors text-[10px] uppercase tracking-widest">Editar</button> <button type="button" onclick="arquivarViatura('${escapar(c.chassis)}')" aria-label="Marcar como vendida e arquivar ${esc(rotulo)}" class="bg-green-50 hover:bg-green-600 hover:text-white text-green-700 border border-green-200 font-bold py-1.5 px-3 rounded-md transition-colors text-[10px] uppercase tracking-widest">Vendida</button></td></tr>`;
                 }).join(''); 
             } catch(err) { console.error(err); }
         }
