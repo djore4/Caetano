@@ -428,6 +428,8 @@
                         </div>
                         <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 space-y-6">
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-2">CONCESSÃO</label><div class="flex flex-wrap gap-2" id="user-local-container"><button type="button" onclick="toggleUserLocal('Todas')" id="btn-local-Todas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Todas</button><button type="button" onclick="toggleUserLocal('Porto')" id="btn-local-Porto" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Porto</button><button type="button" onclick="toggleUserLocal('Gaia')" id="btn-local-Gaia" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Gaia</button><button type="button" onclick="toggleUserLocal('Feira')" id="btn-local-Feira" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Feira</button><button type="button" onclick="toggleUserLocal('Aveiro')" id="btn-local-Aveiro" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Aveiro</button></div></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">TIPO DE VIATURA</label><div class="flex flex-wrap gap-2" id="user-negocio-container"><button type="button" onclick="toggleUserNegocio('VD')" id="btn-neg-VD" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">VD</button><button type="button" onclick="toggleUserNegocio('VU')" id="btn-neg-VU" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">VU</button></div></div>
+                            <div><label class="block text-[10px] font-bold text-gray-500 mb-2">MARCA</label><div class="flex flex-wrap gap-2" id="user-marca-container"><button type="button" onclick="toggleUserMarca('BMW')" id="btn-marca-BMW" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">BMW</button><button type="button" onclick="toggleUserMarca('BMW Motorrad')" id="btn-marca-BMW Motorrad" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">BMW Motorrad</button></div><p class="text-[9px] text-gray-400 mt-1">O utilizador só vê e gere viaturas dos tipos e marcas selecionados. Administradores veem tudo.</p></div>
                             <div><label class="block text-[10px] font-bold text-gray-500 mb-2">PERFIL</label><div class="flex flex-wrap gap-2" id="user-perfil-container"><button type="button" onclick="toggleUserPerfil('Vendedor')" id="btn-perfil-Vendedor" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Vendedor</button><button type="button" onclick="toggleUserPerfil('Chefe de Vendas')" id="btn-perfil-Chefe de Vendas" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Chefe de Vendas</button><button type="button" onclick="toggleUserPerfil('Administrador')" id="btn-perfil-Administrador" class="user-btn border px-4 py-2 rounded-md text-xs font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Administrador</button></div></div>
                         </div>
                         <div class="pt-4 flex flex-col sm:flex-row justify-between gap-4"><button type="button" id="btn-remover-user" onclick="removerUtilizador()" class="w-full sm:w-auto bg-red-50 hover:bg-red-100 text-red-600 font-bold py-2.5 px-6 rounded-lg text-xs hidden">Remover</button><div class="w-full sm:w-auto ml-auto flex gap-3"><button type="button" onclick="cancelarEdicaoUser()" class="text-gray-500 font-bold py-2.5 text-xs">Cancelar</button><button type="submit" id="btn-guardar-user" class="w-full sm:w-auto bg-bmw text-white font-bold py-2.5 px-8 rounded-lg text-xs">Gravar</button></div></div>
@@ -476,6 +478,14 @@
                         <button onclick="setFiltroLocalAdmin('Aveiro')" id="btn-filtro-admin-Aveiro" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">Aveiro</button>
                     </div>
                 </div>
+                <div class="overflow-x-auto no-scrollbar lg:border-l lg:border-gray-200 lg:pl-4">
+                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Tipo</label>
+                    <div class="flex flex-wrap gap-2" id="filtro-admin-negocio-container"><button onclick="setFiltroAdmin('negocio','Todos')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">Todos</button><button onclick="setFiltroAdmin('negocio','VD')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">VD</button><button onclick="setFiltroAdmin('negocio','VU')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">VU</button></div>
+                </div>
+                <div class="overflow-x-auto no-scrollbar lg:border-l lg:border-gray-200 lg:pl-4">
+                    <label class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Marca</label>
+                    <div class="flex flex-wrap gap-2" id="filtro-admin-marca-container"><button onclick="setFiltroAdmin('marca','Todas')" class="filter-btn active border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200">Todas</button><button onclick="setFiltroAdmin('marca','BMW')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">BMW</button><button onclick="setFiltroAdmin('marca','BMW Motorrad')" class="filter-btn border px-3 py-1.5 rounded-md text-[11px] font-bold bg-white text-gray-600 border-gray-200 hover:text-bmw hover:border-bmw">BMW Motorrad</button></div>
+                </div>
                 <div class="lg:ml-auto w-full lg:w-96">
                     <label for="admin-pesquisa" class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2 block">Pesquisar</label>
                     <input type="search" id="admin-pesquisa" oninput="renderizarListaAdmin()" placeholder="Modelo, versão, matrícula, chassis, encomenda..." class="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-bmw">
@@ -488,6 +498,7 @@
                         <tr>
                             <th class="text-center font-bold px-3 py-3">Concessão</th>
                             <th class="text-center font-bold px-3 py-3">Tipo</th>
+                            <th class="text-left font-bold px-3 py-3">Marca</th>
                             <th class="text-left font-bold px-3 py-3">Modelo</th>
                             <th class="text-left font-bold px-3 py-3">Versão</th>
                             <th class="text-left font-bold px-3 py-3">Encomenda</th>
@@ -846,7 +857,7 @@
             try {
                 const { data: vData, error: vErr } = await supabaseClient.from('viaturas').select('*');
                 if (vErr) { console.error("Erro viaturas:", vErr.message); }
-                if (vData) inventario = vData;
+                if (vData) inventario = currentUser ? vData.filter(podeVerViatura) : vData;
                 const { data: uData } = await supabaseClient.from('utilizadores').select('*');
                 if (uData) utilizadoresDb = uData;
             } catch(e) { console.error("Erro rede:", e); }
@@ -868,6 +879,7 @@
                 return;
             }
             currentUser = perfil;
+            aplicarPermissoesDados();
             // Pipeline completo de render: calcula os preços de venda (carregarPrecosEmDireto),
             // constrói os filtros de modelo, aplica acessos e filtros e escolhe a vista.
             executarArranqueLocal();
@@ -995,6 +1007,7 @@
                 document.getElementById('tab-admin-vu').classList.remove('hidden');
                 document.getElementById('tab-vendidos').classList.remove('hidden');
             }
+            atualizarFiltrosPermitidos();
             renderizarListaAdmin(); 
             if(currentUser.perfil === 'Administrador') renderizarListaUtilizadores();
         }
@@ -1055,6 +1068,25 @@
         const taxa_iva = 0.23;
         // Tipo de negócio da viatura: VD (demonstração) ou VU (usada). Valor vazio conta como VD.
         const TIPOS_NEGOCIO = ['VD','VU'];
+        const MARCAS = ['BMW','BMW Motorrad'];
+        // Marcas de uma viatura (array; vazio conta como BMW, tal como o resto da app).
+        function marcasDe(c) { const m = getArr(c && c.marca); return m.length ? m : ['BMW']; }
+        // Camada de permissões: o perfil inclui os tipos (VD/VU) e as marcas a que o utilizador acede.
+        // Administrador vê tudo; os restantes só veem viaturas cujo tipo E marca estão no seu perfil.
+        function podeVerViatura(c) {
+            if (!currentUser) return false;
+            if (currentUser.perfil === 'Administrador') return true;
+            return hasPerm('negocio', tipoNegocio(c)) && marcasDe(c).some(m => hasPerm('marca', m));
+        }
+        function aplicarPermissoesDados() { inventario = inventario.filter(podeVerViatura); vendidasDb = vendidasDb.filter(podeVerViatura); }
+        function primeiroPermitido(tipo, lista) { return lista.find(v => hasPerm(tipo, v)) || lista[0]; }
+        // Esconde nos filtros as opções a que o utilizador não tem acesso.
+        function atualizarFiltrosPermitidos() {
+            [['filtro-negocio-container', 'negocio'], ['filtro-marca-container', 'marca'], ['filtro-admin-negocio-container', 'negocio'], ['filtro-admin-marca-container', 'marca']].forEach(([id, tipo]) => {
+                const c = document.getElementById(id); if (!c) return;
+                Array.from(c.children).forEach(btn => { const t = btn.innerText.trim(); if (t === 'Todos' || t === 'Todas') return; btn.classList.toggle('hidden', !hasPerm(tipo, t)); });
+            });
+        }
         function tipoNegocio(c) { return (c && c.estado_negocio === 'VU') ? 'VU' : 'VD'; }
         function badgeNegocio(c) { const t = tipoNegocio(c); return `<span class="inline-block text-[9px] font-black px-1.5 py-0.5 rounded border ${t === 'VU' ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-blue-50 text-bmw border-blue-100'}">${t}</span>`; }
         function fmtChassis(ch) { const v = (ch || '').toString().trim(); return v.length > 7 ? v.slice(-7) : v; }
@@ -1381,6 +1413,12 @@
         // ── GESTÃO VD E ADMIN ─────────────────────────────────────────────────
         let editCarroTipologia = []; let editCarroLocal = []; let editCarroMarca = 'BMW'; let editCarroNegocio = 'VD'; let filtroLocalAdmin = 'Todas';
         
+        let filtrosAdmin = { negocio: 'Todos', marca: 'Todas' };
+        function setFiltroAdmin(tipo, valor) {
+            filtrosAdmin[tipo] = valor;
+            Array.from(document.getElementById(`filtro-admin-${tipo}-container`).children).forEach(btn => btn.classList.toggle('active', btn.innerText.trim() === valor));
+            renderizarListaAdmin();
+        }
         function setFiltroLocalAdmin(val) { 
             filtroLocalAdmin = val; 
             ['Todas','Porto','Gaia','Feira','Aveiro'].forEach(v => { 
@@ -1398,14 +1436,14 @@
 
         function toggleEditLocal(val){ if(!hasPerm('local', val)) { alert("Acesso Negado: Não tem permissão para este Local."); return; } edicaoSuja = true; if(editCarroLocal.includes(val)) editCarroLocal = editCarroLocal.filter(x => x !== val); else editCarroLocal.push(val); atualizarBotoesEditCarro(); }
         function toggleEditTipologia(val){ edicaoSuja = true; if(editCarroTipologia.includes(val)) editCarroTipologia = editCarroTipologia.filter(x => x !== val); else editCarroTipologia.push(val); atualizarBotoesEditCarro(); }
-        function setEditNegocio(val){ edicaoSuja = true; editCarroNegocio = TIPOS_NEGOCIO.includes(val) ? val : 'VD'; atualizarBotoesEditCarro(); }
-        function setEditMarca(val){ edicaoSuja = true; const atual = (document.getElementById('edit-modelo') || {}).value || ''; editCarroMarca = val; atualizarBotoesEditCarro(); atualizarCampoModelo(val, atual); }
+        function setEditNegocio(val){ if(!hasPerm('negocio', val)) { alert("Acesso Negado: Não tem permissão para este tipo de viatura."); return; } edicaoSuja = true; editCarroNegocio = TIPOS_NEGOCIO.includes(val) ? val : 'VD'; atualizarBotoesEditCarro(); }
+        function setEditMarca(val){ if(!hasPerm('marca', val)) { alert("Acesso Negado: Não tem permissão para esta marca."); return; } edicaoSuja = true; const atual = (document.getElementById('edit-modelo') || {}).value || ''; editCarroMarca = val; atualizarBotoesEditCarro(); atualizarCampoModelo(val, atual); }
 
         function atualizarBotoesEditCarro() {
-            TIPOS_NEGOCIO.forEach(v => { const b = document.getElementById('btn-edit-neg-'+v); if(b) b.classList.toggle('active', editCarroNegocio === v); });
-            ['BMW','BMW Motorrad'].forEach(v => {
+            TIPOS_NEGOCIO.forEach(v => { const b = document.getElementById('btn-edit-neg-'+v); if(b) { const ok = hasPerm('negocio', v); b.classList.toggle('opacity-30', !ok); b.classList.toggle('cursor-not-allowed', !ok); b.classList.toggle('active', ok && editCarroNegocio === v); } });
+            MARCAS.forEach(v => {
                 let b = document.getElementById('btn-edit-marca-'+v);
-                if(b) { if(editCarroMarca === v) b.classList.add('active'); else b.classList.remove('active'); }
+                if(b) { const ok = hasPerm('marca', v); b.classList.toggle('opacity-30', !ok); b.classList.toggle('cursor-not-allowed', !ok); b.classList.toggle('active', ok && editCarroMarca === v); }
             });
             ['ICE','BEV','PHEV','M'].forEach(v => {
                 let b = document.getElementById('btn-edit-tip-'+v); 
@@ -1446,11 +1484,12 @@
                 const loc = filtroLocalAdmin; let dados = inventario;
                 if(currentUser && currentUser.perfil === 'Chefe de Vendas') { dados = dados.filter(c => { const carroLocais = getArr(c.local); const matchLocal = getArr(currentUser.local).includes('Todas') || getArr(currentUser.local).some(l => carroLocais.includes(l)); return matchLocal; }); }
                 dados = dados.filter(c => { const arrLoc = getArr(c.local); return loc === 'Todas' || arrLoc.includes(loc); });
+                dados = dados.filter(c => (filtrosAdmin.negocio === 'Todos' || tipoNegocio(c) === filtrosAdmin.negocio) && (filtrosAdmin.marca === 'Todas' || marcasDe(c).includes(filtrosAdmin.marca)));
                 const q = ((document.getElementById('admin-pesquisa') || {}).value || '').toLowerCase().trim();
                 if(q) dados = dados.filter(c => [c.modelo, c.versao, c.matricula, fmtMatricula(c.matricula), c.chassis, c.encomenda].some(x => (x||'').toString().toLowerCase().includes(q)));
                 const cont = document.getElementById('lista-admin-viaturas');
                 const num = document.getElementById('admin-num-resultados'); if(num) num.innerText = dados.length;
-                if(dados.length === 0) { cont.innerHTML = '<tr><td colspan="11" class="text-xs text-gray-400 font-bold uppercase tracking-widest text-center py-10">Nenhuma viatura autorizada/encontrada.</td></tr>'; return; }
+                if(dados.length === 0) { cont.innerHTML = '<tr><td colspan="12" class="text-xs text-gray-400 font-bold uppercase tracking-widest text-center py-10">Nenhuma viatura autorizada/encontrada.</td></tr>'; return; }
                 cont.innerHTML = dados.map(c => {
                     const stats = c.stats || calcularPrecosTempoReal(c) || {};
                     const reservado = isReservado(c);
@@ -1458,7 +1497,7 @@
                     const mg = stats.mg;
                     const mgHtml = (mg === undefined || mg === null || isNaN(mg)) ? '<span class="text-gray-300">-</span>' : `<span class="font-black ${mg < 0 ? 'text-red-600' : 'text-green-700'}">${formatarEuros(mg)}</span>`;
                     const rotulo = `${c.modelo || '-'} ${c.versao || ''} ${fmtMatricula(c.matricula) || fmtChassis(c.chassis) || ''}`.trim();
-                    return `<tr class="${reservado ? 'bg-yellow-50 hover:bg-yellow-100' : 'bg-white hover:bg-blue-50'} border-t border-gray-100 transition-colors"><td class="px-3 py-3 text-center whitespace-nowrap">${chipsLocal(c)}</td><td class="px-3 py-3 text-center whitespace-nowrap">${badgeNegocio(c)}${c.iva_dedutivel ? ' <span class="inline-block text-[9px] font-black px-1.5 py-0.5 rounded border bg-green-50 text-green-700 border-green-200" title="IVA dedutível">IVA</span>' : ''}</td><td class="px-3 py-3 font-bold text-gray-900 whitespace-nowrap">${esc(c.modelo || '-')}${tag}</td><td class="px-3 py-3 text-gray-600">${esc(c.versao || '-')}</td><td class="px-3 py-3 text-gray-500 font-mono text-xs">${esc(c.encomenda || '-')}</td><td class="px-3 py-3 text-gray-500 font-mono text-xs uppercase">${esc(fmtChassis(c.chassis) || '-')}</td><td class="px-3 py-3 text-gray-800 font-mono text-xs uppercase font-semibold whitespace-nowrap">${esc(fmtMatricula(c.matricula) || '-')}</td><td class="px-3 py-3">${badgePeriodos30(c.data_matricula)}</td><td class="px-3 py-3 text-right font-black text-bmw whitespace-nowrap">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td><td class="px-3 py-3 text-right whitespace-nowrap text-xs">${mgHtml}</td><td class="px-3 py-3 text-right whitespace-nowrap"><button type="button" onclick="abrirEdicaoModal('${escapar(c.chassis)}')" aria-label="Editar ${esc(rotulo)}" class="bg-white hover:bg-bmw hover:text-white text-gray-600 border border-gray-200 hover:border-bmw font-bold py-1.5 px-3 rounded-md transition-colors text-[10px] uppercase tracking-widest">Editar</button> <button type="button" onclick="arquivarViatura('${escapar(c.chassis)}')" aria-label="Marcar como vendida e arquivar ${esc(rotulo)}" class="bg-green-50 hover:bg-green-600 hover:text-white text-green-700 border border-green-200 font-bold py-1.5 px-3 rounded-md transition-colors text-[10px] uppercase tracking-widest">Vendida</button></td></tr>`;
+                    return `<tr class="${reservado ? 'bg-yellow-50 hover:bg-yellow-100' : 'bg-white hover:bg-blue-50'} border-t border-gray-100 transition-colors"><td class="px-3 py-3 text-center whitespace-nowrap">${chipsLocal(c)}</td><td class="px-3 py-3 text-center whitespace-nowrap">${badgeNegocio(c)}${c.iva_dedutivel ? ' <span class="inline-block text-[9px] font-black px-1.5 py-0.5 rounded border bg-green-50 text-green-700 border-green-200" title="IVA dedutível">IVA</span>' : ''}</td><td class="px-3 py-3 text-gray-700 font-semibold whitespace-nowrap">${esc(marcasDe(c).join(', '))}</td><td class="px-3 py-3 font-bold text-gray-900 whitespace-nowrap">${esc(c.modelo || '-')}${tag}</td><td class="px-3 py-3 text-gray-600">${esc(c.versao || '-')}</td><td class="px-3 py-3 text-gray-500 font-mono text-xs">${esc(c.encomenda || '-')}</td><td class="px-3 py-3 text-gray-500 font-mono text-xs uppercase">${esc(fmtChassis(c.chassis) || '-')}</td><td class="px-3 py-3 text-gray-800 font-mono text-xs uppercase font-semibold whitespace-nowrap">${esc(fmtMatricula(c.matricula) || '-')}</td><td class="px-3 py-3">${badgePeriodos30(c.data_matricula)}</td><td class="px-3 py-3 text-right font-black text-bmw whitespace-nowrap">${(c.pvp_final||0) > 0 ? formatarEuros(c.pvp_final) : 'N/A'}</td><td class="px-3 py-3 text-right whitespace-nowrap text-xs">${mgHtml}</td><td class="px-3 py-3 text-right whitespace-nowrap"><button type="button" onclick="abrirEdicaoModal('${escapar(c.chassis)}')" aria-label="Editar ${esc(rotulo)}" class="bg-white hover:bg-bmw hover:text-white text-gray-600 border border-gray-200 hover:border-bmw font-bold py-1.5 px-3 rounded-md transition-colors text-[10px] uppercase tracking-widest">Editar</button> <button type="button" onclick="arquivarViatura('${escapar(c.chassis)}')" aria-label="Marcar como vendida e arquivar ${esc(rotulo)}" class="bg-green-50 hover:bg-green-600 hover:text-white text-green-700 border border-green-200 font-bold py-1.5 px-3 rounded-md transition-colors text-[10px] uppercase tracking-widest">Vendida</button></td></tr>`;
                 }).join(''); 
             } catch(err) { console.error(err); }
         }
@@ -1500,7 +1539,7 @@
             try {
                 const { data, error } = await supabaseClient.from('viaturas_vendidas').select('*').order('data_venda', { ascending: false });
                 if(error) { console.error('Erro vendidas:', error.message); }
-                if(data) vendidasDb = data;
+                if(data) vendidasDb = currentUser ? data.filter(podeVerViatura) : data;
             } catch(e) { console.error(e); }
             renderizarVendidas();
         }
@@ -1589,7 +1628,7 @@
             }
         }
 
-        function prepararNovaViatura() { document.getElementById('form-precos').reset(); document.querySelectorAll('.campo-obrig').forEach(el => el.classList.remove('border-red-500')); atualizarCampoModelo('BMW', ''); document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('edit-original-chassis').value = ""; editCarroTipologia = []; editCarroLocal = []; editCarroMarca = 'BMW'; editCarroNegocio = 'VD'; document.getElementById('edit-kms').value = ""; if(currentUser && currentUser.perfil !== 'Administrador' && !getArr(currentUser.local).includes('Todas') && getArr(currentUser.local).length > 0) { editCarroLocal = [...getArr(currentUser.local)]; } atualizarBotoesEditCarro(); document.getElementById('btn-remover-viatura').classList.add('hidden'); renderPeriodos30(null); ['penetracao','pvp-bruto','desc-perc','desc-eur','preco-min','s-iva','mg','mg-perc'].forEach(id => { if(document.getElementById('auto-'+id)) document.getElementById('auto-'+id).value = "--"; }); }
+        function prepararNovaViatura() { document.getElementById('form-precos').reset(); document.querySelectorAll('.campo-obrig').forEach(el => el.classList.remove('border-red-500')); editCarroMarca = primeiroPermitido('marca', MARCAS); editCarroNegocio = primeiroPermitido('negocio', TIPOS_NEGOCIO); atualizarCampoModelo(editCarroMarca, ''); document.getElementById('form-precos').classList.remove('opacity-50','pointer-events-none'); document.getElementById('edit-original-chassis').value = ""; editCarroTipologia = []; editCarroLocal = []; document.getElementById('edit-kms').value = ""; if(currentUser && currentUser.perfil !== 'Administrador' && !getArr(currentUser.local).includes('Todas') && getArr(currentUser.local).length > 0) { editCarroLocal = [...getArr(currentUser.local)]; } atualizarBotoesEditCarro(); document.getElementById('btn-remover-viatura').classList.add('hidden'); renderPeriodos30(null); ['penetracao','pvp-bruto','desc-perc','desc-eur','preco-min','s-iva','mg','mg-perc'].forEach(id => { if(document.getElementById('auto-'+id)) document.getElementById('auto-'+id).value = "--"; }); }
         
         function abrirEdicao(ch) { document.querySelectorAll('.campo-obrig').forEach(el => el.classList.remove('border-red-500'));
             const carro = inventario.find(x => x.chassis === ch); 
@@ -1641,6 +1680,7 @@
         async function guardarPrecos(e) {
             e.preventDefault(); 
             if(!editCarroLocal.some(l => hasPerm('local', l)) && editCarroLocal.length > 0) { alert("Operação Cancelada: Não tem permissões nestas Localizações."); return; }
+            if(!hasPerm('negocio', editCarroNegocio) || !hasPerm('marca', editCarroMarca)) { alert("Operação Cancelada: Não tem permissão para este tipo de viatura / marca."); return; }
             const originalChassis = document.getElementById('edit-original-chassis').value; const novoChassis = document.getElementById('edit-chassis').value.trim().toUpperCase();
             const obrig = [['edit-encomenda','Encomenda'],['edit-chassis','Chassis'],['edit-matricula','Matrícula']];
             const emFalta = obrig.filter(([id]) => !document.getElementById(id).value.trim());
@@ -1678,13 +1718,13 @@
         }
 
         // ── GESTÃO DE UTILIZADORES ────────────────────────────────────────────
-        let uPerf="", uLoc=[];
-        function renderizarListaUtilizadores() { document.getElementById('lista-utilizadores').innerHTML = utilizadoresDb.map(u => `<button onclick="editarUtilizador(${Number(u.id)})" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white mb-2 shadow-sm hover:border-bmw transition-colors"><div class="font-black text-sm">${esc(u.nome)}</div><div class="text-[10px] text-gray-400 mt-1 uppercase">${esc(u.perfil)}</div></button>`).join(''); }
-        function prepararNovoUtilizador() { document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('form-user').reset(); document.getElementById('user-id').value=""; uPerf=""; uLoc=[]; atualizarBtnsU(); document.getElementById('btn-remover-user').classList.add('hidden'); }
-        function editarUtilizador(id) { const u = utilizadoresDb.find(x=>x.id===id); document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('user-id').value = u.id; document.getElementById('user-nome').value = u.nome; document.getElementById('user-email').value = u.email; uPerf = u.perfil; uLoc = [...getArr(u.local)]; atualizarBtnsU(); document.getElementById('btn-remover-user').classList.remove('hidden'); }
+        let uPerf="", uLoc=[], uNeg=[], uMarca=[];
+        function renderizarListaUtilizadores() { document.getElementById('lista-utilizadores').innerHTML = utilizadoresDb.map(u => `<button onclick="editarUtilizador(${Number(u.id)})" class="w-full text-left p-4 rounded-xl border border-gray-100 bg-white mb-2 shadow-sm hover:border-bmw transition-colors"><div class="font-black text-sm">${esc(u.nome)}</div><div class="text-[10px] text-gray-400 mt-1 uppercase">${esc(u.perfil)} · ${esc(getArr(u.negocio).join('/') || '—')} · ${esc(getArr(u.marca).join('/') || '—')}</div></button>`).join(''); }
+        function prepararNovoUtilizador() { document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('form-user').reset(); document.getElementById('user-id').value=""; uPerf=""; uLoc=[]; uNeg=[]; uMarca=[]; atualizarBtnsU(); document.getElementById('btn-remover-user').classList.add('hidden'); }
+        function editarUtilizador(id) { const u = utilizadoresDb.find(x=>x.id===id); document.getElementById('painel-user-form').classList.remove('hidden'); document.getElementById('painel-user-form').classList.add('flex'); document.getElementById('painel-user-vazio').classList.add('hidden'); document.getElementById('user-id').value = u.id; document.getElementById('user-nome').value = u.nome; document.getElementById('user-email').value = u.email; uPerf = u.perfil; uLoc = [...getArr(u.local)]; uNeg = getArr(u.negocio).filter(x => TIPOS_NEGOCIO.includes(x)); uMarca = getArr(u.marca).filter(x => MARCAS.includes(x)); atualizarBtnsU(); document.getElementById('btn-remover-user').classList.remove('hidden'); }
         function cancelarEdicaoUser() { document.getElementById('painel-user-form').classList.add('hidden'); document.getElementById('painel-user-form').classList.remove('flex'); document.getElementById('painel-user-vazio').classList.remove('hidden'); document.getElementById('btn-remover-user').classList.add('hidden'); }
         function tArr(arr,v) { if(v==='Todas') return arr.includes('Todas')?[]:['Todas']; let n=arr.filter(x=>x!=='Todas'); return n.includes(v)?n.filter(x=>x!==v):[...n,v]; }
-        function toggleUserLocal(v){ uLoc=tArr(uLoc,v); atualizarBtnsU(); } function toggleUserPerfil(v){ uPerf=v; atualizarBtnsU(); } 
+        function toggleUserLocal(v){ uLoc=tArr(uLoc,v); atualizarBtnsU(); } function toggleUserNegocio(v){ uNeg = uNeg.includes(v) ? uNeg.filter(x => x !== v) : [...uNeg, v]; atualizarBtnsU(); } function toggleUserMarca(v){ uMarca = uMarca.includes(v) ? uMarca.filter(x => x !== v) : [...uMarca, v]; atualizarBtnsU(); } function toggleUserPerfil(v){ uPerf=v; atualizarBtnsU(); } 
         
         function atualizarBtnsU() { 
             ['Todas','Porto','Gaia','Feira','Aveiro'].forEach(v=>{ 
@@ -1697,6 +1737,8 @@
                     }
                 }
             }); 
+            TIPOS_NEGOCIO.forEach(v => { const b = document.getElementById('btn-neg-'+v); if(b) b.classList.toggle('active', uNeg.includes(v)); });
+            MARCAS.forEach(v => { const b = document.getElementById('btn-marca-'+v); if(b) b.classList.toggle('active', uMarca.includes(v)); });
             ['Vendedor','Chefe de Vendas','Administrador'].forEach(v=>{ 
                 let b=document.getElementById('btn-perfil-'+v); 
                 if(b) {
@@ -1717,9 +1759,12 @@
                 id: isUpdate ? parseInt(idVal) : undefined,
                 nome: document.getElementById('user-nome').value.trim(),
                 email: (document.getElementById('user-email').value || '').trim().toLowerCase(),
-                local: uLoc, perfil: uPerf, negocio: ['VD'], marca: ['BMW']
+                local: uLoc, perfil: uPerf,
+                // Administrador acede sempre a tudo; os restantes ao que for selecionado.
+                negocio: uPerf === 'Administrador' ? [...TIPOS_NEGOCIO] : [...uNeg], marca: uPerf === 'Administrador' ? [...MARCAS] : [...uMarca]
             };
             if (!payload.nome || !payload.email || !payload.perfil) { alert("Preencha nome, email e perfil."); return; }
+            if (!payload.negocio.length || !payload.marca.length) { alert("Selecione pelo menos um tipo de viatura (VD/VU) e uma marca."); return; }
             if (!supabaseClient) { alert("Sem ligação ao servidor."); return; }
 
             // A criação/atualização do login vive numa Edge Function (usa a service_role
