@@ -149,6 +149,30 @@
         html.dark #admin-scroll tbody tr:hover td:last-child { background-color: #1c2733; }
         html.dark #admin-scroll tbody tr.row-reservada td:last-child { background-color: #26261d; }
         html.dark #admin-scroll tbody tr.row-reservada:hover td:last-child { background-color: #2e2d20; }
+        /* Freeze panes gradual (telemóvel/tablet): ao deslizar para a esquerda, "Versão" (5.ª coluna) fica
+           colada à esquerda quando lá chega; mais adiante, "Matrícula" (8.ª) cola-se logo a seguir, ficando
+           visíveis só estas duas (Enc e Chassis passam por baixo). Sticky nativo = sem JS e sem saltos. */
+        @media (max-width: 1023px) {
+            #parque-scroll th:nth-child(5), #parque-scroll td:nth-child(5),
+            #parque-scroll th:nth-child(8), #parque-scroll td:nth-child(8) { position: sticky; }
+            #parque-scroll th:nth-child(5), #parque-scroll td:nth-child(5) { left: 0; width: 7.5rem; min-width: 7.5rem; max-width: 7.5rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+            #parque-scroll th:nth-child(8), #parque-scroll td:nth-child(8) { left: 7.5rem; white-space: nowrap; box-shadow: inset -1px 0 0 #E5E7EB, 6px 0 8px -6px rgba(0,0,0,.18); }
+            #parque-scroll th:nth-child(5) { box-shadow: inset 0 -1px 0 #E5E7EB; }
+            #parque-scroll td:nth-child(5) { box-shadow: 6px 0 8px -6px rgba(0,0,0,.18); }
+            #parque-scroll thead th:nth-child(5), #parque-scroll thead th:nth-child(8) { z-index: 14; }
+            #parque-scroll tbody td:nth-child(5), #parque-scroll tbody td:nth-child(8) { z-index: 5; background-color: #fff; }
+            #parque-scroll tbody tr:hover td:nth-child(5), #parque-scroll tbody tr:hover td:nth-child(8) { background-color: #EFF6FF; }
+            #parque-scroll tbody tr.bg-yellow-50 td:nth-child(5), #parque-scroll tbody tr.bg-yellow-50 td:nth-child(8) { background-color: #FEFCE8; }
+            #parque-scroll tbody tr.bg-yellow-50:hover td:nth-child(5), #parque-scroll tbody tr.bg-yellow-50:hover td:nth-child(8) { background-color: #FEF9C3; }
+            html.dark #parque-scroll tbody td:nth-child(5), html.dark #parque-scroll tbody td:nth-child(8) { background-color: #171d25; }
+            html.dark #parque-scroll tbody tr:hover td:nth-child(5), html.dark #parque-scroll tbody tr:hover td:nth-child(8) { background-color: #1c2733; }
+            html.dark #parque-scroll tbody tr.bg-yellow-50 td:nth-child(5), html.dark #parque-scroll tbody tr.bg-yellow-50 td:nth-child(8) { background-color: #26261d; }
+            html.dark #parque-scroll tbody tr.bg-yellow-50:hover td:nth-child(5), html.dark #parque-scroll tbody tr.bg-yellow-50:hover td:nth-child(8) { background-color: #2e2d20; }
+            html.dark #parque-scroll th:nth-child(8) { box-shadow: inset -1px 0 0 #2a3340, 6px 0 8px -6px rgba(0,0,0,.6); }
+            html.dark #parque-scroll th:nth-child(5) { box-shadow: inset 0 -1px 0 #2a3340; }
+            html.dark #parque-scroll td:nth-child(8) { box-shadow: inset -1px 0 0 #2a3340, 6px 0 8px -6px rgba(0,0,0,.6); }
+            html.dark #parque-scroll td:nth-child(5) { box-shadow: 6px 0 8px -6px rgba(0,0,0,.6); }
+        }
         html.dark .tema-btn { color: #c4cdd8; }
         html.dark .tema-btn[aria-pressed="true"] { background: #2d3745; color: #fff; box-shadow: none; }
         html.dark img[alt^="BMW"] { filter: brightness(1.25); }
