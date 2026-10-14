@@ -27,7 +27,12 @@
         body { max-width: 100%; overflow-x: clip; overflow-wrap: break-word; }
         img, video { max-width: 100%; }
         #vista-cartoes > *, #grid-motorizacoes > *, .tab-content .grid > * { min-width: 0; }
+        /* Tailwind (divide-*) tem especificidade superior à da camada escura: sem !important as linhas ficavam brancas */
+        html.dark .divide-gray-100 > :not([hidden]) ~ :not([hidden]), html.dark .divide-gray-200 > :not([hidden]) ~ :not([hidden]) { border-color: #2a3340 !important; }
         @media (max-width: 639px) {
+            /* linhas mais compactas na tabela do Parque: cabem mais viaturas no ecrã */
+            #tabela-corpo td { padding: .5rem .75rem !important; }
+            #parque-scroll thead th { padding: .75rem !important; }
             input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]), select, textarea { font-size: 16px !important; }
         }
         
@@ -152,7 +157,7 @@
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-800 relative pb-32 overflow-y-scroll">
 
-    <header class="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
+    <header id="topo-fixo" class="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16 sm:h-20">
                 <h1 class="text-xl sm:text-2xl font-bold text-bmw tracking-tight uppercase">Caetano <span class="text-gray-800 font-extrabold">Sales Force</span></h1>
@@ -1504,7 +1509,10 @@
         function ajustarAlturaParque() {
             const wrap = document.getElementById('parque-scroll');
             if (!wrap || wrap.offsetParent === null) return;
-            const top = wrap.getBoundingClientRect().top;
+            const hdr = document.getElementById('topo-fixo'); const topoFixo = (hdr && hdr.offsetHeight) || 0;
+            // Em ecrãs pequenos o painel ocupa sempre o ecrã todo por baixo do topo fixo
+            // (independente da posição de scroll), para não mostrar só 2-3 linhas.
+            const top = window.innerWidth < 640 ? topoFixo : wrap.getBoundingClientRect().top;
             const alturaDisp = window.innerHeight - top - 16;
             wrap.style.maxHeight = Math.max(240, alturaDisp) + 'px';
         }
