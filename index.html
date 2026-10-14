@@ -16,6 +16,20 @@
         @font-face { font-family: 'BMWTypeNext'; src: url('https://cdn.jsdelivr.net/gh/djore4/Caetano@main/fonts/BMWTypeNextLatin-Light.otf') format('opentype'); font-weight: 300; font-style: normal; }
         
         body { font-family: 'BMWTypeNext', 'Helvetica Neue', Arial, sans-serif; letter-spacing: -0.01em; }
+
+        /* ── Ajuste a ecrãs pequenos (telemóvel) ─────────────────────────────────
+           - text-size-adjust: o browser não redimensiona o texto sozinho ao rodar o ecrã.
+           - overflow-x: clip: conteúdo largo nunca alarga a página (evita ter de fazer zoom out);
+             "clip" (ao contrário de "hidden") não cria contentor de scroll e mantém o header sticky.
+           - Campos a 16px: abaixo disso o Safari/iOS faz zoom automático ao focar e a página fica ampliada.
+           - min-width:0 nos itens de grid/flex: sem isto, texto sem quebras (chassis, versões) estica a coluna. */
+        html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; max-width: 100%; overflow-x: clip; }
+        body { max-width: 100%; overflow-x: clip; overflow-wrap: break-word; }
+        img, video { max-width: 100%; }
+        #vista-cartoes > *, #grid-motorizacoes > *, .tab-content .grid > * { min-width: 0; }
+        @media (max-width: 639px) {
+            input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]), select, textarea { font-size: 16px !important; }
+        }
         
         .filter-btn.active, .user-btn.active { background-color: #0066B1 !important; color: white !important; border-color: #0066B1 !important; }
         .filter-btn.active:hover, .user-btn.active:hover { background-color: #00528E !important; color: white !important; border-color: #00528E !important; }
