@@ -6,7 +6,7 @@
     <title>Caetano Sales Force</title>
     <!-- Webapp (ecrã principal do telemóvel) -->
     <link rel="manifest" href="manifest.webmanifest">
-    <link rel="icon" type="image/png" sizes="48x48" href="img/icons/favicon-48.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="img/icons/icon-48.png">
     <link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png">
     <meta name="theme-color" content="#0066B1">
     <meta name="mobile-web-app-capable" content="yes">
@@ -44,6 +44,14 @@
             input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]), select, textarea { font-size: 16px !important; }
         }
         
+        /* Faixa "Instalar a app" (só aparece em telemóvel, depois do login) */
+        #faixa-instalar { position: fixed; left: .5rem; right: .5rem; bottom: calc(.5rem + env(safe-area-inset-bottom)); z-index: 60; display: flex; align-items: center; gap: .75rem; padding: .625rem .75rem; background: #fff; color: #1e293b; border: 1px solid #e2e8f0; border-radius: .75rem; box-shadow: 0 8px 24px rgba(15,23,42,.18); font-size: .875rem; line-height: 1.25; }
+        #faixa-instalar img { flex: none; }
+        .faixa-instalar-texto { flex: 1; min-width: 0; }
+        .faixa-instalar-ok { flex: none; background: #0066B1; color: #fff; font-weight: 700; padding: .5rem .875rem; border-radius: .5rem; }
+        .faixa-instalar-nao { flex: none; color: #64748b; padding: .5rem .5rem; font-size: .8125rem; }
+        html.dark #faixa-instalar { background: #1c232d; color: #e5e9ef; border-color: #2a3340; }
+        html.dark .faixa-instalar-nao { color: #9aa6b5; }
         .filter-btn.active, .user-btn.active { background-color: #0066B1 !important; color: white !important; border-color: #0066B1 !important; }
         .filter-btn.active:hover, .user-btn.active:hover { background-color: #00528E !important; color: white !important; border-color: #00528E !important; }
         
@@ -1104,6 +1112,7 @@
             try { await registarHistorico('acesso', 'LOGIN', currentUser.id, { nome: currentUser.nome, email: currentUser.email }); } catch(e) {}
             try { await carregarHistorico(); } catch(e) {}
             try { await inicializarSpecs(); } catch(e) {}
+            try { mostrarFaixaInstalacao(); } catch(e) {}
         }
 
         function executarArranqueLocal() {
@@ -1113,6 +1122,79 @@
             aplicarFiltros();
             if (window.innerWidth < 768) mudarVista('cartoes'); else mudarVista('tabela');
         }
+
+        // ── FAIXA "INSTALAR A APP" ────────────────────────────────────────────
+        // Aparece só depois do login, só em telemóvel e só se a app ainda não estiver instalada.
+        // Android/Chrome: guarda o evento do browser e abre o diálogo nativo ao tocar em "Instalar".
+        // iPhone/iPad: o iOS não tem API de instalação, por isso a faixa mostra as instruções.
+        // "Agora não" volta a perguntar ao fim de 7 dias, no máximo 2 vezes (guardado em localStorage).
+        let pedidoInstalacao = null;
+        let faixaInstalacaoPermitida = false;
+        const CHAVE_INSTALAR = 'sf-instalar';
+        function appJaInstalada() {
+            try { if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) return true; } catch (e) {}
+            return !!(navigator && navigator.standalone);
+        }
+        function plataformaMovel() {
+            const ua = (navigator && navigator.userAgent) || '';
+            if (/iPhone|iPad|iPod/.test(ua)) return 'ios';
+            if (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) return 'ios'; // iPadOS
+            if (/Android/.test(ua)) return 'android';
+            return null;
+        }
+        function estadoInstalar() {
+            try { return JSON.parse(localStorage.getItem(CHAVE_INSTALAR)) || {}; } catch (e) { return {}; }
+        }
+        function guardarEstadoInstalar(e) { try { localStorage.setItem(CHAVE_INSTALAR, JSON.stringify(e)); } catch (err) {} }
+        function faixaInstalacaoDevida() {
+            const e = estadoInstalar();
+            if (e.instalada) return false;
+            if (!e.n) return true;
+            return e.n < 2 && (Date.now() - (e.ts || 0)) > 7 * 24 * 3600 * 1000;
+        }
+        function esconderFaixaInstalacao() {
+            const f = document.getElementById('faixa-instalar');
+            if (f) f.remove();
+        }
+        function dispensarFaixaInstalacao() {
+            const e = estadoInstalar();
+            guardarEstadoInstalar({ n: (e.n || 0) + 1, ts: Date.now() });
+            esconderFaixaInstalacao();
+        }
+        async function instalarApp() {
+            if (!pedidoInstalacao) return;
+            const pedido = pedidoInstalacao; pedidoInstalacao = null;
+            try { await pedido.prompt(); const r = await pedido.userChoice; if (r && r.outcome === 'accepted') guardarEstadoInstalar({ instalada: true }); else dispensarFaixaInstalacao(); } catch (e) {}
+            esconderFaixaInstalacao();
+        }
+        function mostrarFaixaInstalacao() {
+            faixaInstalacaoPermitida = true;
+            if (document.getElementById('faixa-instalar')) return;
+            const plat = plataformaMovel();
+            if (!plat || appJaInstalada() || !faixaInstalacaoDevida()) return;
+            if (plat === 'android' && !pedidoInstalacao) return; // sem evento do browser (ainda) não há o que oferecer
+            const f = document.createElement('div');
+            f.id = 'faixa-instalar';
+            f.setAttribute('role', 'region');
+            f.setAttribute('aria-label', 'Instalar a app');
+            const texto = plat === 'ios'
+                ? 'Instala a app no iPhone: toca em <b>Partilhar</b> e depois em <b>Adicionar ao ecrã principal</b>.'
+                : 'Instala a app no teu telemóvel para abrires com um toque.';
+            f.innerHTML = '<img src="img/icons/icon-48.png" alt="" width="36" height="36">'
+                + '<div class="faixa-instalar-texto">' + texto + '</div>'
+                + (plat === 'android' ? '<button type="button" id="btn-instalar-app" class="faixa-instalar-ok">Instalar</button>' : '')
+                + '<button type="button" id="btn-dispensar-instalar" class="faixa-instalar-nao" aria-label="Agora não">' + (plat === 'android' ? 'Agora não' : 'OK') + '</button>';
+            document.body.appendChild(f);
+            const ok = document.getElementById('btn-instalar-app');
+            if (ok) ok.addEventListener('click', instalarApp);
+            document.getElementById('btn-dispensar-instalar').addEventListener('click', dispensarFaixaInstalacao);
+        }
+        window.addEventListener('beforeinstallprompt', e => {
+            e.preventDefault();
+            pedidoInstalacao = e;
+            if (faixaInstalacaoPermitida) mostrarFaixaInstalacao(); // o evento pode chegar depois do login
+        });
+        window.addEventListener('appinstalled', () => { guardarEstadoInstalar({ instalada: true }); pedidoInstalacao = null; esconderFaixaInstalacao(); });
 
         // ── SISTEMA DE LOGIN ──────────────────────────────────────────────────
         function abrirLogin() { 
