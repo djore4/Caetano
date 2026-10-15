@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Caetano Sales Force</title>
+    <!-- Webapp (ecrã principal do telemóvel) -->
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/png" sizes="48x48" href="img/icons/favicon-48.png">
+    <link rel="apple-touch-icon" href="img/icons/apple-touch-icon.png">
+    <meta name="theme-color" content="#0066B1">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Sales Force">
     <script>
         // Tema (claro/escuro/automático) aplicado antes de pintar a página, para não piscar.
         (function () { try { var t = localStorage.getItem('sf-tema'); var escuro = t === 'escuro' || (t !== 'claro' && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches); if (escuro) { document.documentElement.classList.add('dark'); document.documentElement.style.colorScheme = 'dark'; } } catch (e) {} })();
