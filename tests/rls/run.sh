@@ -99,6 +99,64 @@ if [ "$MODO" = completo ]; then
   chk "VU recusado a quem só tem VD"       f     "$(q vd@x.pt "select public.sf_pode_ver('VU','[\"BMW\"]'::jsonb);")"
   chk "conta sem perfil nunca pode"        f     "$(q crm@x.pt "select public.sf_pode_ver('VD','[\"BMW\"]'::jsonb);")"
   chk "anon não executa a função"          ERRO  "$(q anon "select public.sf_pode_ver('VD','[]'::jsonb);")"
+  # --- 09: stock VU (Gestão VU + Parque VU) sobre a retomas ---
+  $PSQL -f ../../security/09_stock_vu.sql >/dev/null
+  $PSQL -c "insert into public.retomas(id,marca,modelo,matricula,preco,proveniencia,observacoes,local,pvp_atualizado_em) values
+    ('00000000-0000-0000-0000-0000000000a1','BMW','X1','AA-11-BB',20000,'LEILÃO','custo 15000','{Porto}','2026-01-01'),
+    ('00000000-0000-0000-0000-0000000000a2','BMW Motorrad','R1300','CC-22-DD',15000,'RETOMA','nota interna','{Gaia}',now())" >/dev/null
+  $PSQL -c "insert into public.retomas(id,marca,modelo,matricula,arquivada) values ('00000000-0000-0000-0000-0000000000a3','BMW','X3','EE-33-FF',true)" >/dev/null
+  A1=00000000-0000-0000-0000-0000000000a1; A2=00000000-0000-0000-0000-0000000000a2; A3=00000000-0000-0000-0000-0000000000a3
+  PQ="select count(*) from public.sf_vu_parque()"; GQ="select count(*) from public.sf_vu_gestao(false)"
+  chk "09 vendedor vê o stock ativo no Parque"   2     "$(q vend@x.pt "$PQ;")"
+  chk "09 arquivadas não vão para o Parque"      0     "$(q vend@x.pt "select count(*) from public.sf_vu_parque() where id='$A3';")"
+  chk "09 só-VD não vê stock VU"                 0     "$(q vd@x.pt "$PQ;")"
+  chk "09 perfil sem camada não vê stock VU"     0     "$(q nulo@x.pt "$PQ;")"
+  chk "09 conta de outra app não vê nada"        0     "$(q crm@x.pt "$PQ;")"
+  chk "09 anon não executa o Parque"             ERRO  "$(q anon "$PQ;")"
+  chk "09 vendedor NÃO recebe proveniência"      f     "$(q vend@x.pt "select to_jsonb(p) ? 'proveniencia' from public.sf_vu_parque() p limit 1;")"
+  chk "09 vendedor NÃO recebe observações"       f     "$(q vend@x.pt "select to_jsonb(p) ? 'observacoes' from public.sf_vu_parque() p limit 1;")"
+  chk "09 vendedor NÃO recebe link Maxterauto"   f     "$(q vend@x.pt "select to_jsonb(p) ? 'link_maxterauto' from public.sf_vu_parque() p limit 1;")"
+  chk "09 vendedor não lê a retomas diretamente" 0     "$(q vend@x.pt "select count(*) from public.retomas;")"
+  chk "09 vendedor não lê a gestão"              0     "$(q vend@x.pt "$GQ;")"
+  chk "09 chefe lê a gestão"                     2     "$(q chefe@x.pt "$GQ;")"
+  chk "09 chefe vê a proveniência"               LEILÃO "$(q chefe@x.pt "select proveniencia from public.sf_vu_gestao(false) where id='$A1';")"
+  chk "09 chefe lê as arquivadas"                1     "$(q chefe@x.pt "select count(*) from public.sf_vu_gestao(true);")"
+  chk "09 chefe só-VD não gere VU"               0     "$(q chefevd@x.pt "$GQ;")"
+  chk "09 admin lê a gestão"                     2     "$(q admin@x.pt "$GQ;")"
+  # reserva: só Chefe de Vendas / Administrador, atómica
+  chk "09 vendedor não reserva"                  ERRO  "$(q vend@x.pt "select public.sf_vu_reservar('$A1');")"
+  chk "09 chefe reserva (48h)"                   t     "$(q chefe@x.pt "select (public.sf_vu_reservar('$A1')).reserva_expira > now() + interval '47 hours';")"
+  chk "09 reserva guarda quem reservou"          Chefe "$(q chefe@x.pt "select (public.sf_vu_reservar('$A1')).reserva_user;")"
+  chk "09 segunda reserva da mesma viatura falha" ERRO "$(q chefe@x.pt "select public.sf_vu_reservar('$A1'); select public.sf_vu_reservar('$A1');")"
+  chk "09 reserva expirada pode ser refeita"     t     "$(q chefe@x.pt "update public.retomas set reserva_expira=now()-interval '1 hour' where id='$A1'; select (public.sf_vu_reservar('$A1')).reserva_expira > now();")"
+  chk "09 reserva aparece ao vendedor"           Chefe "$(q chefe@x.pt "select public.sf_vu_reservar('$A1'); set local role authenticated; select reserva_user from public.sf_vu_parque() where id='$A1';" | tail -1)"
+  chk "09 cancelar reserva limpa"                t     "$(q chefe@x.pt "select public.sf_vu_reservar('$A1'); select (public.sf_vu_reservar('$A1', true)).reserva_expira is null;" | tail -1)"
+  chk "09 vendedor não cancela reserva"          ERRO  "$(q vend@x.pt "select public.sf_vu_reservar('$A1', true);")"
+  chk "09 não reserva arquivada"                 ERRO  "$(q chefe@x.pt "select public.sf_vu_reservar('$A3');")"
+  chk "09 só-VD não reserva stock VU"            ERRO  "$(q chefevd@x.pt "select public.sf_vu_reservar('$A1');")"
+  # gravar
+  NOVA='{"marca":"BMW","modelo":"X3","versao":"20d","matricula":"ZZ-99-ZZ","preco":"31000","proveniencia":"retoma","local":["Porto"],"ano":2022}'
+  chk "09 vendedor não grava"                    ERRO  "$(q vend@x.pt "select public.sf_vu_guardar('$NOVA');")"
+  chk "09 chefe cria viatura"                    31000.00 "$(q chefe@x.pt "select (public.sf_vu_guardar('$NOVA')).preco;")"
+  chk "09 criar normaliza a proveniência"        RETOMA "$(q chefe@x.pt "select (public.sf_vu_guardar('$NOVA')).proveniencia;")"
+  chk "09 criar regista o preço como revisto"    t     "$(q chefe@x.pt "select (public.sf_vu_guardar('$NOVA')).pvp_atualizado_em > now() - interval '1 minute';")"
+  chk "09 matrícula repetida é recusada"         ERRO  "$(q chefe@x.pt "select public.sf_vu_guardar('{\"marca\":\"BMW\",\"modelo\":\"X1\",\"matricula\":\"aa 11 bb\"}');")"
+  chk "09 editar a própria não conta como duplicada" X1b "$(q chefe@x.pt "select (public.sf_vu_guardar('{\"id\":\"$A1\",\"marca\":\"BMW\",\"modelo\":\"X1b\",\"matricula\":\"AA-11-BB\",\"preco\":20000}')).modelo;")"
+  chk "09 mesmo preço mantém a data de revisão"  t     "$(q chefe@x.pt "select (public.sf_vu_guardar('{\"id\":\"$A1\",\"marca\":\"BMW\",\"modelo\":\"X1\",\"preco\":20000}')).pvp_atualizado_em = '2026-01-01';")"
+  chk "09 novo preço atualiza a data de revisão" t     "$(q chefe@x.pt "select (public.sf_vu_guardar('{\"id\":\"$A1\",\"marca\":\"BMW\",\"modelo\":\"X1\",\"preco\":19000}')).pvp_atualizado_em > now() - interval '1 minute';")"
+  chk "09 gravar não mexe na reserva"            Chefe "$(q chefe@x.pt "select public.sf_vu_reservar('$A1'); select (public.sf_vu_guardar('{\"id\":\"$A1\",\"marca\":\"BMW\",\"modelo\":\"X1\"}')).reserva_user;" | tail -1)"
+  chk "09 marca fora do perfil é recusada"       ERRO  "$(q vu@x.pt "select public.sf_vu_guardar('{\"marca\":\"MINI\",\"modelo\":\"Cooper\"}');")"
+  chk "09 chefe VU cria Motorrad"                R2    "$(q vu@x.pt "select (public.sf_vu_guardar('{\"marca\":\"BMW Motorrad\",\"modelo\":\"R2\"}')).modelo;")"
+  chk "09 só-VD não grava VU"                    ERRO  "$(q chefevd@x.pt "select public.sf_vu_guardar('$NOVA');")"
+  chk "09 modelo é obrigatório"                  ERRO  "$(q chefe@x.pt "select public.sf_vu_guardar('{\"marca\":\"BMW\"}');")"
+  chk "09 proveniência inválida"                 ERRO  "$(q chefe@x.pt "select public.sf_vu_guardar('{\"marca\":\"BMW\",\"modelo\":\"X\",\"proveniencia\":\"OUTRA\"}');")"
+  chk "09 preço negativo"                        ERRO  "$(q chefe@x.pt "select public.sf_vu_guardar('{\"marca\":\"BMW\",\"modelo\":\"X\",\"preco\":-1}');")"
+  chk "09 motorização inválida"                  ERRO  "$(q chefe@x.pt "select public.sf_vu_guardar('{\"marca\":\"BMW\",\"modelo\":\"X\",\"motorizacao\":\"diesel\"}');")"
+  # vendida / recuperar
+  chk "09 vendedor não arquiva"                  ERRO  "$(q vend@x.pt "select public.sf_vu_arquivar('$A1');")"
+  chk "09 chefe arquiva e sai do Parque"         1     "$(q chefe@x.pt "select public.sf_vu_arquivar('$A1'); select count(*) from public.sf_vu_parque();" | tail -1)"
+  chk "09 arquivar limpa a reserva"              t     "$(q chefe@x.pt "select public.sf_vu_reservar('$A1'); select (public.sf_vu_arquivar('$A1')).reserva_expira is null;" | tail -1)"
+  chk "09 recuperar volta ao Parque"             3     "$(q chefe@x.pt "select public.sf_vu_arquivar('$A3', false); select count(*) from public.sf_vu_parque();" | tail -1)"
   # 07: backfill dá acesso completo aos utilizadores existentes (inclui legado ['VN'])
   $PSQL -c "update public.utilizadores set negocio='[\"VN\"]', marca='[\"BMW\"]' where email='vend@x.pt'" >/dev/null
   $PSQL -f ../../security/07_perfis_tipo_marca.sql >/dev/null

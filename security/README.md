@@ -62,6 +62,36 @@ Ordem de deploy (importa — os perfis atuais têm valores antigos fixos em `neg
 
 Testes do servidor: `tests/rls/run.sh` (107 verificações, inclui a camada tipo/marca e o backfill do 07).
 
+## Ronda 4 — Stock VU (Gestão VU + Parque VU) — `09_stock_vu.sql`
+O stock de usados é **uma só tabela**: `public.retomas` (a mesma do tab Stock do Baviera Vision Pro, no mesmo
+projeto Supabase). A migration estende-a (versão, ano, chassis, concessão, proveniência, data de revisão do preço,
+reserva) e dá acesso ao Caetano por funções `security definer`, **sem tocar nas políticas RLS da `retomas`**:
+
+| Função | Quem | O quê |
+|---|---|---|
+| `sf_vu_parque()` | qualquer perfil (com VU + marca no perfil) | stock ativo **sem** proveniência, observações, link Maxterauto nem `created_by` |
+| `sf_vu_gestao(arquivadas)` | Chefe de Vendas / Administrador | tudo |
+| `sf_vu_guardar(json)` | Chefe de Vendas / Administrador | criar/editar (matrícula única no stock ativo; regista a data de revisão do preço) |
+| `sf_vu_arquivar(id, bool)` | Chefe de Vendas / Administrador | vendida / recuperar (limpa a reserva) |
+| `sf_vu_reservar(id, cancelar)` | Chefe de Vendas / Administrador | reserva de 48h **atómica** (duas pessoas não reservam a mesma) / cancelar |
+
+É **autónoma**: não depende do 06 nem do 08 (define `sf_perfil` e `sf_pode_ver`, idênticas às desses ficheiros).
+Em produção só estava aplicado o 01, e a app continua a funcionar sem a 09 — a Gestão VU mostra um aviso de
+"Stock VU indisponível" em vez de partir.
+
+Ordem de deploy:
+1. Correr `09_stock_vu.sql` no Supabase (idempotente; rollback em `09_rollback.sql`).
+2. Publicar o `index.html` (ou publicar primeiro: sem a 09 só aparece o aviso na Gestão VU).
+3. Testar com um Chefe de Vendas (criar, reservar, vendida/recuperar) e um Vendedor (vê o stock, sem proveniência,
+   sem botão de reservar).
+
+Notas:
+- **Limite conhecido:** quem também estiver em `app_users` do Baviera com acesso aos tabs stock/wip/vendedores lê
+  a `retomas` diretamente (políticas do Baviera) e vê a proveniência. Resolver exige alterar o RLS do Baviera.
+- As 3 viaturas VU antigas que estão em `viaturas` (criadas pela Gestão VD) **não** migram sozinhas: continuam no
+  Parque como VD/VU legado até serem recriadas na Gestão VU e arquivadas na Gestão VD. A Gestão VD já não cria VU novas.
+- Testes do servidor: `tests/rls/run.sh` (inclui 46 verificações da 09); da interface: `npm test` (`tests/vu.test.js`).
+
 ## Ainda em aberto (não incluído aqui)
 - **Margens/custos** (`inputs`, `stats`) continuam visíveis no browser a todos os perfis que leem
   `viaturas`: separar em tabela/view com RLS próprio (altera o modelo de dados).
