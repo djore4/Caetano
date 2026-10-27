@@ -105,3 +105,11 @@ Notas:
   Verificar o RLS lá também.
 - **Isolar o "AI Trading Lab"** (tabelas `cs_*`) noutro projeto, para reduzir o raio
   de dano da chave partilhada.
+
+## Ronda 5 — Ver é por marca; o tipo (VD/VU) só limita a edição — `10_ver_todos_os_tipos.sql`
+Um Chefe de Vendas com perfil só-VU deixava de ver as VD no Parque (o tipo do perfil limitava também a
+leitura). Agora o **tipo** só limita a escrita/gestão (editar, arquivar, criar, Gestão VU); **ler** exige
+apenas a marca. Na interface, as viaturas fora do tipo aparecem com "Só leitura" na Gestão.
+
+1. Correr `10_ver_todos_os_tipos.sql` no Supabase (precisa do 08/09; rollback em `10_rollback.sql`).
+2. Publicar o `index.html` novo.

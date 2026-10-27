@@ -157,12 +157,30 @@ if [ "$MODO" = completo ]; then
   chk "09 chefe arquiva e sai do Parque"         1     "$(q chefe@x.pt "select public.sf_vu_arquivar('$A1'); select count(*) from public.sf_vu_parque();" | tail -1)"
   chk "09 arquivar limpa a reserva"              t     "$(q chefe@x.pt "select public.sf_vu_reservar('$A1'); select (public.sf_vu_arquivar('$A1')).reserva_expira is null;" | tail -1)"
   chk "09 recuperar volta ao Parque"             3     "$(q chefe@x.pt "select public.sf_vu_arquivar('$A3', false); select count(*) from public.sf_vu_parque();" | tail -1)"
+  # --- 10: ver é por marca; o tipo só limita a escrita ---
+  $PSQL -f ../../security/10_ver_todos_os_tipos.sql >/dev/null
+  chk "10 Chefe VU passa a ver a VD (CH1)"       1     "$(q vu@x.pt "$V where chassis='CH1';")"
+  chk "10 Chefe VU vê VD e VU (BMW+Motorrad)"    3     "$(q vu@x.pt "$V;")"
+  chk "10 Chefe VU continua sem editar a CH1"    0     "$(q vu@x.pt "$(n "update public.viaturas set reserva_user='t' where chassis='CH1'")")"
+  chk "10 Chefe VU continua sem apagar a CH1"    0     "$(q vu@x.pt "$(n "delete from public.viaturas where chassis='CH1'")")"
+  chk "10 Chefe VU continua a editar a CH2"      1     "$(q vu@x.pt "$(n "update public.viaturas set reserva_user='t' where chassis='CH2'")")"
+  chk "10 Chefe VU continua sem criar VD"        ERRO  "$(q vu@x.pt "$(n "insert into public.viaturas(chassis,modelo,estado_negocio,marca) values ('N9','Z4','VD','[\"BMW\"]')")")"
+  chk "10 só-VD BMW vê VD e VU da BMW, não Motorrad" 2 "$(q vd@x.pt "$V;")"
+  chk "10 marca continua a limitar a leitura"    0     "$(q vd@x.pt "$V where chassis='CH3';")"
+  chk "10 só-VD vê o stock VU da sua marca"      1     "$(q vd@x.pt "select count(*) from public.sf_vu_parque() where marca='BMW';")"
+  chk "10 só-VD continua sem gerir VU"           0     "$(q chefevd@x.pt "$GQ;")"
+  chk "10 chefe só-VD vê a vendida (leitura)"    1     "$(q chefevd@x.pt "select count(*) from public.viaturas_vendidas;")"
+  chk "10 chefe VU vê a vendida VD (leitura)"    1     "$(q vu@x.pt "select count(*) from public.viaturas_vendidas;")"
+  chk "10 chefe VU não grava vendida VD"         ERRO  "$(q vu@x.pt "$(n "insert into public.viaturas_vendidas(chassis,estado_negocio,marca) values ('Y','VD','[\"BMW\"]')")")"
+  chk "10 vendedor continua sem ler vendidas"    0     "$(q vend@x.pt "select count(*) from public.viaturas_vendidas;")"
+  chk "10 sem perfil continua sem ver nada"      0     "$(q crm@x.pt "$V;")"
   # 07: backfill dá acesso completo aos utilizadores existentes (inclui legado ['VN'])
   $PSQL -c "update public.utilizadores set negocio='[\"VN\"]', marca='[\"BMW\"]' where email='vend@x.pt'" >/dev/null
   $PSQL -f ../../security/07_perfis_tipo_marca.sql >/dev/null
   chk "07 dá acesso completo ao legado"    "[\"VD\",\"VU\"]|[\"BMW\",\"BMWMotorrad\"]" "$(psql -X -q -t -A -d $DB -c "select negocio::text||'|'||marca::text from public.utilizadores where email='vend@x.pt'" | tr -d ' ')"
   chk "07 não deixa ninguém sem camada"    0     "$(psql -X -q -t -A -d $DB -c "select count(*) from public.utilizadores where negocio is null or marca is null" | tr -d ' ')"
-  # rollback do 08 volta ao comportamento do 06 (vendedor VD+BMW volta a ver tudo)
+  # rollback do 10 volta ao 08; depois o do 08 ao comportamento do 06 (vendedor VD+BMW volta a ver tudo)
+  $PSQL -f ../../security/10_rollback.sql >/dev/null
   $PSQL -f ../../security/08_rollback.sql >/dev/null
   chk "rollback 08: sem camada, vê tudo"   3     "$(q vd@x.pt "$V;")"
 fi

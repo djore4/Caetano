@@ -63,12 +63,12 @@ test('carregarVu: vendedor usa a vista segura, gestor a de gestão; o objeto fic
   assert.equal(v.app.run('inventarioVu[0].proveniencia'), '');          // a vista segura nem a traz
 });
 
-test('carregarVu: respeita a camada Tipo x Marca do perfil e não rebenta se o servidor falhar', async () => {
+test('carregarVu: respeita a marca do perfil e não rebenta se o servidor falhar', async () => {
   const mix = [linha('a'), linha('b', { marca: 'BMW Motorrad', modelo: 'R1300', matricula: 'EE-33-FF' })];
   const so = await arranque(user('Vendedor', ['VU'], ['BMW']), { parque: mix });
   eq(so.app.run('inventarioVu.map(c => c.vu_id)'), ['a']);
-  const semVu = await arranque(user('Vendedor', ['VD'], ['BMW']), { parque: mix });
-  assert.equal(semVu.app.run('inventarioVu.length'), 0);
+  const soVd = await arranque(user('Vendedor', ['VD'], ['BMW']), { parque: mix });   // o tipo não esconde o stock VU
+  eq(soVd.app.run('inventarioVu.map(c => c.vu_id)'), ['a']);
   const falha = await arranque(VENDEDOR, { rpcs: { sf_vu_parque: async () => ({ data: null, error: { message: 'function sf_vu_parque() does not exist' } }) } });
   assert.equal(falha.app.run('inventarioVu.length'), 0); assert.equal(falha.app.run('vuIndisponivel'), true);
   const rede = carregarApp({ supabaseClient: { rpc: async () => { throw new Error('offline'); } } });
