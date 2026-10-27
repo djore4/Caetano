@@ -23,25 +23,27 @@ function fake(utilizadores, viaturas, vendidas = [], log = []) {
 }
 const ver = app => app.run('inventario.map(c => c.chassis)');
 
-test('podeVerViatura: matriz tipo x marca por perfil', () => {
+test('podeVerViatura: ver é só por marca; o tipo só limita a edição (podeEditarViatura)', () => {
   const app = carregarApp();
   const casos = [
-    [user('Vendedor', ['VD'], ['BMW']), ['C1']],
-    [user('Vendedor', ['VU'], ['BMW']), ['C2']],
-    [user('Vendedor', ['VD'], ['BMW Motorrad']), ['C3']],
-    [user('Vendedor', ['VD', 'VU'], ['BMW']), ['C1', 'C2']],
-    [user('Vendedor', ['VD', 'VU'], ['BMW', 'BMW Motorrad']), ['C1', 'C2', 'C3', 'C4']],
-    [user('Chefe de Vendas', ['VU'], ['BMW Motorrad']), ['C4']],
-    [user('Vendedor', ['Todas'], ['Todas']), ['C1', 'C2', 'C3', 'C4']],
-    [user('Vendedor', [], ['BMW']), []],
-    [user('Vendedor', ['VD'], []), []],
-    [user('Vendedor', null, null), []],
-    [ADMIN, ['C1', 'C2', 'C3', 'C4']],
-    [user('Administrador', [], []), ['C1', 'C2', 'C3', 'C4']],       // administrador vê sempre tudo
+    [user('Vendedor', ['VD'], ['BMW']), ['C1', 'C2'], ['C1']],
+    [user('Vendedor', ['VU'], ['BMW']), ['C1', 'C2'], ['C2']],
+    [user('Vendedor', ['VD'], ['BMW Motorrad']), ['C3', 'C4'], ['C3']],
+    [user('Vendedor', ['VD', 'VU'], ['BMW']), ['C1', 'C2'], ['C1', 'C2']],
+    [user('Vendedor', ['VD', 'VU'], ['BMW', 'BMW Motorrad']), ['C1', 'C2', 'C3', 'C4'], ['C1', 'C2', 'C3', 'C4']],
+    [user('Chefe de Vendas', ['VU'], ['BMW Motorrad']), ['C3', 'C4'], ['C4']],
+    [user('Vendedor', ['Todas'], ['Todas']), ['C1', 'C2', 'C3', 'C4'], ['C1', 'C2', 'C3', 'C4']],
+    [user('Vendedor', [], ['BMW']), ['C1', 'C2'], []],
+    [user('Vendedor', ['VD'], []), [], []],
+    [user('Vendedor', null, null), [], []],
+    [ADMIN, ['C1', 'C2', 'C3', 'C4'], ['C1', 'C2', 'C3', 'C4']],
+    [user('Administrador', [], []), ['C1', 'C2', 'C3', 'C4'], ['C1', 'C2', 'C3', 'C4']],
   ];
-  for (const [u, esperado] of casos) {
+  for (const [u, ver, editar] of casos) {
     app.run(`currentUser = ${J(u)}`);
-    assert.deepEqual(FROTA.filter(c => app.run(`podeVerViatura(${J(c)})`)).map(c => c.chassis), esperado, `${u.perfil} ${J(u.negocio)} ${J(u.marca)}`);
+    const msg = `${u.perfil} ${J(u.negocio)} ${J(u.marca)}`;
+    assert.deepEqual(FROTA.filter(c => app.run(`podeVerViatura(${J(c)})`)).map(c => c.chassis), ver, msg);
+    assert.deepEqual(FROTA.filter(c => app.run(`podeEditarViatura(${J(c)})`)).map(c => c.chassis), editar, msg + ' (editar)');
   }
 });
 
@@ -56,12 +58,13 @@ test('sessão: o Parque, a Gestão e o assistente só recebem as viaturas permit
   const u = user('Chefe de Vendas', ['VD'], ['BMW']);
   const app = carregarApp({ supabaseClient: fake([u], FROTA) });
   await app.run("estabelecerSessao({ email: 'u@x.pt' })");
-  assert.deepEqual(ver(app), ['C1']);
-  assert.equal(app.el('num-resultados').innerText, 1);
+  assert.deepEqual(ver(app), ['C1', 'C2']);
+  assert.equal(app.el('num-resultados').innerText, 2);
   assert.match(app.el('tabela-corpo').innerHTML, /C1|A000001|X1/);
-  assert.equal((app.el('lista-admin-viaturas').innerHTML.match(/<tr /g) || []).length, 1);
+  assert.equal((app.el('lista-admin-viaturas').innerHTML.match(/<tr /g) || []).length, 2);
+  assert.match(app.el('lista-admin-viaturas').innerHTML, /Só leitura/);   // a VU (fora do tipo) só se vê
   assert.ok(!app.run('construirContextoParque()').includes('Motorrad'));
-  assert.match(app.run('construirContextoParque()'), /Total: 1 viaturas/);
+  assert.match(app.run('construirContextoParque()'), /Total: 2 viaturas/);
 });
 
 test('sessão: Administrador vê tudo; vendidas também filtradas', async () => {
@@ -79,14 +82,14 @@ test('sessão: Administrador vê tudo; vendidas também filtradas', async () => 
   assert.deepEqual(app.run('vendidasDb.map(v => v.chassis)'), ['V1']);
 });
 
-test('filtros: escondem as opções sem permissão (Parque e Gestão)', () => {
+test('filtros: escondem as marcas sem permissão; o tipo VD/VU aparece sempre', () => {
   const app = carregarApp();
   const botao = t => ({ innerText: t, hidden: null, classList: { toggle(_, f) { this.f = f; } } });
   const mk = (id, ts) => { const c = app.el(id) || app.run(`document.getElementById('${id}')`); c.children = ts.map(botao); return c; };
   const g = [mk('filtro-negocio-container', ['Todos', 'VD', 'VU']), mk('filtro-marca-container', ['Todas', 'BMW', 'BMW Motorrad']), mk('filtro-admin-negocio-container', ['Todos', 'VD', 'VU']), mk('filtro-admin-marca-container', ['Todas', 'BMW', 'BMW Motorrad'])];
   app.run(`currentUser = ${J(user('Vendedor', ['VD'], ['BMW Motorrad']))}; atualizarFiltrosPermitidos()`);
   const estado = c => c.children.map(b => [b.innerText, b.classList.f]);
-  assert.deepEqual(estado(g[0]), [['Todos', undefined], ['VD', false], ['VU', true]]);
+  assert.deepEqual(estado(g[0]), [['Todos', undefined], ['VD', undefined], ['VU', undefined]]);
   assert.deepEqual(estado(g[1]), [['Todas', undefined], ['BMW', true], ['BMW Motorrad', false]]);
   assert.deepEqual(estado(g[2]), estado(g[0])); assert.deepEqual(estado(g[3]), estado(g[1]));
 });
