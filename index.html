@@ -2314,7 +2314,7 @@
         // linhas, não linhas próprias — vão no campo VERSÃO, não aqui.
         const MODELOS_BMW = ['Série 1','Série 2','Série 3','Série 4','Série 5','Série 6','Série 7','Série 8','X1','X2','X3','X4','X5','X6','X7','Z4','iX','M'];
         // Versões sugeridas por modelo (campo VERSÃO continua de texto livre).
-        const VERSOES_BMW = { 'M': ['M2','M3','M4','M5','M8','X3M','X4M','X5M','X6M','XM 50e','XM Red Label'] };
+        const VERSOES_BMW = { 'M': ['M2','M3','M4','M5','M8','X3M','X4M','X5M','X6M','XM'] };
         function atualizarSugestoesVersao(modelo) {
             const dl = document.getElementById('edit-versao-lista'); if (!dl) return;
             const chave = Object.keys(VERSOES_BMW).find(k => k.toLowerCase() === (modelo || '').toLowerCase());
