@@ -2303,11 +2303,11 @@
         }
 
         // Linhas de modelo BMW (marca BMW): Série 1 a 8, X1 a X7, Z4 e iX.
-        // O XM é linha própria. Os restantes "i" (i4, i5, …) e "M" (M3, M4, …) são VERSÕES destas
+        // "M" é linha própria (versões ex.: XM 50e, XM Red Label). Os restantes "i" (i4, i5, …) são VERSÕES destas
         // linhas, não linhas próprias — vão no campo VERSÃO, não aqui.
-        const MODELOS_BMW = ['Série 1','Série 2','Série 3','Série 4','Série 5','Série 6','Série 7','Série 8','X1','X2','X3','X4','X5','X6','X7','XM','Z4','iX'];
+        const MODELOS_BMW = ['Série 1','Série 2','Série 3','Série 4','Série 5','Série 6','Série 7','Série 8','X1','X2','X3','X4','X5','X6','X7','Z4','iX','M'];
         // Versões sugeridas por modelo (campo VERSÃO continua de texto livre).
-        const VERSOES_BMW = { 'XM': ['50e','Red Label'] };
+        const VERSOES_BMW = { 'M': ['XM 50e','XM Red Label'] };
         function atualizarSugestoesVersao(modelo) {
             const dl = document.getElementById('edit-versao-lista'); if (!dl) return;
             const chave = Object.keys(VERSOES_BMW).find(k => k.toLowerCase() === (modelo || '').toLowerCase());
