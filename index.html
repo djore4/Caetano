@@ -1188,12 +1188,25 @@
             } catch(e) { console.error("Erro rede:", e); }
         }
 
+        // Perfil "Inserção": quem tem a permissão 'demos:inserir-viaturas' na plataforma Baviera
+        // (sem linha em 'utilizadores') só introduz e corrige viaturas dos SEUS locais. O servidor
+        // (RPC sf_perfil_insercao + RLS viaturas_local_ok) é quem decide; aqui só se usa o resultado.
+        async function perfilInsercao() {
+            try {
+                const { data, error } = await supabaseClient.rpc('sf_perfil_insercao');
+                if (error || !data || !data.email) return null;
+                return Object.assign({}, data, { perfil: 'Inserção' });
+            } catch(e) { return null; }
+        }
+        const ehInsercao = () => !!currentUser && currentUser.perfil === 'Inserção';
+
         // Estabelece a sessão da app a partir de um utilizador autenticado no Supabase Auth,
         // resolvendo o perfil (permissões/local) a partir da tabela de perfis 'utilizadores'.
         async function estabelecerSessao(authUser) {
             await carregarDados();
             const email = (authUser.email || '').toLowerCase();
             let perfil = utilizadoresDb.find(u => (u.email || '').toLowerCase() === email);
+            if (!perfil) perfil = await perfilInsercao();
             if (!perfil) {
                 // Conta autenticada mas sem perfil na plataforma (ex.: conta de outra aplicação do
                 // mesmo projeto, ou utilizador revogado): sem acesso. O servidor (RLS) também o recusa.
@@ -1404,6 +1417,8 @@
             
             if (currentUser.perfil === 'Administrador') {
                 ['tab-utilizadores', 'tab-historico', 'tab-admin-vd', 'tab-admin-vu', 'tab-vendidos'].forEach(id => document.getElementById(id).classList.remove('hidden'));
+            } else if (ehInsercao()) {
+                document.getElementById('tab-admin-vd').classList.remove('hidden');
             } else if (currentUser.perfil === 'Chefe de Vendas') {
                 document.getElementById('tab-admin-vd').classList.remove('hidden');
                 if (hasPerm('negocio', 'VU')) document.getElementById('tab-admin-vu').classList.remove('hidden');
@@ -1416,7 +1431,7 @@
 
         // ── NAVEGAÇÃO ENTRE ABAS ──────────────────────────────────────────────
         function mudarTab(t) { 
-            if ((t === 'utilizadores' || t === 'historico' || t === 'admin-vd' || t === 'admin-vu' || t === 'vendidos') && (!currentUser || currentUser.perfil === 'Vendedor')) { alert("Acesso Restrito: Por favor, inicie sessão na Área Reservada."); return; }
+            if ((t === 'utilizadores' || t === 'historico' || t === 'admin-vd' || t === 'admin-vu' || t === 'vendidos') && (!currentUser || currentUser.perfil === 'Vendedor' || (ehInsercao() && t !== 'admin-vd'))) { alert("Acesso Restrito: Por favor, inicie sessão na Área Reservada."); return; }
             
             document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active')); 
             const tgt = document.getElementById('conteudo-'+t); 
@@ -1874,7 +1889,7 @@
         // Gestores recebem a vista completa (inclui proveniência); os restantes só a vista segura.
         async function carregarVu() {
             inventarioVu = []; vuIndisponivel = false;
-            if (!supabaseClient || !currentUser) return;
+            if (!supabaseClient || !currentUser || ehInsercao()) return;
             try {
                 const { data, error } = podeGerirVu() ? await supabaseClient.rpc('sf_vu_gestao', { p_arquivadas: false }) : await supabaseClient.rpc('sf_vu_parque');
                 if (error) { vuIndisponivel = true; console.error("Erro stock VU:", error.message); return; }
@@ -2170,7 +2185,7 @@
         function renderizarListaAdmin() { 
             try {
                 const loc = filtroLocalAdmin; let dados = inventario;
-                if(currentUser && currentUser.perfil === 'Chefe de Vendas') { dados = dados.filter(c => { const carroLocais = getArr(c.local); const matchLocal = getArr(currentUser.local).includes('Todas') || getArr(currentUser.local).some(l => carroLocais.includes(l)); return matchLocal; }); }
+                if(currentUser && (currentUser.perfil === 'Chefe de Vendas' || ehInsercao())) { dados = dados.filter(c => { const carroLocais = getArr(c.local); const matchLocal = getArr(currentUser.local).includes('Todas') || getArr(currentUser.local).some(l => carroLocais.includes(l)); return matchLocal; }); }
                 dados = dados.filter(c => { const arrLoc = getArr(c.local); return loc === 'Todas' || arrLoc.includes(loc); });
                 dados = dados.filter(c => (filtrosAdmin.negocio === 'Todos' || tipoNegocio(c) === filtrosAdmin.negocio) && (filtrosAdmin.marca === 'Todas' || marcasDe(c).includes(filtrosAdmin.marca)));
                 const q = ((document.getElementById('admin-pesquisa') || {}).value || '').toLowerCase().trim();
@@ -2337,6 +2352,7 @@
         // Arquiva uma viatura como vendida (usado pela lista e pela janela de edição)
         async function arquivarViatura(chassis) {
             if(!chassis) return;
+            if(ehInsercao()) { alert("Acesso Negado: o seu perfil só introduz e corrige viaturas."); return; }
             const carro = inventario.find(x => x.chassis === chassis); if(!carro) return;
             if(!podeEditarViatura(carro)) { alert("Acesso Negado: Não tem permissão para este tipo de viatura."); return; }
             if(!confirm("Marcar esta viatura como VENDIDA?\n\nOs dados e o preço atuais ficam arquivados na secção \"Vendidos\" e a viatura sai do parque ativo.")) return;
@@ -2399,6 +2415,7 @@
             const payloadSupabase = { chassis: carro.chassis, matricula: carro.matricula, modelo: carro.modelo, versao: carro.versao, estado_entrega: carro.estado_entrega, data_matricula: carro.data_matricula, encomenda: carro.encomenda, kms: carro.kms, tipologia: carro.tipologia, local: carro.local, link_fotos: carro.link_fotos, marca: carro.marca, estado_negocio: carro.estado_negocio, iva_dedutivel: carro.iva_dedutivel, inputs: carro.inputs, stats: carro.stats, reserva_expira: memExpira, reserva_user: memUser };
 
             if(supabaseClient) {
+                if (isUpdate && originalChassis !== novoChassis && ehInsercao()) { alert("Acesso Negado: o seu perfil não pode alterar o chassis de uma viatura já registada."); return; }
                 if (isUpdate && originalChassis !== novoChassis) { await supabaseClient.from('viaturas').delete().eq('chassis', originalChassis); }
                 const { error } = await supabaseClient.from('viaturas').upsert(payloadSupabase);
                 if(error) { alert("ERRO SUPABASE:\n" + error.message); mostrarAviso("Falha ao gravar: " + error.message); return; }
