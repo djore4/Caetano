@@ -760,7 +760,7 @@
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">DATA MATRÍCULA</label><input type="date" id="edit-data_matricula" onchange="recalcularPreview()" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw text-gray-600"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">QUILÓMETROS</label><input type="number" id="edit-kms" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw" placeholder="Ex: 0"></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">MODELO</label><div id="edit-modelo-holder"><select id="edit-modelo" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw bg-white"><option value="">Selecionar modelo…</option></select></div></div>
-                                <div class="col-span-1 md:col-span-2"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">VERSÃO</label><input type="text" id="edit-versao" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"></div>
+                                <div class="col-span-1 md:col-span-2"><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">VERSÃO</label><input type="text" id="edit-versao" list="edit-versao-lista" required class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw"><datalist id="edit-versao-lista"></datalist></div>
                                 <div><label class="block text-[10px] font-bold text-gray-500 mb-1 tracking-widest">ESTADO ENTREGA</label><input type="text" id="edit-estado_entrega" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm outline-none focus:border-bmw" placeholder="Ex: Imediata"></div>
                             </div>
                             <div id="painel-periodos30" class="hidden mb-4 rounded-lg border border-blue-200 bg-blue-50 px-4 py-3 grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -2303,9 +2303,17 @@
         }
 
         // Linhas de modelo BMW (marca BMW): Série 1 a 8, X1 a X7, Z4 e iX.
-        // Os restantes modelos "i" (i4, i5, …) e "M" (M3, XM, …) são VERSÕES destas
+        // O XM é linha própria. Os restantes "i" (i4, i5, …) e "M" (M3, M4, …) são VERSÕES destas
         // linhas, não linhas próprias — vão no campo VERSÃO, não aqui.
-        const MODELOS_BMW = ['Série 1','Série 2','Série 3','Série 4','Série 5','Série 6','Série 7','Série 8','X1','X2','X3','X4','X5','X6','X7','Z4','iX'];
+        const MODELOS_BMW = ['Série 1','Série 2','Série 3','Série 4','Série 5','Série 6','Série 7','Série 8','X1','X2','X3','X4','X5','X6','X7','XM','Z4','iX'];
+        // Versões sugeridas por modelo (campo VERSÃO continua de texto livre).
+        const VERSOES_BMW = { 'XM': ['50e','Red Label'] };
+        function atualizarSugestoesVersao(modelo) {
+            const dl = document.getElementById('edit-versao-lista'); if (!dl) return;
+            const chave = Object.keys(VERSOES_BMW).find(k => k.toLowerCase() === (modelo || '').toLowerCase());
+            dl.innerHTML = '';
+            (chave ? VERSOES_BMW[chave] : []).forEach(v => { const o = document.createElement('option'); o.value = v; dl.appendChild(o); });
+        }
         // Constrói o campo MODELO consoante a marca: dropdown fechada (BMW) ou
         // texto livre (BMW Motorrad, por agora). Preserva o valor atual.
         function atualizarCampoModelo(marca, valor) {
@@ -2329,7 +2337,9 @@
                 const o0 = document.createElement('option'); o0.value = ''; o0.textContent = 'Selecionar modelo…'; sel.appendChild(o0);
                 lista.forEach(m => { const o = document.createElement('option'); o.value = m; o.textContent = m; sel.appendChild(o); });
                 sel.value = valor || '';
+                sel.addEventListener('change', () => atualizarSugestoesVersao(sel.value));
                 holder.appendChild(sel);
+                atualizarSugestoesVersao(sel.value);
             }
         }
 
